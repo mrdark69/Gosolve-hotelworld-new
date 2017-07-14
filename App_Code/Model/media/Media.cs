@@ -143,7 +143,7 @@ public class MediaModel: BaseModel<MediaModel>
 
             if (!string.IsNullOrEmpty(Type))
             {
-                query.Append(  (Tax>0?"AND": "WHERE") + "  m.FileType  "+(Type == "other"? " NOT LIKE '%image%'" : " LIKE '%' + @FileType +'%'"));
+                query.Append(  (Tax>0?" AND": " WHERE") + "  m.FileType  "+(Type == "other"? " NOT LIKE '%image%'" : " LIKE '%' + @FileType +'%'"));
                 cmd.Parameters.Add("@FileType", SqlDbType.NVarChar).Value = Type;
             }
 

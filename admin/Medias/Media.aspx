@@ -264,7 +264,7 @@
                 getmediall();
 
                 var myDropzone = new Dropzone("div#mydropzone", {
-                    url: "<%= ResolveUrl("/Application/ajax/media/ajax_upload_media.aspx") %>",
+                    url: "<%= ResolveUrl("/admin/Application/ajax/media/ajax_upload_media.aspx") %>",
                     paramName: "file", // The name that will be used to transfer the file
                     maxFilesize: 20, // MB
                     dictDefaultMessage: "<strong>Drop files here or click to upload. </strong></br> สามารถลากรูปภาพที่ต้องการมาวาง หรือ click เพื่อเลือกภาพได้เลยครับ"
@@ -331,7 +331,7 @@
 
 
                     if (mainform.valid()) {
-                        var url = "<%= ResolveUrl("/Application/ajax/media/ajax_webmethod_media.aspx/InsertCat") %>";
+                        var url = "<%= ResolveUrl("/admin/Application/ajax/media/ajax_webmethod_media.aspx/InsertCat") %>";
                         var data = { CatVal: $("#Cat_title").val() };
 
                         var param = JSON.stringify({ parameters: data });
@@ -363,7 +363,7 @@
                 $('#btn_update_media_category').on('click', function (e) {
                     e.preventDefault;
 
-                    var url = "<%= ResolveUrl("/Application/ajax/media/ajax_webmethod_media.aspx/BulkUpdateCat") %>";
+                    var url = "<%= ResolveUrl("/admin/Application/ajax/media/ajax_webmethod_media.aspx/BulkUpdateCat") %>";
                     var data = [];
                     var _CatVals = $("#sel-update-media-bulk").val();
                     var _d = store.get('data_sel_list');
@@ -413,7 +413,7 @@
 
 
             function BindingCat() {
-                var url = "<%= ResolveUrl("/Application/ajax/media/ajax_webmethod_media.aspx/GetMediaCat") %>";
+                var url = "<%= ResolveUrl("/admin/Application/ajax/media/ajax_webmethod_media.aspx/GetMediaCat") %>";
 
                 var data = { };
                 var param = JSON.stringify({ parameters: data });
@@ -442,7 +442,7 @@
             }
 
             function getmediall() {
-                var url = "<%= ResolveUrl("/Application/ajax/media/ajax_webmethod_media.aspx/GetMedia") %>";
+                var url = "<%= ResolveUrl("/admin/Application/ajax/media/ajax_webmethod_media.aspx/GetMedia") %>";
 
                 var data = { Tax: $("#sel_cat").val(), Type: $("#sel_type").val() };
                 var param = JSON.stringify({ parameters: data });
@@ -705,7 +705,7 @@
                             }, function () {
 
                                 
-                                var url = "<%= ResolveUrl("/Application/ajax/media/ajax_webmethod_media.aspx/BulkDelete") %>";
+                                var url = "<%= ResolveUrl("/admin/Application/ajax/media/ajax_webmethod_media.aspx/BulkDelete") %>";
                                 var param = JSON.stringify({ parameters: data });
                                 AjaxPost(url, param, null, function (data) {
                                     if (data.success) {
@@ -747,7 +747,7 @@
                     var data = store.get("key_onSel");
 
 
-                    var url = "<%= ResolveUrl("/Application/ajax/media/ajax_webmethod_media.aspx/Delete") %>";
+                    var url = "<%= ResolveUrl("/admin/Application/ajax/media/ajax_webmethod_media.aspx/Delete") %>";
                     var param = JSON.stringify({ parameters: data });
                                 AjaxPost(url, param, null, function (data) {
                                     if (data.success) {
@@ -772,7 +772,7 @@
 
 
 
-                var url = "<%= ResolveUrl("/Application/ajax/media/ajax_webmethod_media.aspx/UpdateMedia") %>";
+                var url = "<%= ResolveUrl("/admin/Application/ajax/media/ajax_webmethod_media.aspx/UpdateMedia") %>";
                 var param = JSON.stringify({ parameters: data });
                 AjaxPost(url, param, function () {
                     $('#media-detail').addClass('sk-loading');
