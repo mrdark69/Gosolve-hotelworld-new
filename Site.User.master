@@ -18,10 +18,11 @@
 	<link href="Theme/maintheme/css/flexslider.css" rel="stylesheet" type="text/css" />
 	<link href="Theme/maintheme/css/fancySelect.css" rel="stylesheet" media="screen, projection" />
 	<link href="Theme/maintheme/css/animate.css" rel="stylesheet" type="text/css" media="all" />
-	<link href="Theme/maintheme/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="Theme/maintheme/css/style.css?ver=1s" rel="stylesheet" type="text/css" />
     
 	<!-- FONTS -->
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Kanit:400,500,600,700&amp;subset=thai" rel="stylesheet" type='text/css'>
+	<%--<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>--%>
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
      <asp:ContentPlaceHolder ID="HeaderScript" runat="server">
@@ -32,7 +33,7 @@
     <form runat="server">
 
         <!-- PRELOADER -->
-        <div id="preloader"><img src="images/preloader.gif" alt="" /></div>
+        <div id="preloader"><img src="Theme/maintheme/images/preloader.gif" alt="" /></div>
         <!-- //PRELOADER -->
       <asp:ContentPlaceHolder ID="MainContent" runat="server">
        </asp:ContentPlaceHolder>
@@ -51,14 +52,14 @@
 				
 				<!-- CONTAINER -->
 				<div class="container clearfix">
-					<ul class="secondary_menu">
+					<%--<ul class="secondary_menu">
 						<li><a href="my-account.html" >my account</a></li>
 						<li><a href="my-account.html" >Register</a></li>
-					</ul>
+					</ul>--%>
 					
-					<div class="live_chat"><a href="javascript:void(0);" ><i class="fa fa-comment-o"></i> Live chat</a></div>
+					<%--<div class="live_chat"><a href="javascript:void(0);" ><i class="fa fa-comment-o"></i> Live chat</a></div>--%>
 					
-					<div class="phone_top">have a question? <a href="tel:1 800 888 2828" >1 800 888 2828</a></div>
+					<div class="phone_top">เบอร์โทรติดต่อ <a href="tel:0928438466" >0 92 843 8466</a></div>
 				</div><!-- //CONTAINER -->
 			</div><!-- TOP INFO -->
 			
@@ -71,14 +72,14 @@
 					
 					<!-- LOGO -->
 					<div class="logo">
-						<a href="index.html" ><img src="images/logo.png" alt="" /></a>
+						<a href="index.html" ><img src="http://dev.hotelworld.com/Application/MediaLibrary/2017/07//Screen-Shot-2017-06-25-at-1.53.56-PM.png" alt="" /></a>
 					</div><!-- //LOGO -->
 					
 					
 					<!-- SEARCH FORM -->
 					<div class="top_search_form">
 						<a class="top_search_btn" href="javascript:void(0);" ><i class="fa fa-search"></i></a>
-						<div>
+						<div class="form-s" style="display:none;">
 							<input type="text" name="search" value="Search" onFocus="if (this.value == 'Search') this.value = '';" onBlur="if (this.value == '') this.value = 'Search';" />
 						</div>
 					</div><!-- SEARCH FORM -->
@@ -109,7 +110,7 @@
 					
 					
 					<!-- LOVE LIST -->
-					<div class="love_list">
+					<%--<div class="love_list">
 						<a class="love_list_btn" href="javascript:void(0);" ><i class="fa fa-heart-o"></i><p>Love list</p><span>0</span></a>
 						<div class="cart">
 							<ul class="cart-items">
@@ -120,12 +121,12 @@
 								<a class="btn active" href="checkout.html">Checkout</a>
 							</div>
 						</div>
-					</div><!-- //LOVE LIST -->
+					</div><!-- //LOVE LIST -->--%>
 					
 					
 					<!-- MENU -->
 					<ul class="navmenu center">
-						<li class="sub-menu first active"><a href="javascript:void(0);" >Home</a>
+						<li class="sub-menu first active"><a href="javascript:void(0);" >หน้าแรก</a>
 							<!-- MEGA MENU -->
 							<ul class="mega_menu megamenu_col1 clearfix">
 								<li class="col">
@@ -140,7 +141,7 @@
 								</li>
 							</ul><!-- //MEGA MENU -->
 						</li>
-						<li class="sub-menu"><a href="javascript:void(0);" >women</a>
+						<li class="sub-menu"><a href="javascript:void(0);" >ผ้าปูที่นอนโรงแรม</a>
 							<!-- MEGA MENU -->
 							<ul class="mega_menu megamenu_col1 clearfix">
 								<li class="col">
@@ -156,7 +157,7 @@
 								</li>
 							</ul><!-- //MEGA MENU -->
 						</li>
-						<li class="sub-menu"><a href="javascript:void(0);" >Men</a>
+						<li class="sub-menu"><a href="javascript:void(0);" >เครื่องใช้ในห้องนอน</a>
 							<!-- MEGA MENU -->
 							<ul class="mega_menu megamenu_col2 clearfix">
 								<li class="col">
@@ -183,8 +184,8 @@
 								</li>
 							</ul><!-- //MEGA MENU -->
 						</li>
-						<li><a href="shoes.html" >shoes</a></li>
-						<li class="sub-menu"><a href="javascript:void(0);" >Pages</a>
+						
+						<li class="sub-menu"><a href="javascript:void(0);" >ที่นอน</a>
 							<!-- MEGA MENU -->
 							<ul class="mega_menu megamenu_col3 clearfix">
 								<li class="col">
@@ -218,7 +219,7 @@
 								</li>
 							</ul><!-- //MEGA MENU -->
 						</li>
-						<li class="sub-menu"><a href="javascript:void(0);" >Blog</a>
+						<li class="sub-menu"><a href="javascript:void(0);" >ข่าวสาร</a>
 							<!-- MEGA MENU -->
 							<ul class="mega_menu megamenu_col1 clearfix">
 								<li class="col">
@@ -229,7 +230,8 @@
 								</li>
 							</ul><!-- //MEGA MENU -->
 						</li>
-						<li class="last sale_menu"><a href="sale.html" >Sale</a></li>
+						<li class="last sale_menu"><a href="sale.html" >เกี่ยวกับเรา</a></li>
+                        <li class="last sale_menu"><a href="sale.html" >ติดต่อเรา</a></li>
 					</ul><!-- //MENU -->
 				</div><!-- //MENU BLOCK -->
 			</div><!-- //CONTAINER -->
@@ -264,13 +266,14 @@
 					<div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 col-ss-12 padbot30">
 						<h4>Information</h4>
 						<ul class="foot_menu">
-							<li><a href="about.html" >About Us</a></li>
-										<li><a href="gallery.html" >Gallery<span>new</span></a></li>
-							<li><a href="javascript:void(0);" >Delivery</a></li>
-							<li><a href="javascript:void(0);" >Privacy police</a></li>
-							<li><a href="blog.html" >Blog</a></li>
-							<li><a href="faq.html" >Faqs</a></li>
-							<li><a href="contacts.html" >countact us</a></li>
+                            <li><a href="contacts.html" >หน้าแรก</a></li>
+							<li><a href="about.html" >ผ้าปูที่นอนโรงแรม</a></li>
+							<li><a href="gallery.html" ><span>เครื่องใช้ในห้องน้ำ</span></a></li>
+							<li><a href="javascript:void(0);" >ที่นอน</a></li>
+							<li><a href="javascript:void(0);" >ข่าวสาร</a></li>
+							<li><a href="blog.html" >เกี่ยวกับเรา</a></li>
+							<li><a href="faq.html" >ติดต่อเรา</a></li>
+							
 						</ul>
 					</div>
 					
@@ -309,7 +312,7 @@
 				
 				<!-- CONTAINER -->
 				<div class="container clearfix">
-					<div class="foot_logo"><a href="index.html" ><img src="images/foot_logo.png" alt="" /></a></div>
+					<div class="foot_logo"><a href="index.html" ><img src="Theme/maintheme/images/foot_logo.png" alt="" /></a></div>
 					
 					<div class="copyright_inf">
 						<span>Glammy Shop© 2014</span> |
