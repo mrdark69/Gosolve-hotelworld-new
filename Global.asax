@@ -9,6 +9,10 @@
     {
         RouteConfig.RegisterRoutes(RouteTable.Routes);
         BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+
+        RouteTable.Routes.MapPageRoute("post", "{archive}/{slug}", "~/Default.aspx");
+        RouteTable.Routes.MapPageRoute("page", "{slugonly}", "~/Default.aspx");
     }
 
     protected void Session_Start() { }

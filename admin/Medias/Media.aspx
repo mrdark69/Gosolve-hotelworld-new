@@ -16,7 +16,7 @@
            
         </div>
            <div class="row">
-                <div class="col-md-8 col-lg-8">
+                <div class="col-md-9 col-lg-9" style="padding-right: 2px;">
                     <div class="ibox float-e-margins">
 
                         <div class="ibox-content" id="media-list">
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </div>
-               <div class="col-md-4 col-lg-4">
+               <div class="col-md-3 col-lg-3" style="padding-left: 2px;">
 
                    <div class="ibox" id="media-detail-block" >
                         <div class="ibox-title"><h5>Media Detail</h5></div>
@@ -108,35 +108,35 @@
 
                                    <div style="clear:both"></div>
 
-                                    <div class="form-group"><label class="col-sm-3 control-label">Filename:</label>
+                                    <div class="form-group"><label class="col-sm-4 control-label">Filename:</label>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-8">
                                         <div><label class="media_file_name"> adasdas  </label></div>
                                     </div>
                                     </div>
-                                    <div class="form-group"><label class="col-sm-3 control-label">File type:</label>
+                                    <div class="form-group"><label class="col-sm-4 control-label">File type:</label>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-8">
                                         <div><label class="media_file_type"> adasdas  </label></div>
                                     </div>
                                     </div>
 
-                                   <div class="form-group"><label class="col-sm-3 control-label">Uploaded on:</label>
+                                   <div class="form-group"><label class="col-sm-4 control-label">Uploaded on:</label>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-8">
                                         <div><label class="media_file_on"> adasdas  </label></div>
                                     </div>
                                     </div>
 
-                                   <div class="form-group"><label class="col-sm-3 control-label">Dimensions:</label>
+                                   <div class="form-group"><label class="col-sm-4 control-label">Dimensions:</label>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-8">
                                         <div><label class="media_file_dimensions"> adasdas  </label></div>
                                     </div>
                                     </div>
-                                   <div class="form-group"><label class="col-sm-3 control-label">File Size:</label>
+                                   <div class="form-group"><label class="col-sm-4 control-label">File Size:</label>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-8">
                                         <div><label class="media_file_size"> adasdas  </label></div>
                                     </div>
                                     </div>
@@ -186,9 +186,9 @@
 
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group">
-                                    <div class="col-sm-12 col-sm-offset-2">
-                                        <button class="btn btn-w-m btn-danger" onclick="DeleteMedia()" type="button">Delete</button>
-                                        <button class="btn btn-primary" onclick="save()" type="button">Save changes</button>
+                                    <div class="col-sm-12 ">
+                                        <button class="btn btn-w-m btn-danger btn-sm" onclick="DeleteMedia()" type="button">Delete</button>
+                                        <button class="btn btn-primary btn-sm" onclick="save()" type="button">Save changes</button>
                                     </div>
                                 </div>
                                
@@ -471,7 +471,7 @@
                     var url = data[d].Path + "/" + data[d].FileName;
                     store.set("key_"+data[d].MID, data[d]);
                     //encodeURIComponent(JSON.stringify(data[d]))
-                    ret += '<div class="media-block" id="block_' + data[d].MID+'">';
+                    ret += '<div class="media-block" id="block_' + data[d].MID + '" style="background-image:url(' + url+')">';
                     ret += '<input type="checkbox" value="' + data[d].MID + '" name="media_checkbox" style = "display:none; id="media_checkbox" />';
                     ret += '<a href= "javascript:void(0)" class="img_data" title="' + data[d].Title + '" >';
                     //style = "display:none;
@@ -479,7 +479,7 @@
                         expr = /image/;  // no quotes here
 
                     if (expr.test(string)) {
-                        ret += '<img class="img-responsive" src="' + url + '">';
+                       // ret += '<img class="img-responsive" src="' + url + '">';
                     } else {
                         ret += '<div class="media-doc" ><i class="fa fa-file"></i>  <span style="font-size:11px;color:#cccccc;">' +  data[d].FileName+'</span></div>';
                     }

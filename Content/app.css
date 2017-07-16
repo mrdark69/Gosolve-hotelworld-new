@@ -20,9 +20,12 @@
         display: inline-block;
         margin: 7px;
         width: 120px;
+        height: 120px;
         text-align: center;
         background-color: #fff;
-        
+        background-position: center center;
+        background-size:cover;
+        background-repeat: no-repeat;
         border: 1px solid #e7eaec;
     }
     .lightBoxGallery .media-block .icon-check {
@@ -70,6 +73,14 @@
     padding-top: 0px !important;
 }
 
+#media_detail_block label{
+    font-size:11px;
+    font-weight:normal;
+}
+
+#media_detail_block .form-group{
+    margin-bottom:5px !important;
+}
 .media-block .media-doc {
     font-size: 90px;
     color: #dadada;
