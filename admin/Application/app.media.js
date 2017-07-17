@@ -31,6 +31,19 @@ $(document).ready(function () {
     });
 
 
+    var mainform = jQuery('form');
+    mainform.validate();
+    var ele = $(".required");
+    $.each(ele, function (index) {
+        $(this).rules('add', {
+            required: true,
+            messages: {
+                required: 'required field'
+            }
+        }
+        );
+    });
+
     $('#sel_type,#sel_cat').on('change', function () {
         getmediall();
     });

@@ -53,7 +53,8 @@
         border: 3px solid #1ab394;
     }
 #media-list {
-    min-height: 600px;
+    height: 600px;
+    overflow: auto;
 }
 #media-detail-block {
     overflow: auto;

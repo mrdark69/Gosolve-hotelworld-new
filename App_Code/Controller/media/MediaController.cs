@@ -37,7 +37,7 @@ public class MediaController
             }
             ret = 1;
         }
-        catch { }
+        catch(Exception ex) { string ss = ex.Message + ex.StackTrace; }
        
         return ret;
     }
