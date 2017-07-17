@@ -309,8 +309,118 @@ function BindingTax(MediaTax, append = false) {
 
 
 }
-
 function Click_BindingToRightDetail() {
+
+
+
+    var chek = $(this).find(':checkbox');
+    var a = $(this).find('a.img_data');
+
+    $(this).removeClass('media-block-selected');
+
+    //Toggle Checkbox Select
+    chek.prop("checked", function (i, val) {
+        return !val;
+    });
+
+    if (chek.prop("checked")) {
+
+        $(this).addClass('media-block-selected');
+    }
+
+    if (chek.prop("checked")) {
+        // var data = JSON.parse(decodeURIComponent(a.data('gallery')));
+        var getData = store.get("key_" + chek.val());
+
+        //set select
+        store.set("key_onSel", getData);
+    }
+
+
+    var data = store.get("key_onSel");
+
+
+    $('.media-block .icon-check').hide();
+    if (data) {
+        $('#block_' + data.MID + ' .icon-check').show();
+    }
+
+
+
+    if (chek.prop("checked")) {
+        $("#media_detail_block").show();
+    } else {
+        $(this).find('.icon-check').hide();
+        $("#media_detail_block").hide();
+        store.remove("key_onSel");
+    }
+
+
+    //$(this).find('.icon-check').show();
+
+    if ($('.media-block').find(':checked').length == 0) {
+        $('.media-block .icon-check').hide();
+        store.remove("key_onSel");
+    }
+
+
+
+
+    if (data) {
+
+        var string = data.FileType,
+            expr = /image/;  // no quotes here
+
+        if (expr.test(string)) {
+            $('.media_img_big').show();
+        } else {
+            $('.media_img_big').hide();
+        }
+
+
+        var url = data.Path + "/" + data.FileName;
+        $('#media_detail_block .media_img_big').find('img').prop('src', url);
+
+
+        var fn = $('#media_detail_block').find('label.media_file_name');
+        var fy = $('#media_detail_block').find('label.media_file_type');
+        var fo = $('#media_detail_block').find('label.media_file_on');
+        var fd = $('#media_detail_block').find('label.media_file_dimensions');
+        var ft = $('#media_detail_block').find('input.media_file_title');
+
+        var fs = $('#media_detail_block').find('label.media_file_size');
+
+        fn.html(data.FileName);
+        fy.html(data.FileType);
+        fo.html(data.DateUpload);
+        fd.html(data.Dimensions);
+        ft.val(data.Title);
+        fs.html(data.FileSizeFormat);
+
+
+
+
+        var MediaTax = data.MediaTax;
+
+
+        BindingTax(MediaTax);
+    }
+
+
+
+
+
+
+
+    var allcheck = $('#lightBoxGallery').find('input[name="media_checkbox"]:checked');
+
+    if (allcheck.length == 0) {
+        $("#media_detail_block").hide();
+    }
+
+    return false;
+}
+function Click_BindingToRightDetail_bak() {
 
 
 

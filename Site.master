@@ -323,7 +323,7 @@
                                                 <div class="modal_media" id="modal_media" >
                                                     <div class="row">
                                                         <div class="col-md-12" style="text-align:right;padding: 5px 20px 5px 5px;">
-          <button id="btn-custom-add-medias-m"  class="btn-custom-add-medias btn btn-success"><i class="fa fa-plus"></i> Add Image</button>
+          <button id="btn-custom-add-medias-m"  class="btn-custom-add-medias btn btn-success"><i class="fa fa-plus"></i> Add Selected Media</button>
           <button style="display:none" id="btn-custom-add-medias-f" onclick="SelectFile()" class="btn-custom-add-medias btn btn-success"><i class="fa fa-paperclip"></i> Add File</button>
           <button class="btn btn-primary" onclick="CloseImageAddPanel_media();" id="btn-close-media">
                                                                   <i class="fa fa-window-close" aria-hidden="true" style="color:#fff"></i> Close
