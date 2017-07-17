@@ -17,9 +17,15 @@ namespace Interface_API
         {
             return Regex.Replace(myJSON, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");
         }
+
+
+        public static string SPClear(this string txt)
+        {
+            return   Regex.Replace(txt, "[^0-9a-zA-Z-_]+", "");
+        }
     }
 
-   
+ 
     
 }
   

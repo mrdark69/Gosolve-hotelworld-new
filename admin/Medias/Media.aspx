@@ -428,7 +428,7 @@
 
 
             function HtmlBinding() {
-
+                $('#sel_cat option').filter(function () { return this.value != 0 }).remove();
                 var data = store.get("Cat_data");
                 var ret = "";
                 for (var i in data) {

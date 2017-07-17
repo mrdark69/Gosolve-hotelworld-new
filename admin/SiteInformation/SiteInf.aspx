@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="SiteInf.aspx.cs" Inherits="_SiteInf" %>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" ValidateRequest="false" AutoEventWireup="true" CodeFile="SiteInf.aspx.cs" Inherits="_SiteInf" %>
 
 <asp:Content ID="HeaderScript" ContentPlaceHolderID="HeaderScript" runat="server">
       <style type="text/css">
@@ -14,7 +14,24 @@
               min-height: 100%;
               border-radius: 0;
             }
-           
+
+            .box_media_fucus_block{
+                position:relative;
+                display:block;
+                width:120px;
+                height:120px;
+                background-position:center;
+                background-repeat:no-repeat;
+                background-size:cover;
+            }
+           .btn-media-focus{
+               position:absolute;
+               right:-10px;
+               top:-10px;
+           }
+           .media_item_box label{
+               font-weight:normal;
+           }
           </style>
     </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -49,11 +66,16 @@
                                    <div class="form-group" runat="server" id="Div1" ><label class="col-sm-2 control-label">Slocan</label>
                                     <div class="col-sm-10"> 
                                         <asp:TextBox ID="s_slocan"  runat="server" CssClass="form-control"></asp:TextBox>
-                                      
                                     </div>
                                         
                                 </div>
-
+                                 <div class="hr-line-dashed"></div>
+                                <div class="form-group" runat="server" id="Div15" ><label class="col-sm-2 control-label">Email</label>
+                                    <div class="col-sm-10"> 
+                                        <asp:TextBox ID="s_Email"    runat="server" CssClass="form-control"></asp:TextBox>
+                                     </div>
+                                        
+                                </div>
                                  <div class="hr-line-dashed"></div>
                                 
                                    <div class="form-group" runat="server" id="Div2" ><label class="col-sm-2 control-label">Address</label>
@@ -81,6 +103,8 @@
                                     </div>
                                         
                                 </div>
+                                
+
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group" runat="server" id="Div5" ><label class="col-sm-2 control-label">Latitude</label>
                                     <div class="col-sm-10"> 
@@ -126,13 +150,21 @@
                                         
                                 </div>
 
-                            
+                             <div class="hr-line-dashed"></div>
+                                <div class="form-group" runat="server" id="Div14" ><label class="col-sm-2 control-label">Map Script</label>
+                                    <div class="col-sm-10"> 
+                                        <asp:TextBox ID="s_MapScript"  TextMode="MultiLine"  Rows="7"  runat="server" CssClass="form-control"></asp:TextBox>
+                                     
+                                    </div>
+                                        
+                                </div>
 
 
 
                                   <div class="hr-line-dashed"></div>
 
                               <asp:DropDownList  ID="dropSocial" ClientIDMode="Static" style="display:none;" runat="server"></asp:DropDownList>
+                                <asp:DropDownList  ID="dropSocial_ret" ClientIDMode="Static" style="display:none;" runat="server"></asp:DropDownList>
                                         <div class="form-group" runat="server" id="Div3" ><label class="col-sm-2 control-label">Social Link</label>
                                     <div class="col-sm-10"> 
                                       <table class="table" id="add-row-social" >
@@ -144,7 +176,7 @@
                                               </tr>
                                           </thead>
                                           <tbody>
-                                              
+                                               
                                           </tbody>
                                       </table>
 
@@ -159,18 +191,25 @@
                                  <div class="hr-line-dashed"></div>
                                 <div class="form-group" runat="server" id="Div10" ><label class="col-sm-2 control-label">Logo Top</label>
                                     <div class="col-sm-10"> 
+                                      <div class="media_item_box" id="media_item_box_1">
+                                           <label>No Media selected</label>
+                                         <button id="addimg1" class="addmedia btn btn-success btn-xs" type="button">Add Media</button>
+                                          <asp:HiddenField ID="lblLogoTop" runat="server"  ClientIDMode="Static" />
+                                       
+                                      </div>
                                       
-                                       <label>No image selected</label>
-                                         <button id="addimg1" class="addmedia btn btn-success btn-xs" type="button">Add Image</button>
                                     </div> 
                                 </div>
 
                                  <div class="hr-line-dashed"></div>
                                 <div class="form-group" runat="server" id="Div11" ><label class="col-sm-2 control-label">Logo Foot</label>
                                     <div class="col-sm-10"> 
-                                      
-                                       <label>No image selected</label>
-                                         <button id="addimg2" type="button" class="addmedia btn btn-success btn-xs">Add Image</button>
+                                           <div class="media_item_box" id="media_item_box_2">
+                                       <label>No Media selected</label>
+                                         <button id="addimg2" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                               <asp:HiddenField ID="lblLogoFoot" runat="server" ClientIDMode="Static" />
+                                            
+                                                </div>
                                     </div>
                                         
                                 </div>
@@ -178,9 +217,12 @@
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group" runat="server" id="Div12" ><label class="col-sm-2 control-label">Fav Icon</label>
                                     <div class="col-sm-10"> 
-                                      
-                                       <label>No image selected</label>
-                                         <button id="addimg3" type="button" class="addmedia btn btn-success btn-xs">Add Image</button>
+                                       <div class="media_item_box" id="media_item_box_3">
+                                       <label>No Media selected</label>
+                                         <button id="addimg3" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                           <asp:HiddenField ID="lblFavIcon" runat="server" ClientIDMode="Static" />
+                                          
+                                           </div>
                                     </div>
                                         
                                 </div>
@@ -188,12 +230,15 @@
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group" runat="server" id="Div13" ><label class="col-sm-2 control-label">Main Brochure</label>
                                     <div class="col-sm-10"> 
-                                      <label>No file selected</label>
-                                         <button id="addfile" type="button" class="addmedia btn btn-success btn-xs">Add File</button>
-                                       
+                                         <div class="media_item_box" id="media_item_box_4">
+                                             <label>No Media selected</label>
+                                         <button id="addfile" type="button"  class="addmedia btn btn-success btn-xs">Add Media</button>
+                                             <asp:HiddenField ID="lblBrochure" runat="server"  ClientIDMode="Static" />
+                                        <%--hd_media_data--%>
+                                       </div>
                                     </div>
-                                        
                                 </div>
+                            
 
                                  <div class="hr-line-dashed"></div>
 
@@ -201,7 +246,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-4 col-sm-offset-2">
-                                        <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Save changes" CssClass="btn btn-primary" />
+                                        <asp:Button ID="btnSavesss" runat="server" OnClick="btnSave_Click" Text="Save changes" CssClass="btn btn-primary" />
                                         <%--<button class="btn btn-white" type="submit">Cancel</button>
                                         <button class="btn btn-primary" type="submit">Save changes</button>--%>
                                     </div>
@@ -220,7 +265,25 @@
         $(document).ready(function () {
           
 
+            var option = $('#dropSocial_ret option');
+            if (option.length > 0) {
+                $.each(option, function () {
+                    var uuid = guid(); 
+                    var link = $(this).html();
+                    var dropsocial = $('#dropSocial').html();
+                    var val = $(this).attr('value');
 
+                    var chk = '<input type="checkbox" name="chk_social" checked="checked" value="' + uuid + '" style="display:none;" />';
+                    var drop = '<select id="sel_' + uuid + '" name="sel_' + uuid + '" class="form-control">' + dropsocial + '</select>'
+                    var txtbox = '<input class="form-control" type="textbox"  id="link_s_' + uuid + '" name="link_s_' + uuid + '" value="' + link+'" />'
+                    var html = '<tr id="row_s_' + uuid + '"><td>' + chk + drop + '</td><td>' + txtbox + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+                    $('#add-row-social tbody').append(html);
+
+
+                    $('#sel_' + uuid).val(val);
+                });
+            }
+         
 
             $("#addrow").on('click', function () {
                 var uuid = guid();

@@ -15,6 +15,7 @@ using System.Data;
 using System.Data.OleDb;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+using Interface_API;
 
 
 public partial class Application_ajax_upload_media : System.Web.UI.Page
@@ -68,6 +69,7 @@ public partial class Application_ajax_upload_media : System.Web.UI.Page
 
                 strTitle = fileNameOnly;
 
+                fileNameOnly = fileNameOnly.SPClear();
                 fileNameOnly = fileNameOnly.Replace('-', ' ');
                 fileNameOnly = fileNameOnly.Replace(' ', '-');
 

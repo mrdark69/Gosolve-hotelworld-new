@@ -7,10 +7,42 @@ $(document).ready(function () {
     });
     $.fn.modal.Constructor.prototype.enforceFocus = $.noop;
     store.clearAll();
-    $('form').bind('submit', function (e) {
-        e.preventDefault();
-        // etc
-    });
+    //$('form').bind('submit', function (e) {
+    //    e.preventDefault();
+    //    // etc
+    //});
+
+    $('.media_item_box:hidden').val();
+
+    var mediablock = $('.media_item_box');
+    $.each(mediablock, function () {
+
+
+        
+        var ele = $(this);
+        var focus = ele.attr('id');
+        var url = ele.find(':hidden').val();
+        if (url != "") {
+            var del = '<button data-idmediab="' + focus + '"  onclick="removeMedia(this);" class="btn btn-warning btn-circle btn-media-focus" type="button"><i class="fa fa-times"></i></button >';
+            var lbl = ele.find('label');
+            lbl.html('');
+            lbl.css('background-image', 'url(' + url + ')');
+            lbl.addClass('box_media_fucus_block');
+            lbl.prepend(del);
+            $('#modal_media_select').modal('hide');
+
+            ele.find('button.addmedia').html('Edit');
+        }
+      
+
+
+       
+
+    })
+
+
+
+    
 
 
 
@@ -55,6 +87,11 @@ $(document).ready(function () {
     $('.addmedia').on('click', function (e) {
 
         e.preventDefault;
+
+        var dd = $(this).parent('.media_item_box');
+        var id = dd.attr('id')
+
+        store.set('box_media_focus', id);
 
         $('#t-title').val('');
 
@@ -183,8 +220,56 @@ $(document).ready(function () {
         });
     });
 
+    
+    $('#btn-custom-add-medias-m').on('click', function () {
+        var data = store.get("key_onSel");
+        var url = location.origin + data.Path + "/" + data.FileName;
+
+        //i.insertContent('<img style="width:50%" src="' + url + '" />');
+
+
+        var focus = store.get('box_media_focus');
+
+        var ele = $('#' + focus);
+        var del = '<button data-idmediab="' + focus + '"  onclick="removeMedia(this);" class="btn btn-warning btn-circle btn-media-focus" type="button"><i class="fa fa-times"></i></button >';
+        var lbl = ele.find('label');
+        lbl.html('');
+        lbl.css('background-image', 'url(' + url + ')');
+        lbl.addClass('box_media_fucus_block');
+        lbl.prepend(del);
+        $('#modal_media_select').modal('hide');
+
+        ele.find('button.addmedia').html('Edit');
+
+
+        ele.find(':hidden').val(url);
+        //$('#modal_media').hide(function () {
+        //    $('#mail-text-block').show();
+
+        //});
+
+
+    });
+
 });
 
+
+function removeMedia(e) {
+    var focus = $(e).data('idmediab');
+
+    var ele = $('#' + focus);
+    var lbl = ele.find('label');
+    lbl.html('No Media selected');
+    var del = ele.find('button.btn-media-focus');
+    del.remove();
+
+    ele.find(':hidden').val('');
+
+    lbl.removeClass('box_media_fucus_block');
+    lbl.removeAttr('style');
+
+    ele.find('button.addmedia').html('Add Media');
+}
 
 
 function getmediall() {
@@ -284,11 +369,14 @@ function generateMediaData(data) {
 }
 
 function HtmlBinding() {
-
+    //$('#sel_cat').html('');
+     $('#sel_cat option').filter(function () { return this.value != 0 }).remove();
     var data = store.get("Cat_data");
     var ret = "";
     for (var i in data) {
+        
         ret += '<option value="' + data[i].TaxID + '">' + data[i].Title + '</option>';
+        
     }
 
 

@@ -34,7 +34,7 @@ public class Model_SiteSocialMap : BaseModel<Model_SiteSocialMap>
         int ret = 0;
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("DELETE FROM Model_SiteSocialMap WHERE IFID=@IFID", cn);
+            SqlCommand cmd = new SqlCommand("DELETE FROM WebSiteSocialMap WHERE IFID=@IFID", cn);
             cmd.Parameters.Add("@IFID", SqlDbType.TinyInt).Value = IFID;
             cn.Open();
 
@@ -42,7 +42,7 @@ public class Model_SiteSocialMap : BaseModel<Model_SiteSocialMap>
 
             foreach(Model_SiteSocialMap i in ListAdd)
             {
-                SqlCommand cmd1 = new SqlCommand("INSERT INTO  Model_SiteSocialMap (SocialID,IFID,Link) VALUES(@SocialID,@IFID,@Link)", cn);
+                SqlCommand cmd1 = new SqlCommand("INSERT INTO  WebSiteSocialMap (SocialID,IFID,Link) VALUES(@SocialID,@IFID,@Link)", cn);
                 cmd1.Parameters.Add("@IFID", SqlDbType.TinyInt).Value = i.IFID;
                 cmd1.Parameters.Add("@SocialID", SqlDbType.TinyInt).Value = i.SocialID;
                 cmd1.Parameters.Add("@Link", SqlDbType.NVarChar).Value = i.Link;
@@ -57,7 +57,7 @@ public class Model_SiteSocialMap : BaseModel<Model_SiteSocialMap>
         return ret == 1;
     }
 
-    public List<Model_SiteSocialMap> GetSocial(byte IFID)
+    public List<Model_SiteSocialMap> GetSocialMap(byte IFID)
     {
         //BaseModel<Model_Setting>.PurgeCacheItems("mail_setting");
         List<Model_SiteSocialMap> r = null;
@@ -65,14 +65,14 @@ public class Model_SiteSocialMap : BaseModel<Model_SiteSocialMap>
 
         if (BaseModel<Model_SiteSocialMap>.Cache[key] != null)
         {
-            r = (List<Model_SiteSocialMap>)BaseModel<Social>.Cache[key];
+            r = (List<Model_SiteSocialMap>)BaseModel<Model_SiteSocialMap>.Cache[key];
         }
         else
         {
             using (SqlConnection cn = new SqlConnection(this.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand(@"SELECT sm.*,s.Title As STitle FROM Model_SiteSocialMap sm
-                    INNER JOIN Social s IN s.SocialID= sm.SocialID  WHERE sm.IFID=@IFID", cn);
+                SqlCommand cmd = new SqlCommand(@"SELECT sm.*,s.Title As STitle FROM WebSiteSocialMap sm
+                    INNER JOIN Social s ON s.SocialID= sm.SocialID  WHERE sm.IFID=@IFID", cn);
                 cmd.Parameters.Add("@IFID", SqlDbType.TinyInt).Value = IFID;
                 cn.Open();
                 r = MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
@@ -135,6 +135,7 @@ public class Model_SiteInfo : BaseModel<Model_SiteInfo>
     public byte IFID { get; set; }
     public string Address { get; set; }
     public string Phone { get; set; }
+    public string Email { get; set; }
     public string Fax { get; set; }
     public string Lat { get; set; }
     public string Long { get; set; }
@@ -146,11 +147,22 @@ public class Model_SiteInfo : BaseModel<Model_SiteInfo>
     public string FooterAbout { get; set; }
     public string GoogleAnalytic { get; set; }
 
+    public string MapScript { get; set; }
+
+    private List<Model_SiteSocialMap> _listSocial = null;
     public List<Model_SiteSocialMap> ListSocial {
         get
         {
-            Model_SiteSocialMap sm = new Model_SiteSocialMap();
-            return sm.GetSocial(this.IFID);
+            if(_listSocial == null)
+            {
+                Model_SiteSocialMap sm = new Model_SiteSocialMap();
+                _listSocial = sm.GetSocialMap(this.IFID);
+            }
+            return _listSocial;
+        }
+        set
+        {
+            _listSocial = value;
         }
     }
 
@@ -197,12 +209,13 @@ public class Model_SiteInfo : BaseModel<Model_SiteInfo>
         int ret = 0;
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"UPDATE WebsiteInformation SET Address=@Address,Phone=@Phone,Fax=@Fax,Lat=@Lat
-        Long=@Long,LogoTopUrl=@LogoTopUrl,LogoFootUrl=@LogoFootUrl,FavIcon=@FavIcon,MainBrochure=@MainBrochure,Slogan=@Slogan
-FooterAbout=@FooterAbout,GoogleAnalytic=@GoogleAnalytic WHERE IFID=1", cn);
+            SqlCommand cmd = new SqlCommand(@"UPDATE WebsiteInformation SET Address=@Address,Phone=@Phone,Email=@Email,Fax=@Fax,Lat=@Lat,
+        Long=@Long,LogoTopUrl=@LogoTopUrl,LogoFootUrl=@LogoFootUrl,FavIcon=@FavIcon,MainBrochure=@MainBrochure,Slogan=@Slogan,
+FooterAbout=@FooterAbout,GoogleAnalytic=@GoogleAnalytic,MapScript=@MapScript WHERE IFID=1", cn);
             cmd.Parameters.Add("@Address", SqlDbType.NVarChar).Value = s.Address;
             cmd.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = s.Phone;
             cmd.Parameters.Add("@Fax", SqlDbType.NVarChar).Value = s.Fax;
+            cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = s.Email;
             cmd.Parameters.Add("@Lat", SqlDbType.NVarChar).Value = s.Lat;
             cmd.Parameters.Add("@Long", SqlDbType.NVarChar).Value = s.Long;
             cmd.Parameters.Add("@LogoTopUrl", SqlDbType.NVarChar).Value = s.LogoTopUrl;
@@ -212,14 +225,16 @@ FooterAbout=@FooterAbout,GoogleAnalytic=@GoogleAnalytic WHERE IFID=1", cn);
             cmd.Parameters.Add("@Slogan", SqlDbType.NVarChar).Value = s.Slogan;
             cmd.Parameters.Add("@FooterAbout", SqlDbType.NVarChar).Value = s.FooterAbout;
             cmd.Parameters.Add("@GoogleAnalytic", SqlDbType.NVarChar).Value = s.GoogleAnalytic;
+            cmd.Parameters.Add("@MapScript", SqlDbType.NVarChar).Value = s.MapScript;
             cn.Open();
             if (ExecuteNonQuery(cmd) < 1)
             {
-                SqlCommand cmd1 = new SqlCommand("INSERT INTO WebsiteInformation (Address,Phone,Fax,Lat,Long,LogoTopUrl,LogoFootUrl,FavIcon,MainBrochure,Slogan,FooterAbout,GoogleAnalytic)" +
-                    " VALUES(@Address,@Phone,@Fax,@Lat,@Long,@LogoTopUrl,@LogoFootUrl,@FavIcon,@MainBrochure,@Slogan,@FooterAbout,@GoogleAnalytic)", cn);
+                SqlCommand cmd1 = new SqlCommand("INSERT INTO WebsiteInformation (Address,Phone,Email,Fax,Lat,Long,LogoTopUrl,LogoFootUrl,FavIcon,MainBrochure,Slogan,FooterAbout,GoogleAnalytic,MapScript)" +
+                    " VALUES(@Address,@Phone,@Email,@Fax,@Lat,@Long,@LogoTopUrl,@LogoFootUrl,@FavIcon,@MainBrochure,@Slogan,@FooterAbout,@GoogleAnalytic,@MapScript)", cn);
                 cmd1.Parameters.Add("@Address", SqlDbType.NVarChar).Value = s.Address;
                 cmd1.Parameters.Add("@Phone", SqlDbType.NVarChar).Value = s.Phone;
                 cmd1.Parameters.Add("@Fax", SqlDbType.NVarChar).Value = s.Fax;
+                cmd1.Parameters.Add("@Email", SqlDbType.NVarChar).Value = s.Email;
                 cmd1.Parameters.Add("@Lat", SqlDbType.NVarChar).Value = s.Lat;
                 cmd1.Parameters.Add("@Long", SqlDbType.NVarChar).Value = s.Long;
                 cmd1.Parameters.Add("@LogoTopUrl", SqlDbType.NVarChar).Value = s.LogoTopUrl;
@@ -229,6 +244,7 @@ FooterAbout=@FooterAbout,GoogleAnalytic=@GoogleAnalytic WHERE IFID=1", cn);
                 cmd1.Parameters.Add("@Slogan", SqlDbType.NVarChar).Value = s.Slogan;
                 cmd1.Parameters.Add("@FooterAbout", SqlDbType.NVarChar).Value = s.FooterAbout;
                 cmd1.Parameters.Add("@GoogleAnalytic", SqlDbType.NVarChar).Value = s.GoogleAnalytic;
+                cmd1.Parameters.Add("@MapScript", SqlDbType.NVarChar).Value = s.MapScript;
                 ret = ExecuteNonQuery(cmd1);
             }
             else
