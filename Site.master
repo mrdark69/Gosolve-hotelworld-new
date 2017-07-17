@@ -59,7 +59,7 @@
                     <a href="<%= Page.ResolveClientUrl("~/admin/Default") %>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
                 </li>
                  <li <%=MenuActive("Staff","Role,Staff")%>>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Staff</span><span class="fa arrow"></span> </a>
+                    <a href="#"><i class="fa fa-user"></i> <span class="nav-label">Staff</span><span class="fa arrow"></span> </a>
                     <ul class="nav nav-second-level">
                            <li <%=MenuActive("Role")%>><a href="<%= Page.ResolveClientUrl("~/admin/Staff/Role") %>">Staff Role</a></li>
                         <li <%=MenuActive("Staff")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Staff/Staff") %>">Staff List</a></li>
@@ -68,12 +68,37 @@
                 </li>
                
                   <li <%=MenuActive("Media")%>>
-                    <a href="<%= Page.ResolveClientUrl("~/admin/Medias/Media") %>"><i class="fa fa-th-large"></i> <span class="nav-label">Media</span></a>
+                    <a href="<%= Page.ResolveClientUrl("~/admin/Medias/Media") %>"><i class="fa fa-music"></i> <span class="nav-label">Media</span></a>
+                    
+                </li>
+
+                <li <%=MenuActive("Pages")%>>
+                    <a href="<%= Page.ResolveClientUrl("~/admin/Medias/Pages") %>"><i class="fa fa-files-o"></i> <span class="nav-label">Pages</span></a>
+                    
+                </li>
+                  <li <%=MenuActive("Products")%>>
+                    <a href="<%= Page.ResolveClientUrl("~/admin/Medias/Products") %>"><i class="fa fa-bookmark"></i> <span class="nav-label">Products</span></a>
+                    
+                </li>
+                  <li <%=MenuActive("Blog")%>>
+                    <a href="<%= Page.ResolveClientUrl("~/admin/Medias/Blog") %>"><i class="fa fa-newspaper-o"></i> <span class="nav-label">Blog</span></a>
+                    
+                </li>
+                <li <%=MenuActive("Comment")%>>
+                    <a href="<%= Page.ResolveClientUrl("~/admin/Medias/Comment") %>"><i class="fa fa-comment-o"></i> <span class="nav-label">Comment</span></a>
+                    
+                </li>
+               
+
+                <li <%=MenuActive("SiteInf")%>>
+                    <a href="<%= Page.ResolveClientUrl("~/admin/Medias/SiteInf") %>"><i class="fa fa-globe"></i> <span class="nav-label">Site Information</span></a>
                     
                 </li>
                  <li <%=MenuActive("AppSetting")%> >
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">App Setting</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">App Setting</span><span class="fa arrow"></span></a>
                       <ul class="nav nav-second-level">
+                          <li <%=MenuActive("General")%>><a href="<%= Page.ResolveClientUrl("~/admin/AppSetting/General") %>">General</a></li>
+                          <li <%=MenuActive("Menu")%>><a href="<%= Page.ResolveClientUrl("~/admin/AppSetting/Menu") %>">Menu</a></li>
                            <li <%=MenuActive("MailSetting")%>><a href="<%= Page.ResolveClientUrl("~/admin/AppSetting/Setting") %>">Mail Setting</a></li>
                         
                      
