@@ -8,8 +8,12 @@
       </siteMapNode>
       <siteMapNode url="~/Application/SubscriberGroup" title="Subscriber Groups"  description="" />
     </siteMapNode>
-    
-    
+
+    <siteMapNode url="" title="Site Information"  description="">
+      <siteMapNode url="~/admin/SiteInformation/SiteInf" title="Global Info"  description="" />
+   
+
+    </siteMapNode>
     <siteMapNode url="" title="App Setting"  description="">
       <siteMapNode url="~/admin/AppSetting/General" title="General Setting"  description="" />
       <siteMapNode url="~/admin/AppSetting/Menu" title="Menu Setting"  description="" />

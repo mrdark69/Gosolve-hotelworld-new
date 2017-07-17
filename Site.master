@@ -30,6 +30,7 @@
      
 
     <form runat="server">
+      
        
 
         <div id="wrapper">
@@ -91,8 +92,10 @@
                
 
                 <li <%=MenuActive("SiteInf")%>>
-                    <a href="<%= Page.ResolveClientUrl("~/admin/Medias/SiteInf") %>"><i class="fa fa-globe"></i> <span class="nav-label">Site Information</span></a>
-                    
+                    <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">Site Information</span><span class="fa arrow"></span></a>
+                     <ul class="nav nav-second-level">
+                         <li <%=MenuActive("SiteInf")%>><a href="<%= Page.ResolveClientUrl("~/admin/SiteInformation/SiteInf") %>">Global Info</a></li>
+                     </ul>
                 </li>
                  <li <%=MenuActive("AppSetting")%> >
                     <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">App Setting</span><span class="fa arrow"></span></a>
@@ -294,6 +297,300 @@
 
    
 
+    <div class="modal inmodal fade" id="modal_media_select"  role="dialog"  aria-hidden="true">
+                                         
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                          <%--  <h4 class="modal-title" id="modal_mail_1">MailBox Manage</h4>--%>
+                                            <%--<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>--%>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="ibox-content" id="model_mail_builder_content">
+                                                 <div class="sk-spinner sk-spinner-wave">
+                                      
+                                                    <div class="sk-rect1"></div>
+                                                    <div class="sk-rect2"></div>
+                                                    <div class="sk-rect3"></div>
+                                                    <div class="sk-rect4"></div>
+                                                    <div class="sk-rect5"></div>
+                                                </div>
+                                                  
+                                             
+
+                                                <div class="modal_media" id="modal_media" >
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="text-align:right;padding: 5px 20px 5px 5px;">
+          <button id="btn-custom-add-medias-m"  class="btn-custom-add-medias btn btn-success"><i class="fa fa-plus"></i> Add Image</button>
+          <button style="display:none" id="btn-custom-add-medias-f" onclick="SelectFile()" class="btn-custom-add-medias btn btn-success"><i class="fa fa-paperclip"></i> Add File</button>
+          <button class="btn btn-primary" onclick="CloseImageAddPanel_media();" id="btn-close-media">
+                                                                  <i class="fa fa-window-close" aria-hidden="true" style="color:#fff"></i> Close
+                                                              </button>
+                                                        </div>
+                                                    </div>
+                                                     <div class="row">
+            <div class="ibox">
+                <div class="ibox-title"><h5>Media Upload</h5></div>
+                 <div class="ibox-content">
+                     <div  class="dropzone" id="mydropzone_media" >
+                        <div class="fallback">
+                            <input name="file_medai" type="file" multiple />
+                        </div>
+                    </div> 
+                  </div>
+            </div>
+           
+        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-9 col-lg-9">
+                                                                <div class="ibox float-e-margins">
+
+                                                                    <div class="ibox-content" id="media-list">
+                                                                        <div class="sk-spinner sk-spinner-wave">
+
+                                                                            <div class="sk-rect1"></div>
+                                                                            <div class="sk-rect2"></div>
+                                                                            <div class="sk-rect3"></div>
+                                                                            <div class="sk-rect4"></div>
+                                                                            <div class="sk-rect5"></div>
+                                                                        </div>
+                                                                        <h2>Media gallery</h2>
+
+                                                                        <div role="form" class="form-inline">
+                                                                            <div class="col-md-8">
+
+                                                                                <div class="form-group">
+                                                                                    <select id="sel_type" class="form-control">
+                                                                                        <option value="">All Media Item</option>
+                                                                                        <option value="image">Image</option>
+                                                                                        <option value="other">Other</option>
+                                                                                    </select>
+
+
+                                                                                    <select id="sel_cat" class="form-control">
+                                                                                        <option value="0">All Media Category</option>
+
+                                                                                    </select>
+                                                                                </div>
+
+                                                                                <a href="javascript:void(0)" id="add_new_cat">Add New Category</a>
+                                                                            </div>
+                                                                             <div class="col-md-4" style="text-align:right">
+                                     <div class="btn-group">
+                                        <button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle">Action <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="javascript:void(0);" onclick="BulkUpdate(2)">Add To Category</a></li>
+                                            <li><a href="javascript:void(0);" onclick="BulkUpdate(1)">Delete</a></li>
+                                         
+                                        </ul>
+                                    </div>
+                                     <%-- <div class="form-group">
+                                       <select class="form-control" id="sel_bulk_update">
+                                           <option value="1">Delete</option>
+                                           <option value="2">Add To Category</option>
+                                       </select>
+                                    </div>
+                                     <button class="btn btn-primary" type="button"  onclick="BulkUpdate();">Bulk Action</button>--%>
+                                 </div>
+
+
+
+
+
+                                                                            <div style="clear:both"></div>
+                                                                        </div>
+
+                                                                        <div class="hr-line-dashed"></div>
+
+
+                                                                        <div class="lightBoxGallery" id="lightBoxGallery">
+
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 col-lg-3">
+
+                                                                <div class="ibox" id="media-detail-block">
+                                                                    <div class="ibox-title"><h5>Media Detail</h5></div>
+                                                                    <div class="ibox-content" id="media-detail">
+                                                                        <div class="sk-spinner sk-spinner-wave">
+
+                                                                            <div class="sk-rect1"></div>
+                                                                            <div class="sk-rect2"></div>
+                                                                            <div class="sk-rect3"></div>
+                                                                            <div class="sk-rect4"></div>
+                                                                            <div class="sk-rect5"></div>
+                                                                        </div>
+                                                                        <div id="media_detail_block" style="display:none;" class="form-horizontal">
+
+                                                                            <div class="media_img_big">
+                                                                                <img src="" />
+                                                                            </div>
+
+                                                                            <div style="clear:both"></div>
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-sm-3 control-label">Filename:</label>
+
+                                                                                <div class="col-sm-9">
+                                                                                    <div><label class="media_file_name"> adasdas  </label></div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-sm-3 control-label">File type:</label>
+
+                                                                                <div class="col-sm-9">
+                                                                                    <div><label class="media_file_type"> adasdas  </label></div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-sm-3 control-label">Uploaded on:</label>
+
+                                                                                <div class="col-sm-9">
+                                                                                    <div><label class="media_file_on"> adasdas  </label></div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-sm-3 control-label">Dimensions:</label>
+
+                                                                                <div class="col-sm-9">
+                                                                                    <div><label class="media_file_dimensions"> adasdas  </label></div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-sm-3 control-label">File Size:</label>
+
+                                                                                <div class="col-sm-9">
+                                                                                    <div><label class="media_file_size"> adasdas  </label></div>
+                                                                                </div>
+                                                                            </div>
+
+
+
+                                                                            <div class="hr-line-dashed"></div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-sm-2 control-label">Title</label>
+                                                                                <div class="col-sm-10"><input type="text" class="form-control media_file_title"></div>
+                                                                            </div>
+
+                                                                            <div class="hr-line-dashed"></div>
+
+
+                                                                            <div class="form-group">
+                                                                                <div class="col-md-12">
+                                                                                    <h5 class="tag-title">Category</h5>
+                                                                                    <ul class="tag-list" id="tax_media_list" style="padding: 0">
+                                                                                        <%--
+                                                                                        <li><a href="">Family</a></li>
+                                                                                        <li><a href="">Work</a></li>
+                                                                                        <li><a href="">Home</a></li>
+                                                                                        <li><a href="">Children</a></li>
+                                                                                        <li><a href="">Holidays</a></li>
+                                                                                        <li><a href="">Music</a></li>
+                                                                                        <li><a href="">Photography</a></li>
+                                                                                        <li><a href="">Film</a></li>--%>
+                                                                                    </ul>
+                                                                                    <div class="clearfix"></div>
+                                                                                </div>
+
+                                                                            </div>
+
+
+                                                                            <div class="form-group">
+                               
+                                    <div class="col-sm-9">
+
+                                        <select id="select-form-detail-cat" class="form-control input-sm" >
+                                            <option value="0">no category</option>
+                                        </select>
+                                    </div>
+                                        <div class="col-sm-3">
+                                             <button type="button" id="btn-add-tax-sel" class="btn btn-primary btn-xs">Add</button>
+                                        </div>
+                                 
+                                     </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-12 ">
+                                        <button class="btn btn-w-m btn-danger btn-sm" onclick="DeleteMedia()" type="button">Delete</button>
+                                        <button class="btn btn-primary btn-sm" onclick="save()" type="button">Save changes</button>
+                                    </div>
+                                </div>
+
+
+
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                          
+                                         
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" id="modal_mail_2" class="btn btn-white" data-dismiss="modal">Close MailBox Manage</button>
+                                            <%--<button type="button" class="btn btn-primary">Save changes</button>--%>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+     <div class="modal inmodal" id="_add_cat_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content animated bounceInRight">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <i class="fa fa-laptop modal-icon"></i>
+                                            <h4 class="modal-title">Add New Category</h4>
+                                            
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>กรุณาใส่ Category ที่ท่านต้องการ</strong> </p>
+                               <div class="form-group"><label>ชื่อ</label> <input type="text" name="Cat_title"  id="Cat_title" class="form-control  required"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" id="btn_add_category_close">Close</button>
+                                            <button type="button" class="btn btn-primary" id="btn_add_category" >Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    <div class="modal inmodal" id="_update_media_cat_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content animated bounceInRight">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <i class="fa fa-laptop modal-icon"></i>
+                                            <h4 class="modal-title">Add New Category</h4>
+                                            
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>กรุณาใส่ Category ที่ท่านต้องการ</strong> </p>
+                               <div class="form-group"><label>ชื่อ</label> 
+                                   <select id="sel-update-media-bulk" class="form-control" >
+                                        <option value="0">no category</option>
+                                      </select></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" id="btn_update_media_category_close">Close</button>
+                                            <button type="button" class="btn btn-primary" id="btn_update_media_category" >Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
     <asp:ContentPlaceHolder ID="ContentFooter" runat="server">
 
        

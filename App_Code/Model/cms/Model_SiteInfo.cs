@@ -92,7 +92,7 @@ public class Social : BaseModel<Social>
 {
     public byte SocialID { get; set; }
     public string Title { get; set; }
-    public string Status { get; set; }
+    public bool Status { get; set; }
 
     public Social()
     {
