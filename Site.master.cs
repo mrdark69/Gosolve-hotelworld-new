@@ -59,6 +59,8 @@ public partial class SiteMaster : MasterPage
             }
          
         }
+        //child[i].IndexOf(currentFile) >= 0
+        //file.IndexOf(currentFile) >= 0
 
         return ret;
     }
