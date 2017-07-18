@@ -18,7 +18,7 @@ $(document).ready(function () {
     $.each(mediablock, function () {
 
 
-        
+
         var ele = $(this);
         var focus = ele.attr('id');
         var url = ele.find(':hidden').val();
@@ -33,12 +33,12 @@ $(document).ready(function () {
 
             ele.find('button.addmedia').html('Edit');
         }
-      
 
 
-       
 
-    })
+
+
+    });
 
 
 
@@ -89,7 +89,7 @@ $(document).ready(function () {
         e.preventDefault;
 
         var dd = $(this).parent('.media_item_box');
-        var id = dd.attr('id')
+        var id = dd.attr('id');
 
         store.set('box_media_focus', id);
 
@@ -179,7 +179,7 @@ $(document).ready(function () {
                     var _CatVals = $("#sel-update-media-bulk").val();
                     var _d = store.get('data_sel_list');
                     for (var i in _d) {
-                        data.push({ TaxID: _CatVals, MID:_d[i].MID})
+                        data.push({ TaxID: _CatVals, MID: _d[i].MID });
                     }
 
                     var param = JSON.stringify({ parameters: data });
@@ -310,7 +310,7 @@ function SelectFile() {
     var data = store.get("key_onSel");
 
 
-    var fileat = (store.get('fileat') == null ? [] : store.get('fileat'))
+    var fileat = (store.get('fileat') == null ? [] : store.get('fileat'));
     fileat.push({
         Path: data.Path,
         FileName: data.FileName
@@ -370,7 +370,7 @@ function generateMediaData(data) {
 
 function HtmlBinding() {
     //$('#sel_cat').html('');
-     $('#sel_cat option').filter(function () { return this.value != 0 }).remove();
+    $('#sel_cat option').filter(function () { return this.value != 0; }).remove();
     var data = store.get("Cat_data");
     var ret = "";
     for (var i in data) {

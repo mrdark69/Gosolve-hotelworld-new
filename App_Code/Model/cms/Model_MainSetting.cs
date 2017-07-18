@@ -24,8 +24,6 @@ public class Model_MainSetting : BaseModel<Model_MainSetting>
     public byte SiteLang { get; set; }
   
 
-   
-
     public Model_MainSetting()
     {
         //

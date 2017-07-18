@@ -704,7 +704,7 @@ header {
 
 
 /* __________ Logo __________ */
-.logo {float:left; width:200px;margin-top:10px}
+.logo {float:left; width:200px;margin-top:1.5%}
 .logo a {display:block;}
 
 
@@ -4441,6 +4441,7 @@ footer .newsletter_btn {
 .foot_logo {
 	float:left;
 	width:115px;
+    margin-top:15px;
 }
 
 
