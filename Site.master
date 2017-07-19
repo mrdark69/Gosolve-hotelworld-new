@@ -632,7 +632,7 @@
              // Fragment doesn't exist
          }
          $(document).ready(function () {
-            
+             Dropzone.autoDiscover = false;
              
 
          });

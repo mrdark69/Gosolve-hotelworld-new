@@ -84,7 +84,13 @@ $(document).ready(function () {
         $('#_add_cat_modal').modal('show');
     });
 
-    $('.addmedia').on('click', function (e) {
+
+    //binding to button
+    $('.addmedia').on('click', BindMediaBox);
+
+    $('.addmedia-wysiwyg').on('click', function (e) {
+
+
 
         e.preventDefault;
 
@@ -92,6 +98,10 @@ $(document).ready(function () {
         var id = dd.attr('id');
 
         store.set('box_media_focus', id);
+
+
+
+
 
         $('#t-title').val('');
 
@@ -103,8 +113,119 @@ $(document).ready(function () {
             keyboard: false
         });
 
+        var t = $(this).data('target');
+
+     
+
+            $('#btn-custom-add-medias-m').bind('click', function () {
+                var data = store.get("key_onSel");
+                var url = location.origin + data.Path + "/" + data.FileName;
+               // i.insertContent('<img style="width:50%" src="' + url + '" />');
+                var img = '<img src="' + url+'">';
+                CKEDITOR.instances[t].insertHtml(img);
+
+
+                $('#modal_media_select').modal('hide');
+
+
+             });
+
+        
+        //
 
     });
+
+    //bidingto Tiny MCE
+
+    //tinymce.init({
+    //    document_base_url: "/admin/Application/bower_components/tinymce/",
+    //    selector: '#txtContent',
+    //    skin: "lightgray",
+    //    theme: "modern",
+    //    height: "480",
+    //    plugins: [
+    //        "advlist autolink lists link image charmap",
+    //        "searchreplace visualblocks code fullscreen",
+    //        "insertdatetime media table contextmenu paste",
+    //        "textcolor"
+    //    ],
+    //    toolbar: "undo redo | styleselect | bold italic fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | link mybutton",
+    //    fontsize_formats: "8pt 9pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 18pt 24pt 36pt",
+    //    setup: function (i) {
+    //        i.on("init", function () {
+    //            //n = $(t).next("textarea"),
+    //            //    i.setContent(e.value);
+    //        }),
+    //            i.addButton('mybutton', {
+    //            text: "Add media",
+    //            onclick: function (e) {
+
+    //                e.preventDefault;
+
+    //                var dd = $(this).parent('.media_item_box');
+    //                var id = dd.attr('id');
+
+    //                store.set('box_media_focus', id);
+
+
+
+
+    //                $('#btn-custom-add-medias-m').bind('click', function () {
+    //                    var data = store.get("key_onSel");
+    //                    var url = location.origin + data.Path + "/" + data.FileName;
+    //                    i.insertContent('<img style="width:50%" src="' + url + '" />');
+
+
+    //                    $('#modal_media_select').modal('hide');
+
+
+    //                });
+
+
+    //                $('#t-title').val('');
+
+    //                $('#btn-b-update-template').hide();
+    //                $('#btn-b-add-template').show();
+
+    //                $('#modal_media_select').modal({
+    //                    backdrop: 'static',
+    //                    keyboard: false
+    //                });
+    //            }
+    //            })
+    //            , i.on("change", function (ed, o) {
+
+
+    //            }),
+    //            i.on('blur', function () {
+
+    //            })
+    //    }
+    //})
+
+
+    function BindMediaBox(e) {
+        e.preventDefault;
+
+        var dd = $(this).parent('.media_item_box');
+        var id = dd.attr('id');
+
+        store.set('box_media_focus', id);
+
+
+
+
+
+        $('#t-title').val('');
+
+        $('#btn-b-update-template').hide();
+        $('#btn-b-add-template').show();
+
+        $('#modal_media_select').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    }
 
     $("#btn_update_media_category_close").on('click', function (e) {
         $('#btn_update_media_category_close').modal('hide');
