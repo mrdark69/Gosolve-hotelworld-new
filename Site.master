@@ -78,8 +78,7 @@
                     <ul class="nav nav-second-level">
                            <li <%=MenuActive("EditPage")%>><a href="<%= Page.ResolveClientUrl("~/admin/Pages/EditPage") %>">All Page</a></li>
                           <li <%=MenuActive("PageNew")%>><a href="<%= Page.ResolveClientUrl("~/admin/Pages/PageNew") %>">Add Page</a></li>
-                        <li <%=MenuActive("PageCategory")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Pages/PageCategory") %>">Page Category</a></li>
-                         <li <%=MenuActive("PageTag")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Pages/PageTag") %>">Page Tag</a></li>
+                   
                      
                     </ul>
                 </li>

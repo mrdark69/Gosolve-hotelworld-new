@@ -76,8 +76,8 @@
                                 <div class="hr-line-dashed"></div>
                                 <div class="form-group"><label class=" control-label">Content</label>
                                     <div>
-                                      <span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>
-                                        <button id="btnaddmedia" type="button"  class="addmedia-wysiwyg btn btn-default" data-target="txtContent">Add Media</button>
+                                      <%--<span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>--%>
+                                        <button id="btnaddmedia" type="button"  class="addmedia-wysiwyg btn btn-success" data-target="txtContent">Add Media</button>
                                         <asp:TextBox ID="txtContent" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
                                        
                                     </div>
@@ -100,15 +100,67 @@
                                     </div>
                                 </div>
                                 <div class="ibox-content">
+                                    <div class="form-horizontal">
+                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">Status</label>
+
+                                    <div class="col-lg-6"><p class="form-control-static">Draft</p></div>
+                                </div>
+
+                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">Date Published</label>
+
+                                            <div class="col-lg-6"><p class="form-control-static">---</p></div>
+                                        </div>
+                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">View Count</label>
+
+                                            <div class="col-lg-6"><p class="form-control-static">0</p></div>
+                                        </div>
+                                    </div>
                                    
-                                    <div class="form-group">
+                                    <div class="form-group" style="text-align:right">
                                         <div >
                                            
                                             <button class="btn btn-primary" type="submit">Publish</button>
                                         </div>
                                     </div>
                                     </div>
+                     </div>
+
+                      <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Pages Cover</h5> 
+                                    <div class="ibox-tools">
+                                       
+                                    </div>
                                 </div>
+                                <div class="ibox-content">
+                                   
+                                   <div class="form-group"><label class=" control-label">Cover Type</label>
+
+                                    <div ><select class="form-control m-b" name="account">
+                                        <option>option 1</option>
+                                        <option>option 2</option>
+                                        <option>option 3</option>
+                                        <option>option 4</option>
+                                    </select>
+
+                                    </div>
+                                </div>
+
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group"><label class=" control-label">Master Slider <br>
+                                    <small class="text-navy">Override the cover</small></label>
+
+                                    <div class="">
+                                      
+                                        <div><label> <input type="radio" checked="" value="option1" id="optionsRadios1" name="optionsRadios"> Yes.
+                                       </label></div>
+                                        <div><label> <input type="radio" value="option2" id="optionsRadios2" name="optionsRadios"> NO.</label></div>
+                                    </div>
+                                </div>
+
+
+                               </div>
+                     </div>
 
                  </div>
              </div>
