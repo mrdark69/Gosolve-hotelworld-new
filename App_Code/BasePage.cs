@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 
 /// <summary>
 /// Summary description for BasePage
 /// </summary>
+/// 
+
 public class BasePage : System.Web.UI.Page
 {
+    public Model_Users UserActive { get; set; }
     public BasePage()
     {
         //
@@ -19,7 +23,11 @@ public class BasePage : System.Web.UI.Page
     {
 
         // StaffSessionAuthorize.CheckCooikie();
-        UserSessionController.AdminAppAuthorization(this);
+
+        Model_Users u = UserSessionController.AdminAppAuthorization(this);
+
+        if (u != null)
+            this.UserActive = u;
 
         base.OnLoad(e);
     }
@@ -28,4 +36,16 @@ public class BasePage : System.Web.UI.Page
     {
         HttpContext.Current.Response.Redirect("accessdenie.aspx?error=loginfailed");
     }
+
+
+    //protected override void Render(HtmlTextWriter writer)
+    //{
+    //    using (HtmlTextWriter htmlwriter = new HtmlTextWriter(new System.IO.StringWriter()))
+    //    {
+    //        base.Render(htmlwriter);
+    //        string html = htmlwriter.InnerWriter.ToString();
+    //        html = html.RemoveWhitespaceFromHtmlPage();
+    //        writer.Write(html);
+    //    }
+    //}
 }

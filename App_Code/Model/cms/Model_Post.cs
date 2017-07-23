@@ -42,6 +42,73 @@ public class Model_Post : BaseModel<Model_Post>
         //
     }
 
-   
+    public List<Model_Post> GetPostListByPostType(Model_Post p)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM POST WHERE PostTypeID=@PostTypeID ORDER BY DateSubmit ASC, DatePublish ASC", cn);
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.Int).Value = p.PostTypeID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+    public Model_Post GetPostByID(int PostID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE PostID=@PostID", cn);
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+           
+        }
+    }
+   public int InsertPost(Model_Post p)
+    {
+        int ret = 0;
+        using(SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO POST (PostTypeID,Title,Short,Slug,DateSubmit,UserID,DatePublish,Status,
+                    ShowComment,BodyContent,BannerTypeID,ShowMasterSlider,ViewCount) 
+                    VALUES (@PostTypeID,@Title,@Short,@Slug,@DateSubmit,@UserID,@DatePublish,@Status,
+                    @ShowComment,@BodyContent,@BannerTypeID,@ShowMasterSlider,@ViewCount) ;SET @PostID = SCOPE_IDENTITY();", cn);
+
+
+            cmd.Parameters.Add("PostTypeID", SqlDbType.Int).Value = p.PostTypeID;
+            cmd.Parameters.Add("Title", SqlDbType.NVarChar).Value = p.Title;
+            cmd.Parameters.Add("Short", SqlDbType.NVarChar).Value = p.Short;
+            cmd.Parameters.Add("Slug", SqlDbType.NVarChar).Value = p.Slug;
+            cmd.Parameters.Add("DateSubmit", SqlDbType.SmallDateTime).Value = p.DateSubmit;
+            cmd.Parameters.Add("UserID", SqlDbType.Int).Value = p.UserID;
+            cmd.Parameters.Add("DatePublish", SqlDbType.SmallDateTime).Value = p.DatePublish;
+            cmd.Parameters.Add("Status", SqlDbType.Bit).Value = p.Status;
+            cmd.Parameters.Add("ShowComment", SqlDbType.Bit).Value = p.ShowComment;
+            cmd.Parameters.Add("BannerTypeID", SqlDbType.TinyInt).Value = p.BannerTypeID;
+            cmd.Parameters.Add("ShowMasterSlider", SqlDbType.Int).Value = p.ShowMasterSlider;
+            cmd.Parameters.Add("BodyContent", SqlDbType.NVarChar).Value = p.BodyContent;
+            cmd.Parameters.Add("ViewCount", SqlDbType.Int).Value = p.ViewCount;
+
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+            cn.Open();
+            if (ExecuteNonQuery(cmd) > 0)
+            {
+                ret = (int)cmd.Parameters["@PostID"].Value;
+
+            }
+
+            
+        }
+
+        return ret;
+    }
+
+
+
 
 }

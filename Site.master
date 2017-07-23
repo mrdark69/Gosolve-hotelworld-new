@@ -1,5 +1,4 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
@@ -40,10 +39,8 @@
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                          <%--  <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Welcome <%= getUser()   %> </strong>
-                             </span> <span class="text-muted text-xs block"><%: Context.User.Identity.GetUserName()  %> <b class="caret"></b></span> </span> </a>--%>
-
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#"></a>
+                        
                                 <%= UserStatus()   %>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a href="/admin/logout">
@@ -72,6 +69,7 @@
                     <a href="<%= Page.ResolveClientUrl("~/admin/Medias/Media") %>"><i class="fa fa-music"></i> <span class="nav-label">Media</span></a>
                     
                 </li>
+
 
                 <li <%=MenuActive("Pages","EditPage,PageNew,PageCategory,PageTag")%>>
                     <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">Pages</span><span class="fa arrow"></span></a>
@@ -109,9 +107,10 @@
                
 
                 <li <%=MenuActive("SiteInf")%>>
-                    <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">Site Information</span><span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">Site Global</span><span class="fa arrow"></span></a>
                      <ul class="nav nav-second-level">
                          <li <%=MenuActive("SiteInf")%>><a href="<%= Page.ResolveClientUrl("~/admin/SiteInformation/SiteInf") %>">Global Info</a></li>
+                           <li <%=MenuActive("MasterSlide")%>><a href="<%= Page.ResolveClientUrl("~/admin/SiteInformation/MasterSlide") %>">Master Slider</a></li>
                      </ul>
                 </li>
                  <li <%=MenuActive("AppSetting")%> >
@@ -124,41 +123,7 @@
                      
                     </ul>
                 </li>
-            <%--    <%=GetSideMenu() %>--%>
-
-             <%--   <li <%=MenuActive("Default")%> >
-                    <a href="<%= Page.ResolveClientUrl("~/Default") %>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
-                </li>
-                <li <%=MenuActive("SubScriber","SubScriber,SubscriberGroup")%>>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Subscriber Manage</span><span class="fa arrow"></span> </a>
-                    <ul class="nav nav-second-level">
-                           <li <%=MenuActive("SubScriber")%>><a href="<%= Page.ResolveClientUrl("~/Application/SubScriber") %>">Subscriber List</a></li>
-                        <li <%=MenuActive("SubscriberGroup")%>><a href="<%= Page.ResolveClientUrl("~/Application/SubscriberGroup") %>">Subscriber Groups</a></li>
-                     
-                    </ul>
-                </li>
-                <li <%=MenuActive("Template","Template,Media")%>>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Email Templates</span><span class="fa arrow"></span> </a>
-                    <ul class="nav nav-second-level">
-                        <li <%=MenuActive("Template")%>><a href="<%= Page.ResolveClientUrl("~/Application/Template") %>">Templates List</a></li>
-                        <li <%=MenuActive("Media")%>><a href="<%= Page.ResolveClientUrl("~/Application/Media") %>">Media</a></li>
-                        
-                    </ul>
-                </li>
-                
-                <li <%=MenuActive("Campaign")%>>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Campaign</span><span class="fa arrow"></span> </a>
-                    <ul class="nav nav-second-level">
-                        <li <%=MenuActive("Campaign")%> ><a href="<%= Page.ResolveClientUrl("~/Application/Campaign") %>">Campaign Manage</a></li>
-                        <%--<li><a href="<%= Page.ResolveClientUrl("~/Application/R_CGroup") %>">Campaign Group</a></li>--%>
-                   <%-- </ul>
-                </li>
-                <li <%=MenuActive("MailBox")%>>
-                    <a href="<%= Page.ResolveClientUrl("~/Application/MailBox") %>"><i class="fa fa-th-large"></i> <span class="nav-label">MailBox</span></a>
-                </li>
-                <li <%=MenuActive("Setting")%>>
-                    <a href="<%= Page.ResolveClientUrl("~/Application/Setting") %>"><i class="fa fa-th-large"></i> <span class="nav-label">MailServer Setting</span></a>
-                </li>--%>
+          
 
             </ul>
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" validateRequest="false" AutoEventWireup="true" CodeFile="PageNew.aspx.cs" Inherits="_PageNew" %>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" validateRequest="false" AutoEventWireup="true" CodeFile="Page.aspx.cs" Inherits="_Page" %>
 
 <asp:Content ID="HeaderScript" ContentPlaceHolderID="HeaderScript" runat="server">
       <style type="text/css">
@@ -44,26 +44,20 @@
                      <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>All form elements <small>With custom checbox and radion elements.</small></h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
+                            
                         </div>
                         <div class="ibox-content">
                             <div  class="form">
+                                <div class="form-group"><label class=" control-label">permarlink</label>
+
+                                    <div >
+                                  
+                                        <asp:Label ID="url" style="display: inline-block;" runat="server"></asp:Label><asp:TextBox ID="slug" style="display: inline-block;
+    width: 30%;" CssClass="form-control" runat="server"></asp:TextBox>
+                                         <asp:RequiredFieldValidator runat="server" ControlToValidate="slug"
+                    CssClass="text-danger" ErrorMessage="The slug field is required." />
+                                    </div>
+                                </div>
                                 <div class="form-group"><label class=" control-label">Title</label>
 
                                     <div >
@@ -74,7 +68,7 @@
                                     </div>
                                 </div>
 
-                                <%--<div class="form-group"><label class=" control-label">Short Detail</label>
+                              <%--  <div class="form-group"><label class=" control-label">Short Detail</label>
 
                                     <div >
                                   
@@ -111,24 +105,25 @@
                                 </div>
                                 <div class="ibox-content">
                                     <div class="form-horizontal">
-                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">Status</label>
+                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">Status: </label>
+                                            
 
-                                    <div class="col-lg-6"><p class="form-control-static">Draft</p></div>
+                                    <div class="col-lg-6"><p class="form-control-static"><asp:Literal ID="lblstatus" runat="server"></asp:Literal></p></div>
                                 </div>
 
-                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">Date Published</label>
-
-                                            <div class="col-lg-6"><p class="form-control-static">---</p></div>
+                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label"> Published on:  </label>
+                                          
+                                            <div class="col-lg-6"><p class="form-control-static">  <asp:Literal ID="lbldatepublish" runat="server"></asp:Literal></p></div>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">View Count</label>
+                                        <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">View Count: </label>
 
-                                            <div class="col-lg-6"><p class="form-control-static">0</p></div>
+                                            <div class="col-lg-6"><p class="form-control-static"><asp:Literal ID="viewcount" runat="server"></asp:Literal></p></div>
                                         </div>
                                     </div>
                                    
                                     <div class="form-group" style="text-align:right">
                                         <div >
-                                           <asp:Button ID="btnPubish" runat="server" CssClass="btn btn-primary" Text="Publish Now" OnClick="btnPubish_Click" />
+                                           <asp:Button ID="btnPubish" runat="server" CssClass="btn btn-primary" Text="Update" OnClick="btnPubish_Click" />
                                            
                                         </div>
                                     </div>
@@ -146,7 +141,9 @@
                                    
                                    <div class="form-group"><label class=" control-label">Cover Type</label>
 
-                                    <div ><select class="form-control m-b" name="CoverType" id="CoverType" runat="server">
+                                    <div >
+                                        
+                                        <select class="form-control m-b" name="CoverType" id="CoverType" runat="server">
                                         <option value="1">Show Banner</option>
                                         <option value="2">Banner Backgound Header</option>
                                    

@@ -15,9 +15,9 @@ public partial class _Default : Page
 
         //}
 
-        //this.Page.Title = "XXXXXX";
-        //Model_SiteInfo st = new Model_SiteInfo();
-        //Master.SiteInfo = st.GetSiteInfo();
+        this.Page.Title = "XXXXXX";
+        Model_SiteInfo st = new Model_SiteInfo();
+        Master.SiteInfo = st.GetSiteInfo();
 
 
         //Model_MainSetting s = new Model_MainSetting();

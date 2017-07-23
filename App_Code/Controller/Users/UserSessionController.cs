@@ -96,9 +96,9 @@ public class UserSessionController
 
 
 
-    public static void AdminAppAuthorization(Page p)
+    public static Model_Users AdminAppAuthorization(Page p)
     {
-        
+        Model_Users u = null;
         HttpSessionState Hotels2Session = HttpContext.Current.Session;
         //object objSession = HttpContext.Current.Session["staff"];
         HttpCookie objCookie = HttpContext.Current.Request.Cookies["SessionKey"];
@@ -137,7 +137,7 @@ public class UserSessionController
             }
 
 
-            Model_Users u = UsersController.GetUserbyID(ms.UserID);
+            u = UsersController.GetUserbyID(ms.UserID);
            
             if (!u.Status)
             {
@@ -169,38 +169,25 @@ public class UserSessionController
             UpdateSessionStatus(intLogKey);
 
 
-            if (!IsAuthorizePage(u, ConfigurationManager.AppSettings["AuthorizeBaseURL"].ToString()))
-            {
+            //if (!IsAuthorizePage(u, ConfigurationManager.AppSettings["AuthorizeBaseURL"].ToString()))
+            //{
                 
-                try
-                {
-                    HttpContext.Current.Response.Redirect(HttpContext.Current.Request.UrlReferrer.ToString() + "#accessdinied");
-                }
-                catch 
-                {
-                    HttpContext.Current.Response.Redirect(HttpContext.Current.Request.Url.ToString() + "#accessdinied");
-                }
+            //    try
+            //    {
+            //        HttpContext.Current.Response.Redirect(HttpContext.Current.Request.UrlReferrer.ToString() + "#accessdinied");
+            //    }
+            //    catch 
+            //    {
+            //        HttpContext.Current.Response.Redirect(HttpContext.Current.Request.Url.ToString() + "#accessdinied");
+            //    }
                 
-                //HiddenField h = (HiddenField)p.FindControl("hdAlert");
-                //HttpContext.Current.Response.Write(p);
-                //h.Value = "False";
-                HttpContext.Current.Response.End();
-                //Page page = HttpContext.Current.Request.pag
-                //ScriptManager.RegisterStartupScript(this, Page.GetType(), null, script, false);
-                // HttpContext.Current.Response.Redirect("~/admin/accessdenie.aspx?error=accessdenied");
-                // 
-            }
+            //    HttpContext.Current.Response.End();
+                
+            //}
 
         }
-
-        //Action Method
-
-        
-        //else
-        //{
-        //    HttpSessionState Hotels2SessionMethod = HttpContext.Current.Session;
-        //    Hotels2SessionMethod["Method"] = clStaffSesssion.HotelsSessionItem + ";null";
-        //}
+        return u;
+       
 
 
 
