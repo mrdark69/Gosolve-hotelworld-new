@@ -68,6 +68,8 @@ public class Model_Post : BaseModel<Model_Post>
            
         }
     }
+
+
    public int InsertPost(Model_Post p)
     {
         int ret = 0;
@@ -106,6 +108,38 @@ public class Model_Post : BaseModel<Model_Post>
         }
 
         return ret;
+    }
+
+    public bool UpdatePost (Model_Post p)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"UPDATE Post SET  Title=@Title, Short=@Short ,Slug=@Slug 
+,Status=@Status,ShowComment=@ShowComment,BannerTypeID=@BannerTypeID,ShowMasterSlider=@ShowMasterSlider
+,BodyContent=@BodyContent,ViewCount=@ViewCount
+WHERE PostID=@PostID", cn);
+
+           
+            cmd.Parameters.Add("Title", SqlDbType.NVarChar).Value = p.Title;
+            cmd.Parameters.Add("Short", SqlDbType.NVarChar).Value = p.Short;
+            cmd.Parameters.Add("Slug", SqlDbType.NVarChar).Value = p.Slug;
+            //cmd.Parameters.Add("DateSubmit", SqlDbType.SmallDateTime).Value = p.DateSubmit;
+            //cmd.Parameters.Add("UserID", SqlDbType.Int).Value = p.UserID;
+            //cmd.Parameters.Add("DatePublish", SqlDbType.SmallDateTime).Value = p.DatePublish;
+            cmd.Parameters.Add("Status", SqlDbType.Bit).Value = p.Status;
+            cmd.Parameters.Add("ShowComment", SqlDbType.Bit).Value = p.ShowComment;
+            cmd.Parameters.Add("BannerTypeID", SqlDbType.TinyInt).Value = p.BannerTypeID;
+            cmd.Parameters.Add("ShowMasterSlider", SqlDbType.Int).Value = p.ShowMasterSlider;
+            cmd.Parameters.Add("BodyContent", SqlDbType.NVarChar).Value = p.BodyContent;
+            cmd.Parameters.Add("ViewCount", SqlDbType.Int).Value = p.ViewCount;
+
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = p.PostID;
+
+
+            cn.Open();
+            return ExecuteNonQuery(cmd) == 1;
+        }
+            
     }
 
 
