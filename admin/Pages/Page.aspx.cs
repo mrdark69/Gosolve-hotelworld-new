@@ -16,6 +16,7 @@ public partial class _Page : BasePage
             {
                 int PostID = int.Parse(Request.QueryString["PostID"]);
                 Model_Post p = new Model_Post();
+               
                 p = p.GetPostByID(PostID);
                 if (p != null)
                 {
@@ -34,7 +35,25 @@ public partial class _Page : BasePage
                     CoverType.Value = p.BannerTypeID.ToString();
                     radioshowmMS.SelectedValue = p.ShowMasterSlider.ToString();
 
+                    if(p.PostSEO != null)
+                    {
+                        Model_PostSeo seo = p.PostSEO;
+                        seotitle.Text = seo.SEOTitle;
+                        metades.Text = seo.MetaDescription;
+                        Canonical.Text = seo.CanonicalUrl;
+                        droprebot.SelectedValue = seo.Metarobotsfollow.ToString();
+                        facebookTitle.Text = seo.FaceBookTitle;
+                        facebookDes.Text = seo.FacebookDescription;
+                        facebookImg.Value = seo.FacebookImage;
+                        twTitle.Text = seo.TwitterTitle;
+                        twDes.Text = seo.TwitterDescription;
+                        twimg.Value = seo.TwitterImages;
+                        analytic.Text = seo.GoogleAnalytic;
+                    }
+
                 }
+
+               
 
             }
 
@@ -68,7 +87,24 @@ public partial class _Page : BasePage
                 ViewCount = 1
             };
 
-            if (p.UpdatePost(p))
+
+            Model_PostSeo seo = new Model_PostSeo {
+                PostID = int.Parse(Request.QueryString["PostID"]),
+                SEOTitle = seotitle.Text.Trim(),
+                MetaDescription = metades.Text.Trim(),
+                CanonicalUrl = Canonical.Text.Trim(),
+                Metarobotsfollow = bool.Parse(droprebot.SelectedValue),
+                FaceBookTitle = facebookTitle.Text.Trim(),
+                FacebookDescription = facebookDes.Text.Trim(),
+                FacebookImage = facebookImg.Value,
+                TwitterTitle = twTitle.Text.Trim(),
+                TwitterDescription = twDes.Text.Trim(),
+                TwitterImages = twimg.Value,
+                GoogleAnalytic = analytic.Text.Trim(),
+            };
+            seo.InsertSEO(seo);
+
+            if (p.UpdatePost(p) && seo.InsertSEO(seo) > 0)
                 Response.Redirect(Request.Url.ToString());
         }
        

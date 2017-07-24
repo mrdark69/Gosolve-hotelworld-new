@@ -111,10 +111,10 @@
             for (var i in data) {
               
                 ret += '<tr>';
-                ret += '   <td><input type="checkbox" checked class="i-checks" name="input[]"></td>';
+                ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
                 ret += '   <td>' + data[i].Title+'</td>';
-                ret += '   <td>' + data[i].UserID +'</td>';
-                ret += '   <td>' + data[i].DatePublish +'</td>';
+                ret += '   <td>' + data[i].UserFirstName +'</td>';
+                ret += '   <td>' + data[i].DatePublishFormat +'</td>';
                 ret += '   <td><span class="label label-primary">' + data[i].ViewCount +'</span></td>';
                 ret += '   <td><a href="Page?PostID=' + data[i].PostID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
                 ret += '   </tr >';

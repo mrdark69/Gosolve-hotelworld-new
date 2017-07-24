@@ -33,7 +33,30 @@ public class Model_Post : BaseModel<Model_Post>
     public bool ShowMasterSlider { get; set; }
 
     public int ViewCount { get; set; }
-    
+
+    public string DatePublishFormat
+    {
+        get
+        {
+            return this.DatePublish.ToThaiDateTime().ToString("dd MMM yyy HH:mm tt");
+        }
+    }
+
+    public string UserFirstName { get; set; }
+    private Model_PostSeo _postSEO = null;
+    public Model_PostSeo PostSEO
+    {
+        get
+        {
+            if(_postSEO == null)
+            {
+                Model_PostSeo ps = new Model_PostSeo();
+                _postSEO = ps.GetPostSeoByPostID(this.PostID);
+            }
+
+            return _postSEO;
+        }
+    }
 
     public Model_Post()
     {
@@ -46,7 +69,7 @@ public class Model_Post : BaseModel<Model_Post>
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM POST WHERE PostTypeID=@PostTypeID ORDER BY DateSubmit ASC, DatePublish ASC", cn);
+            SqlCommand cmd = new SqlCommand("SELECT p.*,u.FirstName AS UserFirstName FROM POST p INNER JOIN Users u ON u.UserID=p.UserID WHERE PostTypeID=@PostTypeID ORDER BY DateSubmit ASC, DatePublish ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.Int).Value = p.PostTypeID;
             cn.Open();
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
