@@ -23,6 +23,8 @@ $(document).ready(function () {
         var ele = $(this);
         var focus = ele.attr('id');
         var url = ele.find(':hidden').val();
+        var lbl = ele.find('label');
+        lbl.on('click', function () { return false; })
         if (url != "") {
             var del = '<button data-idmediab="' + focus + '"  onclick="removeMedia(this);" class="btn btn-warning btn-circle btn-media-focus" type="button"><i class="fa fa-times"></i></button >';
             var lbl = ele.find('label');
@@ -37,7 +39,7 @@ $(document).ready(function () {
 
 
 
-
+        return false;
 
     });
 
@@ -58,6 +60,8 @@ $(document).ready(function () {
             var ele = $(this);
             var focus = ele.attr('id');
             var url = ele.find(':hidden').val();
+            var lbl = ele.find('label');
+            lbl.on('click', function () { return false; })
             if (url != "") {
                 var del = '<button data-idmediab="' + focus + '"  onclick="removeMedia(this);" class="btn btn-warning btn-circle btn-media-focus" type="button"><i class="fa fa-times"></i></button >';
                 var lbl = ele.find('label');
@@ -73,7 +77,7 @@ $(document).ready(function () {
 
 
 
-
+            return false;
         });
     })
 
