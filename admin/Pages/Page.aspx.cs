@@ -11,6 +11,7 @@ public partial class _Page : BasePage
     {
         if (!this.Page.IsPostBack)
         {
+           
 
             if (!string.IsNullOrEmpty(Request.QueryString["PostID"]))
             {
@@ -51,6 +52,17 @@ public partial class _Page : BasePage
                         analytic.Text = seo.GoogleAnalytic;
                     }
 
+                    if (p.PostMedia.Count > 0)
+                    {
+                        Model_PostMedia cover = p.PostMedia.FirstOrDefault(r => r.PostID == PostID && r.PostMediaTypeID == PostMediaType.CoverImage);
+                        if (cover != null)
+                        {
+                            hd_MID.Value = cover.MID.ToString();
+                            CoverImage1.Value = this.MainSetting.WebSiteURL + cover.MediaFullPath;
+                            //hd_postMeidaID.Value = cover.PostMediaID.ToString();
+                        }
+                    }
+
                 }
 
                
@@ -69,9 +81,10 @@ public partial class _Page : BasePage
 
         if (!string.IsNullOrEmpty(Request.QueryString["PostID"]))
         {
+            int intPostID = int.Parse(Request.QueryString["PostID"]);
             Model_Post p = new Model_Post
             {
-                PostID = int.Parse(Request.QueryString["PostID"]),
+                PostID = intPostID,
                 PostTypeID = 1,
                 Title = txtTitle.Text.Trim(),
                 Short = "",
@@ -89,7 +102,7 @@ public partial class _Page : BasePage
 
 
             Model_PostSeo seo = new Model_PostSeo {
-                PostID = int.Parse(Request.QueryString["PostID"]),
+                PostID = intPostID,
                 SEOTitle = seotitle.Text.Trim(),
                 MetaDescription = metades.Text.Trim(),
                 CanonicalUrl = Canonical.Text.Trim(),
@@ -103,6 +116,17 @@ public partial class _Page : BasePage
                 GoogleAnalytic = analytic.Text.Trim(),
             };
             seo.InsertSEO(seo);
+
+
+            Model_PostMedia pm = new Model_PostMedia
+            {
+                
+                PostMediaTypeID  = PostMediaType.CoverImage,
+                PostID = intPostID,
+                MID = int.Parse(hd_MID.Value)
+            };
+
+            pm.insertMediaPost(pm);
 
             if (p.UpdatePost(p) && seo.InsertSEO(seo) > 0)
                 Response.Redirect(Request.Url.ToString());

@@ -43,6 +43,8 @@ public class Model_Post : BaseModel<Model_Post>
     }
 
     public string UserFirstName { get; set; }
+
+
     private Model_PostSeo _postSEO = null;
     public Model_PostSeo PostSEO
     {
@@ -57,6 +59,22 @@ public class Model_Post : BaseModel<Model_Post>
             return _postSEO;
         }
     }
+
+    private List<Model_PostMedia> _postmedia = null;
+    public List<Model_PostMedia> PostMedia
+    {
+        get
+        {
+            if (_postmedia == null)
+            {
+                Model_PostMedia ps = new Model_PostMedia();
+                _postmedia = ps.getPostMediaByPostID(this.PostID);
+            }
+
+            return _postmedia;
+        }
+    }
+
 
     public Model_Post()
     {

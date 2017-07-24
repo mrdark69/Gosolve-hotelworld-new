@@ -34,9 +34,7 @@
        .app-sec-lev li{
            margin-bottom:0px !important;
        }
-       input[type=checkbox],input[type=radio]{
-margin-right:5px;
-}
+       
    </style>
  </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -68,61 +66,11 @@ margin-right:5px;
               </asp:RadioButtonList>
             </div>
         </div>
-        <%--
-        <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="UserName" CssClass="col-md-2 control-label">User name</asp:Label>
-            <div class="col-md-10">
-                <asp:TextBox runat="server" ID="UserName" CssClass="form-control" />
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="UserName"
-                    CssClass="text-danger" ErrorMessage="The user name field is required." />
-            </div>
-        </div>--%>
-      <%--  <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="Email" CssClass="col-md-2 control-label">Email</asp:Label>
-            <div class="col-md-10">
-                <asp:TextBox runat="server" ID="Email" CssClass="form-control" />
-                <asp:RegularExpressionValidator  runat="server" CssClass="text-danger" ErrorMessage="The Email invalid format." ControlToValidate="Email" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="Email"
-                    CssClass="text-danger" ErrorMessage="The Email field is required." />
-            </div>
-        </div>--%>
-
-       <%-- <asp:Panel runat="server" ID="resetPassword" Visible="false">
-        <div class="form-group" >
-            <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-2 control-label">Password</asp:Label>
-            <div class="col-md-10">
-                <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="Password" ID="pcheck"
-                    CssClass="text-danger" ErrorMessage="The password field is required." />
-            </div>
-        </div>
-        <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="ConfirmPassword" CssClass="col-md-2 control-label">Confirm password</asp:Label>
-            <div class="col-md-10">
-                <asp:TextBox runat="server" ID="ConfirmPassword" TextMode="Password" CssClass="form-control" />
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="ConfirmPassword"  ID="pcheck2"
-                    CssClass="text-danger" Display="Dynamic" ErrorMessage="The confirm password field is required." />
-                <asp:CompareValidator runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword" ID="pcheckcompare"
-                    CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match." />
-            </div>
-        </div>
-
-       </asp:Panel>
-
-        <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-2 control-label">User Role</asp:Label>
-            <div class="col-md-10">
-                <asp:DropDownList ID="dropRole" runat="server" CssClass="form-control">
-                    
-                </asp:DropDownList>
-               
-            </div>
-        </div>--%>
+        
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 
-                 <%--<asp:Button runat="server" ID="btnReset" CausesValidation="False" OnClick="btnReset_Click" Text="Reset Password" CssClass="btn btn-w-m btn-warning" />--%>
                 <asp:Button runat="server" ID="btnSave"  OnClick="btnSave_Click" Text="Save" CssClass="btn btn-w-m btn-primary" />
             </div>
         </div>

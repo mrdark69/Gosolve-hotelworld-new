@@ -32,7 +32,8 @@
    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-   <div class="wrapper wrapper-content animated fadeInRight">
+    <%--fadeInRight--%>
+   <div class="wrapper wrapper-content animated ">
       <div class="row">
          <div class="col-md-9" style="margin-left:0px; margin-right:0px;padding-left:0px;padding-right:0px;">
             <div class="tabs-container">
@@ -240,6 +241,7 @@
                   </div>
                </div>
             </div>
+
             <div class="ibox float-e-margins">
                <div class="ibox-title">
                   <h5>Pages Cover</h5>
@@ -247,6 +249,17 @@
                   </div>
                </div>
                <div class="ibox-content">
+
+                   <div class="form-group">
+                    <label class=" control-label">Cover Image</label>
+                    <div class="media_item_box" id="media_item_box_5">
+                        <label>No Media selected</label>
+                        <button id="addimg5" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                        <asp:HiddenField ID="CoverImage1"   runat="server" ClientIDMode="Static" />
+                      <asp:HiddenField ID="hd_MID"   runat="server" ClientIDMode="Static" />
+                        <%--<asp:HiddenField ID="hd_postMeidaID"   runat="server" ClientIDMode="Static" />--%>
+                    </div>
+                    </div>
                   <div class="form-group">
                      <label class=" control-label">Cover Type</label>
                      <div >
@@ -272,6 +285,9 @@
                   </div>
                </div>
             </div>
+
+
+
          </div>
       </div>
    </div>

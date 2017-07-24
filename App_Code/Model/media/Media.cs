@@ -58,9 +58,16 @@ public class MediaModel: BaseModel<MediaModel>
        
     }
 
-    
 
-    
+    public string MediaFullPath {
+        get
+        {
+            return this.Path + this.FileName;
+        }
+    }
+
+
+
 
 
 
