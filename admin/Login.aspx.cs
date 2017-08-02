@@ -9,15 +9,13 @@ public partial class Account_Login : Page
 {
     
     protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!this.IsPostBack)
         {
-            //RegisterHyperLink.NavigateUrl = "Register";
-            //OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
-            //var returnUrl = HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
-            //if (!String.IsNullOrEmpty(returnUrl))
-            //{
-            //    RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
-            //}
+            Model_Users u = UserSessionController.AdminAppAuthLogin(this);
         }
+       
+    }
 
         protected void LogIn(object sender, EventArgs e)
         {

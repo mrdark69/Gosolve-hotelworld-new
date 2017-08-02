@@ -218,6 +218,43 @@ public class UserSessionController
         HttpContext.Current.Response.End();
     }
 
+    public static Model_Users AdminAppAuthLogin(Page p)
+    {
+        Model_Users u = null;
+
+
+
+        if (HttpContext.Current.Request.Cookies["SessionKey"] != null)
+        {
+            HttpCookie objCookie = new HttpCookie("SessionKey");
+            //objCookie.Domain = "www.hotels2thailand.com";
+            objCookie.Expires = DateTime.Now.AddDays(-1d);
+            HttpContext.Current.Response.Cookies.Add(objCookie);
+
+
+            Model_Session ms = new Model_Session();
+            int intLogKey = int.Parse(HttpContext.Current.Request.Cookies["SessionKey"]["LogKey"]);
+            ms = ms.IsHaveSessionRecord(intLogKey);
+            if (ms != null)
+            {
+                u = UsersController.GetUserbyID(ms.UserID);
+                if (u != null && !ms.LeaveTime.HasValue)
+                {
+                    HttpContext.Current.Response.Redirect("~/admin/");
+                }
+
+            }
+        }
+
+
+
+        return u;
+
+
+
+
+
+    }
     private static bool IsAuthorizePage(Model_Users u, string AuthorizeBaseUrl)
     {
 

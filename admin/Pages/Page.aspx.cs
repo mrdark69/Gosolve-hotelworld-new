@@ -21,7 +21,11 @@ public partial class _Page : BasePage
                 p = p.GetPostByID(PostID);
                 if (p != null)
                 {
-                    lblstatus.Text = (p.Status ? "Published" : "Draft");
+
+                    string btnEdit = "<select name=\"content_status\" class=\"form-control\"><option "+ (p.Status ? "Selected=\"Selected\"" : "") + " value=\"True\" >Publish</option><option "+ (!p.Status ? "Selected=\"Selected\"" : "") + " value=\"False\">Draft</option></select>";
+                    lblstatus.Text =  btnEdit;
+                    //"<label>" + (p.Status ? "Published" : "Draft") + "</label>" +
+
                     lbldatepublish.Text = p.DatePublish.ToThaiDateTime().ToString("dd MMM yyyy HH:mm tt");
 
                     txtTitle.Text = p.Title;
@@ -92,7 +96,7 @@ public partial class _Page : BasePage
                 DateSubmit = DatetimeHelper._UTCNow(),
                 UserID = this.UserActive.UserID,
                 DatePublish = DatetimeHelper._UTCNow(),
-                Status = true,
+                Status = bool.Parse(Request.Form["content_status"]),
                 ShowComment = false,
                 BodyContent = txtContent.Text.Trim(),
                 BannerTypeID = byte.Parse(CoverType.Value),
@@ -117,16 +121,19 @@ public partial class _Page : BasePage
             };
             seo.InsertSEO(seo);
 
-
-            Model_PostMedia pm = new Model_PostMedia
+            if (!string.IsNullOrEmpty(hd_MID.Value))
             {
-                
-                PostMediaTypeID  = PostMediaType.CoverImage,
-                PostID = intPostID,
-                MID = int.Parse(hd_MID.Value)
-            };
+                Model_PostMedia pm = new Model_PostMedia
+                {
 
-            pm.insertMediaPost(pm);
+                    PostMediaTypeID = PostMediaType.CoverImage,
+                    PostID = intPostID,
+                    MID = int.Parse(hd_MID.Value)
+                };
+
+                pm.insertMediaPost(pm);
+            }
+           
 
             if (p.UpdatePost(p) && seo.InsertSEO(seo) > 0)
                 Response.Redirect(Request.Url.ToString());

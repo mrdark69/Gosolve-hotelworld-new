@@ -32,7 +32,7 @@
                                     </div>--%>
                                 </div>
                                 <div class="col-sm-3" style="text-align:right">
-                                    <a href="Register"  class="btn btn-w-m btn-success">Add New Staff</a>
+                                    <a href="PageNew"  class="btn btn-w-m btn-success">Add New Page</a>
                                    <%-- <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>--%>
                                 </div>
