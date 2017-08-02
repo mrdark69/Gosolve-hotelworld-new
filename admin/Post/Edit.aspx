@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="EditPage.aspx.cs" Inherits="_EditPage" %>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Edit.aspx.cs" Inherits="_Edit" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -88,10 +88,12 @@
 
         function getList(v) {
 
-            var url = "<%= ResolveUrl("/admin/Pages/ajax_webmethod_page.aspx/GetAll") %>";
+            var url = "<%= ResolveUrl("/admin/Post/ajax_webmethod_post.aspx/GetAll") %>";
 
-            if(!v){ v = 0}
-            var data = { };
+            if (!v) { v = 0 }
+
+            var Pt = getParameterByName('PostTypeID');
+            var data = { PostTypeID: Pt };
             var param = JSON.stringify({ parameters: data });
 
             AjaxPost(url, param, function () {
@@ -116,7 +118,7 @@
                 ret += '   <td>' + data[i].UserFirstName +'</td>';
                 ret += '   <td>' + data[i].DatePublishFormat +'</td>';
                 ret += '   <td><span class="label label-primary">' + data[i].ViewCount +'</span></td>';
-                ret += '   <td><a href="Page?PostID=' + data[i].PostID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
+                ret += '   <td><a href="Post?PostID=' + data[i].PostID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
                 ret += '   </tr >';
             }
 

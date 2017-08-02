@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ajax_webmethod_page.aspx.cs" Inherits="admin_Staff_ajax_webmethod_page" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ajax_webmethod_post.aspx.cs" Inherits="admin_Staff_ajax_webmethod_post" %>
 
 <!DOCTYPE html>
 

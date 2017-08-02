@@ -57,7 +57,7 @@ namespace gs_newsletter
                       "~/Scripts/theme/plugins/clockpicker/clockpicker.js",
                     //"~/Scripts/theme/plugins/blueimp/jquery.blueimp-gallery.min.js",
                     "~/Scripts/theme/plugins/dropzone/dropzone.js",
-                    "~/Scripts/app.tool.js",
+                    "~/Scripts/gs.app.tools.js",
                      "~/Scripts/theme/main.js"
                    ));
 
@@ -73,7 +73,7 @@ namespace gs_newsletter
                     DebugPath = "~/Scripts/respond.js",
                 });
 
-           // BundleTable.EnableOptimizations = true;
+            //BundleTable.EnableOptimizations = true;
         }
     }
 }
