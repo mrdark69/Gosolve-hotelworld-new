@@ -33,6 +33,18 @@ public class Model_PostSEOMap : BaseModel<Model_PostSEOMap>
                 return null;
         }
     }
+
+    public int InsertMApSeo(Model_PostSEOMap seomap)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO PostSEOMap (PostID,PSID) VALUES(@PostID,@PSID)", cn);
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = seomap.PostID;
+            cmd.Parameters.Add("@PSID", SqlDbType.Int).Value = seomap.PSID;
+            cn.Open();
+            return ExecuteNonQuery(cmd);
+        }
+    }
 }
 
 public class Model_Post : BaseModel<Model_Post>

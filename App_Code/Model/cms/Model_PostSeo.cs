@@ -64,9 +64,9 @@ public class Model_PostSeo : BaseModel<Model_PostSeo>
         int ret = 0;
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmdinsert = new SqlCommand(@"INSERT INTO PostSEO (PostID,SEOTitle,MetaDescription,CanonicalUrl,Metarobotsfollow,FaceBookTitle,
+            SqlCommand cmdinsert = new SqlCommand(@"INSERT INTO PostSEO (SEOTitle,MetaDescription,CanonicalUrl,Metarobotsfollow,FaceBookTitle,
 FacebookDescription,FacebookImage,TwitterTitle,TwitterDescription,TwitterImages,GoogleAnalytic
-) VALUES(@PostID,@SEOTitle,@MetaDescription,@CanonicalUrl,@Metarobotsfollow,@FaceBookTitle,
+) VALUES(@SEOTitle,@MetaDescription,@CanonicalUrl,@Metarobotsfollow,@FaceBookTitle,
 @FacebookDescription,@FacebookImage,@TwitterTitle,@TwitterDescription,@TwitterImages,@GoogleAnalytic);SET @PSID=SCOPE_IDENTITY(); ", cn);
 
 
@@ -84,7 +84,7 @@ FacebookDescription,FacebookImage,TwitterTitle,TwitterDescription,TwitterImages,
 
 
             cmdinsert.Parameters.Add("@PSID", SqlDbType.Int).Direction = ParameterDirection.Output;
-
+            cn.Open();
             if (ExecuteNonQuery(cmdinsert) > 0)
             {
                 ret = (int)cmdinsert.Parameters["@PSID"].Value;

@@ -43,6 +43,7 @@ public partial class _Post : BasePage
                     if(p.PostSEO != null)
                     {
                         Model_PostSeo seo = p.PostSEO;
+
                         seotitle.Text = seo.SEOTitle;
                         metades.Text = seo.MetaDescription;
                         Canonical.Text = seo.CanonicalUrl;
@@ -106,9 +107,11 @@ public partial class _Post : BasePage
             };
 
 
+            Model_PostSEOMap seomap = new Model_PostSEOMap();
+            seomap = seomap.GetSEOID(intPostID);
+
             Model_PostSeo seo = new Model_PostSeo {
 
-                PSID =  (p.PostSEOMap != null? p.PostSEOMap.PSID: 0 ),
                 SEOTitle = seotitle.Text.Trim(),
                 MetaDescription = metades.Text.Trim(),
                 CanonicalUrl = Canonical.Text.Trim(),
@@ -121,6 +124,27 @@ public partial class _Post : BasePage
                 TwitterImages = twimg.Value,
                 GoogleAnalytic = analytic.Text.Trim(),
             };
+
+            if(seomap != null)
+            {
+                seo.PSID = seomap.PSID;
+                seo.UpdateSEO(seo);
+            }
+            else
+            {
+                int PSID = seo.InsertSEO_step1(seo);
+                if (PSID > 0)
+                {
+                    seomap = new Model_PostSEOMap
+                    {
+                        PostID = intPostID,
+                        PSID = PSID
+                    };
+                   
+                    seomap.InsertMApSeo(seomap);
+                }
+                    
+            }
             
             if (!string.IsNullOrEmpty(hd_MID.Value))
             {
@@ -137,7 +161,7 @@ public partial class _Post : BasePage
            
             
 
-            if (p.UpdatePost(p) && seo.InsertSEO(seo) > 0)
+            if (p.UpdatePost(p))
                 Response.Redirect(Request.Url.ToString());
         }
        

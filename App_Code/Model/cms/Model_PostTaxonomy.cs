@@ -30,6 +30,18 @@ public class Model_TaxSEOMap : BaseModel<Model_TaxSEOMap>
                 return null;
         }
     }
+
+    public int InsertMApSeo(Model_TaxSEOMap seomap)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO TaxonomySEOMap (TaxID,PSID) VALUES(@TaxID,@PSID)", cn);
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = seomap.TaxID;
+            cmd.Parameters.Add("@PSID", SqlDbType.Int).Value = seomap.PSID;
+            cn.Open();
+            return ExecuteNonQuery(cmd);
+        }
+    }
 }
 
 /// <summary>
