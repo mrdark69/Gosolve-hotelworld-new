@@ -33,7 +33,9 @@
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="wrapper wrapper-content animated ">
+         
       <div class="row">
+
          <div class="col-md-9" style="margin-left:0px; margin-right:0px;padding-left:0px;padding-right:0px;">
             <div class="tabs-container">
                <ul class="nav nav-tabs">

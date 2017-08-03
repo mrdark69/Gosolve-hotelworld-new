@@ -35,6 +35,7 @@ public partial class _Post : BasePage
 
                     url.Text = setting.WebSiteURL;
                     slug.Text = p.Slug;
+                    viewcount.Text = p.ViewCount.ToString();
 
 
                     CoverType.Value = p.BannerTypeID.ToString();

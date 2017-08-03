@@ -43,7 +43,7 @@
                                     <thead>
                                     <tr>
 
-                                        <th></th>
+                                        <%--<th></th>--%>
                                         <th>Title </th>
                                         <th>Author </th>
                                         <th>Date Published</th>
@@ -110,21 +110,65 @@
         }
 
 
-        function GenlistAll(data) {
+        function GenlistAll(raw_data) {
             var ret = "";
+
+            var data = $.grep(raw_data, function (e) { return e.RefID == 0; }); 
             for (var i in data) {
               
                 ret += '<tr>';
-                ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
-                ret += '   <td>' + data[i].Title+'</td>';
+                //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
+                ret += '   <td><strong><i class="fa fa-star"></i>' + data[i].Title+'</strong></td>';
                 ret += '   <td>' + data[i].UserFirstName +'</td>';
                 ret += '   <td>' + data[i].DatePublishFormat +'</td>';
                 ret += '   <td><span class="label label-primary">' + data[i].ViewCount +'</span></td>';
                 ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=3&TaxTypeID=1&TaxID=' + data[i].TaxID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
                 ret += '   </tr >';
+
+                var lv1 = $.grep(raw_data, function (e) { return e.RefID == data[i].TaxID; }); 
+                var v = 1;
+                if (lv1.length > 0) {
+                    ret += child(v,raw_data,lv1, data[i].TaxID);
+                }
+                
+
             }
 
             return ret;
+        }
+
+        function child(v,RawData,data, key) {
+            var ret = "";
+            if (data.length > 0) {
+                v = v + 1;
+                for (var i in data) {
+
+                    ret += '<tr>';
+                    //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
+                    ret += '   <td>' + level(v) + data[i].Title + '</td>';
+                    ret += '   <td>' + data[i].UserFirstName + '</td>';
+                    ret += '   <td>' + data[i].DatePublishFormat + '</td>';
+                    ret += '   <td><span class="label label-primary">' + data[i].ViewCount + '</span></td>';
+                    ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=3&TaxTypeID=1&TaxID=' + data[i].TaxID + '"><i class="fa fa-pencil"></i> Edit </a></td>';
+                    ret += '   </tr >';
+                    var lv1 = $.grep(RawData, function (e) { return e.RefID == data[i].TaxID; }); 
+                    ret += child(v,RawData,lv1, data[i].TaxID);
+                }
+            }
+            return ret;
+        }
+
+
+        function level(v) {
+            var ret = "";
+            var sp = "";
+            if (v > 0) {
+                for (var i = 1; i < v;i++ ) {
+                    ret += '<i class="fa fa-long-arrow-right"></i>&nbsp;';
+                    sp += "&nbsp;&nbsp;";
+                }
+            }
+            return sp+ret;
         }
 
     </script>

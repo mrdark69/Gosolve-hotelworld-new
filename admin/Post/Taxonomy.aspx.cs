@@ -14,6 +14,15 @@ public partial class _Taxonomy : BasePage
     {
         if (!this.Page.IsPostBack)
         {
+
+            Model_PostTaxonomy pt = new Model_PostTaxonomy
+            {
+                PostTypeID = byte.Parse(this.PostTypeID),
+                TaxTypeID = byte.Parse(this.TaxTypeID)
+            };
+
+            List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyByIDMain(pt);
+            ListItem listitem = new ListItem("No Parent", "0");
             if (!string.IsNullOrEmpty(this.Mode))
             {
                 switch (this.Mode)
@@ -37,16 +46,32 @@ public partial class _Taxonomy : BasePage
                         lbldatepublish.Text = "----";
                         dropStatus.SelectedValue = "True";
                         viewcount.Text = "0";
+
+
+                        dropParent.DataSource = Taxlist;
+                        dropParent.DataValueField = "TaxID";
+                        dropParent.DataTextField = "Title";
+                        dropParent.DataBind();
+
+
+                       
+                        dropParent.Items.Insert(0, listitem);
                         break;
                     case "Edit":
+
+                        HyperLink addTax = this.Page.Master.FindControl("AdnewBtn") as HyperLink;
+                        addTax.Visible = true;
+                        addTax.NavigateUrl = "/admin/Post/Taxonomy.aspx?TaxTypeID=" + this.TaxTypeID + "&PostTypeID=" + this.PostTypeID + "&Mode=Add";
+
+
                         Model_PostTaxonomy tax = new Model_PostTaxonomy();
                         int TaxID = int.Parse(Request.QueryString["TaxID"]);
                         tax = tax.GetTaxonomyByID(int.Parse(Request.QueryString["TaxID"]));
                         slug.Text = tax.Slug.Trim();
                         slug_form.Visible = true;
-
+                        viewcount.Text = tax.ViewCount.ToString();
                         txtTitle.Text = tax.Title.Trim();
-
+                        lbldatepublish.Text = tax.DatePublish.ToThaiDateTime().ToString("dd MMM yyyy HH:mm tt");
 
                         if (tax.TaxSEO != null)
                         {
@@ -78,25 +103,22 @@ public partial class _Taxonomy : BasePage
 
                         CoverType.Value = tax.BannerTypeID.ToString();
                         radioshowmMS.SelectedValue = tax.ShowMasterSlider.ToString();
+                        
+                        dropParent.DataSource = Taxlist.Where(r => r.TaxID != TaxID);
+                        dropParent.DataValueField = "TaxID";
+                        dropParent.DataTextField = "Title";
+                        dropParent.DataBind();
 
 
+                      
+                        dropParent.Items.Insert(0, listitem);
+
+                        dropParent.SelectedValue = tax.RefID.ToString();
                         break;
                 }
 
-                Model_PostTaxonomy pt = new Model_PostTaxonomy
-                {
-                    PostTypeID = byte.Parse(this.PostTypeID),
-                    TaxTypeID = byte.Parse(this.TaxTypeID)
-                };
-
-                dropParent.DataSource = pt.GetTaxonomyByIDMain(pt);
-                dropParent.DataValueField = "TaxID";
-                dropParent.DataTextField = "Title";
-                dropParent.DataBind();
-
-
-                ListItem listitem = new ListItem("No Parent", "0");
-                dropParent.Items.Insert(0, listitem);
+              
+               
 
             }
             
@@ -145,6 +167,60 @@ public partial class _Taxonomy : BasePage
             ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
          
         };
+        
+
+        Model_TaxSEOMap seomap = new Model_TaxSEOMap();
+        seomap = seomap.GetSEOID(TaxID);
+
+        Model_PostSeo seo = new Model_PostSeo
+        {
+
+            SEOTitle = seotitle.Text.Trim(),
+            MetaDescription = metades.Text.Trim(),
+            CanonicalUrl = Canonical.Text.Trim(),
+            Metarobotsfollow = bool.Parse(droprebot.SelectedValue),
+            FaceBookTitle = facebookTitle.Text.Trim(),
+            FacebookDescription = facebookDes.Text.Trim(),
+            FacebookImage = facebookImg.Value,
+            TwitterTitle = twTitle.Text.Trim(),
+            TwitterDescription = twDes.Text.Trim(),
+            TwitterImages = twimg.Value,
+            GoogleAnalytic = analytic.Text.Trim(),
+        };
+
+        if (seomap != null)
+        {
+            seo.PSID = seomap.PSID;
+            seo.UpdateSEO(seo);
+        }
+        else
+        {
+            int PSID = seo.InsertSEO_step1(seo);
+            if (PSID > 0)
+            {
+                seomap = new Model_TaxSEOMap
+                {
+                    TaxID = TaxID,
+                    PSID = PSID
+                };
+
+                seomap.InsertMApSeo(seomap);
+            }
+
+        }
+
+        if (!string.IsNullOrEmpty(hd_MID.Value))
+        {
+            Model_TaxMedia pm = new Model_TaxMedia
+            {
+
+                TaxMediaTypeID = TaxMediaType.CoverImage,
+                TaxID = TaxID,
+                MID = int.Parse(hd_MID.Value)
+            };
+
+            pm.insertMediaPost(pm);
+        }
 
         bool ret = tax.UpdateTaxonomy(tax);
         if (ret)

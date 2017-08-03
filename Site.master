@@ -168,6 +168,9 @@
                     <asp:SiteMapPath ID="SiteMapPath1" runat="server"  CssClass="sitemap" CurrentNodeStyle-CssClass="sitemapcurrent" CurrentNodeStyle-Font-Bold="true" PathSeparator=" &nbsp; / &nbsp;  "
                         PathSeparatorStyle-CssClass="separator">
                     </asp:SiteMapPath>
+
+
+                    <asp:HyperLink ID="AdnewBtn" runat="server" CssClass="btn btn-w-m btn-success" Text="Add New" Visible="false"></asp:HyperLink>
                     <%--<ol class="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
