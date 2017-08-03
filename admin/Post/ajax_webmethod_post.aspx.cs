@@ -29,4 +29,14 @@ public partial class admin_Staff_ajax_webmethod_post : System.Web.UI.Page
         AppTools.SendResponse(HttpContext.Current.Response, ret.ObjectToJSON());
     }
 
+    [WebMethod]
+    public static void GetTaxMain(Model_PostTaxonomy parameters)
+    {
+        //Model_Post p = new Model_Post { PostTypeID = 1 };
+        List<Model_PostTaxonomy> ret = parameters.GetTaxonomyByIDMain(parameters);
+
+
+        AppTools.SendResponse(HttpContext.Current.Response, ret.ObjectToJSON());
+    }
+
 }

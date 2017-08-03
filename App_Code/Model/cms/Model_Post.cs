@@ -13,6 +13,27 @@ using System.Web.Providers.Entities;
 /// Summary description for Model_SiteInfo
 /// </summary>
 /// 
+public class Model_PostSEOMap : BaseModel<Model_PostSEOMap>
+{
+    public int PostID { get; set; }
+    public int PSID { get; set; }
+
+
+    public Model_PostSEOMap GetSEOID(int PostID)
+    {
+        using(SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PostSEOMap WHERE PostID=@PostID", cn);
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+        }
+    }
+}
 
 public class Model_Post : BaseModel<Model_Post>
 {
@@ -44,6 +65,20 @@ public class Model_Post : BaseModel<Model_Post>
 
     public string UserFirstName { get; set; }
 
+
+    private Model_PostSEOMap _postSEOMap = null;
+    public Model_PostSEOMap PostSEOMap
+    {
+        get
+        {
+            if(_postSEOMap == null)
+            {
+                Model_PostSEOMap seo = new Model_PostSEOMap();
+                _postSEOMap = seo.GetSEOID(this.PostID);
+            }
+            return _postSEOMap;
+        }
+    }
 
     private Model_PostSeo _postSEO = null;
     public Model_PostSeo PostSEO
@@ -101,7 +136,7 @@ public class Model_Post : BaseModel<Model_Post>
             SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE PostID=@PostID", cn);
             cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
             cn.Open();
-            IDataReader reader = ExecuteReader(cmd);
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
             if (reader.Read())
                 return MappingObjectFromDataReaderByName(reader);
             else

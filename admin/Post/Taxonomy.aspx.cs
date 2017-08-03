@@ -5,25 +5,25 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class _Post : BasePage
+public partial class _Taxonomy : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!this.Page.IsPostBack)
         {
-           
+
 
             if (!string.IsNullOrEmpty(Request.QueryString["PostID"]))
             {
                 int PostID = int.Parse(Request.QueryString["PostID"]);
                 Model_Post p = new Model_Post();
-               
+
                 p = p.GetPostByID(PostID);
                 if (p != null)
                 {
 
-                    string btnEdit = "<select name=\"content_status\" class=\"form-control\"><option "+ (p.Status ? "Selected=\"Selected\"" : "") + " value=\"True\" >Publish</option><option "+ (!p.Status ? "Selected=\"Selected\"" : "") + " value=\"False\">Draft</option></select>";
-                    lblstatus.Text =  btnEdit;
+                    string btnEdit = "<select name=\"content_status\" class=\"form-control\"><option " + (p.Status ? "Selected=\"Selected\"" : "") + " value=\"True\" >Publish</option><option " + (!p.Status ? "Selected=\"Selected\"" : "") + " value=\"False\">Draft</option></select>";
+                    lblstatus.Text = btnEdit;
                     //"<label>" + (p.Status ? "Published" : "Draft") + "</label>" +
 
                     lbldatepublish.Text = p.DatePublish.ToThaiDateTime().ToString("dd MMM yyyy HH:mm tt");
@@ -40,7 +40,7 @@ public partial class _Post : BasePage
                     CoverType.Value = p.BannerTypeID.ToString();
                     radioshowmMS.SelectedValue = p.ShowMasterSlider.ToString();
 
-                    if(p.PostSEO != null)
+                    if (p.PostSEO != null)
                     {
                         Model_PostSeo seo = p.PostSEO;
                         seotitle.Text = seo.SEOTitle;
@@ -69,7 +69,7 @@ public partial class _Post : BasePage
 
                 }
 
-               
+
 
             }
 
@@ -81,7 +81,7 @@ public partial class _Post : BasePage
 
     protected void btnPubish_Click(object sender, EventArgs e)
     {
-        
+
 
         if (!string.IsNullOrEmpty(Request.QueryString["PostID"]))
         {
@@ -105,9 +105,10 @@ public partial class _Post : BasePage
             };
 
 
-            Model_PostSeo seo = new Model_PostSeo {
+            Model_PostSeo seo = new Model_PostSeo
+            {
 
-                PSID =  (p.PostSEOMap != null? p.PostSEOMap.PSID: 0 ),
+                PSID = (p.PostSEOMap != null ? p.PostSEOMap.PSID : 0),
                 SEOTitle = seotitle.Text.Trim(),
                 MetaDescription = metades.Text.Trim(),
                 CanonicalUrl = Canonical.Text.Trim(),
@@ -120,7 +121,7 @@ public partial class _Post : BasePage
                 TwitterImages = twimg.Value,
                 GoogleAnalytic = analytic.Text.Trim(),
             };
-            
+
             if (!string.IsNullOrEmpty(hd_MID.Value))
             {
                 Model_PostMedia pm = new Model_PostMedia
@@ -133,13 +134,15 @@ public partial class _Post : BasePage
 
                 pm.insertMediaPost(pm);
             }
-           
-            
+
+
 
             if (p.UpdatePost(p) && seo.InsertSEO(seo) > 0)
                 Response.Redirect(Request.Url.ToString());
         }
-       
+
 
     }
+
+
 }

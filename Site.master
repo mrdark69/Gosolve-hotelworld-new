@@ -85,8 +85,8 @@
                      <ul class="nav nav-second-level">
                            <li <%=MenuActive("Edit")%>><a href="<%= Page.ResolveClientUrl("~/admin/Post/Edit?PostTypeID=3") %>">All Product</a></li>
                           <li <%=MenuActive("PostNew")%>><a href="<%= Page.ResolveClientUrl("~/admin/Post/Post-new?PostTypeID=3") %>">Add New</a></li>
-                        <li <%=MenuActive("Category")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Post/Category?PostTypeID=3") %>">Category</a></li>
-                         <li <%=MenuActive("Tag")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Post/Tag?PostTypeID=3") %>">Tag</a></li>
+                        <li <%=MenuActive("Category")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Post/TaxonomyEdit?PostTypeID=3&TaxTypeID=1") %>">Category</a></li>
+                         <li <%=MenuActive("Tag")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Post/TaxonomyEdit?PostTypeID=3&TaxTypeID=2") %>">Tag</a></li>
                      
                     </ul>
                 </li>
@@ -95,8 +95,8 @@
                     <ul class="nav nav-second-level">
                            <li <%=MenuActive("Edit")%>><a href="<%= Page.ResolveClientUrl("~/admin/Post/Edit?PostTypeID=2") %>">All Blog</a></li>
                           <li <%=MenuActive("PostNew")%>><a href="<%= Page.ResolveClientUrl("~/admin/Post/Post-new?PostTypeID=2") %>">Add New</a></li>
-                        <li <%=MenuActive("Category")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Post/Category?PostTypeID=2") %>">Category</a></li>
-                         <li <%=MenuActive("Tag")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Post/Tag?PostTypeID=2") %>">Tag</a></li>
+                        <li <%=MenuActive("Category")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Post/TaxonomyEdit?PostTypeID=2&TaxTypeID=1") %>">Category</a></li>
+                         <li <%=MenuActive("Tag")%> ><a href="<%= Page.ResolveClientUrl("~/admin/Post/TaxonomyEdit?PostTypeID=2&TaxTypeID=2") %>">Tag</a></li>
                      
                     </ul>
                 </li>

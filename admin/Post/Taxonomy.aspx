@@ -1,39 +1,7 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" validateRequest="false" AutoEventWireup="true" CodeFile="Post.aspx.cs" Inherits="_Post" %>
-<asp:Content ID="HeaderScript" ContentPlaceHolderID="HeaderScript" runat="server">
-   <style type="text/css">
-      .modal-dialog {
-      width: 97%;
-      height: 97%;
-      margin: 0 auto;
-      padding: 0;
-      }
-      .modal-content {
-      height: auto;
-      min-height: 100%;
-      border-radius: 0;
-      }
-      .box_media_fucus_block{
-      position:relative;
-      display:block;
-      width:120px;
-      height:120px;
-      background-position:center;
-      background-repeat:no-repeat;
-      background-size:cover;
-      }
-      .btn-media-focus{
-      position:absolute;
-      right:-10px;
-      top:-10px;
-      }
-      .media_item_box label{
-      font-weight:normal;
-      }
-   </style>
-</asp:Content>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Taxonomy.aspx.cs" Inherits="_Taxonomy" %>
+
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <%--fadeInRight--%>
-   <div class="wrapper wrapper-content animated ">
+    <div class="wrapper wrapper-content animated ">
       <div class="row">
          <div class="col-md-9" style="margin-left:0px; margin-right:0px;padding-left:0px;padding-right:0px;">
             <div class="tabs-container">
