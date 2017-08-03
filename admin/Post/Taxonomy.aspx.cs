@@ -40,14 +40,17 @@ public partial class _Taxonomy : BasePage
                         break;
                     case "Edit":
                         Model_PostTaxonomy tax = new Model_PostTaxonomy();
+                        int TaxID = int.Parse(Request.QueryString["TaxID"]);
                         tax = tax.GetTaxonomyByID(int.Parse(Request.QueryString["TaxID"]));
-                        slug.Text = tax.Slug;
+                        slug.Text = tax.Slug.Trim();
                         slug_form.Visible = true;
 
+                        txtTitle.Text = tax.Title.Trim();
 
-                        if (tax.PostSEO != null)
+
+                        if (tax.TaxSEO != null)
                         {
-                            Model_PostSeo seo = p.PostSEO;
+                            Model_PostSeo seo = tax.TaxSEO;
                             seotitle.Text = seo.SEOTitle;
                             metades.Text = seo.MetaDescription;
                             Canonical.Text = seo.CanonicalUrl;
@@ -61,7 +64,17 @@ public partial class _Taxonomy : BasePage
                             analytic.Text = seo.GoogleAnalytic;
                         }
 
-                        
+                        if (tax.TaxMedia.Count > 0)
+                        {
+                            Model_TaxMedia cover = tax.TaxMedia.FirstOrDefault(r => r.TaxID == TaxID && r.TaxMediaTypeID == TaxMediaType.CoverImage);
+                            if (cover != null)
+                            {
+                                hd_MID.Value = cover.MID.ToString();
+                                CoverImage1.Value = this.MainSetting.WebSiteURL + cover.MediaFullPath;
+                                //hd_postMeidaID.Value = cover.PostMediaID.ToString();
+                            }
+                        }
+
 
                         CoverType.Value = tax.BannerTypeID.ToString();
                         radioshowmMS.SelectedValue = tax.ShowMasterSlider.ToString();
@@ -125,7 +138,7 @@ public partial class _Taxonomy : BasePage
          
             Title = txtTitle.Text.Trim(),
             RefID = int.Parse(dropParent.SelectedValue),
-            Slug = txtTitle.Text.GenerateSlug(),
+            Slug = slug.Text.GenerateSlug(),
           
             Status = true,
             BannerTypeID = byte.Parse(CoverType.Value),

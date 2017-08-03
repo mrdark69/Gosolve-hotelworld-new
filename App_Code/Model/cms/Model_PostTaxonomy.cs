@@ -95,33 +95,33 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
         }
     }
 
-    private Model_PostSeo _postSEO = null;
-    public Model_PostSeo PostSEO
+    private Model_PostSeo _taxSEO = null;
+    public Model_PostSeo TaxSEO
     {
         get
         {
-            if (_postSEO == null && this.TaxSEOMap != null )
+            if (_taxSEO == null && this.TaxSEOMap != null )
             {
                 Model_PostSeo ps = new Model_PostSeo();
-                _postSEO = ps.GetPostSeoByID(this.TaxSEOMap.PSID);
+                _taxSEO = ps.GetPostSeoByID(this.TaxSEOMap.PSID);
             }
 
-            return _postSEO;
+            return _taxSEO;
         }
     }
 
-    private List<Model_PostMedia> _postmedia = null;
-    public List<Model_PostMedia> PostMedia
+    private List<Model_TaxMedia> _taxmedia = null;
+    public List<Model_TaxMedia> TaxMedia
     {
         get
         {
-            if (_postmedia == null)
+            if (_taxmedia == null)
             {
-                Model_PostMedia ps = new Model_PostMedia();
-                _postmedia = ps.getPostMediaByPostID(this.PostID);
+                Model_TaxMedia ps = new Model_TaxMedia();
+                _taxmedia = ps.getPostMediaByPostID(this.TaxID);
             }
 
-            return _postmedia;
+            return _taxmedia;
         }
     }
 
@@ -137,7 +137,7 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"UPDATE Post SET  Slug=@Slug,Title=@Title,RefID=@RefID,Status=@Status,
+            SqlCommand cmd = new SqlCommand(@"UPDATE PostTaxonomy SET  Slug=@Slug,Title=@Title,RefID=@RefID,Status=@Status,
                         BannerTypeID=@BannerTypeID,ShowMasterSlider=@ShowMasterSlider,ViewCount=@ViewCount
                 WHERE TaxID=@TaxID", cn);
 

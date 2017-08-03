@@ -24,7 +24,7 @@ public class Model_TaxMedia : BaseModel<Model_TaxMedia>
 {
     public int TaxMediaID { get; set; }
 
-    public PostMediaType TaxMediaTypeID { get; set; }
+    public TaxMediaType TaxMediaTypeID { get; set; }
     public int TaxID { get; set; }
     public int MID { get; set; }
 
