@@ -22,7 +22,10 @@ public partial class _Taxonomy : BasePage
             };
 
             List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyByIDMain(pt);
-            ListItem listitem = new ListItem("No Parent", "0");
+
+           
+
+            ListItem listitem = new ListItem("None", "0");
             if (!string.IsNullOrEmpty(this.Mode))
             {
                 switch (this.Mode)
@@ -110,7 +113,7 @@ public partial class _Taxonomy : BasePage
                         dropParent.DataBind();
 
 
-                      
+                        
                         dropParent.Items.Insert(0, listitem);
 
                         dropParent.SelectedValue = tax.RefID.ToString();
@@ -126,7 +129,7 @@ public partial class _Taxonomy : BasePage
         }
     }
 
-
+   
 
     protected void btnPubish_Click(object sender, EventArgs e)
     {
@@ -154,12 +157,25 @@ public partial class _Taxonomy : BasePage
     public void Update()
     {
         int TaxID = int.Parse(Request.QueryString["TaxID"]);
+
+
+        int lv = 0;
+        int Taxref = int.Parse(dropParent.SelectedValue);
+        if (Taxref > 0)
+        {
+            Model_PostTaxonomy t = new Model_PostTaxonomy();
+            lv = t.GetTaxonomyByID(Taxref).Lv + 1;
+        }
+        else
+            lv = Taxref + 1;
+
+
         Model_PostTaxonomy tax = new Model_PostTaxonomy
         {
             TaxID = TaxID,
-         
+            Lv = lv,
             Title = txtTitle.Text.Trim(),
-            RefID = int.Parse(dropParent.SelectedValue),
+            RefID = Taxref,
             Slug = slug.Text.GenerateSlug(),
           
             Status = true,
@@ -229,12 +245,23 @@ public partial class _Taxonomy : BasePage
 
     public void InsertMode()
     {
+        int lv = 0;
+        int Taxref = int.Parse(dropParent.SelectedValue);
+        if (Taxref > 0)
+        {
+            Model_PostTaxonomy t = new Model_PostTaxonomy();
+            lv = t.GetTaxonomyByID(Taxref).Lv + 1;
+        }
+        else
+            lv = Taxref + 1;
+
         Model_PostTaxonomy tax = new Model_PostTaxonomy
         {
             PostTypeID = byte.Parse(this.PostTypeID),
             TaxTypeID = byte.Parse(this.TaxTypeID),
             Title = txtTitle.Text.Trim(),
-            RefID = int.Parse(dropParent.SelectedValue),
+            RefID = Taxref,
+            Lv = lv,
             Slug = txtTitle.Text.GenerateSlug(),
             DateSubmit = DatetimeHelper._UTCNow(),
             UserID = this.UserActive.UserID,
