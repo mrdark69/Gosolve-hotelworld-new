@@ -11,8 +11,35 @@ using System.Web.UI;
 
 public class BasePage : System.Web.UI.Page
 {
+
     public Model_Users UserActive { get; set; }
     public Model_MainSetting MainSetting { get; set; }
+
+
+
+    public string PostTypeID
+    {
+        get
+        {
+            return Request.QueryString["PostTypeID"];
+        }
+    }
+    public string TaxTypeID
+    {
+        get
+        {
+            return Request.QueryString["TaxTypeID"];
+        }
+    }
+
+    public string Mode
+    {
+        get
+        {
+            return Request.QueryString["Mode"];
+        }
+    }
+
     public BasePage()
     {
         //

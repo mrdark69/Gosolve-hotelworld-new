@@ -1,5 +1,36 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Taxonomy.aspx.cs" Inherits="_Taxonomy" %>
-
+<asp:Content ID="HeaderScript" ContentPlaceHolderID="HeaderScript" runat="server">
+   <style type="text/css">
+      .modal-dialog {
+      width: 97%;
+      height: 97%;
+      margin: 0 auto;
+      padding: 0;
+      }
+      .modal-content {
+      height: auto;
+      min-height: 100%;
+      border-radius: 0;
+      }
+      .box_media_fucus_block{
+      position:relative;
+      display:block;
+      width:120px;
+      height:120px;
+      background-position:center;
+      background-repeat:no-repeat;
+      background-size:cover;
+      }
+      .btn-media-focus{
+      position:absolute;
+      right:-10px;
+      top:-10px;
+      }
+      .media_item_box label{
+      font-weight:normal;
+      }
+   </style>
+</asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="wrapper wrapper-content animated ">
       <div class="row">
@@ -7,9 +38,9 @@
             <div class="tabs-container">
                <ul class="nav nav-tabs">
                   <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> Information</a></li>
-                  <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">SEO</a></li>
-                  <li class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">Facebook</a></li>
-                  <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">Twitter</a></li>
+                  <li id="tab_seo" runat="server" class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">SEO</a></li>
+                  <li id="tab_facebook" runat="server" class=""><a data-toggle="tab" href="#tab-3" aria-expanded="false">Facebook</a></li>
+                  <li id="tab_twitter" runat="server" class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">Twitter</a></li>
                </ul>
                <div class="tab-content">
                   <div id="tab-1" class="tab-pane active">
@@ -17,8 +48,8 @@
                         <div class="ibox float-e-margins">
                            <div class="ibox-content">
                               <div  class="form">
-                                 <div class="form-group">
-                                    <label class=" control-label">permarlink</label>
+                                 <div class="form-group" id="slug_form"  runat="server">
+                                    <label class=" control-label">Slug</label>
                                     <div >
                                        <asp:Label ID="url" style="display: inline-block;" runat="server"></asp:Label>
                                        <asp:TextBox ID="slug" style="display: inline-block;
@@ -36,15 +67,7 @@
                                     </div>
                                  </div>
                                  
-                                 <div class="hr-line-dashed"></div>
-                                 <div class="form-group">
-                                    <label class=" control-label">Content</label>
-                                    <div>
-                                       <%--<span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>--%>
-                                       <button id="btnaddmedia" type="button"  class="addmedia-wysiwyg btn btn-success" data-target="txtContent">Add Media</button>
-                                       <asp:TextBox ID="txtContent" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
-                                    </div>
-                                 </div>
+                                 
                               </div>
                            </div>
                         </div>
@@ -177,15 +200,18 @@
                </div>
                <div class="ibox-content">
                   <div class="form-horizontal">
-                     <div class="form-group" style="margin-bottom:0px;">
+                     <div class="form-group" style="margin-bottom:0px;" id="form_status" runat="server">
                         <label class="col-lg-6 control-label">Status: </label>
                         <div class="col-lg-6">
                            <p class="form-control-static">
-                              <asp:Literal ID="lblstatus" runat="server"></asp:Literal>
+                             <asp:DropDownList ID="dropStatus" runat="server" CssClass="form-control">
+                                 <asp:ListItem Text="Active" Value="True"></asp:ListItem>
+                                 <asp:ListItem Text="Inactive" Value="False"></asp:ListItem>
+                             </asp:DropDownList>
                            </p>
                         </div>
                      </div>
-                     <div class="form-group" style="margin-bottom:0px;">
+                     <div class="form-group" style="margin-bottom:0px;" id="form_publish" runat="server">
                         <label class="col-lg-6 control-label"> Published on:  </label>
                         <div class="col-lg-6">
                            <p class="form-control-static">
@@ -193,7 +219,7 @@
                            </p>
                         </div>
                      </div>
-                     <div class="form-group" style="margin-bottom:0px;">
+                     <div class="form-group" style="margin-bottom:0px;" id="form_viewcount" runat="server" >
                         <label class="col-lg-6 control-label">View Count: </label>
                         <div class="col-lg-6">
                            <p class="form-control-static">
@@ -218,7 +244,17 @@
                </div>
                <div class="ibox-content">
 
-                   <div class="form-group">
+                   
+                  <div class="form-group">
+                     <label class=" control-label">Parent Category</label>
+                     <div >
+                       <asp:DropDownList ID="dropParent" CssClass="form-control" runat="server">
+
+                       </asp:DropDownList>
+                     </div>
+                  </div>
+                  <div class="hr-line-dashed"></div>
+                    <div class="form-group" id="cover_img" runat="server">
                     <label class=" control-label">Cover Image</label>
                     <div class="media_item_box" id="media_item_box_5">
                         <label>No Media selected</label>
@@ -228,7 +264,7 @@
                         <%--<asp:HiddenField ID="hd_postMeidaID"   runat="server" ClientIDMode="Static" />--%>
                     </div>
                     </div>
-                  <div class="form-group">
+                  <div class="form-group" id="cover_type" runat="server">
                      <label class=" control-label">Cover Type</label>
                      <div >
                         <select class="form-control m-b" name="CoverType" id="CoverType" runat="server">
@@ -238,7 +274,7 @@
                      </div>
                   </div>
                   <div class="hr-line-dashed"></div>
-                  <div class="form-group">
+                  <div class="form-group" id="master_slider" runat="server">
                      <label class=" control-label">Master Slider <br>
                      <small class="text-navy">Override the cover</small></label>
                      <div class="">
@@ -251,6 +287,7 @@
                             <div><label> <input type="radio" value="option2" id="optionsRadios2" name="optionsRadios"> NO.</label></div>--%>
                      </div>
                   </div>
+                  
                </div>
             </div>
 
@@ -270,7 +307,7 @@
        $(document).ready(function () {
 
 
-           CKEDITOR.replace('txtContent');
+          // CKEDITOR.replace('txtContent');
 
 
 

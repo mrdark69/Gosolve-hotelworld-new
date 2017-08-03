@@ -42,12 +42,12 @@ public class Model_PostSeo : BaseModel<Model_PostSeo>
     }
 
 
-    public Model_PostSeo GetPostSeoByPostID(int PostID)
+    public Model_PostSeo GetPostSeoByID(int PostID)
     {
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT TOP 1 se.* FROM PostSEOMap sm INNER JOIN PostSEO se ON se.PSID=sm.PSID WHERE sm.PostID=@PostID", cn);
-            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
+            SqlCommand cmd = new SqlCommand("SELECT TOP 1 * FROM PostSEO sm  WHERE sm.PSID=@PSID", cn);
+            cmd.Parameters.Add("@PSID", SqlDbType.Int).Value = PostID;
             cn.Open();
 
             IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);

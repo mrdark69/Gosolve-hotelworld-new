@@ -7,72 +7,86 @@ using System.Web.UI.WebControls;
 
 public partial class _Taxonomy : BasePage
 {
+   
+
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!this.Page.IsPostBack)
         {
-
-
-            if (!string.IsNullOrEmpty(Request.QueryString["PostID"]))
+            if (!string.IsNullOrEmpty(this.Mode))
             {
-                int PostID = int.Parse(Request.QueryString["PostID"]);
-                Model_Post p = new Model_Post();
-
-                p = p.GetPostByID(PostID);
-                if (p != null)
+                switch (this.Mode)
                 {
+                    case "Add":
 
-                    string btnEdit = "<select name=\"content_status\" class=\"form-control\"><option " + (p.Status ? "Selected=\"Selected\"" : "") + " value=\"True\" >Publish</option><option " + (!p.Status ? "Selected=\"Selected\"" : "") + " value=\"False\">Draft</option></select>";
-                    lblstatus.Text = btnEdit;
-                    //"<label>" + (p.Status ? "Published" : "Draft") + "</label>" +
-
-                    lbldatepublish.Text = p.DatePublish.ToThaiDateTime().ToString("dd MMM yyyy HH:mm tt");
-
-                    txtTitle.Text = p.Title;
-                    txtContent.Text = p.BodyContent;
-                    Model_MainSetting setting = new Model_MainSetting();
-                    setting = setting.GetMainSetting();
-
-                    url.Text = setting.WebSiteURL;
-                    slug.Text = p.Slug;
+                        slug_form.Visible = false;
+                        btnPubish.Text = "Add New Now";
+                        tab_seo.Visible = false;
+                        tab_facebook.Visible = false;
+                        tab_twitter.Visible = false;
+                        //form_status.Visible = false;
+                        //form_publish.Visible = false;
+                        //form_viewcount.Visible = false;
+                        cover_img.Visible = false;
+                        //cover_type.Visible = false;
+                        //master_slider.Visible = false;
 
 
-                    CoverType.Value = p.BannerTypeID.ToString();
-                    radioshowmMS.SelectedValue = p.ShowMasterSlider.ToString();
 
-                    if (p.PostSEO != null)
-                    {
-                        Model_PostSeo seo = p.PostSEO;
-                        seotitle.Text = seo.SEOTitle;
-                        metades.Text = seo.MetaDescription;
-                        Canonical.Text = seo.CanonicalUrl;
-                        droprebot.SelectedValue = seo.Metarobotsfollow.ToString();
-                        facebookTitle.Text = seo.FaceBookTitle;
-                        facebookDes.Text = seo.FacebookDescription;
-                        facebookImg.Value = seo.FacebookImage;
-                        twTitle.Text = seo.TwitterTitle;
-                        twDes.Text = seo.TwitterDescription;
-                        twimg.Value = seo.TwitterImages;
-                        analytic.Text = seo.GoogleAnalytic;
-                    }
+                        lbldatepublish.Text = "----";
+                        dropStatus.SelectedValue = "True";
+                        viewcount.Text = "0";
+                        break;
+                    case "Edit":
+                        Model_PostTaxonomy tax = new Model_PostTaxonomy();
+                        tax = tax.GetTaxonomyByID(int.Parse(Request.QueryString["TaxID"]));
+                        slug.Text = tax.Slug;
+                        slug_form.Visible = true;
 
-                    if (p.PostMedia.Count > 0)
-                    {
-                        Model_PostMedia cover = p.PostMedia.FirstOrDefault(r => r.PostID == PostID && r.PostMediaTypeID == PostMediaType.CoverImage);
-                        if (cover != null)
+
+                        if (tax.PostSEO != null)
                         {
-                            hd_MID.Value = cover.MID.ToString();
-                            CoverImage1.Value = this.MainSetting.WebSiteURL + cover.MediaFullPath;
-                            //hd_postMeidaID.Value = cover.PostMediaID.ToString();
+                            Model_PostSeo seo = p.PostSEO;
+                            seotitle.Text = seo.SEOTitle;
+                            metades.Text = seo.MetaDescription;
+                            Canonical.Text = seo.CanonicalUrl;
+                            droprebot.SelectedValue = seo.Metarobotsfollow.ToString();
+                            facebookTitle.Text = seo.FaceBookTitle;
+                            facebookDes.Text = seo.FacebookDescription;
+                            facebookImg.Value = seo.FacebookImage;
+                            twTitle.Text = seo.TwitterTitle;
+                            twDes.Text = seo.TwitterDescription;
+                            twimg.Value = seo.TwitterImages;
+                            analytic.Text = seo.GoogleAnalytic;
                         }
-                    }
 
+                        
+
+                        CoverType.Value = tax.BannerTypeID.ToString();
+                        radioshowmMS.SelectedValue = tax.ShowMasterSlider.ToString();
+
+
+                        break;
                 }
 
+                Model_PostTaxonomy pt = new Model_PostTaxonomy
+                {
+                    PostTypeID = byte.Parse(this.PostTypeID),
+                    TaxTypeID = byte.Parse(this.TaxTypeID)
+                };
 
+                dropParent.DataSource = pt.GetTaxonomyByIDMain(pt);
+                dropParent.DataValueField = "TaxID";
+                dropParent.DataTextField = "Title";
+                dropParent.DataBind();
+
+
+                ListItem listitem = new ListItem("No Parent", "0");
+                dropParent.Items.Insert(0, listitem);
 
             }
-
+            
 
         }
     }
@@ -83,65 +97,68 @@ public partial class _Taxonomy : BasePage
     {
 
 
-        if (!string.IsNullOrEmpty(Request.QueryString["PostID"]))
+
+        if (!string.IsNullOrEmpty(this.Mode))
         {
-            int intPostID = int.Parse(Request.QueryString["PostID"]);
-            Model_Post p = new Model_Post
+            switch (this.Mode)
             {
-                PostID = intPostID,
-                PostTypeID = 1,
-                Title = txtTitle.Text.Trim(),
-                Short = "",
-                Slug = slug.Text.GenerateSlug(),
-                DateSubmit = DatetimeHelper._UTCNow(),
-                UserID = this.UserActive.UserID,
-                DatePublish = DatetimeHelper._UTCNow(),
-                Status = bool.Parse(Request.Form["content_status"]),
-                ShowComment = false,
-                BodyContent = txtContent.Text.Trim(),
-                BannerTypeID = byte.Parse(CoverType.Value),
-                ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
-                ViewCount = 1
-            };
+                case "Add":
+                    slug_form.Visible = false;
+                    InsertMode();
+                    break;
+                case "Edit":
 
-
-            Model_PostSeo seo = new Model_PostSeo
-            {
-
-                PSID = (p.PostSEOMap != null ? p.PostSEOMap.PSID : 0),
-                SEOTitle = seotitle.Text.Trim(),
-                MetaDescription = metades.Text.Trim(),
-                CanonicalUrl = Canonical.Text.Trim(),
-                Metarobotsfollow = bool.Parse(droprebot.SelectedValue),
-                FaceBookTitle = facebookTitle.Text.Trim(),
-                FacebookDescription = facebookDes.Text.Trim(),
-                FacebookImage = facebookImg.Value,
-                TwitterTitle = twTitle.Text.Trim(),
-                TwitterDescription = twDes.Text.Trim(),
-                TwitterImages = twimg.Value,
-                GoogleAnalytic = analytic.Text.Trim(),
-            };
-
-            if (!string.IsNullOrEmpty(hd_MID.Value))
-            {
-                Model_PostMedia pm = new Model_PostMedia
-                {
-
-                    PostMediaTypeID = PostMediaType.CoverImage,
-                    PostID = intPostID,
-                    MID = int.Parse(hd_MID.Value)
-                };
-
-                pm.insertMediaPost(pm);
+                    Update();
+                    //slug_form.Visible = true;
+                    break;
             }
-
-
-
-            if (p.UpdatePost(p) && seo.InsertSEO(seo) > 0)
-                Response.Redirect(Request.Url.ToString());
         }
 
+    }
 
+    public void Update()
+    {
+        int TaxID = int.Parse(Request.QueryString["TaxID"]);
+        Model_PostTaxonomy tax = new Model_PostTaxonomy
+        {
+            TaxID = TaxID,
+         
+            Title = txtTitle.Text.Trim(),
+            RefID = int.Parse(dropParent.SelectedValue),
+            Slug = txtTitle.Text.GenerateSlug(),
+          
+            Status = true,
+            BannerTypeID = byte.Parse(CoverType.Value),
+            ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
+         
+        };
+
+        bool ret = tax.UpdateTaxonomy(tax);
+        if (ret)
+            Response.Redirect("Taxonomy.aspx?TaxTypeID=" + this.TaxTypeID + "&PostTypeID=" + this.PostTypeID + "&Mode=Edit&TaxID=" + TaxID);
+    }
+
+    public void InsertMode()
+    {
+        Model_PostTaxonomy tax = new Model_PostTaxonomy
+        {
+            PostTypeID = byte.Parse(this.PostTypeID),
+            TaxTypeID = byte.Parse(this.TaxTypeID),
+            Title = txtTitle.Text.Trim(),
+            RefID = int.Parse(dropParent.SelectedValue),
+            Slug = txtTitle.Text.GenerateSlug(),
+            DateSubmit = DatetimeHelper._UTCNow(),
+            UserID = this.UserActive.UserID,
+            DatePublish = DatetimeHelper._UTCNow(),
+            Status = true,
+            BannerTypeID = byte.Parse(CoverType.Value),
+            ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
+            ViewCount = 0
+        };
+
+        int TaxID = tax.InsertTaxonomy(tax);
+        if (TaxID > 0)
+            Response.Redirect("Taxonomy.aspx?TaxTypeID=" + this.TaxTypeID + "&PostTypeID=" + this.PostTypeID + "&Mode=Edit&TaxID=" + TaxID);
     }
 
 

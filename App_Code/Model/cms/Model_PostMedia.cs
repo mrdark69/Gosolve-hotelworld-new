@@ -52,7 +52,7 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
        using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
 
-            SqlCommand cmddel = new SqlCommand(@"DELETE FROM PostMedia WHERE PostMediaTypeID=PostMediaTypeID AND 
+            SqlCommand cmddel = new SqlCommand(@"DELETE FROM PostMedia WHERE PostMediaTypeID=@PostMediaTypeID AND 
         PostID=@PostID AND MID=@MID", cn);
             cn.Open();
 

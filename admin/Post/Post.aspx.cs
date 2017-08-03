@@ -86,6 +86,7 @@ public partial class _Post : BasePage
         if (!string.IsNullOrEmpty(Request.QueryString["PostID"]))
         {
             int intPostID = int.Parse(Request.QueryString["PostID"]);
+
             Model_Post p = new Model_Post
             {
                 PostID = intPostID,

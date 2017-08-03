@@ -12,8 +12,8 @@ public partial class _TaxonomyEdit : BasePage
         if (!this.Page.IsPostBack)
         {
 
-         
-
+            addTax.NavigateUrl = "Taxonomy.aspx?TaxTypeID=" + this.TaxTypeID + "&PostTypeID=" + this.PostTypeID + "&Mode=Add";
+            
 
         }
     }

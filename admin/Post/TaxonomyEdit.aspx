@@ -32,7 +32,8 @@
                                     </div>--%>
                                 </div>
                                 <div class="col-sm-3" style="text-align:right">
-                                    <a  href="Taxonomy.aspx?Mode=add" class="btn btn-w-m btn-success">Add New</a>
+                                   <asp:HyperLink ID="addTax" runat="server" CssClass="btn btn-w-m btn-success" Text="Add New"></asp:HyperLink>
+                                   <%-- <a  href="Taxonomy.aspx?Mode=add" class="btn btn-w-m btn-success">Add New</a>--%>
                                    <%-- <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>--%>
                                 </div>
@@ -119,7 +120,7 @@
                 ret += '   <td>' + data[i].UserFirstName +'</td>';
                 ret += '   <td>' + data[i].DatePublishFormat +'</td>';
                 ret += '   <td><span class="label label-primary">' + data[i].ViewCount +'</span></td>';
-                ret += '   <td><a href="Post?PostID=' + data[i].PostID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
+                ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=3&TaxTypeID=1&TaxID=' + data[i].TaxID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
                 ret += '   </tr >';
             }
 

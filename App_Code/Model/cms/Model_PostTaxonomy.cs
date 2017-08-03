@@ -9,6 +9,29 @@ using MVCDatatableApp;
 using gs_newsletter;
 using System.Web.Providers.Entities;
 
+
+public class Model_TaxSEOMap : BaseModel<Model_TaxSEOMap>
+{
+    public int TaxID { get; set; }
+    public int PSID { get; set; }
+
+
+    public Model_TaxSEOMap GetSEOID(int PostID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM TaxonomySEOMap WHERE TaxID=@TaxID", cn);
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = PostID;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+        }
+    }
+}
+
 /// <summary>
 /// Summary description for Model_SiteInfo
 /// </summary>
@@ -30,16 +53,78 @@ public enum PostTaxonomyType : byte
 //Status  bit No  bit Unchecked   Unchecked((1))
 public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
 {
-    public byte TaxID { get; set; }
+    public int TaxID { get; set; }
     public byte TaxTypeID { get; set; }
-    public int PostTypeID { get; set; }
+    public byte PostTypeID { get; set; }
     public string Slug { get; set; }
     public string Title { get; set; }
     public int RefID { get; set; }
     public bool Status { get; set; }
 
-   
-    
+
+
+    public DateTime DateSubmit { get; set; }
+    public int UserID { get; set; }
+    public DateTime DatePublish { get; set; }
+    public byte BannerTypeID { get; set; }
+    public bool ShowMasterSlider { get; set; }
+    public int ViewCount { get; set; }
+
+    public string DatePublishFormat
+    {
+        get
+        {
+            return this.DatePublish.ToThaiDateTime().ToString("dd MMM yyy HH:mm tt");
+        }
+    }
+
+    public string UserFirstName { get; set; }
+
+
+    private Model_TaxSEOMap _taxSEOMap = null;
+    public Model_TaxSEOMap TaxSEOMap
+    {
+        get
+        {
+            if (_taxSEOMap == null)
+            {
+                Model_TaxSEOMap seo = new Model_TaxSEOMap();
+                _taxSEOMap = seo.GetSEOID(this.TaxID);
+            }
+            return _taxSEOMap;
+        }
+    }
+
+    private Model_PostSeo _postSEO = null;
+    public Model_PostSeo PostSEO
+    {
+        get
+        {
+            if (_postSEO == null && this.TaxSEOMap != null )
+            {
+                Model_PostSeo ps = new Model_PostSeo();
+                _postSEO = ps.GetPostSeoByID(this.TaxSEOMap.PSID);
+            }
+
+            return _postSEO;
+        }
+    }
+
+    private List<Model_PostMedia> _postmedia = null;
+    public List<Model_PostMedia> PostMedia
+    {
+        get
+        {
+            if (_postmedia == null)
+            {
+                Model_PostMedia ps = new Model_PostMedia();
+                _postmedia = ps.getPostMediaByPostID(this.PostID);
+            }
+
+            return _postmedia;
+        }
+    }
+
 
     public Model_PostTaxonomy()
     {
@@ -48,6 +133,93 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
         //
     }
 
+    public bool UpdateTaxonomy(Model_PostTaxonomy tax)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"UPDATE Post SET  Slug=@Slug,Title=@Title,RefID=@RefID,Status=@Status,
+                        BannerTypeID=@BannerTypeID,ShowMasterSlider=@ShowMasterSlider,ViewCount=@ViewCount
+                WHERE TaxID=@TaxID", cn);
+
+
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = tax.Slug;
+            cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = tax.Title;
+            cmd.Parameters.Add("@RefID", SqlDbType.Int).Value = tax.RefID;
+            cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = tax.Status;
+
+
+
+            //cmd.Parameters.Add("DateSubmit", SqlDbType.SmallDateTime).Value = tax.DateSubmit;
+            //cmd.Parameters.Add("UserID", SqlDbType.Int).Value = tax.UserID;
+            //cmd.Parameters.Add("DatePublish", SqlDbType.SmallDateTime).Value = tax.DatePublish;
+            cmd.Parameters.Add("BannerTypeID", SqlDbType.TinyInt).Value = tax.BannerTypeID;
+            cmd.Parameters.Add("ShowMasterSlider", SqlDbType.Int).Value = tax.ShowMasterSlider;
+            cmd.Parameters.Add("ViewCount", SqlDbType.Int).Value = tax.ViewCount;
+
+
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = tax.TaxID;
+
+
+            cn.Open();
+            return ExecuteNonQuery(cmd) == 1;
+        }
+    }
+
+    public int InsertTaxonomy(Model_PostTaxonomy tax)
+    {
+        int ret = 0;
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostTaxonomy (TaxTypeID,PostTypeID,Slug,Title,RefID,Status,DateSubmit,UserID,DatePublish,BannerTypeID,ShowMasterSlider,ViewCount) 
+VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@DatePublish,@BannerTypeID,@ShowMasterSlider,@ViewCount) SET @TaxID = SCOPE_IDENTITY()", cn);
+
+            cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = tax.TaxTypeID;
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = tax.PostTypeID;
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = tax.Slug;
+            cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = tax.Title;
+            cmd.Parameters.Add("@RefID", SqlDbType.Int).Value = tax.RefID;
+            cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = tax.Status;
+
+
+
+            cmd.Parameters.Add("DateSubmit", SqlDbType.SmallDateTime).Value = tax.DateSubmit;
+            cmd.Parameters.Add("UserID", SqlDbType.Int).Value = tax.UserID;
+            cmd.Parameters.Add("DatePublish", SqlDbType.SmallDateTime).Value = tax.DatePublish;
+            cmd.Parameters.Add("BannerTypeID", SqlDbType.TinyInt).Value = tax.BannerTypeID;
+            cmd.Parameters.Add("ShowMasterSlider", SqlDbType.Int).Value = tax.ShowMasterSlider;
+            cmd.Parameters.Add("ViewCount", SqlDbType.Int).Value = tax.ViewCount;
+
+
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cn.Open();
+            if (ExecuteNonQuery(cmd) > 0)
+            {
+                ret = (int)cmd.Parameters["@TaxID"].Value;
+
+            }
+        }
+        return ret;
+
+    }
+
+    public Model_PostTaxonomy GetTaxonomyByID(int TaxID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE TaxID=@TaxID", cn);
+            cmd.Parameters.Add("@TaxID", SqlDbType.TinyInt).Value = TaxID;
+
+
+            cn.Open();
+
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+            
+        }
+    }
 
     public List<Model_PostTaxonomy> GetTaxonomyByIDMain(Model_PostTaxonomy t)
     {
@@ -62,5 +234,7 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
         }
     }
    
+
+
 
 }

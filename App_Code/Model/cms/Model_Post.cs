@@ -85,10 +85,10 @@ public class Model_Post : BaseModel<Model_Post>
     {
         get
         {
-            if(_postSEO == null)
+            if (_postSEO == null && this.PostSEOMap != null)
             {
                 Model_PostSeo ps = new Model_PostSeo();
-                _postSEO = ps.GetPostSeoByPostID(this.PostID);
+                _postSEO = ps.GetPostSeoByID(this.PostSEOMap.PSID);
             }
 
             return _postSEO;
