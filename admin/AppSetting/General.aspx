@@ -31,7 +31,15 @@
                             </div>
                              <div class="hr-line-dashed"></div>
                             <div  class="form-horizontal">
+                                <div class="form-group" runat="server" id="Div4" ><label class="col-sm-2 control-label">Hone Page</label>
+                                    <div class="col-sm-10"> 
+                                        <asp:DropDownList ID="dropPost" runat="server" CssClass="form-control"></asp:DropDownList>
+                                      
+                                    </div>
+                                        
+                                </div>
 
+                                 <div class="hr-line-dashed"></div>
                                    <div class="form-group" runat="server" id="Div1" ><label class="col-sm-2 control-label">Site Title</label>
                                     <div class="col-sm-10"> 
                                         <asp:TextBox ID="wsTitle"  runat="server" CssClass="form-control"></asp:TextBox>

@@ -16,7 +16,12 @@
     </div><!-- //CONTAINER -->
 </section><!-- //BREADCRUMBS -->--%>
 
-    <asp:Label ID="lbltext" runat="server"></asp:Label>
+
+
+     <asp:Literal ID="HeaderSection" runat="server"></asp:Literal>
+
+    <asp:Literal ID="content" runat="server"></asp:Literal>
+   
 </asp:Content>
 
 <asp:Content ID="FooterScript" ContentPlaceHolderID="ContentFooter" runat="server">

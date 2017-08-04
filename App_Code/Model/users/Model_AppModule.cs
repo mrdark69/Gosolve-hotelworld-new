@@ -23,7 +23,8 @@ public class Model_AppModule : BaseModel<Model_AppModule>
     public string Slug { get; set; }
     public int Priority { get; set; }
     public bool Status { get; set; }
-
+    public string Icon { get; set; }
+    public string QueryString { get; set; }
 
 
     public List<Model_AppModule> getListAppFeature(byte AppSectionID)

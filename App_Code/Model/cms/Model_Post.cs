@@ -67,6 +67,8 @@ public class Model_Post : BaseModel<Model_Post>
 
     public int ViewCount { get; set; }
 
+    
+
     public string DatePublishFormat
     {
         get
@@ -130,6 +132,7 @@ public class Model_Post : BaseModel<Model_Post>
         //
     }
 
+    
     public List<Model_Post> GetPostListByPostType(Model_Post p)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))

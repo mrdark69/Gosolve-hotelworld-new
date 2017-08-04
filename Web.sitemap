@@ -6,17 +6,31 @@
         <siteMapNode url="~/admin/Staff/RoleEdit" title="Edit"  description="" />
         <siteMapNode url="~/admin/Staff/RoleAdd" title="Add"  description="" />
       </siteMapNode>
-      <siteMapNode url="~/Application/SubscriberGroup" title="Subscriber Groups"  description="" />
+      
     </siteMapNode>
+    
 
     <siteMapNode url="" title="Site Information"  description="">
       <siteMapNode url="~/admin/SiteInformation/SiteInf" title="Global Info"  description="" />
-   
+       <siteMapNode url="~/admin/SiteInformation/Menu" title="Menu Setting"  description="" />
+     <siteMapNode url="~/admin/SiteInformation/MasterSl" title="Master Slider"  description="" />
 
     </siteMapNode>
+    
+    <siteMapNode  title="Medias"  description="" >
+      <siteMapNode url="~/admin/Medias/Media" title="Media"  description="" />
+    </siteMapNode>
+    
+     <siteMapNode  title="Post"  description="" >
+      <siteMapNode url="~/admin/Post/Edit" title="Post"  queryStringToInclude="PostTypeID" description="" />
+     <siteMapNode url="~/admin/Post/Post-new" title="Post Manage"  queryStringToInclude="PostTypeID" description="" />
+     <siteMapNode url="~/admin/Post/TaxonomyEdit" title="Taxonomy"  queryStringToInclude="PostTypeID,TaxTypeID,Mode" description="" />
+    <siteMapNode url="~/admin/Post/Taxonomy" title="Taxonomy Manage"  queryStringToInclude="PostTypeID,TaxTypeID,Mode" description="" />
+    </siteMapNode>
+    
     <siteMapNode url="" title="App Setting"  description="">
       <siteMapNode url="~/admin/AppSetting/General" title="General Setting"  description="" />
-      <siteMapNode url="~/admin/AppSetting/Menu" title="Menu Setting"  description="" />
+      <!--<siteMapNode url="~/admin/AppSetting/Menu" title="Menu Setting"  description="" />-->
       <siteMapNode url="~/admin/AppSetting/Setting" title="MailServer Setting"  description="" />
     
     </siteMapNode>

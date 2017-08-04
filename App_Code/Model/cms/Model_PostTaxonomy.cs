@@ -97,6 +97,15 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
     public string UserFirstName { get; set; }
 
 
+    public string TitleLevel
+    {
+        get
+        {
+           
+          return  String.Concat(Enumerable.Repeat("--", this.Lv)) + this.Title; 
+        }
+    }
+
     private Model_TaxSEOMap _taxSEOMap = null;
     public Model_TaxSEOMap TaxSEOMap
     {
@@ -245,7 +254,7 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT pt.*,u.FirstName AS UserFirstName FROM PostTaxonomy pt INNER JOIN Users u ON u.UserID=pt.UserID WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID ORDER BY RefID ASC", cn);
+            SqlCommand cmd = new SqlCommand("SELECT pt.*,u.FirstName AS UserFirstName FROM PostTaxonomy pt INNER JOIN Users u ON u.UserID=pt.UserID WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID ORDER BY TaxID ASC,RefID ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = t.PostTypeID;
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = t.TaxTypeID;
             cn.Open();

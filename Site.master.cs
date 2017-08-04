@@ -68,48 +68,53 @@ public partial class SiteMaster : MasterPage
     protected string GetSideMenu()
     {
         StringBuilder ret = new StringBuilder();
-        //List<Model_AppFeature> cmf = UsersController.GetMenu();
+        Model_AppModule m = new Model_AppModule();
 
-        //List<Model_AppFeature> cmf_child = UsersController.GetMenuChild();
+        Model_AppAction a = new Model_AppAction();
+        List<Model_AppModule> cmf = m.getListAppFeature(1);
 
-        //foreach (Model_AppFeature item in cmf)
-        //{
-        //    List<Model_AppFeature> cmf_s = cmf_child.Where(c => c.IDRef == item.AppID).ToList();
+        string MainAdminSlug = "~/admin/";
 
-        //    string slug = Page.ResolveClientUrl("~/" + item.Permarlink);
-        //    bool IsChild = false;
-        //    string arrow = string.Empty;
-        //    string child = string.Empty;
-        //    if (cmf_s.Count() > 0)
-        //    {
-        //        slug = "#";
-        //        IsChild = true;
-        //        arrow = "<span class=\"fa arrow\"></span>";
+        List<Model_AppAction> cmf_child = a.getListAppFeatureAll();
 
-        //        child = String.Join(",", cmf_s.Select(r => r.Permarlink).ToArray());
-        //    }
-            
+        foreach (Model_AppModule item in cmf)
+        {
+            List<Model_AppAction> cmf_s = cmf_child.Where(c => c.ModuleID == item.ModuleID).ToList();
 
-        //    ret.Append("<li "+ MenuActive(item.Permarlink , child) + ">");
-        //    ret.Append("<a href=\""+ slug + "\"><i class=\"fa fa-th-large\"></i> <span class=\"nav-label\">"+item.Title+ "</span>"+ arrow + "</a>");
+            string slug = Page.ResolveClientUrl(MainAdminSlug + item.Slug);
+            bool IsChild = false;
+            string arrow = string.Empty;
+            string child = string.Empty;
+            if (cmf_s.Count() > 0)
+            {
+                slug = "#";
+                IsChild = true;
+                arrow = "<span class=\"fa arrow\"></span>";
+
+                child = String.Join(",", cmf_s.Select(r => r.Slug).ToArray());
+            }
+
+            //" + MenuActive(item.Slug, child) + "
+            ret.Append("<li >");
+            ret.Append("<a href=\"" + slug + "\"><i class=\""+item.Icon+"\"></i> <span class=\"nav-label\">" + item.Title + "</span>" + arrow + "</a>");
 
 
+            //" + MenuActive(i.Slug) + "
+            if (IsChild)
+            {
+                ret.Append("<ul class=\"nav nav-second-level\">");
+                foreach (Model_AppAction i in cmf_s)
+                {
+                    string slug_child = Page.ResolveClientUrl(MainAdminSlug + item.Slug + "/" +i.Slug + (!string.IsNullOrEmpty(i.QueryString)? "?"+ i.QueryString.Trim(): "" ));
+                    ret.Append("<li ><a href=\"" + slug_child + "\"><i class=\"fa fa-th-large\"></i> <span class=\"nav-label\">" + i.Title + "</span></a></li>");
+                }
+                ret.Append("</ul>");
+            }
 
-        //    if (IsChild)
-        //    {
-        //        ret.Append("<ul class=\"nav nav-second-level\">");
-        //        foreach (Model_AppFeature i in cmf_s)
-        //        {
-        //            string slug_child = Page.ResolveClientUrl("~/" + i.Permarlink);
-        //            ret.Append("<li " + MenuActive(i.Permarlink) + "><a href=\"" + slug_child + "\"><i class=\"fa fa-th-large\"></i> <span class=\"nav-label\">" + i.Title + "</span></a></li>");
-        //        }
-        //        ret.Append("</ul>");
-        //    }
+            ret.Append("</li>");
 
-        //    ret.Append("</li>");
 
-          
-        //}
+        }
 
 
         return ret.ToString();

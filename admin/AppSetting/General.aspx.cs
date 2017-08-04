@@ -11,8 +11,19 @@ public partial class _General : Page
     {
         if (!this.Page.IsPostBack)
         {
+            Model_Post cpost = new Model_Post
+            {
+                PostTypeID = 1
+            };
+           
+            dropPost.DataSource = cpost.GetPostListByPostType(cpost);
+            dropPost.DataValueField = "PostID";
+            dropPost.DataTextField = "Title";
+            dropPost.DataBind();
 
-            
+
+            ListItem li = new ListItem("Select", "0");
+            dropPost.Items.Insert(0, li);
             //Model_Setting c = new Model_Setting();
             Model_MainSetting m = new Model_MainSetting();
             m = m.GetMainSetting();
@@ -24,6 +35,7 @@ public partial class _General : Page
                 wsTitle.Text = m.WebSiteTitle;
                 dropStiteLang.SelectedValue = m.SiteLang.ToString();
                 timezone_string.Value = m.UTC.ToString();
+                dropPost.SelectedValue = m.HomePagePostID.ToString();
             }
 
            
@@ -40,7 +52,8 @@ public partial class _General : Page
             UTC = byte.Parse(timezone_string.Value),
             TagLine = tagline.Text.Trim(),
             WebSiteTitle = wsTitle.Text.Trim(),
-            WebSiteURL = wsurl.Text.Trim()
+            WebSiteURL = wsurl.Text.Trim(),
+            HomePagePostID = int.Parse(dropPost.SelectedValue)
         };
 
         if (m.InsertMainSetting(m) > 0)

@@ -11,11 +11,12 @@ using System.Web.UI.WebControls;
 
     public partial class SiteUserMaster : MasterPage
     {
-        //private const string AntiXsrfTokenKey = "__AntiXsrfToken";
-        //private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
-        //private string _antiXsrfTokenValue;
+    //private const string AntiXsrfTokenKey = "__AntiXsrfToken";
+    //private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
+    //private string _antiXsrfTokenValue;
 
-        public Model_SiteInfo SiteInfo { get; set; }
+    public Model_PageEngine PageEngine { get; set; }
+    //public Model_SiteInfo SiteInfo { get; set; }
 
         protected void Page_Init(object sender, EventArgs e)
         {

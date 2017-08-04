@@ -22,7 +22,9 @@ public class Model_MainSetting : BaseModel<Model_MainSetting>
     public byte UTC { get; set; }
     public string TagLine { get; set; }
     public byte SiteLang { get; set; }
-  
+
+    public int HomePagePostID { get; set; }
+
 
     public Model_MainSetting()
     {
@@ -68,23 +70,24 @@ public class Model_MainSetting : BaseModel<Model_MainSetting>
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand(@"UPDATE MainSetting SET WebSiteURL=@WebSiteURL,WebSiteTitle=@WebSiteTitle,UTC=@UTC,TagLine=@TagLine,
-        SiteLang=@SiteLang WHERE SettingID=1", cn);
+        SiteLang=@SiteLang ,HomePagePostID=@HomePagePostID WHERE SettingID=1", cn);
             cmd.Parameters.Add("@WebSiteURL", SqlDbType.NVarChar).Value = s.WebSiteURL;
             cmd.Parameters.Add("@WebSiteTitle", SqlDbType.NVarChar).Value = s.WebSiteTitle;
             cmd.Parameters.Add("@UTC", SqlDbType.TinyInt).Value = s.UTC;
             cmd.Parameters.Add("@TagLine", SqlDbType.NVarChar).Value = s.TagLine;
             cmd.Parameters.Add("@SiteLang", SqlDbType.TinyInt).Value = s.SiteLang;
-          
+            cmd.Parameters.Add("@HomePagePostID", SqlDbType.Int).Value = s.HomePagePostID;
             cmd.Parameters.Add("@SettingID", SqlDbType.TinyInt).Value = s.SettingID;
             cn.Open();
             if (ExecuteNonQuery(cmd) < 1)
             {
-                SqlCommand cmd1 = new SqlCommand("INSERT INTO MainSetting (WebSiteURL,WebSiteTitle,UTC,TagLine,SiteLang)" +
-                    " VALUES(@WebSiteURL,@WebSiteTitle,@UTC,@TagLine,@SiteLang)", cn);
+                SqlCommand cmd1 = new SqlCommand("INSERT INTO MainSetting (WebSiteURL,WebSiteTitle,UTC,TagLine,SiteLang,HomePagePostID)" +
+                    " VALUES(@WebSiteURL,@WebSiteTitle,@UTC,@TagLine,@SiteLang,@HomePagePostID)", cn);
                 cmd1.Parameters.Add("@WebSiteURL", SqlDbType.NVarChar).Value = s.WebSiteURL;
                 cmd1.Parameters.Add("@WebSiteTitle", SqlDbType.NVarChar).Value = s.WebSiteTitle;
                 cmd1.Parameters.Add("@UTC", SqlDbType.TinyInt).Value = s.UTC;
                 cmd1.Parameters.Add("@TagLine", SqlDbType.NVarChar).Value = s.TagLine;
+                cmd1.Parameters.Add("@HomePagePostID", SqlDbType.Int).Value = s.HomePagePostID;
                 cmd1.Parameters.Add("@SiteLang", SqlDbType.TinyInt).Value = s.SiteLang;
                 ret = ExecuteNonQuery(cmd1);
             }

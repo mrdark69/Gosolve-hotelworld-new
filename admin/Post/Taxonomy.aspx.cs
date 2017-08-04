@@ -14,6 +14,8 @@ public partial class _Taxonomy : BasePage
     {
         if (!this.Page.IsPostBack)
         {
+            if (this.TaxTypeID == "2")
+                taxParent.Visible = false;
 
             Model_PostTaxonomy pt = new Model_PostTaxonomy
             {
@@ -23,7 +25,8 @@ public partial class _Taxonomy : BasePage
 
             List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyByIDMain(pt);
 
-           
+           Literal hTitle = this.Page.Master.FindControl("PageTitleHeader") as Literal;
+            hTitle.Text = "sss";
 
             ListItem listitem = new ListItem("None", "0");
             if (!string.IsNullOrEmpty(this.Mode))
@@ -53,7 +56,7 @@ public partial class _Taxonomy : BasePage
 
                         dropParent.DataSource = Taxlist;
                         dropParent.DataValueField = "TaxID";
-                        dropParent.DataTextField = "Title";
+                        dropParent.DataTextField = "TitleLevel";
                         dropParent.DataBind();
 
 
@@ -109,7 +112,7 @@ public partial class _Taxonomy : BasePage
                         
                         dropParent.DataSource = Taxlist.Where(r => r.TaxID != TaxID);
                         dropParent.DataValueField = "TaxID";
-                        dropParent.DataTextField = "Title";
+                        dropParent.DataTextField = "TitleLevel";
                         dropParent.DataBind();
 
 

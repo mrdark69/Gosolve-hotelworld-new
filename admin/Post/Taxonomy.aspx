@@ -52,7 +52,7 @@
                               <div  class="form">
                                  <div class="form-group" id="slug_form"  runat="server">
                                     <label class=" control-label">Slug</label>
-                                    <div >
+                                    <div>
                                        <asp:Label ID="url" style="display: inline-block;" runat="server"></asp:Label>
                                        <asp:TextBox ID="slug" style="display: inline-block;
                                           width: 30%;" CssClass="form-control" runat="server"></asp:TextBox>
@@ -247,7 +247,7 @@
                <div class="ibox-content">
 
                    
-                  <div class="form-group">
+                  <div class="form-group" id="taxParent" runat="server">
                      <label class=" control-label">Parent Category</label>
                      <div >
                        <asp:DropDownList ID="dropParent" CssClass="form-control" runat="server">
