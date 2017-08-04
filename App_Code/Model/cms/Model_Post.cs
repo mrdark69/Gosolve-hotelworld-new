@@ -160,8 +160,24 @@ public class Model_Post : BaseModel<Model_Post>
         }
     }
 
+    public Model_Post GetPostBySlug(string Slug)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE Slug=@Slug", cn);
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = Slug;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
 
-   public int InsertPost(Model_Post p)
+        }
+    }
+
+
+    public int InsertPost(Model_Post p)
     {
         int ret = 0;
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))

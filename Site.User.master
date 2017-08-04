@@ -29,6 +29,7 @@
     </asp:ContentPlaceHolder>
 
 </head>
+    <%-- <%=StyleCore.bodyClass() %> --%>
 <body class="gray-bg">
     <form runat="server">
 

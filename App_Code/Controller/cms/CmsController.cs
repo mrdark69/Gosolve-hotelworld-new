@@ -60,7 +60,17 @@ public class CmsController
         // TODO: Add constructor logic here
         //
     }
+    public static Model_Post GetPostByID(int PostID)
+    {
+        Model_Post post = new Model_Post();
+        return post.GetPostByID(PostID);
+    }
 
+    public static Model_Post GetPostSlug(string Slug)
+    {
+        Model_Post post = new Model_Post();
+        return post.GetPostBySlug(Slug);
+    }
 
 
 }

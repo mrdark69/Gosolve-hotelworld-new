@@ -12,8 +12,11 @@
 
         RouteTable.Routes.MapPageRoute("admin", "admin", "~/admin/");
 
-        RouteTable.Routes.MapPageRoute("post", "{archive}/{slug}", "~/Default.aspx");
-        RouteTable.Routes.MapPageRoute("page", "{PageSlug}", "~/Default.aspx");
+        //RouteTable.Routes.MapPageRoute("post", "{archive}/{slug}", "~/Default.aspx");
+        // RouteTable.Routes.MapPageRoute("Archive", "{ArchivesSlug}/{page}/", "~/Archive.aspx");
+        //RouteTable.Routes.MapPageRoute("Page", "{PageSlug}", "~/Pages.aspx");
+
+        RouteTable.Routes.MapPageRoute("HomePage", "{Param1}/{page}/", "~/Default.aspx");
     }
 
     protected void Session_Start() { }
