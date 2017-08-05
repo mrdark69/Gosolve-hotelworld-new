@@ -9,7 +9,35 @@
 
      <asp:Literal ID="HeaderSection" runat="server"></asp:Literal>
 
-    <asp:Literal ID="content" runat="server"></asp:Literal>
+
+ 
+         <!-- PAGE HEADER -->
+		<section class="page_header" id="page_header" runat="server"  visible="false">
+			
+			<!-- CONTAINER -->
+			<div class="container">
+				<h3 class="pull-left"><b> <% Response.Write(this.PageContentTitle); %></b></h3>
+				
+				<div class="pull-right">
+					<a href="women.html" >Back to shop<i class="fa fa-angle-right"></i></a>
+				</div>
+			</div><!-- //CONTAINER -->
+		</section>
+        <!-- //PAGE HEADER -->
+            <!-- PAGE TEMPLATE-->
+		<section  style="padding-top:9px;padding-bottom: 20px;" id="page_content"  class="page_content" runat="server" visible="false">
+			
+			<!-- CONTAINER -->
+			<div class="container" >
+
+			  <% Response.Write(this.ContentBody); %>
+
+			</div><!-- //CONTAINER -->
+		</section>
+            <!--  PAGE TEMPLATE -->
+
+   
+  
    
 </asp:Content>
 

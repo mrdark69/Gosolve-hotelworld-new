@@ -8,6 +8,9 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : Page
 {
+    public string ContentBody{ get; set; }
+    public string PageContentTitle { get; set; }
+
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -40,27 +43,51 @@ public partial class _Default : Page
             byte bytPostTypeID = 0;
             string StrPost_slug = string.Empty;
             int intPostID = 0;
+            Model_Post post = null;
+           List< Model_Post> postArchive = null;
+            string RouteSlug_1 = Page.RouteData.Values["Param1"] as string;
 
-            string PostType = Page.RouteData.Values["Param1"] as string;
-
-            if (!string.IsNullOrEmpty(PostType))
+            if (!string.IsNullOrEmpty(RouteSlug_1))
             {
 
                 //1. Check Is Archive
                 Model_Archive archive = new Model_Archive();
-                archive = archive.GetPostArchive(PostType);
+                archive = archive.GetPostArchive(RouteSlug_1);
 
                 if(archive !=null)
                 {
                     bytPostTypeID = archive.PostTypeID;
                     StrPost_slug = (string.IsNullOrEmpty(archive.Slug) ? archive.PostTypeSlug : archive.Slug);
 
+                    postArchive = CmsController.GetPostArchive(bytPostTypeID);
+
+                }
+                else
+                {
+                    //Case PostType Page
+                    StrPost_slug = RouteSlug_1;
+                    post = CmsController.GetPostSlug(StrPost_slug);
+
+                    if (post != null)
+                    {
+                        bytPostTypeID = post.PostTypeID;
+                        intPostID = post.PostID;
+
+                        page_header.Visible = true;
+                        page_content.Visible = true;
+                    }
                     
 
                 }
 
 
 
+
+                HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
+             
+                this.ContentBody = post.BodyContent;
+                this.PageContentTitle = post.Title;
+                // content.Text = post.BodyContent;
 
 
             }
@@ -70,7 +97,7 @@ public partial class _Default : Page
                 //Get PostID From Setting HomePage Slug
 
                 intPostID = setting.HomePagePostID;
-                Model_Post  post = CmsController.GetPostByID(intPostID);
+                  post = CmsController.GetPostByID(intPostID);
 
                 if (post != null)
                 {
@@ -78,7 +105,7 @@ public partial class _Default : Page
 
 
                     HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
-                    content.Text = post.BodyContent;
+                   // content.Text = post.BodyContent;
 
 
                 }

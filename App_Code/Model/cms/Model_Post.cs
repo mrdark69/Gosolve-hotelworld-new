@@ -50,7 +50,7 @@ public class Model_PostSEOMap : BaseModel<Model_PostSEOMap>
 public class Model_Post : BaseModel<Model_Post>
 {
     public int PostID { get; set; }
-    public int PostTypeID { get; set; }
+    public byte PostTypeID { get; set; }
     public string Title { get; set; }
     public string Short { get; set; }
     public string Slug { get; set; }
@@ -132,13 +132,24 @@ public class Model_Post : BaseModel<Model_Post>
         //
     }
 
-    
+
+    public List<Model_Post> GetPostArchiveByPostType(byte PostTypeID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT p.*,u.FirstName AS UserFirstName FROM POST p INNER JOIN Users u ON u.UserID=p.UserID WHERE  PostTypeID=@PostTypeID AND Status = 1 ORDER BY DatePublish ASC", cn);
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostTypeID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
     public List<Model_Post> GetPostListByPostType(Model_Post p)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand("SELECT p.*,u.FirstName AS UserFirstName FROM POST p INNER JOIN Users u ON u.UserID=p.UserID WHERE PostTypeID=@PostTypeID ORDER BY DateSubmit ASC, DatePublish ASC", cn);
-            cmd.Parameters.Add("@PostTypeID", SqlDbType.Int).Value = p.PostTypeID;
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = p.PostTypeID;
             cn.Open();
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
         }
@@ -148,7 +159,7 @@ public class Model_Post : BaseModel<Model_Post>
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE PostID=@PostID", cn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE PostID=@PostID AND Status = 1", cn);
             cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
             cn.Open();
             IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
@@ -159,12 +170,12 @@ public class Model_Post : BaseModel<Model_Post>
            
         }
     }
-
+   
     public Model_Post GetPostBySlug(string Slug)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE Slug=@Slug", cn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE Slug=@Slug AND Status = 1", cn);
             cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = Slug;
             cn.Open();
             IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
@@ -188,7 +199,7 @@ public class Model_Post : BaseModel<Model_Post>
                     @ShowComment,@BodyContent,@BannerTypeID,@ShowMasterSlider,@ViewCount) ;SET @PostID = SCOPE_IDENTITY();", cn);
 
 
-            cmd.Parameters.Add("PostTypeID", SqlDbType.Int).Value = p.PostTypeID;
+            cmd.Parameters.Add("PostTypeID", SqlDbType.TinyInt).Value = p.PostTypeID;
             cmd.Parameters.Add("Title", SqlDbType.NVarChar).Value = p.Title;
             cmd.Parameters.Add("Short", SqlDbType.NVarChar).Value = p.Short;
             cmd.Parameters.Add("Slug", SqlDbType.NVarChar).Value = p.Slug;
