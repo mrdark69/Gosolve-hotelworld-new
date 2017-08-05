@@ -163,6 +163,9 @@ public class CmsController
                         cme.MCategory = (byte)MenuCategory.Archive;
                         cme.PostTypeID = cpt.PostTypeID;
                         cme.InsertMenuFirst(cme);
+
+                        Model_Archive ma = new Model_Archive();
+                        ma.inSertArchiveMap(cpt.PostTypeID, cpt.Slug);
                     }
 
                     if (!string.IsNullOrEmpty(strpost))

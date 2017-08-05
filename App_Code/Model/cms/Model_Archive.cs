@@ -37,5 +37,22 @@ public class Model_Archive : BaseModel<Model_Archive>
         }
     }
 
+    public int inSertArchiveMap(byte PostTypeID, string Slug)
+    {
+        using(SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            //SqlCommand cmd = new SqlCommand(@"DELETE FROM ArchiveMap WHERE PostTypeID=@PostTypeID", cn);
+            
+           // ExecuteNonQuery(cmd);
+            SqlCommand cmd = new SqlCommand(@"DELETE FROM ArchiveMap WHERE PostTypeID=@PostTypeID;
+                INSERT INTO ArchiveMap (PostTypeID,Slug) VALUES(@PostTypeID,@Slug)", cn);
+            cn.Open();
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostTypeID;
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = Slug;
+
+            return ExecuteNonQuery(cmd);
+        }
+    }
+
 }
 
