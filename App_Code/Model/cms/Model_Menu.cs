@@ -14,7 +14,7 @@ using System.Web.Providers.Entities;
 /// </summary>
 /// 
 
-public class Model_PostType : BaseModel<Model_PostType>
+public class Model_Menu : BaseModel<Model_Menu>
 {
   
     public byte PostTypeID { get; set; }
@@ -27,7 +27,7 @@ public class Model_PostType : BaseModel<Model_PostType>
    
     
 
-    public Model_PostType()
+    public Model_Menu()
     {
         //
         // TODO: Add constructor logic here

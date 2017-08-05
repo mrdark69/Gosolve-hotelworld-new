@@ -155,6 +155,17 @@ public class Model_Post : BaseModel<Model_Post>
         }
     }
 
+    public List<Model_Post> GetPostListByPostType(byte PostTypeID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT p.*,u.FirstName AS UserFirstName FROM POST p INNER JOIN Users u ON u.UserID=p.UserID WHERE PostTypeID=@PostTypeID ORDER BY DateSubmit ASC, DatePublish ASC", cn);
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostTypeID; ;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
     public Model_Post GetPostByID(int PostID)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
