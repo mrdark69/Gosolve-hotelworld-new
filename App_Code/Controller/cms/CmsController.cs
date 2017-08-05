@@ -77,4 +77,69 @@ public class CmsController
         Model_Post post = new Model_Post();
         return post.GetPostArchiveByPostType(PostTypeID);
     }
+
+    public static bool InsertMenu(dynamic parameters)
+    {
+
+        string cmd = parameters["cmd"];
+
+        string cmdarg = parameters["cmdarg"];
+
+        string strpost = parameters["strpost"];
+
+        string strarch = parameters["strarch"];
+
+        MenuCategory mCat = 0;
+
+        if (!string.IsNullOrEmpty(cmd))
+        {
+            switch (cmd)
+            {
+                case "menu_post":
+
+                    if (!string.IsNullOrEmpty(strarch))
+                    {
+                        mCat = MenuCategory.Archive;
+
+                    }
+
+                    if (!string.IsNullOrEmpty(strpost))
+                    {
+                        mCat = MenuCategory.Post;
+
+                    }
+
+
+                        break;
+                case "menu_Tax":
+                    mCat = MenuCategory.Taxonomy;
+                    break;
+                case "menu_custom":
+                    mCat = MenuCategory.CustomLink;
+                    break;
+            }
+        }
+
+
+        Model_Menu cme = new Model_Menu
+        {
+            MGID = 0,
+            Title = "",
+            TitleOrigin = "",
+            Slug="",
+            MenuTypeID= 2,
+            CustomUrl = "",
+            Status = true,
+            MenuRefID= 0,
+            Lv = 1,
+            IsCustomUrl = true,
+            Priority=1,
+            MCategory = 1,
+            TaxID=1,
+            PostTypeID=1,
+            PostID = 1
+        };
+
+        return true;
+    }
 }

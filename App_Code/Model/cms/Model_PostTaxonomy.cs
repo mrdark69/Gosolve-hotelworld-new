@@ -269,10 +269,8 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand(@"SELECT pt.* FROM PostTaxonomy pt 
-            INNER JOIN PostTaxMap u ON u.TaxID=pt.TaxID
-        INNER JOIN Post p ON u.PostID = p.PostID
-        WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID 
-        AND pt.Status = 1  AND p.Status = 1
+                WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID 
+        AND pt.Status = 1 
         ORDER BY TaxID ASC,RefID ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostType;
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = TaxType;

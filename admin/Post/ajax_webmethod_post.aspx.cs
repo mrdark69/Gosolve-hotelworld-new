@@ -39,4 +39,35 @@ public partial class admin_Staff_ajax_webmethod_post : System.Web.UI.Page
         AppTools.SendResponse(HttpContext.Current.Response, ret.ObjectToJSON());
     }
 
+
+    [WebMethod]
+    public static void AddMenu(dynamic parameters)
+    {
+
+       
+        
+
+
+        bool ret = CmsController.InsertMenu(parameters);
+
+        bool success = false;
+        string msg = "no";
+
+        if (ret)
+        {
+            success = true;
+            msg = "Insert Completed";
+        }
+
+
+        string res = (new BaseWebMethodAJax
+        {
+            success = success,
+            msg = msg
+
+        }).ObjectToJSON();
+
+        AppTools.SendResponse(HttpContext.Current.Response, res);
+    }
+
 }

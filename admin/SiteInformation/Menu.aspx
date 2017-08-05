@@ -45,7 +45,7 @@
                         </div>
                         <div class="ibox-content">
                            
-                        Select menu to edit:    <asp:DropDownList ID="MenuIItem" runat="server"></asp:DropDownList>
+                        Select menu to edit:    <asp:DropDownList ClientIDMode="Static" ID="MenuIItem" runat="server"></asp:DropDownList>
                           
                         </div>
                     </div>
@@ -62,9 +62,13 @@
 
                            Model_PostTaxonomy cTax = new Model_PostTaxonomy();
                       %>
-                        <%  foreach (Model_PostType mm in posttpyList.Where(p => p.PostTypeID != 4)) {  %>
+                        <%  foreach (Model_PostType mm in posttpyList.Where(p => p.PostTypeID != 4)) {
+                                this.ArgProp = mm.PostTypeID; %>
 
-                       <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
+                      
+                       
+                       <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;" >
+                            <input type="checkbox" style="display:none" checked="checked" name="postType" value="<% Response.Write(mm.PostTypeID); %>" />
                        <div class="ibox-title">
                        <h5><% Response.Write(mm.Title); %></h5>
                        <div class="ibox-tools">
@@ -76,26 +80,33 @@
                         <div class="ibox-content" style="display: none;">
                         <% if(mm.PostTypeID != 1){%>
                         
-                           <p><input type="checkbox"  /> All</p>
+                           <p><input type="checkbox" name="PostID_Archive_<% Response.Write(mm.PostTypeID); %>" value="<% Response.Write(mm.PostTypeID);%>"  /> All</p>
                          <%  } %>
            
                          <% List<Model_Post> cPostlist = cPost.GetPostListByPostType(mm.PostTypeID);
                         foreach(Model_Post p in cPostlist)
                         { %>
-                           <p><input type="checkbox"  /> <% Response.Write(p.Title); %></p>
+                           <p><input type="checkbox" name="PostID_<% Response.Write(p.PostTypeID); %>"  value="<% Response.Write(p.PostID); %>"   /> <% Response.Write(p.Title); %></p>
+
+
                          <% } %>
                     
                        <a>Select all</a>
                           
-                       <asp:Button ID="btn" runat="server" CssClass="btn btn-sm" style="float:right" Text="Add to Menu" OnClick="btn_Click" />
-                       <%--<button  class="btn btn-sm" style="float:right">Add to Menu</button>--%>
 
+                            <input type="button" class="btn btn-sm btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_post" data-arg="<% Response.Write(mm.PostTypeID);%>" />
+                        
+                       <%--<asp:Button ID="btn" runat="server" ClientIDMode="Static"  CssClass="btn btn-sm" style="float:right" CommandName="menu_post" 
+                           Text="Add to Menu" OnClick="btn_Click"   CommandArgument="<% mm.PostTypeID %>"    />--%>
+                        
+                            
+                         
                        </div>
                        </div>
                     
                        <% }  %>
 
-
+                      
 
                        <%List<Model_PostTaxonomy> cTaxList = null; %>
 
@@ -118,7 +129,7 @@
         <%  }%>
 
        <a>Select all</a>
-       <asp:Button ID="Button4" runat="server" CssClass="btn btn-sm" style="float:right" Text="Add to Menu" OnClick="btn_Click" />
+       <asp:Button ID="Button4" runat="server" CssClass="btn btn-sm" style="float:right" Text="Add to Menu" CommandName="menu_Taxonomy"  OnClick="btn_Click" />
 
        </div>
        </div>
@@ -195,42 +206,42 @@
 
 
 
-       <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
-       <div class="ibox-title">
-       <h5>Custom Link </h5>
-       <div class="ibox-tools">
-       <a class="collapse-link">
-       <i class="fa fa-chevron-down"></i>
-       </a>
-       </div>
-       </div>
-       <div class="ibox-content" style="display: none;">
+                       <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
+                       <div class="ibox-title">
+                       <h5>Custom Link </h5>
+                       <div class="ibox-tools">
+                       <a class="collapse-link">
+                       <i class="fa fa-chevron-down"></i>
+                       </a>
+                       </div>
+                       </div>
+                       <div class="ibox-content" style="display: none;">
 
 
 
 
 
-       <div  class="form-horizontal">
+                   <div  class="form-horizontal">
 
-       <div class="form-group"  ><label class="col-sm-2 control-label">Url</label>
-       <div class="col-sm-10"> 
+                   <div class="form-group"  ><label class="col-sm-2 control-label">Url</label>
+                   <div class="col-sm-10"> 
 
-       <input type="text" class="form-control" />
-       </div>
+                   <input type="text" class="form-control" />
+                   </div>
 
-        </div>
-       <div class="hr-line-dashed"></div>
-       <div class="form-group"  ><label class="col-sm-2 control-label">Link Text</label>
-       <div class="col-sm-10"> 
-       <input type="text" class="form-control" />
-       </div>
+                    </div>
+                   <div class="hr-line-dashed"></div>
+                   <div class="form-group"  ><label class="col-sm-2 control-label">Link Text</label>
+                   <div class="col-sm-10"> 
+                   <input type="text" class="form-control" />
+                   </div>
 
-       </div>
-       </div>
+                   </div>
+                   </div>
 
 
-       </div>
-       </div>
+                   </div>
+                   </div>
 
 
 
@@ -244,7 +255,7 @@
                         </div>
                         <div class="ibox-content">
                            
-                            <asp:Literal ID="MenuList" runat="server"></asp:Literal>
+                            
                           
                         </div>
                     </div>
@@ -258,7 +269,54 @@
     <script type="text/javascript">
 
 
-     
+        $(document).ready(function () {
+
+            $('.btn_add_menu').on('click', function () {
+
+                
+                var url = "<%= ResolveUrl("/admin/Post/ajax_webmethod_post.aspx/AddMenu") %>";
+
+
+               
+                var cmd = $(this).data('cmd');
+                var cmdarg = $(this).data('arg');
+
+                var arch = $('input[name="PostID_Archive_' + cmdarg + '"]:checked');
+                var post = $('input[name="PostID_' + cmdarg + '"]:checked');
+
+                var strpost = $.map(post, function (obj) {
+                    return obj.value
+                }).join(',');
+
+                var strarch = $.map(arch, function (obj) {
+                    return obj.value
+                }).join(',');
+
+                var pr = {
+                    cmd: cmd,
+                    cmdarg: cmdarg,
+                    strpost:strpost,
+                    strarch: strarch,
+                    GroupID :$('#MenuIItem').val()
+                }
+                
+
+                //var url = "/Application/ajax/mailbox/ajax_webmethod_mailbox.aspx/Trash";
+                var param = JSON.stringify({ parameters: pr });
+                AjaxPost(url, param, null, function (data) {
+                    if (data.success) {
+
+                       
+
+                       
+
+                    }
+
+                });
+
+                return false;
+            });
+        });
        
     </script>
     </asp:Content>
