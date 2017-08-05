@@ -44,6 +44,21 @@ public class Model_PostType : BaseModel<Model_PostType>
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
         }
     }
-   
+
+    public Model_PostType GetPostTypeByID(byte PostTypeID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PostType WHERE   PostTypeID=@PostTypeID ", cn);
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostTypeID;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+            
+        }
+    }
 
 }

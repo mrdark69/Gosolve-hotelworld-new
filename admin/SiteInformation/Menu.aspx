@@ -33,6 +33,157 @@
                font-weight:normal;
            }
           </style>
+
+    <style type="text/css">
+		
+		
+		a,a:visited {
+			color: #4183C4;
+			text-decoration: none;
+		}
+		
+		a:hover {
+			text-decoration: underline;
+		}
+		
+		pre,code {
+			font-size: 12px;
+		}
+		
+		pre {
+			width: 100%;
+			overflow: auto;
+		}
+		
+		small {
+			font-size: 90%;
+		}
+		
+		small code {
+			font-size: 11px;
+		}
+		
+		.placeholder {
+			outline: 1px dashed #4183C4;
+		}
+		
+		.mjs-nestedSortable-error {
+			background: #fbe3e4;
+			border-color: transparent;
+		}
+		
+		#tree {
+			width: 550px;
+			margin: 0;
+		}
+		
+		ol {
+			max-width: 450px;
+			padding-left: 25px;
+		}
+		
+		ol.sortable,ol.sortable ol {
+			list-style-type: none;
+		}
+		
+		.sortable li div {
+            /*background-color:#fafafa;
+            color:#000;*/
+			/*border: 1px solid #d4d4d4;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;*/
+			cursor: move;
+			/*border-color: #D4D4D4 #D4D4D4 #BCBCBC;*/
+			margin: 0;
+			padding: 3px;
+		}
+		
+		li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+			border-color: #999;
+		}
+		
+		.disclose, .expandEditor {
+			cursor: pointer;
+			width: 20px;
+			display: none;
+		}
+		
+		.sortable li.mjs-nestedSortable-collapsed > ol {
+			display: none;
+		}
+		
+		.sortable li.mjs-nestedSortable-branch > div > .disclose {
+			display: inline-block;
+		}
+		
+		.sortable span.ui-icon {
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+		}
+		
+		
+	
+		
+		p,ol,ul,pre,form {
+			margin-top: 0;
+			margin-bottom: 1em;
+		}
+		
+		dl {
+			margin: 0;
+		}
+		
+		dd {
+			margin: 0;
+			padding: 0 0 0 1.5em;
+		}
+		
+		code {
+			background: #e5e5e5;
+		}
+		
+		input {
+			vertical-align: text-bottom;
+		}
+		
+		.notice {
+			color: #c33;
+		}
+
+        .box_menu_custom{
+           
+            /*border:0!important;*/
+         border: 1px solid #ddd !important;
+         background:#fafafa;
+         padding:0 !important;
+        }
+        .box_menu_custom_content{
+            border-bottom:1px solid #ddd !important;
+            border-right:1px solid #ddd !important;
+            border-left:1px solid #ddd !important;
+            border-top:0;
+           font-size: 11px;
+        }
+            .box_menu_custom_content .btn_delete {
+                margin-left:20px;
+                color:darkred;
+            }
+        
+        .box_menu_custom h5{
+            padding:0px!important;
+            margin: 15px 0 0 20px;
+        }
+         .box_menu_custom .ibox-tools{
+            padding:0px!important;
+            margin: 15px 5px 0 20px;
+        }
+        
+        .box_menu_custom_main{
+             border-bottom:0 !important;
+        }
+    </style>
     </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -45,7 +196,7 @@
                         </div>
                         <div class="ibox-content">
                            
-                        Select menu to edit:    <asp:DropDownList ClientIDMode="Static" ID="MenuIItem" runat="server"></asp:DropDownList>
+                        Select menu to edit:    <asp:DropDownList ClientIDMode="Static" ID="MenuIItem" CssClass="form-control" runat="server"></asp:DropDownList>
                           
                         </div>
                     </div>
@@ -94,7 +245,7 @@
                        <a>Select all</a>
                           
 
-                            <input type="button" class="btn btn-sm btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_post" data-arg="<% Response.Write(mm.PostTypeID);%>" />
+                            <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_post" data-arg="<% Response.Write(mm.PostTypeID);%>" />
                         
                        <%--<asp:Button ID="btn" runat="server" ClientIDMode="Static"  CssClass="btn btn-sm" style="float:right" CommandName="menu_post" 
                            Text="Add to Menu" OnClick="btn_Click"   CommandArgument="<% mm.PostTypeID %>"    />--%>
@@ -106,142 +257,141 @@
                     
                        <% }  %>
 
-                      
+                      <%--menu_Tax--%>
 
                        <%List<Model_PostTaxonomy> cTaxList = null; %>
 
-       <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
-       <div class="ibox-title">
-       <h5>Product Categories</h5>
-       <div class="ibox-tools">
-       <a class="collapse-link">
-       <i class="fa fa-chevron-down"></i>
-       </a>
-       </div>
-       </div>
-       <div class="ibox-content" style="display: none;">
+                           <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
+                           <div class="ibox-title">
+                           <h5>Product Categories</h5>
+                           <div class="ibox-tools">
+                           <a class="collapse-link">
+                           <i class="fa fa-chevron-down"></i>
+                           </a>
+                           </div>
+                           </div>
+                           <div class="ibox-content" style="display: none;">
  
 
-        <%  cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(3, 1);
-        foreach (Model_PostTaxonomy p in cTaxList)
-        { %>
-           <p><input type="checkbox"  /><% Response.Write(p.Title); %></p>
-        <%  }%>
+                            <%  cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(3, 1);
+                            foreach (Model_PostTaxonomy p in cTaxList)
+                            { %>
+                               <p><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"   /><% Response.Write(p.Title); %></p>
+                            <%  }%>
 
-       <a>Select all</a>
-       <asp:Button ID="Button4" runat="server" CssClass="btn btn-sm" style="float:right" Text="Add to Menu" CommandName="menu_Taxonomy"  OnClick="btn_Click" />
+                           <a>Select all</a>
 
-       </div>
-       </div>
+                          <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_Tax" data-arg="3_1" />
+                           
 
-       <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
-       <div class="ibox-title">
-       <h5>Product Tags </h5>
-       <div class="ibox-tools">
-       <a class="collapse-link">
-       <i class="fa fa-chevron-down"></i>
-       </a>
-       </div>
-       </div>
-       <div class="ibox-content" style="display: none;">
+                           </div>
+                           </div>
+
+                           <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
+                           <div class="ibox-title">
+                           <h5>Product Tags </h5>
+                           <div class="ibox-tools">
+                           <a class="collapse-link">
+                           <i class="fa fa-chevron-down"></i>
+                           </a>
+                           </div>
+                           </div>
+                           <div class="ibox-content" style="display: none;">
 
       
-       <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(3, 2);
-        foreach (Model_PostTaxonomy p in cTaxList)
-        {%>
-           <p><input type="checkbox"  /><% Response.Write(p.Title); %></p>
-          <%}%>
+                           <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(3, 2);
+                            foreach (Model_PostTaxonomy p in cTaxList)
+                            {%>
+                               <p><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"   /><% Response.Write(p.Title); %></p>
+                              <%}%>
 
-       <a>Select all</a>
-      <asp:Button ID="Button3" runat="server" CssClass="btn btn-sm" style="float:right" Text="Add to Menu" OnClick="btn_Click" />
+                           <a>Select all</a>
+                       <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_Tax" data-arg="3_2" />
+                           
 
-       </div>
-       </div>
+                           </div>
+                           </div>
 
-       <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
-       <div class="ibox-title">
-       <h5>Blog Categories</h5>
-       <div class="ibox-tools">
-       <a class="collapse-link">
-       <i class="fa fa-chevron-down"></i>
-       </a>
-       </div>
-       </div>
-       <div class="ibox-content" style="display: none;">
+                           <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
+                           <div class="ibox-title">
+                           <h5>Blog Categories</h5>
+                           <div class="ibox-tools">
+                           <a class="collapse-link">
+                           <i class="fa fa-chevron-down"></i>
+                           </a>
+                           </div>
+                           </div>
+                           <div class="ibox-content" style="display: none;">
      
-        <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(2, 1);
-        foreach (Model_PostTaxonomy p in cTaxList)
-        {%>
-           <p><input type="checkbox"  /> <% Response.Write(p.Title); %></p>
-       <%  }%>
+                            <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(2, 1);
+                            foreach (Model_PostTaxonomy p in cTaxList)
+                            {%>
+                               <p><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"  /> <% Response.Write(p.Title); %></p>
+                           <%  }%>
 
-       <a>Select all</a>
-      <asp:Button ID="Button2" runat="server" CssClass="btn btn-sm" style="float:right" Text="Add to Menu" OnClick="btn_Click" />
+                           <a>Select all</a>
+                         <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_Tax" data-arg="2_1" />
+                           
 
-       </div>
-       </div>
+                           </div>
+                           </div>
 
 
-       <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
-       <div class="ibox-title">
-       <h5>Blog Tags</h5>
-       <div class="ibox-tools">
-       <a class="collapse-link">
-       <i class="fa fa-chevron-down"></i>
-       </a>
-       </div>
-       </div>
-       <div class="ibox-content" style="display: none;">
+                           <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
+                           <div class="ibox-title">
+                           <h5>Blog Tags</h5>
+                           <div class="ibox-tools">
+                           <a class="collapse-link">
+                           <i class="fa fa-chevron-down"></i>
+                           </a>
+                           </div>
+                           </div>
+                           <div class="ibox-content" style="display: none;">
        
-         <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(2, 2);
-        foreach (Model_PostTaxonomy p in cTaxList)
-        {%>
-           <p><input type="checkbox"  /> <% Response.Write(p.Title); %></p>
-         <% }%>
+                             <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(2, 2);
+                            foreach (Model_PostTaxonomy p in cTaxList)
+                            {%>
+                               <p><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"  /> <% Response.Write(p.Title); %></p>
+                             <% }%>
 
-       <a>Select all</a>
-       <asp:Button ID="Button1" runat="server" CssClass="btn btn-sm" style="float:right" Text="Add to Menu" OnClick="btn_Click" />
-       </div>
-       </div>
+                           <a>Select all</a>
+                           <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_Tax" data-arg="2_2" />
+                           
+                           </div>
+                           </div>
+
+
+                      <%--menu_Tax--%>
 
 
 
                        <div class="ibox float-e-margins border-bottom" style="margin-bottom:0px;">
-                       <div class="ibox-title">
-                       <h5>Custom Link </h5>
-                       <div class="ibox-tools">
-                       <a class="collapse-link">
-                       <i class="fa fa-chevron-down"></i>
-                       </a>
-                       </div>
-                       </div>
-                       <div class="ibox-content" style="display: none;">
-
-
-
-
-
-                   <div  class="form-horizontal">
-
-                   <div class="form-group"  ><label class="col-sm-2 control-label">Url</label>
-                   <div class="col-sm-10"> 
-
-                   <input type="text" class="form-control" />
-                   </div>
-
-                    </div>
-                   <div class="hr-line-dashed"></div>
-                   <div class="form-group"  ><label class="col-sm-2 control-label">Link Text</label>
-                   <div class="col-sm-10"> 
-                   <input type="text" class="form-control" />
-                   </div>
-
-                   </div>
-                   </div>
-
-
-                   </div>
-                   </div>
+                           <div class="ibox-title">
+                              <h5>Custom Link </h5>
+                              <div class="ibox-tools">
+                                 <a class="collapse-link">
+                                 <i class="fa fa-chevron-down"></i>
+                                 </a>
+                              </div>
+                           </div>
+                           <div class="ibox-content" style="display: none;">
+                              <div  class="form-horizontal">
+                                 <div class="form-group"  >
+                                    <label class="col-sm-2 control-label">Url</label>
+                                    <div class="col-sm-10"> 
+                                       <input type="text" class="form-control" />
+                                    </div>
+                                 </div>
+                                 <div class="hr-line-dashed"></div>
+                                 <div class="form-group"  >
+                                    <label class="col-sm-2 control-label">Link Text</label>
+                                    <div class="col-sm-10"> 
+                                       <input type="text" class="form-control" />
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
 
 
 
@@ -250,12 +400,162 @@
                 <div class="col-md-8">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>Menu Name : <asp:TextBox ID="TxtMenuName" runat="server"></asp:TextBox></h5>
-                            
+                            <h5  style="line-height:30px;margin-right:5px;">Menu Name : </h5>
+                             <asp:TextBox ID="TxtMenuName" style="width:250px;"  runat="server" CssClass="form-control"></asp:TextBox>
+                            <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-primary" OnClientClick="return UpdateSortMenu();" Text="Update" OnClick="btnUpdate_Click" style=" float: right;margin-top: -35px;" />
                         </div>
                         <div class="ibox-content">
                            
                             
+
+
+                             <section id="demo">
+
+                                <%-- ui-sortable mjs-nestedSortable-branch mjs-nestedSortable-expanded--%>
+
+                               <ol class="sortable">
+
+                                   <%  Model_Menu cm = new Model_Menu();
+                                       int Group = int.Parse(MenuIItem.SelectedValue);
+                                       List<Model_Menu> cml = cm.GetMenuAll(Group);
+
+                                       foreach (Model_Menu m in cml.Where(r=>r.MenuRefID == 0).ToList())
+                                       {%>
+                                            
+
+                                         <li style="display: list-item;"  id="menuItem_<% Response.Write(m.MID); %>" >
+                                             <div class="ibox float-e-margins  box_menu_custom_main" >
+                                                   <div class="ibox-title box_menu_custom">
+                                                      <h5><% Response.Write(m.Title); %></h5>
+                                                      <div class="ibox-tools">
+                                                         <a class="collapse-link">
+                                                         <i class="fa fa-chevron-down"></i>
+                                                         </a>
+                                                      </div>
+                                                   </div>
+                                                   <div class="ibox-content box_menu_custom_content" style="display: none;">
+                                                      <div  class="form-horizontal">
+                                                         <div class="form-group"  >
+                                                            <label class="col-sm-2 control-label">Label</label>
+                                                            <div class="col-sm-9"> 
+                                                               <input type="text" class="form-control" />
+                                                            </div>
+                                                         </div>
+                                                         <div class="hr-line-dashed"></div>
+                                                         <div class="form-group"  >
+                                                            <label class="col-sm-2 control-label">Title Tag</label>
+                                                            <div class="col-sm-9"> 
+                                                               <input type="text" class="form-control" />
+                                                            </div>
+                                                         </div>
+                                                          <div class="hr-line-dashed"></div>
+                                                         <div class="form-group"  >
+                                                            <label class="col-sm-11 control-label"><small> Original:</small>
+                                                                <% Response.Write(m.Slug); %>
+
+                                                            </label>
+                                                            
+                                                         </div>
+                                                            <div class="hr-line-dashed"></div>
+                                                          <div class="form-group">
+                                                              <div class="col-md-11">
+                                                                  <a href="#" data-id="<% Response.Write(m.MID); %>"  class="btn_delete">Delete</a>
+                                                              </div>
+
+                                                          </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                     
+
+                                 <%List<Model_Menu> cml_c = cml.Where(i => i.MenuRefID == m.MID).ToList();
+
+                                     if (cml_c.Count > 0) {  %>
+
+                                              <ol>
+                                                  <%foreach(Model_Menu mc in cml_c){ %>
+                                                  <li style="display: list-item;"  id="menuItem_<% Response.Write(mc.MID); %>">
+                                                    <div class="ibox float-e-margins box_menu_custom_main">
+                                                           <div class="ibox-title box_menu_custom">
+                                                              <h5><% Response.Write(mc.Title); %></h5>
+                                                              <div class="ibox-tools">
+                                                                 <a class="collapse-link">
+                                                                 <i class="fa fa-chevron-down"></i>
+                                                                 </a>
+                                                              </div>
+                                                           </div>
+                                                           <div class="ibox-content box_menu_custom_content" style="display: none;">
+                                                              <div  class="form-horizontal">
+                                                                 <div class="form-group"  >
+                                                                    <label class="col-sm-2 control-label">Url</label>
+                                                                    <div class="col-sm-10"> 
+                                                                       <input type="text" class="form-control" />
+                                                                    </div>
+                                                                 </div>
+                                                                 <div class="hr-line-dashed"></div>
+                                                                 <div class="form-group"  >
+                                                                    <label class="col-sm-2 control-label">Link Text</label>
+                                                                    <div class="col-sm-10"> 
+                                                                       <input type="text" class="form-control" />
+                                                                    </div>
+                                                                 </div>
+                                                                   <div class="hr-line-dashed"></div>
+                                                                     <div class="form-group"  >
+                                                                        <label class="col-sm-11 control-label"><small> Original:</small>
+                                                                            <% Response.Write(mc.Slug); %>
+
+                                                                        </label>
+                                                            
+                                                                     </div>
+                                                                  <div class="hr-line-dashed"></div>
+                                                                      <div class="form-group">
+                                                                          <div class="col-sm-11">
+                                                                              <a href="#" data-id="<% Response.Write(mc.MID); %>" class="btn_delete">Delete</a>
+                                                                          </div>
+
+                                                                      </div>
+                                                              </div>
+                                                           </div>
+                                                        </div>
+                                                  </li>
+
+                                                   <%} %>
+                                            </ol>
+                                             
+
+                                    <%} %>
+                                  
+
+                                        </li>
+
+                                        
+
+                                   <%} %>
+                                 
+                                 
+                                  
+                               </ol>
+
+                                 <input type="hidden" id="Nest_ret" name="Nest_ret" />
+                               <%--<h3>Try the custom methods:</h3>
+                               <p><br>
+                                  <input id="serialize" name="serialize" type="submit" value=
+                                     "Serialize">
+                               </p>
+                               <pre id="serializeOutput">
+		                                                            </pre>
+                               <p><input id="toArray" name="toArray" type="submit" value=
+                                  "To array"></p>
+                               <pre id="toArrayOutput">
+		                                                            </pre>
+                               <p><input id="toHierarchy" name="toHierarchy" type="submit" value=
+                                  "To hierarchy"></p>
+                               <pre id="toHierarchyOutput">
+		                                                            </pre>
+                               <p><em>Note: This demo has the <code>maxLevels</code> option set to '4'.</em></p>--%>
+                            </section>      
+
+
                           
                         </div>
                     </div>
@@ -283,7 +583,7 @@
 
                 var arch = $('input[name="PostID_Archive_' + cmdarg + '"]:checked');
                 var post = $('input[name="PostID_' + cmdarg + '"]:checked');
-
+                var tax = $('input[name="TaxID_' + cmdarg + '"]:checked');
                 var strpost = $.map(post, function (obj) {
                     return obj.value
                 }).join(',');
@@ -292,11 +592,16 @@
                     return obj.value
                 }).join(',');
 
+                var strtax = $.map(tax, function (obj) {
+                    return obj.value
+                }).join(',');
+
                 var pr = {
                     cmd: cmd,
                     cmdarg: cmdarg,
                     strpost:strpost,
                     strarch: strarch,
+                    strtax: strtax,
                     GroupID :$('#MenuIItem').val()
                 }
                 
@@ -306,17 +611,143 @@
                 AjaxPost(url, param, null, function (data) {
                     if (data.success) {
 
-                       
-
-                       
-
+                        window.location.href = "Menu";
                     }
 
                 });
 
                 return false;
             });
+
+
+
+            var ns = $('ol.sortable').nestedSortable({
+                forcePlaceholderSize: true,
+                handle: 'div',
+                helper: 'clone',
+                items: 'li',
+                opacity: .6,
+                placeholder: 'placeholder',
+                revert: 250,
+                tabSize: 25,
+                tolerance: 'pointer',
+                toleranceElement: '> div',
+                maxLevels: 4,
+                isTree: true,
+                expandOnHover: 700,
+                startCollapsed: false,
+                change: function () {
+
+                    serialized = $('ol.sortable').nestedSortable('serialize');
+                    $('#Nest_ret').val(serialized);
+
+                    console.log(serialized);
+                    //$('#serializeOutput').text(serialized + '\n\n');
+                   
+                    console.log('Relocated item');
+                },
+                sort: function () {
+                   
+                }
+            });
+
+            $('.expandEditor').attr('title', 'Click to show/hide item editor');
+            $('.disclose').attr('title', 'Click to show/hide children');
+            $('.deleteMenu').attr('title', 'Click to delete item.');
+
+            $('.disclose').on('click', function () {
+                $(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
+                $(this).toggleClass('ui-icon-plusthick').toggleClass('ui-icon-minusthick');
+            });
+
+            $('.expandEditor, .itemTitle').click(function () {
+                var id = $(this).attr('data-id');
+                $('#menuEdit' + id).toggle();
+                $(this).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
+            });
+
+            $('.btn_delete').click(function () {
+                var id = $(this).attr('data-id');
+                $('#menuItem_' + id).remove();
+                return false;
+            });
+
+            $('#serialize').click(function () {
+                serialized = $('ol.sortable').nestedSortable('serialize');
+                $('#serializeOutput').text(serialized + '\n\n');
+                return false;
+            })
+
+            $('#toHierarchy').click(function (e) {
+                hiered = $('ol.sortable').nestedSortable('toHierarchy', { startDepthCount: 0 });
+                hiered = dump(hiered);
+                (typeof ($('#toHierarchyOutput')[0].textContent) != 'undefined') ?
+                    $('#toHierarchyOutput')[0].textContent = hiered : $('#toHierarchyOutput')[0].innerText = hiered;
+
+                return false;
+            })
+
+            $('#toArray').click(function (e) {
+                arraied = $('ol.sortable').nestedSortable('toArray', { startDepthCount: 0 });
+                arraied = dump(arraied);
+                (typeof ($('#toArrayOutput')[0].textContent) != 'undefined') ?
+                    $('#toArrayOutput')[0].textContent = arraied : $('#toArrayOutput')[0].innerText = arraied;
+
+                return false;
+            });
+
+
         });
+
+        function UpdateSortMenu() {
+            var url = "<%= ResolveUrl("/admin/Post/ajax_webmethod_post.aspx/UpdateSortMenu") %>";
+            
+            
+
+            var arraied  = $('ol.sortable').nestedSortable('toArray', { startDepthCount: 1 });
+            
+
+
+            var pr = {
+                GroupID: $('#MenuIItem').val(),
+                arraied: arraied
+            }
+            //var url = "/Application/ajax/mailbox/ajax_webmethod_mailbox.aspx/Trash";
+            var param = JSON.stringify({ parameters: pr });
+            AjaxPost(url, param, null, function (data) {
+                if (data.success) {
+
+                }
+
+            });
+
+            return true;
+        }
+
+        function dump(arr, level) {
+            var dumped_text = "";
+            if (!level) level = 0;
+
+            //The padding given at the beginning of the line.
+            var level_padding = "";
+            for (var j = 0; j < level + 1; j++) level_padding += "    ";
+
+            if (typeof (arr) == 'object') { //Array/Hashes/Objects
+                for (var item in arr) {
+                    var value = arr[item];
+
+                    if (typeof (value) == 'object') { //If it is an array,
+                        dumped_text += level_padding + "'" + item + "' ...\n";
+                        dumped_text += dump(value, level + 1);
+                    } else {
+                        dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+                    }
+                }
+            } else { //Strings/Chars/Numbers etc.
+                dumped_text = "===>" + arr + "<===(" + typeof (arr) + ")";
+            }
+            return dumped_text;
+        }
        
     </script>
     </asp:Content>

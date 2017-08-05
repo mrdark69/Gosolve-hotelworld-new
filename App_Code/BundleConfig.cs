@@ -57,6 +57,7 @@ namespace gs_newsletter
                       "~/Scripts/theme/plugins/clockpicker/clockpicker.js",
                     //"~/Scripts/theme/plugins/blueimp/jquery.blueimp-gallery.min.js",
                     "~/Scripts/theme/plugins/dropzone/dropzone.js",
+                    "~/Scripts/theme/plugins/nestSortable/jquery.mjs.nestedSortable.js",
                     "~/Scripts/gs.app.tools.js",
                      "~/Scripts/theme/main.js"
                    ));

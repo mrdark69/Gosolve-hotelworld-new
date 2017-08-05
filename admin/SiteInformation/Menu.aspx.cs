@@ -39,6 +39,10 @@ public partial class _Menu : Page
             MenuIItem.DataValueField = "MGID";
             MenuIItem.DataTextField = "Title";
             MenuIItem.DataBind();
+
+            cMeg = cMeg.GetMenuGroupByID(int.Parse(MenuIItem.SelectedValue));
+
+            TxtMenuName.Text = cMeg.Title;
         }
     }
 
@@ -76,5 +80,10 @@ public partial class _Menu : Page
                 break;
         }
         
+    }
+
+    protected void btnUpdate_Click(object sender, EventArgs e)
+    {
+        string dd = Request.Form["Nest_ret"];
     }
 }

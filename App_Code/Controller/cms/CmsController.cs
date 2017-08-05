@@ -77,68 +77,175 @@ public class CmsController
         Model_Post post = new Model_Post();
         return post.GetPostArchiveByPostType(PostTypeID);
     }
+    public static bool UpdateSortMenu(dynamic parameters)
+    {
+        string MenuGroupID = parameters["GroupID"];
+        dynamic[] d = (dynamic[])parameters["arraied"];
+        Model_Menu cm = new Model_Menu();
+        int x = 0;
+        int count = 1;
+        string arrId = string.Empty;
+        foreach(dynamic i in d)
+        {
+            if (x > 0)
+            {
+                string p = (i["parent_id"] == null ?"0" : (string)i["parent_id"]); 
+                string ii = (i["id"] == null? "0":(string)i["id"]);
+
+
+                cm.UpdateSort(int.Parse(ii), int.Parse(p), count);
+
+                    count = count + 1;
+
+                arrId = arrId + "," + ii;
+            }
+
+            
+            x = x + 1;
+
+        }
+
+        
+      cm.DeleteArr(arrId.Substring(1));
+        return true;
+    }
+
+ 
 
     public static bool InsertMenu(dynamic parameters)
     {
 
         string cmd = parameters["cmd"];
 
-        string cmdarg = parameters["cmdarg"];
+       // int cmdarg = (int)parameters["cmdarg"];
 
         string strpost = parameters["strpost"];
 
         string strarch = parameters["strarch"];
 
-        MenuCategory mCat = 0;
+        string strtax = parameters["strtax"];
+
+
+        string MenuGroupID = parameters["GroupID"];
+
+       
+        
+        Model_PostType cpt = new Model_PostType();
+      
+
+
+        string Title = string.Empty;
 
         if (!string.IsNullOrEmpty(cmd))
         {
+           
+
             switch (cmd)
             {
                 case "menu_post":
 
                     if (!string.IsNullOrEmpty(strarch))
                     {
-                        mCat = MenuCategory.Archive;
+                        byte PostTypeID = byte.Parse(strarch);
+                        Model_PostType cPt = new Model_PostType();
+                        cpt = cpt.GetPostTypeByID(PostTypeID);
 
+                        Model_Menu cme = new Model_Menu();
+                        cme.MGID = int.Parse(MenuGroupID);
+                        cme.Title = cpt.Slug;
+                        cme.TitleOrigin = cpt.Slug;
+                        cme.Slug = cpt.Slug;
+                        cme.CustomUrl = "";
+                        cme.Status = true;
+                        cme.MenuRefID = 0;
+                        cme.Lv = 1;
+                        cme.Priority = 1;
+                        cme.MCategory = (byte)MenuCategory.Archive;
+                        cme.PostTypeID = cpt.PostTypeID;
+                        cme.InsertMenuFirst(cme);
                     }
 
                     if (!string.IsNullOrEmpty(strpost))
                     {
-                        mCat = MenuCategory.Post;
+                       
+                        foreach(string post in strpost.Split(','))
+                        {
+                            int postID = int.Parse(post);
+                            Model_Post cP = new Model_Post();
+                            cP = cP.GetPostByID(postID);
 
+
+                            Model_Menu cme = new Model_Menu();
+                            cme.MGID = int.Parse(MenuGroupID);
+                            cme.Title = cP.Slug;
+                            cme.TitleOrigin = cP.Slug;
+                            cme.Slug = cP.Slug;
+                            cme.CustomUrl = "";
+                            cme.Status = true;
+                            cme.MenuRefID = 0;
+                            cme.Lv = 1;
+                            cme.Priority = 1;
+                            cme.MCategory = (byte)MenuCategory.Post;
+                            cme.PostID = cP.PostID;
+                            cme.InsertMenuFirst(cme);
+                        }
                     }
-
+                 
 
                         break;
                 case "menu_Tax":
-                    mCat = MenuCategory.Taxonomy;
+
+                    if (!string.IsNullOrEmpty(strtax))
+                    {
+
+                        foreach (string tax in strtax.Split(','))
+                        {
+                            int TaxId = int.Parse(tax);
+                            Model_PostTaxonomy mp = new Model_PostTaxonomy();
+                            mp = mp.GetTaxonomyByID(TaxId);
+
+
+                            Model_Menu cme = new Model_Menu();
+                            cme.MGID = int.Parse(MenuGroupID);
+                            cme.Title = mp.Slug;
+                            cme.TitleOrigin = mp.Slug;
+                            cme.Slug = mp.Slug;
+                            cme.CustomUrl = "";
+                            cme.Status = true;
+                            cme.MenuRefID = 0;
+                            cme.Lv = 1;
+                            cme.Priority = 1;
+                            cme.MCategory = (byte)MenuCategory.Taxonomy;
+                            cme.TaxID = mp.TaxID;
+                            cme.InsertMenuFirst(cme);
+                        }
+                    }
+                    // mCat = MenuCategory.Taxonomy;
                     break;
                 case "menu_custom":
-                    mCat = MenuCategory.CustomLink;
+                   // mCat = MenuCategory.CustomLink;
                     break;
             }
         }
 
 
-        Model_Menu cme = new Model_Menu
-        {
-            MGID = 0,
-            Title = "",
-            TitleOrigin = "",
-            Slug="",
-            MenuTypeID= 2,
-            CustomUrl = "",
-            Status = true,
-            MenuRefID= 0,
-            Lv = 1,
-            IsCustomUrl = true,
-            Priority=1,
-            MCategory = 1,
-            TaxID=1,
-            PostTypeID=1,
-            PostID = 1
-        };
+        //Model_Menu cme = new Model_Menu
+        //{
+
+        //    Title = "",
+        //    TitleOrigin = "",
+        //    Slug="",
+        //    CustomUrl = "",
+        //    Status = true,
+        //    MenuRefID= 0,
+        //    Lv = 1,
+        //    IsCustomUrl = true,
+        //    Priority=1,
+        //    MCategory = (byte)mCat,
+        //    TaxID=1,
+        //    PostTypeID=1,
+        //    PostID = 1
+        //};
 
         return true;
     }
