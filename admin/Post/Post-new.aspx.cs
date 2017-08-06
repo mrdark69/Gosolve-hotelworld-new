@@ -12,7 +12,17 @@ public partial class _Page_New : BasePage
         if (!this.Page.IsPostBack)
         {
 
-         
+            byte intPostTypeID = byte.Parse(this.PostTypeID);
+
+            Model_PostType cp = new Model_PostType();
+
+            cp = cp.GetPostTypeByID(intPostTypeID);
+            Literal hTitle = this.Page.Master.FindControl("PageTitleHeader") as Literal;
+
+            string Title = cp.Title;
+            hTitle.Text = ": " + Title;
+
+            //titlepage.Text = Title + " List";
 
 
         }

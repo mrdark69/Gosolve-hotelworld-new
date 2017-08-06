@@ -17,16 +17,27 @@ public partial class _Taxonomy : BasePage
             if (this.TaxTypeID == "2")
                 taxParent.Visible = false;
 
+            byte intPostTypeID = byte.Parse(this.PostTypeID);
+            byte intTaxTypeID = byte.Parse(this.TaxTypeID);
+
             Model_PostTaxonomy pt = new Model_PostTaxonomy
             {
-                PostTypeID = byte.Parse(this.PostTypeID),
-                TaxTypeID = byte.Parse(this.TaxTypeID)
+                PostTypeID = intPostTypeID,
+                TaxTypeID = intTaxTypeID
             };
 
             List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyByIDMain(pt);
 
+            Model_PostType cp = new Model_PostType();
+            
+           cp = cp.GetPostTypeByID(intPostTypeID);
+
+
+         
+
+
            Literal hTitle = this.Page.Master.FindControl("PageTitleHeader") as Literal;
-            hTitle.Text = "sss";
+            hTitle.Text = ": " + cp.Title + "-" + (intTaxTypeID == 1 ? "Category" : "Tags");
 
             ListItem listitem = new ListItem("None", "0");
             if (!string.IsNullOrEmpty(this.Mode))

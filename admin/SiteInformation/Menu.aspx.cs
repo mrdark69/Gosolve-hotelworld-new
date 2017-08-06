@@ -13,34 +13,26 @@ public partial class _Menu : Page
     {
         if (!this.Page.IsPostBack)
         {
-
-
-            //Button dd = this.Master.FindControl("MainContent").FindControl("1") as Button;
-            //dd.Enabled = false;
-            //dd.Click += new EventHandler(btn_Click);
-
-
-            //but dd = this.Master.FindControl("MainContent").Controls;
-            //int count = 1;
-            //foreach (Control ss in dd)
-            //{
-            //    if (ss.GetType().Name == "Button" && ss.ID == "btn")
-            //    {
-            //        //Button tblForm = ss as Button;
-            //        ((Button)ss).CommandArgument = count.ToString();
-            //        count = count + 1;
-            //    }
-
-            //    // Response.Write(ss.GetType().Name);
-            //}
-
             Model_Group cMeg = new Model_Group();
             MenuIItem.DataSource = cMeg.GetMenuGroupAll();
             MenuIItem.DataValueField = "MGID";
             MenuIItem.DataTextField = "Title";
             MenuIItem.DataBind();
 
-            cMeg = cMeg.GetMenuGroupByID(int.Parse(MenuIItem.SelectedValue));
+
+            int MID = int.Parse(MenuIItem.SelectedValue);
+            if (string.IsNullOrEmpty(Request.QueryString["menu"]))
+            {
+                MID = int.Parse(MenuIItem.SelectedValue);
+            }
+            else
+            {
+                MID = int.Parse(Request.QueryString["menu"]);
+                MenuIItem.SelectedValue = Request.QueryString["menu"];
+            }
+
+            cMeg = cMeg.GetMenuGroupByID(MID);
+
 
             TxtMenuName.Text = cMeg.Title;
         }
@@ -86,5 +78,19 @@ public partial class _Menu : Page
 
         Response.Redirect(Request.Url.ToString());
         Response.End();
+    }
+
+    
+   
+    protected void btndropSel_Click(object sender, EventArgs e)
+    {
+
+        Response.Redirect("Menu?menu=" + MenuIItem.SelectedValue);
+        Response.End();
+        //Model_Group cMeg = new Model_Group();
+        //cMeg = cMeg.GetMenuGroupByID(int.Parse(MenuIItem.SelectedValue));
+
+        //TxtMenuName.Text = cMeg.Title;
+        
     }
 }

@@ -13,7 +13,7 @@ public partial class _Default : Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        //Response.Write(HttpUtility.UrlDecode(Request.Url.AbsolutePath)));Response.End();
         if (!this.Page.IsPostBack)
         {
             this.Page.Title = "XXXXXX";
@@ -23,9 +23,13 @@ public partial class _Default : Page
 
             Model_PageEngine PageEngine = new Model_PageEngine();
             PageEngine.SiteInfo = st.GetSiteInfo();
+            PageEngine.MainSetting = setting;
 
 
-
+            Model_Menu m = new Model_Menu();
+          
+            PageEngine.NavMenu = m.GetMenuAll(1);
+            PageEngine.FooterMenu = m.GetMenuAll(2);
 
             //string[] dd = { "fixed-sidebar", "no-skin-config", "full-height-layout" };
             //StyleCore dd = new StyleCore();
@@ -105,8 +109,11 @@ public partial class _Default : Page
 
 
                     HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
-                   // content.Text = post.BodyContent;
+                    // content.Text = post.BodyContent;
 
+                    this.ContentBody = post.BodyContent;
+                    this.PageContentTitle = post.Title;
+                    section_page_home.Visible = true;
 
                 }
             }

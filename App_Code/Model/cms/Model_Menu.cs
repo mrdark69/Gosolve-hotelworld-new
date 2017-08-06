@@ -117,6 +117,34 @@ public class Model_Menu : BaseModel<Model_Menu>
     public string PostSlug { get; set; }
     public string PostPostTypeTitle { get; set; }
 
+    private string _currentSlug = string.Empty;
+    public string CurrentSlug
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(_currentSlug))
+            {
+                switch (this.MCategory)
+                {
+                    case 1:
+                        _currentSlug = this.PostSlug;
+                        break;
+                    case 2:
+                        _currentSlug = this.PostTypeSlug;
+                        break;
+                    case 3:
+                        _currentSlug = this.TaxSlug;
+                        break;
+                    case 4:
+                        _currentSlug = this.CustomUrl;
+                        break;
+                }
+            }
+
+            return _currentSlug;
+        }
+    }
+
     public Model_Menu()
     {
         //
@@ -168,13 +196,16 @@ public class Model_Menu : BaseModel<Model_Menu>
             return ExecuteNonQuery(cmd) == 1;
         }
     }
+
+
+   
     public List<Model_Menu> GetMenuAll_mini(int MGID)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand(@"SELECT * FROM Menu 
             WHERE Status =1 AND MGID=@MGID
-            ORDER BY MID ASC, MenuRefID ASC, Priority ASC
+            ORDER BY m.Priority ASC ,  m.MenuRefID ASC, m.MID  ASC
             ", cn);
             cmd.Parameters.Add("@MGID", SqlDbType.Int).Value = MGID;
             cn.Open();
@@ -191,8 +222,9 @@ public class Model_Menu : BaseModel<Model_Menu>
                 post.PostSlug,post.PostPostTypeTitle  
                 FROM Menu m
 
-                OUTER APPLY (SELECT pt.Slug As TaxSlug, ptt.Title AS TagTypeTitle 
+                OUTER APPLY (SELECT ps.Slug + '/'+pt.Slug As TaxSlug, ptt.Title AS TagTypeTitle 
                 FROM PostTaxonomy pt INNER JOIN PostTaxonomyType ptt ON ptt.TaxTypeID = pt.TaxTypeID
+                INNER JOIN PostType ps ON ps.PostTypeID = pt.PostTypeID
                 WHERE pt.TaxID = m.TaxID) AS tax
 
                 OUTER APPLY (SELECT pt.Slug AS PostTypeSlug, pt.Title AS PostTypeTitle FROM PostType pt WHERE pt.PostTypeID=m.PostTypeID) AS postType
@@ -201,7 +233,7 @@ public class Model_Menu : BaseModel<Model_Menu>
 
                 WHERE p.PostID=m.PostID) AS post
                 WHERE m.Status =1 AND m.MGID=@MGID
-                ORDER BY m.MID ASC, m.MenuRefID ASC, m.Priority ASC
+                ORDER BY m.Priority ASC ,  m.MenuRefID ASC, m.MID  ASC
             ", cn);
             cmd.Parameters.Add("@MGID", SqlDbType.Int).Value = MGID;
             cn.Open();

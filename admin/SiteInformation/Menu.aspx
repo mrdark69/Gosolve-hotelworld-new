@@ -201,8 +201,8 @@
                         </div>
                         <div class="ibox-content">
                            
-                        Select menu to edit:    <asp:DropDownList ClientIDMode="Static" ID="MenuIItem" CssClass="form-control" runat="server"></asp:DropDownList>
-                          
+                      <span style="display:inline-block">Select menu to edit: </span>     <asp:DropDownList ClientIDMode="Static" Width="200px"  style="display:inline-block" ID="MenuIItem" CssClass="form-control" runat="server"></asp:DropDownList>
+                          <asp:Button ID="btndropSel" runat="server" CssClass="btn btn-success" Text="Select" OnClick="btndropSel_Click" />
                         </div>
                     </div>
                 </div>
@@ -425,7 +425,7 @@
                                <ol class="sortable">
 
                                    <%  Model_Menu cm = new Model_Menu();
-                                       int Group = int.Parse(MenuIItem.SelectedValue);
+                                       int Group = (string.IsNullOrEmpty(Request.QueryString["menu"])?int.Parse(MenuIItem.SelectedValue): int.Parse(Request.QueryString["menu"]) )   ;
                                        List<Model_Menu> cml = cm.GetMenuAll(Group);
 
                                        foreach (Model_Menu m in cml.Where(r=>r.MenuRefID == 0).ToList())

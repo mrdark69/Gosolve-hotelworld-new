@@ -16,6 +16,12 @@ using System.Web.Providers.Entities;
 public class Model_PageEngine : BaseModel<Model_PostSEOMap>
 {
     public Model_SiteInfo SiteInfo { get; set; }
+
+    public Model_MainSetting MainSetting { get; set; }
+
+    public List<Model_Menu> NavMenu { get; set; }
+
+    public List<Model_Menu> FooterMenu { get; set; }
 }
 
     

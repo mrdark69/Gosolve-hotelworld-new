@@ -15,29 +15,37 @@ using System.Web.UI.WebControls;
     //private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
     //private string _antiXsrfTokenValue;
 
-    public Model_PageEngine PageEngine { get; set; }
+        public Model_PageEngine PageEngine { get; set; }
     //public Model_SiteInfo SiteInfo { get; set; }
 
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            
-        }
-
-        protected void master_Page_PreLoad(object sender, EventArgs e)
-        {
-            
-        }
+       
 
         protected void Page_Load(object sender, EventArgs e)
         {
             
             //  string text = File.ReadAllText(HttpContext.Current.Server.MapPath("/Theme/emailtemplate/layoutforgot.html"), Encoding.UTF8);
         }
+    
 
-        protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
+        public string checkActive( string p2, bool Ishome)
         {
-            //Context.GetOwinContext().Authentication.SignOut();
+            string active = string.Empty;
+        string abp = HttpUtility.UrlDecode(Request.Url.AbsolutePath);
+                if (abp  == "/"+p2 || (Ishome && abp == "/Default.aspx"))
+                {
+                    active = "active";
+                }
+            return active;
         }
+
+
+//    Don't treat it as a URI problem, treat it a string problem. Then it's nice and easy.
+
+//String originalPath = new Uri(HttpContext.Current.Request.Url.AbsoluteUri).OriginalString;
+//    String parentDirectory = originalPath.Substring(0, originalPath.LastIndexOf("/"));
+//    Really is that easy!
+
+//Edited to add missing parenthesis.
     }
 
 

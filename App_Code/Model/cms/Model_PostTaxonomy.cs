@@ -86,6 +86,7 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
     public int Lv { get; set; }
     public int Priority { get; set; }
 
+    public bool Trash { get; set; }
     public string DatePublishFormat
     {
         get

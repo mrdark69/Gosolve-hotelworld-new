@@ -67,7 +67,7 @@ public class Model_Post : BaseModel<Model_Post>
 
     public int ViewCount { get; set; }
 
-    
+    public bool Trash { get; set; }
 
     public string DatePublishFormat
     {

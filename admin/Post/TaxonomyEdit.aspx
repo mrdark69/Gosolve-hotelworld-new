@@ -1,5 +1,11 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="TaxonomyEdit.aspx.cs" Inherits="_TaxonomyEdit" %>
-
+<asp:Content ID="HeaderScript" ContentPlaceHolderID="HeaderScript" runat="server">
+    <style>
+        .list_status.active{
+            font-weight:bold;
+        }
+    </style>
+</asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
@@ -7,11 +13,12 @@
 
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>Staff List </h5>
+                            <h5><asp:Literal ID="titlepage" runat="server"></asp:Literal></h5>
 
                             
                         </div>
                         <div class="ibox-content">
+
                             <div class="row">
                                 <div class="col-sm-5 m-b-xs">
                                   <%-- <strong>Role:</strong> <asp:DropDownList ID="dropRole" ClientIDMode="Static" runat="server" CssClass="input-sm form-control input-s-sm inline">
@@ -32,7 +39,8 @@
                                     </div>--%>
                                 </div>
                                 <div class="col-sm-3" style="text-align:right">
-                                   <asp:HyperLink ID="addTax" runat="server" CssClass="btn btn-w-m btn-success" Text="Add New"></asp:HyperLink>
+                                    <a class="list_status active" data-status="true" href="#" id="list_all_status"> All (<label></label>)</a> | <a class="list_status" id="list_trash_status"  data-status="false">Trash (<label></label>)</a> 
+                                   <%--<asp:HyperLink ID="addTax" runat="server" CssClass="btn btn-w-m btn-success" Text="Add New"></asp:HyperLink>--%>
                                    <%-- <a  href="Taxonomy.aspx?Mode=add" class="btn btn-w-m btn-success">Add New</a>--%>
                                    <%-- <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
                                         <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>--%>
@@ -77,7 +85,20 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+
+
             getList();
+
+
+            $('.list_status').on('click', function () {
+                $('.list_status').removeClass('active');
+                $(this).toggleClass('active');
+                getList();
+
+
+                return false;
+            });
 
             ////$('#dropRole').on('change', function () {
 
@@ -103,7 +124,17 @@
             }, function (data) {
 
               //  console.log(data);
-                var h = GenlistAll(data);
+                
+
+                var s = $('.list_status.active').data('status');
+                var total = $.grep(data, function (e) { return e.Trash == true; });
+                var trash = $.grep(data, function (e) { return e.Trash == false; });
+
+                var newdata = (s? total : trash);
+                var h = GenlistAll(newdata);
+
+                $('#list_all_status label').html(total.length);
+                $('#list_trash_status label').html(trash.length);
                 $('#body_list').html(h);
                
             });
@@ -112,17 +143,18 @@
 
         function GenlistAll(raw_data) {
             var ret = "";
-
+            var TaxTypeID = getParameterByName('TaxTypeID');
+            var PostTypeID = getParameterByName('PostTypeID');
             var data = $.grep(raw_data, function (e) { return e.RefID == 0; }); 
             for (var i in data) {
               
                 ret += '<tr>';
                 //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
-                ret += '   <td><strong><i class="fa fa-star"></i>' + data[i].Title+'</strong></td>';
+                ret += '   <td><strong><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID +'"><i class="fa fa-star"></i>' + data[i].Title+'</a></strong></td>';
                 ret += '   <td>' + data[i].UserFirstName +'</td>';
                 ret += '   <td>' + data[i].DatePublishFormat +'</td>';
                 ret += '   <td><span class="label label-primary">' + data[i].ViewCount +'</span></td>';
-                ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=3&TaxTypeID=1&TaxID=' + data[i].TaxID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
+                ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID+'&TaxTypeID=' + TaxTypeID+'&TaxID=' + data[i].TaxID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
                 ret += '   </tr >';
 
                 var lv1 = $.grep(raw_data, function (e) { return e.RefID == data[i].TaxID; }); 
@@ -137,7 +169,9 @@
             return ret;
         }
 
-        function child(v,RawData,data, key) {
+        function child(v, RawData, data, key) {
+            var TaxTypeID = getParameterByName('TaxTypeID');
+            var PostTypeID = getParameterByName('PostTypeID');
             var ret = "";
             if (data.length > 0) {
                 v = v + 1;
@@ -145,7 +179,7 @@
 
                     ret += '<tr>';
                     //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
-                    ret += '   <td>' + level(v) + data[i].Title + '</td>';
+                    ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID +'">' + level(v) + data[i].Title + '</a></td>';
                     ret += '   <td>' + data[i].UserFirstName + '</td>';
                     ret += '   <td>' + data[i].DatePublishFormat + '</td>';
                     ret += '   <td><span class="label label-primary">' + data[i].ViewCount + '</span></td>';
