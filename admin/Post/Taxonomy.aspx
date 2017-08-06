@@ -232,6 +232,8 @@
                   </div>
                   <div class="form-group" style="text-align:right">
                      <div >
+                         <asp:LinkButton ID="linktrash" runat="server" CausesValidation="false" OnClick="linktrash_Click" style="float:left;margin-left:10px;text-decoration:underline;margin-top:10px;" Text="Move to trash"></asp:LinkButton>
+                         <asp:LinkButton ID="linkrestore" runat="server" CausesValidation="false" Visible="false" OnClick="linkrestore_Click" style="float:left;margin-left:10px;text-decoration:underline;margin-top:10px;" Text="Restore"></asp:LinkButton>
                         <asp:Button ID="btnPubish" runat="server" CssClass="btn btn-primary" Text="Update" OnClick="btnPubish_Click" />
                      </div>
                   </div>

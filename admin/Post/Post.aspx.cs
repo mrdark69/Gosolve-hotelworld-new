@@ -37,6 +37,19 @@ public partial class _Post : BasePage
                     slug.Text = p.Slug;
                     viewcount.Text = p.ViewCount.ToString();
 
+                    if (p.Trash)
+                    {
+                        linktrash.Visible = true;
+                        linkrestore.Visible = false;
+                    }
+                    else
+                    {
+                        linktrash.Visible = false;
+                        linkrestore.Visible = true;
+
+                    }
+
+
 
                     CoverType.Value = p.BannerTypeID.ToString();
                     radioshowmMS.SelectedValue = p.ShowMasterSlider.ToString();
@@ -167,5 +180,31 @@ public partial class _Post : BasePage
         }
        
 
+    }
+
+    protected void linktrash_Click(object sender, EventArgs e)
+    {
+        int intPostID = int.Parse(Request.QueryString["PostID"]);
+        byte intPostTypeID = byte.Parse(Request.QueryString["PostTypeID"]);
+
+        Model_Post p = new Model_Post();
+        if (p.UPDATETrash(intPostID, false))
+        {
+            Response.Redirect("Edit?PostTypeID=" + intPostTypeID);
+        }
+
+
+    }
+
+    protected void linkrestore_Click(object sender, EventArgs e)
+    {
+        int intPostID = int.Parse(Request.QueryString["PostID"]);
+        //byte intPostTypeID = byte.Parse(Request.QueryString["PostTypeID"]);
+
+        Model_Post p = new Model_Post();
+        if (p.UPDATETrash(intPostID, true))
+        {
+            Response.Redirect(Request.Url.ToString());
+        }
     }
 }

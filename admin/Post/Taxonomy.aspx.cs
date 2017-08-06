@@ -90,6 +90,19 @@ public partial class _Taxonomy : BasePage
                         txtTitle.Text = tax.Title.Trim();
                         lbldatepublish.Text = tax.DatePublish.ToThaiDateTime().ToString("dd MMM yyyy HH:mm tt");
                         dropStatus.SelectedValue = tax.Status.ToString();
+
+                        if (tax.Trash)
+                        {
+                            linktrash.Visible = true;
+                            linkrestore.Visible = false;
+                        }
+                        else
+                        {
+                            linktrash.Visible = false;
+                            linkrestore.Visible = true;
+
+                        }
+
                         if (tax.TaxSEO != null)
                         {
                             Model_PostSeo seo = tax.TaxSEO;
@@ -291,5 +304,30 @@ public partial class _Taxonomy : BasePage
             Response.Redirect("Taxonomy.aspx?TaxTypeID=" + this.TaxTypeID + "&PostTypeID=" + this.PostTypeID + "&Mode=Edit&TaxID=" + TaxID);
     }
 
+    protected void linktrash_Click(object sender, EventArgs e)
+    {
+        int TaxTypeID = int.Parse(this.TaxTypeID);
+        byte intPostTypeID = byte.Parse(this.PostTypeID);
+        int TaxID = int.Parse(Request.QueryString["TaxID"]);
 
+        Model_PostTaxonomy tax = new Model_PostTaxonomy();
+        if (tax.UPdateTaxonomyTrash(TaxID, false))
+        {
+            Response.Redirect("TaxonomyEdit?PostTypeID=" + intPostTypeID + "&TaxTypeID="+ TaxTypeID);
+        }
+
+
+    }
+
+    protected void linkrestore_Click(object sender, EventArgs e)
+    {
+       
+        int TaxID = int.Parse(Request.QueryString["TaxID"]);
+
+        Model_PostTaxonomy tax = new Model_PostTaxonomy();
+        if (tax.UPdateTaxonomyTrash(TaxID, true))
+        {
+            Response.Redirect(Request.Url.ToString());
+        }
+    }
 }

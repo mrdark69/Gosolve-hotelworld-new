@@ -34,6 +34,7 @@ public class Model_PostSEOMap : BaseModel<Model_PostSEOMap>
         }
     }
 
+    
     public int InsertMApSeo(Model_PostSEOMap seomap)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
@@ -198,7 +199,18 @@ public class Model_Post : BaseModel<Model_Post>
         }
     }
 
+    public bool UPDATETrash(int inPostID,bool trash)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE POST SET Trash=@Trash WHERE PostID=@PostID", cn);
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = inPostID;
 
+            cmd.Parameters.Add("@Trash", SqlDbType.Bit).Value = trash;
+            cn.Open();
+            return ExecuteNonQuery(cmd) == 1;
+        }
+    }
     public int InsertPost(Model_Post p)
     {
         int ret = 0;

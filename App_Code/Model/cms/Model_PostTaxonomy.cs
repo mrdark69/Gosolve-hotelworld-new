@@ -232,12 +232,27 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
 
     }
 
+    public bool UPdateTaxonomyTrash(int TaxID,bool Trash)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE PostTaxonomy SET Trash=@Trash  WHERE TaxID=@TaxID", cn);
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = TaxID;
+            cmd.Parameters.Add("@Trash", SqlDbType.Bit).Value = Trash;
+
+            cn.Open();
+
+            return ExecuteNonQuery(cmd) == 1;
+
+        }
+    }
+
     public Model_PostTaxonomy GetTaxonomyByID(int TaxID)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE TaxID=@TaxID", cn);
-            cmd.Parameters.Add("@TaxID", SqlDbType.TinyInt).Value = TaxID;
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = TaxID;
 
 
             cn.Open();
