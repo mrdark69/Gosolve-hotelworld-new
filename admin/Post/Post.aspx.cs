@@ -22,8 +22,8 @@ public partial class _Post : BasePage
                 if (p != null)
                 {
 
-                    string btnEdit = "<select name=\"content_status\" class=\"form-control\"><option "+ (p.Status ? "Selected=\"Selected\"" : "") + " value=\"True\" >Publish</option><option "+ (!p.Status ? "Selected=\"Selected\"" : "") + " value=\"False\">Draft</option></select>";
-                    lblstatus.Text =  btnEdit;
+                    //string btnEdit = "<select name=\"content_status\" class=\"form-control\"><option "+ (p.Status ? "Selected=\"Selected\"" : "") + " value=\"True\" >Publish</option><option "+ (!p.Status ? "Selected=\"Selected\"" : "") + " value=\"False\">Draft</option></select>";
+                    dropStatus.SelectedValue = p.Status.ToString();
                     //"<label>" + (p.Status ? "Published" : "Draft") + "</label>" +
 
                     lbldatepublish.Text = p.DatePublish.ToThaiDateTime().ToString("dd MMM yyyy HH:mm tt");
@@ -99,7 +99,7 @@ public partial class _Post : BasePage
                 DateSubmit = DatetimeHelper._UTCNow(),
                 UserID = this.UserActive.UserID,
                 DatePublish = DatetimeHelper._UTCNow(),
-                Status = bool.Parse(Request.Form["content_status"]),
+                Status = bool.Parse(dropStatus.SelectedValue),
                 ShowComment = false,
                 BodyContent = txtContent.Text.Trim(),
                 BannerTypeID = byte.Parse(CoverType.Value),

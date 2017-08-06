@@ -43,7 +43,7 @@ public partial class _Page_New : BasePage
             DateSubmit = DatetimeHelper._UTCNow(),
             UserID = this.UserActive.UserID,
             DatePublish = DatetimeHelper._UTCNow(),
-            Status = true,
+            Status = bool.Parse(dropStatus.SelectedValue),
             ShowComment = false,
             BodyContent = txtContent.Text.Trim(),
             BannerTypeID = byte.Parse(CoverType.Value),

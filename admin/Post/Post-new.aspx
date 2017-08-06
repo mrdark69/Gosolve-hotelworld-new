@@ -99,7 +99,14 @@
                                     <div class="form-horizontal">
                                         <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">Status</label>
 
-                                    <div class="col-lg-6"><p class="form-control-static">Draft</p></div>
+                                    <div class="col-lg-6"><p class="form-control-static">
+
+
+                                        <asp:DropDownList ID="dropStatus" runat="server" CssClass="form-control">
+                                 <asp:ListItem Text="Publish" Value="True"></asp:ListItem>
+                                 <asp:ListItem Text="Draft" Value="False"></asp:ListItem>
+                             </asp:DropDownList>
+                                                          </p></div>
                                 </div>
 
                                         <div class="form-group" style="margin-bottom:0px;"><label class="col-lg-6 control-label">Date Published</label>

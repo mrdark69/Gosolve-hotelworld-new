@@ -207,8 +207,8 @@
                         <div class="col-lg-6">
                            <p class="form-control-static">
                              <asp:DropDownList ID="dropStatus" runat="server" CssClass="form-control">
-                                 <asp:ListItem Text="Active" Value="True"></asp:ListItem>
-                                 <asp:ListItem Text="Inactive" Value="False"></asp:ListItem>
+                                 <asp:ListItem Text="Publish" Value="True"></asp:ListItem>
+                                 <asp:ListItem Text="Draft" Value="False"></asp:ListItem>
                              </asp:DropDownList>
                            </p>
                         </div>

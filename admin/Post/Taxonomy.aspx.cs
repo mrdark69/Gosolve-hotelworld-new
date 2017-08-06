@@ -89,7 +89,7 @@ public partial class _Taxonomy : BasePage
                         viewcount.Text = tax.ViewCount.ToString();
                         txtTitle.Text = tax.Title.Trim();
                         lbldatepublish.Text = tax.DatePublish.ToThaiDateTime().ToString("dd MMM yyyy HH:mm tt");
-
+                        dropStatus.SelectedValue = tax.Status.ToString();
                         if (tax.TaxSEO != null)
                         {
                             Model_PostSeo seo = tax.TaxSEO;
@@ -192,7 +192,7 @@ public partial class _Taxonomy : BasePage
             RefID = Taxref,
             Slug = slug.Text.GenerateSlug(),
           
-            Status = true,
+            Status = bool.Parse(dropStatus.SelectedValue),
             BannerTypeID = byte.Parse(CoverType.Value),
             ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
          
