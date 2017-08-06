@@ -106,6 +106,17 @@ public class Model_Menu : BaseModel<Model_Menu>
     public byte? PostTypeID { get; set; }
     public int? PostID { get; set; }
 
+
+
+    public string TaxSlug { get; set; }
+    public string TagTypeTitle { get; set; }
+
+    public string PostTypeSlug { get; set; }
+    public string PostTypeTitle { get; set; }
+
+    public string PostSlug { get; set; }
+    public string PostPostTypeTitle { get; set; }
+
     public Model_Menu()
     {
         //
@@ -157,13 +168,40 @@ public class Model_Menu : BaseModel<Model_Menu>
             return ExecuteNonQuery(cmd) == 1;
         }
     }
-    public List<Model_Menu> GetMenuAll(int MGID)
+    public List<Model_Menu> GetMenuAll_mini(int MGID)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand(@"SELECT * FROM Menu 
             WHERE Status =1 AND MGID=@MGID
             ORDER BY MID ASC, MenuRefID ASC, Priority ASC
+            ", cn);
+            cmd.Parameters.Add("@MGID", SqlDbType.Int).Value = MGID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+    public List<Model_Menu> GetMenuAll(int MGID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT m.*, tax.TaxSlug , tax.TagTypeTitle,
+                postType.PostTypeSlug,postType.PostTypeTitle,
+                post.PostSlug,post.PostPostTypeTitle  
+                FROM Menu m
+
+                OUTER APPLY (SELECT pt.Slug As TaxSlug, ptt.Title AS TagTypeTitle 
+                FROM PostTaxonomy pt INNER JOIN PostTaxonomyType ptt ON ptt.TaxTypeID = pt.TaxTypeID
+                WHERE pt.TaxID = m.TaxID) AS tax
+
+                OUTER APPLY (SELECT pt.Slug AS PostTypeSlug, pt.Title AS PostTypeTitle FROM PostType pt WHERE pt.PostTypeID=m.PostTypeID) AS postType
+
+                OUTER APPLY (SELECT p.Slug AS PostSlug, pt.Title AS PostPostTypeTitle FROM Post p INNER JOIN  PostType pt ON pt.PostTypeID=p.PostTypeID
+
+                WHERE p.PostID=m.PostID) AS post
+                WHERE m.Status =1 AND m.MGID=@MGID
+                ORDER BY m.MID ASC, m.MenuRefID ASC, m.Priority ASC
             ", cn);
             cmd.Parameters.Add("@MGID", SqlDbType.Int).Value = MGID;
             cn.Open();

@@ -180,6 +180,11 @@
             margin: 15px 5px 0 20px;
         }
         
+        .box_menu_custom .ibox-tools span{
+            color:#676a6c;
+            margin-right:10px;
+            font-size:11px;
+        }
         .box_menu_custom_main{
              border-bottom:0 !important;
         }
@@ -434,6 +439,22 @@
                                                       <h5><% Response.Write(m.Title); %></h5>
                                                       <div class="ibox-tools">
                                                          <a class="collapse-link">
+                                                              <% switch (m.MCategory) { %>
+                                                                                <% case 1:  %>
+                                                                            <span> <% Response.Write(m.PostPostTypeTitle); %></span>
+                                                                                    <%break; %>
+                                                                              <% case 2:  %>
+                                                                             <span> <% Response.Write(m.PostTypeTitle); %></span>
+                                                                                    <%break; %>
+                                                                              <% case 3:  %>
+                                                                            <span> <% Response.Write(m.TagTypeTitle); %></span>
+                                                                                    <%break; %>
+                                                                        <% case 4:  %>
+                                                               <span> Custom Link</span>
+                                                                      <%break; %>       
+                                                                            <%} %>
+
+                                                            
                                                          <i class="fa fa-chevron-down"></i>
                                                          </a>
                                                       </div>
@@ -461,14 +482,29 @@
                                                                <input type="text" class="form-control" name="TagTitle_<% Response.Write(m.MID); %>_<% Response.Write(m.MCategory); %>" value="<% Response.Write(m.TitleTag); %>" />
                                                             </div>
                                                          </div>
-                                                          <div class="hr-line-dashed"></div>
+
+                                                          <% if(m.MCategory != 4){ %>
+                                                         <div class="hr-line-dashed"></div>
                                                          <div class="form-group"  >
                                                             <label class="col-sm-11 control-label"><small> Original:</small>
-                                                                <% Response.Write(m.Slug); %>
+                                                                <% switch (m.MCategory) { %>
+                                                                                <% case 1:  %>
+                                                                             <% Response.Write(m.PostSlug); %>
+                                                                                    <%break; %>
+                                                                              <% case 2:  %>
+                                                                             <% Response.Write(m.PostTypeSlug); %>
+                                                                                    <%break; %>
+                                                                              <% case 3:  %>
+                                                                             <% Response.Write(m.TaxSlug); %>
+                                                                                    <%break; %>
+                                                                            
+                                                                            <%} %>
 
                                                             </label>
                                                             
                                                          </div>
+                                                          <%} %>
+
                                                             <div class="hr-line-dashed"></div>
                                                           <div class="form-group">
                                                               <div class="col-md-11">
@@ -486,7 +522,7 @@
                                      if (cml_c.Count > 0) {  %>
 
                                               <ol>
-                                                  <%foreach(Model_Menu mc in cml_c){ %>
+                                                  <%foreach (Model_Menu mc in cml_c) { %>
                                                   <li style="display: list-item;"  id="menuItem_<% Response.Write(mc.MID); %>">
                                                        <input type="checkbox" style="display:none" checked="checked" name="menu_checked" value="<% Response.Write(mc.MID); %>_<% Response.Write(mc.MCategory); %>" />
                                                     <div class="ibox float-e-margins box_menu_custom_main">
@@ -494,6 +530,22 @@
                                                               <h5><% Response.Write(mc.Title); %></h5>
                                                               <div class="ibox-tools">
                                                                  <a class="collapse-link">
+
+                                                                     <% switch (mc.MCategory) { %>
+                                                                                <% case 1:  %>
+                                                                            <span> <% Response.Write(mc.PostPostTypeTitle); %></span>
+                                                                                    <%break; %>
+                                                                              <% case 2:  %>
+                                                                             <span> <% Response.Write(mc.PostTypeTitle); %></span>
+                                                                                    <%break; %>
+                                                                              <% case 3:  %>
+                                                                            <span> <% Response.Write(mc.TagTypeTitle); %></span>
+                                                                                    <%break; %>
+                                                                        <% case 4:  %>
+                                                               <span> Custom Link</span>
+                                                                      <%break; %>       
+                                                                            <%} %>
+
                                                                  <i class="fa fa-chevron-down"></i>
                                                                  </a>
                                                               </div>
@@ -524,14 +576,33 @@
                                                                            <input type="text" class="form-control" name="TagTitle_<% Response.Write(mc.MID); %>_<% Response.Write(mc.MCategory); %>" value="<% Response.Write(mc.TitleTag); %>"  />
                                                                         </div>
                                                                      </div>
-                                                                   <div class="hr-line-dashed"></div>
+
+<%--    Post = 1,
+    Archive = 2,
+    Taxonomy = 3,
+    CustomLink = 4--%>
+                                                                    <% if(mc.MCategory != 4){ %>
+                                                                  <div class="hr-line-dashed"></div>
                                                                      <div class="form-group"  >
                                                                         <label class="col-sm-11 control-label"><small> Original:</small>
-                                                                            <% Response.Write(mc.Slug); %>
+                                                                            <% switch (mc.MCategory) { %>
+                                                                                <% case 1:  %>
+                                                                             <% Response.Write(mc.PostSlug); %>
+                                                                                    <%break; %>
+                                                                              <% case 2:  %>
+                                                                             <% Response.Write(mc.PostTypeSlug); %>
+                                                                                    <%break; %>
+                                                                              <% case 3:  %>
+                                                                             <% Response.Write(mc.TaxSlug); %>
+                                                                                    <%break; %>
+                                                                            
+                                                                            <%} %>
 
                                                                         </label>
                                                             
                                                                      </div>
+                                                                   <%} %>
+
                                                                   <div class="hr-line-dashed"></div>
                                                                       <div class="form-group">
                                                                           <div class="col-sm-11">
