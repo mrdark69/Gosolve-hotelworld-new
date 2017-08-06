@@ -37,7 +37,7 @@
     <style type="text/css">
 		
 		
-		a,a:visited {
+		/*a,a:visited {
 			color: #4183C4;
 			text-decoration: none;
 		}
@@ -61,16 +61,16 @@
 		
 		small code {
 			font-size: 11px;
-		}
+		}*/
 		
-		.placeholder {
+		/*.placeholder {
 			outline: 1px dashed #4183C4;
 		}
 		
 		.mjs-nestedSortable-error {
 			background: #fbe3e4;
 			border-color: transparent;
-		}
+		}*/
 		
 		#tree {
 			width: 550px;
@@ -379,18 +379,22 @@
                                  <div class="form-group"  >
                                     <label class="col-sm-2 control-label">Url</label>
                                     <div class="col-sm-10"> 
-                                       <input type="text" class="form-control" />
+                                       <input type="text" class="form-control" id="custome_add_url" name="custome_add_url" />
                                     </div>
                                  </div>
                                  <div class="hr-line-dashed"></div>
                                  <div class="form-group"  >
                                     <label class="col-sm-2 control-label">Link Text</label>
                                     <div class="col-sm-10"> 
-                                       <input type="text" class="form-control" />
+                                       <input type="text" class="form-control"  id="custome_add_linktxt" name="custome_add_linktxt" />
                                     </div>
                                  </div>
                               </div>
+
+                                <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_custom" data-arg="2_2" />
+                                <div style="clear:both"></div>
                            </div>
+                           <div style="clear:both"></div>
                         </div>
 
 
@@ -422,8 +426,9 @@
                                        foreach (Model_Menu m in cml.Where(r=>r.MenuRefID == 0).ToList())
                                        {%>
                                             
-
+                                        
                                          <li style="display: list-item;"  id="menuItem_<% Response.Write(m.MID); %>" >
+                                             <input type="checkbox" style="display:none" checked="checked" name="menu_checked" value="<% Response.Write(m.MID); %>_<% Response.Write(m.MCategory); %>" />
                                              <div class="ibox float-e-margins  box_menu_custom_main" >
                                                    <div class="ibox-title box_menu_custom">
                                                       <h5><% Response.Write(m.Title); %></h5>
@@ -435,17 +440,25 @@
                                                    </div>
                                                    <div class="ibox-content box_menu_custom_content" style="display: none;">
                                                       <div  class="form-horizontal">
+                                                           <%if (m.MCategory == 4) { %>
+                                                                 <div class="form-group"  >
+                                                                    <label class="col-sm-2 control-label">Url</label>
+                                                                    <div class="col-sm-10"> 
+                                                                       <input type="text" class="form-control" name="custom_url_<% Response.Write(m.MID); %>_<% Response.Write(m.MCategory); %>" value="<% Response.Write(m.CustomUrl); %>" />
+                                                                    </div>
+                                                                 </div>
+                                                                  <%} %>
                                                          <div class="form-group"  >
                                                             <label class="col-sm-2 control-label">Label</label>
                                                             <div class="col-sm-9"> 
-                                                               <input type="text" class="form-control" />
+                                                               <input type="text" class="form-control" name="label_<% Response.Write(m.MID); %>_<% Response.Write(m.MCategory); %>" value="<% Response.Write(m.Title); %>" />
                                                             </div>
                                                          </div>
                                                          <div class="hr-line-dashed"></div>
                                                          <div class="form-group"  >
                                                             <label class="col-sm-2 control-label">Title Tag</label>
                                                             <div class="col-sm-9"> 
-                                                               <input type="text" class="form-control" />
+                                                               <input type="text" class="form-control" name="TagTitle_<% Response.Write(m.MID); %>_<% Response.Write(m.MCategory); %>" value="<% Response.Write(m.TitleTag); %>" />
                                                             </div>
                                                          </div>
                                                           <div class="hr-line-dashed"></div>
@@ -475,6 +488,7 @@
                                               <ol>
                                                   <%foreach(Model_Menu mc in cml_c){ %>
                                                   <li style="display: list-item;"  id="menuItem_<% Response.Write(mc.MID); %>">
+                                                       <input type="checkbox" style="display:none" checked="checked" name="menu_checked" value="<% Response.Write(mc.MID); %>_<% Response.Write(mc.MCategory); %>" />
                                                     <div class="ibox float-e-margins box_menu_custom_main">
                                                            <div class="ibox-title box_menu_custom">
                                                               <h5><% Response.Write(mc.Title); %></h5>
@@ -486,19 +500,30 @@
                                                            </div>
                                                            <div class="ibox-content box_menu_custom_content" style="display: none;">
                                                               <div  class="form-horizontal">
+
+                                                                  <%if (mc.MCategory == 4) { %>
                                                                  <div class="form-group"  >
                                                                     <label class="col-sm-2 control-label">Url</label>
                                                                     <div class="col-sm-10"> 
-                                                                       <input type="text" class="form-control" />
+                                                                       <input type="text" class="form-control" name="custom_url_<% Response.Write(mc.MID); %>_<% Response.Write(mc.MCategory); %>"  value="<% Response.Write(mc.CustomUrl); %>" />
                                                                     </div>
                                                                  </div>
+                                                                  <%} %>
+
                                                                  <div class="hr-line-dashed"></div>
                                                                  <div class="form-group"  >
-                                                                    <label class="col-sm-2 control-label">Link Text</label>
+                                                                    <label class="col-sm-2 control-label">Label</label>
                                                                     <div class="col-sm-10"> 
-                                                                       <input type="text" class="form-control" />
+                                                                       <input type="text" class="form-control"  name="label_<% Response.Write(mc.MID); %>_<% Response.Write(mc.MCategory); %>" value="<% Response.Write(mc.Title); %>" />
                                                                     </div>
                                                                  </div>
+                                                                   <div class="hr-line-dashed"></div>
+                                                                     <div class="form-group"  >
+                                                                        <label class="col-sm-2 control-label">Title Tag</label>
+                                                                        <div class="col-sm-9"> 
+                                                                           <input type="text" class="form-control" name="TagTitle_<% Response.Write(mc.MID); %>_<% Response.Write(mc.MCategory); %>" value="<% Response.Write(mc.TitleTag); %>"  />
+                                                                        </div>
+                                                                     </div>
                                                                    <div class="hr-line-dashed"></div>
                                                                      <div class="form-group"  >
                                                                         <label class="col-sm-11 control-label"><small> Original:</small>
@@ -584,6 +609,9 @@
                 var arch = $('input[name="PostID_Archive_' + cmdarg + '"]:checked');
                 var post = $('input[name="PostID_' + cmdarg + '"]:checked');
                 var tax = $('input[name="TaxID_' + cmdarg + '"]:checked');
+
+                var urlCustom = $('#custome_add_url').val();
+                var txt = $('#custome_add_linktxt').val();
                 var strpost = $.map(post, function (obj) {
                     return obj.value
                 }).join(',');
@@ -602,6 +630,8 @@
                     strpost:strpost,
                     strarch: strarch,
                     strtax: strtax,
+                    url: urlCustom,
+                    txt: txt,
                     GroupID :$('#MenuIItem').val()
                 }
                 
@@ -651,20 +681,20 @@
                 }
             });
 
-            $('.expandEditor').attr('title', 'Click to show/hide item editor');
-            $('.disclose').attr('title', 'Click to show/hide children');
-            $('.deleteMenu').attr('title', 'Click to delete item.');
+            //$('.expandEditor').attr('title', 'Click to show/hide item editor');
+            //$('.disclose').attr('title', 'Click to show/hide children');
+            //$('.deleteMenu').attr('title', 'Click to delete item.');
 
-            $('.disclose').on('click', function () {
-                $(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
-                $(this).toggleClass('ui-icon-plusthick').toggleClass('ui-icon-minusthick');
-            });
+            //$('.disclose').on('click', function () {
+            //    $(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
+            //    $(this).toggleClass('ui-icon-plusthick').toggleClass('ui-icon-minusthick');
+            //});
 
-            $('.expandEditor, .itemTitle').click(function () {
-                var id = $(this).attr('data-id');
-                $('#menuEdit' + id).toggle();
-                $(this).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
-            });
+            //$('.expandEditor, .itemTitle').click(function () {
+            //    var id = $(this).attr('data-id');
+            //    $('#menuEdit' + id).toggle();
+            //    $(this).toggleClass('ui-icon-triangle-1-n').toggleClass('ui-icon-triangle-1-s');
+            //});
 
             $('.btn_delete').click(function () {
                 var id = $(this).attr('data-id');
@@ -672,29 +702,29 @@
                 return false;
             });
 
-            $('#serialize').click(function () {
-                serialized = $('ol.sortable').nestedSortable('serialize');
-                $('#serializeOutput').text(serialized + '\n\n');
-                return false;
-            })
+            //$('#serialize').click(function () {
+            //    serialized = $('ol.sortable').nestedSortable('serialize');
+            //    $('#serializeOutput').text(serialized + '\n\n');
+            //    return false;
+            //})
 
-            $('#toHierarchy').click(function (e) {
-                hiered = $('ol.sortable').nestedSortable('toHierarchy', { startDepthCount: 0 });
-                hiered = dump(hiered);
-                (typeof ($('#toHierarchyOutput')[0].textContent) != 'undefined') ?
-                    $('#toHierarchyOutput')[0].textContent = hiered : $('#toHierarchyOutput')[0].innerText = hiered;
+            //$('#toHierarchy').click(function (e) {
+            //    hiered = $('ol.sortable').nestedSortable('toHierarchy', { startDepthCount: 0 });
+            //    hiered = dump(hiered);
+            //    (typeof ($('#toHierarchyOutput')[0].textContent) != 'undefined') ?
+            //        $('#toHierarchyOutput')[0].textContent = hiered : $('#toHierarchyOutput')[0].innerText = hiered;
 
-                return false;
-            })
+            //    return false;
+            //})
 
-            $('#toArray').click(function (e) {
-                arraied = $('ol.sortable').nestedSortable('toArray', { startDepthCount: 0 });
-                arraied = dump(arraied);
-                (typeof ($('#toArrayOutput')[0].textContent) != 'undefined') ?
-                    $('#toArrayOutput')[0].textContent = arraied : $('#toArrayOutput')[0].innerText = arraied;
+            //$('#toArray').click(function (e) {
+            //    arraied = $('ol.sortable').nestedSortable('toArray', { startDepthCount: 0 });
+            //    arraied = dump(arraied);
+            //    (typeof ($('#toArrayOutput')[0].textContent) != 'undefined') ?
+            //        $('#toArrayOutput')[0].textContent = arraied : $('#toArrayOutput')[0].innerText = arraied;
 
-                return false;
-            });
+            //    return false;
+            //});
 
 
         });

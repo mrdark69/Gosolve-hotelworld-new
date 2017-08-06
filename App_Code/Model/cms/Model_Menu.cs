@@ -100,7 +100,7 @@ public class Model_Menu : BaseModel<Model_Menu>
     public byte MCategory { get; set; }
 
 
-    public string TitleTag { get; set; }
+    public string TitleTag { get; set; } = string.Empty;
 
     public int? TaxID { get; set; }
     public byte? PostTypeID { get; set; }

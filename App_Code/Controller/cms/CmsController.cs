@@ -125,6 +125,8 @@ public class CmsController
 
         string strtax = parameters["strtax"];
 
+        string CustomURl = parameters["url"];
+        string CustomURlTxt = parameters["txt"];
 
         string MenuGroupID = parameters["GroupID"];
 
@@ -152,7 +154,7 @@ public class CmsController
 
                         Model_Menu cme = new Model_Menu();
                         cme.MGID = int.Parse(MenuGroupID);
-                        cme.Title = cpt.Slug;
+                        cme.Title = "All "+  cpt.Title;
                         cme.TitleOrigin = cpt.Slug;
                         cme.Slug = cpt.Slug;
                         cme.CustomUrl = "";
@@ -226,7 +228,27 @@ public class CmsController
                     // mCat = MenuCategory.Taxonomy;
                     break;
                 case "menu_custom":
-                   // mCat = MenuCategory.CustomLink;
+
+                    if(!string.IsNullOrEmpty(CustomURl) && !string.IsNullOrEmpty(CustomURlTxt))
+                    {
+                       
+
+                        Model_Menu cme = new Model_Menu();
+                        cme.MGID = int.Parse(MenuGroupID);
+                        cme.Title = CustomURlTxt;
+                        cme.TitleOrigin = CustomURlTxt;
+                        cme.Slug = CustomURlTxt;
+                        cme.CustomUrl = CustomURl;
+                        cme.Status = true;
+                        cme.MenuRefID = 0;
+                        cme.Lv = 1;
+                        cme.Priority = 1;
+                        cme.MCategory = (byte)MenuCategory.CustomLink;
+                        cme.PostTypeID = cpt.PostTypeID;
+                        cme.InsertMenuFirst(cme);
+                    }
+                   
+                    // mCat = MenuCategory.CustomLink;
                     break;
             }
         }

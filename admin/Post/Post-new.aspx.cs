@@ -26,7 +26,7 @@ public partial class _Page_New : BasePage
 
         Model_Post p = new Model_Post
         {
-            PostTypeID = 1,
+            PostTypeID = byte.Parse(Request.QueryString["PostTypeID"]),
             Title = txtTitle.Text.Trim(),
             Short = "",
             Slug = txtTitle.Text.GenerateSlug(),
@@ -43,7 +43,7 @@ public partial class _Page_New : BasePage
 
         int postid = p.InsertPost(p);
         if (postid > 0)
-            Response.Redirect("Page?PostID=" + postid);
+            Response.Redirect("Post?PostID=" + postid);
 
         //Response.Write(txtContent.Text);
         //Response.End();

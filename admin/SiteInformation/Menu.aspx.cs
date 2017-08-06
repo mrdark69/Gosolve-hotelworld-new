@@ -84,6 +84,9 @@ public partial class _Menu : Page
 
     protected void btnUpdate_Click(object sender, EventArgs e)
     {
-        string dd = Request.Form["Nest_ret"];
+        string MID = Request.Form["menu_checked"];
+
+        Response.Write(MID);
+        Response.End();
     }
 }
