@@ -124,9 +124,27 @@ public class Model_Menu : BaseModel<Model_Menu>
                 ret = ExecuteNonQuery(cmd) == 1;
             }
         }
+        
 
         return ret;
     }
+
+    public bool DeleteMenu(int MID)
+    {
+        bool ret = false;
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("DELETE  FROM Menu WHERE MID =@MID", cn);
+            cmd.Parameters.Add("@MID", SqlDbType.Int).Value = MID;
+            cn.Open();
+            ret = ExecuteNonQuery(cmd) == 1;
+        }
+
+
+        return ret;
+    }
+
+
     public bool UpdateSort(int MID,int MenuRefID, int Priority)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
@@ -153,6 +171,39 @@ public class Model_Menu : BaseModel<Model_Menu>
         }
     }
 
+    public Model_Menu GetMenuByID(int MID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT * FROM Menu 
+            WHERE MID=@MID", cn);
+            cmd.Parameters.Add("@MID", SqlDbType.Int).Value = MID;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+           
+        }
+    }
+
+
+    public bool Update(Model_Menu m)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Menu SET Title=@Title ,TitleTag=@TitleTag ,CustomUrl=@CustomUrl WHERE MID=@MID", cn);
+            cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = m.Title;
+            cmd.Parameters.Add("@TitleTag", SqlDbType.NVarChar).Value = m.TitleTag;
+            cmd.Parameters.Add("@CustomUrl", SqlDbType.NVarChar).Value = m.CustomUrl;
+            cmd.Parameters.Add("@MID", SqlDbType.Int).Value = m.MID;
+
+            cn.Open();
+
+            return ExecuteNonQuery(cmd) == 1;
+        }
+    }
 
 //    MID int No
 //MGID int No

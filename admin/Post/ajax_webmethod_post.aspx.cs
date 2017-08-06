@@ -98,5 +98,33 @@ public partial class admin_Staff_ajax_webmethod_post : System.Web.UI.Page
 
         AppTools.SendResponse(HttpContext.Current.Response, res);
     }
+    [WebMethod]
+    public static void DeleteMenu(dynamic parameters)
+    {
 
+
+
+
+
+        bool ret = CmsController.DeleteMenu(parameters);
+
+        bool success = false;
+        string msg = "no";
+
+        if (ret)
+        {
+            success = true;
+            msg = "Insert Completed";
+        }
+
+
+        string res = (new BaseWebMethodAJax
+        {
+            success = success,
+            msg = msg
+
+        }).ObjectToJSON();
+
+        AppTools.SendResponse(HttpContext.Current.Response, res);
+    }
 }

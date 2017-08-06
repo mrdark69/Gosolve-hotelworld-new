@@ -49,44 +49,42 @@ public partial class _Menu : Page
    
     
 
-    protected void btn_Click(object sender, EventArgs e)
-    {
-
-        Button btn = (Button)sender;
-        string cmdAr = btn.CommandArgument;
-
-
-        Response.Write(cmdAr);
-        Response.End();
-
-        switch (btn.CommandName)
-        {
-            case "menu_post":
-
-               
-                string PostType = Request.Form["postType"];
-                if (!string.IsNullOrEmpty(PostType))
-                {
-                    string[] arrPostType = PostType.Split(',');
-
-                    //foreach()
-                }
-                string PostID_Archive_ = Request.Form["PostID_Archive_" + PostType];
-                string PostID_ = Request.Form["PostID_" + PostType];
-
-                Response.Write(cmdAr);
-                Response.End();
-
-                break;
-        }
-        
-    }
+  
 
     protected void btnUpdate_Click(object sender, EventArgs e)
     {
         string MID = Request.Form["menu_checked"];
 
-        Response.Write(MID);
+        if (!string.IsNullOrEmpty(MID))
+        {
+            Model_Menu m = new Model_Menu();
+            string[] arrArg = MID.Split(',');
+
+            foreach(string ar in arrArg)
+            {
+                string Url = Request.Form["custom_url_" + ar];
+                string Title = Request.Form["label_" + ar];
+                string TitleTag = Request.Form["TagTitle_" + ar];
+
+                string[] d = ar.Split('_');
+
+                int intMID = int.Parse(d[0]);
+                byte bytCat = byte.Parse(d[1]);
+
+                m.Title = Title;
+                m.TitleTag = TitleTag;
+                m.MID = intMID;
+                m.CustomUrl =  (string.IsNullOrEmpty(Url)?string.Empty: Url) ;
+
+                m.Update(m);
+
+            }
+
+            
+        }
+
+
+        Response.Redirect(Request.Url.ToString());
         Response.End();
     }
 }

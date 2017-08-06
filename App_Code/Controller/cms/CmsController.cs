@@ -106,11 +106,27 @@ public class CmsController
         }
 
         
-      cm.DeleteArr(arrId.Substring(1));
+      //cm.DeleteArr(arrId.Substring(1));
         return true;
     }
 
- 
+    public static bool DeleteMenu(dynamic parameters)
+    {
+        int MID = int.Parse((string)parameters);
+        Model_Menu m = new Model_Menu();
+        m = m.GetMenuByID(MID);
+
+        //Check Archive MAp
+        if(m.MCategory == 2 && m.PostTypeID.HasValue)
+        {
+            Model_Archive mc = new Model_Archive();
+            mc.DeleteARchive((byte)m.PostTypeID);
+        }
+        m.DeleteMenu(MID);
+        return true;
+    }
+
+
 
     public static bool InsertMenu(dynamic parameters)
     {

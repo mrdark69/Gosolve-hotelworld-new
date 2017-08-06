@@ -699,6 +699,18 @@
             $('.btn_delete').click(function () {
                 var id = $(this).attr('data-id');
                 $('#menuItem_' + id).remove();
+
+                var url = "<%= ResolveUrl("/admin/Post/ajax_webmethod_post.aspx/DeleteMenu") %>";
+                var param = JSON.stringify({ parameters: id });
+                AjaxPost(url, param, null, function (data) {
+                    if (data.success) {
+
+                        //window.location.href = "Menu";
+                    }
+
+                });
+
+
                 return false;
             });
 
