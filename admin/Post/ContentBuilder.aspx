@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">
     <link href="../../Content/plugins/toastr/toastr.min.css" rel="stylesheet" />
-   
+    <link href="../../Content/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap-colorselector.css" />
     <link href="../../Content/style.css" rel="stylesheet" />
     <link href="../../Content/plugins/dropzone/dropzone.css" rel="stylesheet" />
@@ -38,7 +38,7 @@
     
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
             <script src="js/bootstrap-colorselector.js"></script>
-
+    <script src="../../Scripts/theme/plugins/sweetalert/sweetalert.min.js"></script>
             <script> var path = '';</script>
             <script  src="./js/app.js"></script>
                 <script src="/admin/Application/app.media.js?ver=11s"></script>
