@@ -25,10 +25,12 @@
     <link href="../../Content/app.css" rel="stylesheet" />
     <link href="../../Content/animate.css" rel="stylesheet" />
     <link href="../../Content/font-awesome.css" rel="stylesheet" />
+     <link href="https://fonts.googleapis.com/css?family=Kanit:300,400,500,600,700&amp;subset=thai" rel="stylesheet" type='text/css'>
 
          <link rel="stylesheet" href="./css/theme.css?v=sssssssss">
     <link rel="stylesheet" href="./css/custom.css?v=ssssssssss">
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
             <script src="https://cdn.jsdelivr.net/ace/1.2.0/min/ace.js"></script>
             <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=3fql10t0qad2rihzdprevq7b3l4w91fpjpqfps3iuvnexb14"></script>
@@ -84,7 +86,7 @@
       font-weight:normal;
       }
 
-      #modal_media_select{
+      #modal_media_select_b{
           z-index:5000 !important;
       }
 
@@ -413,7 +415,7 @@
 
             </div><!--/.fluid-container-->
 
-            <div class="modal inmodal fade" id="modal_media_select"  role="dialog"  aria-hidden="true">
+            <div class="modal inmodal fade" id="modal_media_select_b"  role="dialog"  aria-hidden="true">
                                          
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
@@ -439,9 +441,9 @@
                                                 <div class="modal_media" id="modal_media" >
                                                     <div class="row">
                                                         <div class="col-md-12" style="text-align:right;padding: 5px 20px 5px 5px;">
-          <button id="btn-custom-add-medias-m"  type="button" class="btn-custom-add-medias btn btn-success"><i class="fa fa-plus"></i> Add Selected Media</button>
+          <button id="btn-custom-add-medias-m_b"  type="button" class="btn-custom-add-medias btn btn-success"><i class="fa fa-plus"></i> Add Selected Media</button>
           <button style="display:none" type="button" id="btn-custom-add-medias-f" onclick="SelectFile()" class="btn-custom-add-medias btn btn-success"><i class="fa fa-paperclip"></i> Add File</button>
-          <button class="btn btn-primary" type="button" onclick="CloseImageAddPanel_media();" id="btn-close-media">
+          <button class="btn btn-primary" type="button" onclick="CloseImageAddPanel_media_b();" id="btn-close-media">
                                                                   <i class="fa fa-window-close" aria-hidden="true" style="color:#fff"></i> Close
                                                               </button>
                                                         </div>
@@ -815,7 +817,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <form>
+                                                        
                                                             <div class="form-group">
                                                                 <label for="address">Latitude :</label>
                                                                 <input type="text" value="" id="latitude" class="form-control" />
@@ -842,14 +844,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </form>
+                                                      
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- settaggio bottone -->
                                             <div id="buttons" style="display:none">
                                                 <div id="buttonContainer"></div>
-                                                <br>
+                                                <br/>
                                                 <div class="form-group">
                                                     <label> Label :  </label>
                                                     <input type="text" class="form-control" id="buttonLabel"/>

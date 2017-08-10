@@ -74,26 +74,32 @@ function _init() {
         extended_valid_elements : "*[*]",
         valid_elements: "*[*]",
         selector: "#html5editor",
+        relative_urls: false,
+        remove_script_host: false,
+        convert_urls: true,
+        height: "480",
+        fontsize_formats: "8px 10px 12px 14px 18px 24px 36px",
         plugins: [
             "advlist autolink lists link charmap anchor",
             "visualblocks code ",
             "insertdatetime  table contextmenu paste textcolor colorpicker"
         ],
-        toolbar: "styleselect | bold italic |  forecolor backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link code | mybutton",
+        toolbar: "styleselect | bold italic |  forecolor backcolor |alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link code | mybutton | fontsizeselect",
         setup: function (i) {
 
             i.addButton('mybutton', {
                 text: "Add media",
                 onclick: function () {
 
-                    $('#modal_media_select').show(function () {
+                    $('#modal_media_select_b').show(function () {
                         //$('button[id^="btn-custom-add-medias"]').hide();
                         //$('#btn-custom-add-medias-m').show();
 
-                        $('#btn-custom-add-medias-m').bind('click', function () {
+                        $('#btn-custom-add-medias-m_b').bind('click', function () {
                             var data = store.get("key_onSel");
                             var url = location.origin + data.Path + "/" + data.FileName;
-                            i.insertContent('<img class="img_responsive" src="' + url + '" />');
+
+                            i.insertContent('<img src="' + url + '" class="img-responsive"  title="' + data.Title + '" alt="' + data.Alt +'" />');
 
                            // n.val(i.getContent({ format: "raw" })), n.get(0).dispatchEvent(t)
 
@@ -102,7 +108,7 @@ function _init() {
                             //$('#modal_media').hide(function () {
                             //    $('.btn-custom-add-medias').hide();
                             //});
-                            $('#modal_media_select').modal('hide');
+                            $('#modal_media_select_b').modal('hide');
 
                         });
                         //$('#email-builder-header-actions_custom').show();
@@ -116,7 +122,7 @@ function _init() {
 
                        
                     });
-                    $('#modal_media_select').modal({
+                    $('#modal_media_select_b').modal({
                         backdrop: 'static',
                         keyboard: false
                     });
@@ -133,57 +139,63 @@ function _init() {
         force_br_newlines: false,
         force_p_newlines: false,
         forced_root_block: '',
+        relative_urls: false,
+        remove_script_host: false,
+        convert_urls: true,
+        height: "480",
+        fontsize_formats: "8px 10px 12px 14px 18px 24px 36px",
         extended_valid_elements : "*[*]",
     valid_elements: "*[*]",
         selector: "#html5editorLite",
         plugins: [
         ],
-        toolbar: "forecolor backcolor | alignleft aligncenter alignright alignjustify code | mybutton",
+        toolbar: "forecolor backcolor | alignleft aligncenter alignright alignjustify code | mybutton | fontsizeselect",
         setup: function (i) {
-          
-                i.addButton('mybutton', {
-                    text: "Add media",
-                    onclick: function () {
 
-                        $('#modal_media_select').show(function () {
-                            //$('button[id^="btn-custom-add-medias"]').hide();
-                            //$('#btn-custom-add-medias-m').show();
+            i.addButton('mybutton', {
+                text: "Add media",
+                onclick: function () {
 
-                            $('#btn-custom-add-medias-m').bind('click', function () {
-                                var data = store.get("key_onSel");
-                                var url = location.origin + data.Path + "/" + data.FileName;
-                                i.insertContent('<img class="img_responsive" src="' + url + '" />');
-                               
-                               // n.val(i.getContent({ format: "raw" })), n.get(0).dispatchEvent(t)
+                    $('#modal_media_select_b').show(function () {
+                        //$('button[id^="btn-custom-add-medias"]').hide();
+                        //$('#btn-custom-add-medias-m').show();
 
-                                //$('.email-builder-header-actions').show();
-                                //$('#email-builder-header-actions_custom').hide();
-                                //$('#modal_media').hide(function () {
-                                //    $('.btn-custom-add-medias').hide();
-                                //});
+                        $('#btn-custom-add-medias-m_b').bind('click', function () {
+                            var data = store.get("key_onSel");
+                            var url = location.origin + data.Path + "/" + data.FileName;
 
-                                $('#modal_media_select').modal('hide');
-                            });
-                            //$('#email-builder-header-actions_custom').show();
-                            //getmediall();
-                            //BindingCat();
-                            //$('#sel_type,#sel_cat').on('change', function () {
+                            i.insertContent('<img src="' + url + '" class="img-responsive"  title="' + data.Title + '" alt="' + data.Alt + '" />');
 
-                            //    console.log('sss');
-                            //    getmediall();
+                            // n.val(i.getContent({ format: "raw" })), n.get(0).dispatchEvent(t)
+
+                            //$('.email-builder-header-actions').show();
+                            //$('#email-builder-header-actions_custom').hide();
+                            //$('#modal_media').hide(function () {
+                            //    $('.btn-custom-add-medias').hide();
                             //});
+                            $('#modal_media_select_b').modal('hide');
 
-                            
                         });
-                        $('#modal_media_select').modal({
-                            backdrop: 'static',
-                            keyboard: false
-                        });
-                        //$('.email-builder-header-actions').hide();
+                        //$('#email-builder-header-actions_custom').show();
+                        //getmediall();
+                        //BindingCat();
+                        //$('#sel_type,#sel_cat').on('change', function () {
 
-                    }
-                })
-               
+                        //    console.log('sss');
+                        //    getmediall();
+                        //});
+
+
+                    });
+                    $('#modal_media_select_b').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    //$('.email-builder-header-actions').hide();
+
+                }
+            })
+
         }
     });
 

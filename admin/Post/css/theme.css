@@ -1,15 +1,22 @@
 body {
-	padding-top:50px;
-	padding-bottom: 40px;
-	margin-left:200px;
-	-webkit-transition: margin 500ms ease;
-	-moz-transition: margin 500ms ease;
-	-ms-transition: margin 500ms ease;
-	-o-transition: margin 500ms ease;
-	transition: margin 500ms ease;
-    background-color:#fff !important;
+    padding-top: 50px;
+    padding-bottom: 40px;
+    margin-left: 200px;
+    -webkit-transition: margin 500ms ease;
+    -moz-transition: margin 500ms ease;
+    -ms-transition: margin 500ms ease;
+    -o-transition: margin 500ms ease;
+    transition: margin 500ms ease;
+    background-color: #fff !important;
+    font-family: 'Kanit' !important;
+    font-weight: 300 !important;
 }
- 
+
+div, p, ul, li {
+    font-family: 'Kanit' !important;
+    font-weight: 300 !important;
+    
+}
 
 @media (max-width: 980px) {
 	/* Enable use of floated navbar text */

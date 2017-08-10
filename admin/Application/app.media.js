@@ -137,7 +137,7 @@ $(document).ready(function () {
                     $('#btn-b-update-template').hide();
                     $('#btn-b-add-template').show();
 
-                    $('#modal_media_select').modal({
+                    $('#modal_media_select_b').modal({
                         backdrop: 'static',
                         keyboard: false
                     });
@@ -146,7 +146,7 @@ $(document).ready(function () {
 
 
 
-                    $('#btn-custom-add-medias-m').bind('click', function () {
+                    $('#btn-custom-add-medias-m_b').bind('click', function () {
                         var data = store.get("key_onSel");
                         var url = location.origin + data.Path + data.FileName;
                         // i.insertContent('<img style="width:50%" src="' + url + '" />');
@@ -170,7 +170,7 @@ $(document).ready(function () {
                         //$('#mediagallery').slideUp();
                         //$('#thepref').slideDown();
 
-                        $('#modal_media_select').modal('hide');
+                        $('#modal_media_select_b').modal('hide');
 
 
                     });
@@ -296,6 +296,23 @@ $(document).ready(function () {
 
 
     $('#modal_media_select').on('shown.bs.modal', function () {
+
+        $('#mail-text-block').hide(function () {
+            $('#btn-custom-add-medias-m').hide();
+            $('#btn-custom-add-medias-f').show();
+        });
+
+        getmediall();
+
+        BindingCat();
+        $('#sel_type,#sel_cat').on('change', function () {
+
+            console.log('sss');
+            getmediall();
+        });
+    });
+
+    $('#modal_media_select_b').on('shown.bs.modal', function () {
 
         $('#mail-text-block').hide(function () {
             $('#btn-custom-add-medias-m').hide();
@@ -458,6 +475,19 @@ function CloseImageAddPanel_media() {
 
 
     $('#modal_media_select').modal('hide');
+
+    return false;
+    //$('#modal_media').hide(function () {
+    //    $('#mail-text-block').show();
+
+    //});
+
+}
+
+function CloseImageAddPanel_media_b() {
+
+
+    $('#modal_media_select_b').modal('hide');
 
     return false;
     //$('#modal_media').hide(function () {
