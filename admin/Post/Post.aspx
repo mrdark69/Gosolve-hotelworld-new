@@ -95,7 +95,7 @@
 
                                         <asp:TextBox ID="txtContentBuilder" style="display:none;" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
 
-                                        <iframe id="iframcontent" style="width:100%;height:700px;" src="http://dev.hotelworld.com/admin/Post/Contentbuilder?ve=00s"></iframe>
+                                        <iframe id="iframcontent" style="width:100%;height:700px;" src="/admin/Post/Contentbuilder?ve=00s"></iframe>
                                     </div>
                                  </div>
                               </div>
