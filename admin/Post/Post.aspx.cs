@@ -32,10 +32,10 @@ public partial class _Post : BasePage
                     txtContent.Text = p.BodyContent;
 
                     txtContentBuilder.Text = p.BodyContentBuilder;
-                    Model_MainSetting setting = new Model_MainSetting();
-                    setting = setting.GetMainSetting();
+                    //Model_MainSetting setting = new Model_MainSetting();
+                    //setting = setting.GetMainSetting();
 
-                    url.Text = setting.WebSiteURL;
+                    url.Text = this.MainSetting.WebSiteURL;
                     slug.Text = p.Slug;
                     viewcount.Text = p.ViewCount.ToString();
 
