@@ -95,7 +95,7 @@
 
                                         <asp:TextBox ID="txtContentBuilder" style="display:none;" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
 
-                                        <iframe id="iframcontent" style="width:100%;height:700px;" src="/admin/Post/Contentbuilder?ve=00ssssss"></iframe>
+                                        <iframe id="iframcontent" style="width:100%;height:700px;border:1px solid #e7eaec;" src="/admin/Post/Contentbuilder?ve=00ssssss"></iframe>
                                     </div>
                                  </div>
                               </div>
