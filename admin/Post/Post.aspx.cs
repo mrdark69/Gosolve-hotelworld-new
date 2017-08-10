@@ -30,6 +30,8 @@ public partial class _Post : BasePage
 
                     txtTitle.Text = p.Title;
                     txtContent.Text = p.BodyContent;
+
+                    txtContentBuilder.Text = p.BodyContentBuilder;
                     Model_MainSetting setting = new Model_MainSetting();
                     setting = setting.GetMainSetting();
 
@@ -115,6 +117,7 @@ public partial class _Post : BasePage
                 Status = bool.Parse(dropStatus.SelectedValue),
                 ShowComment = false,
                 BodyContent = txtContent.Text.Trim(),
+                BodyContentBuilder = txtContentBuilder.Text.Trim(),
                 BannerTypeID = byte.Parse(CoverType.Value),
                 ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
                 ViewCount = 1

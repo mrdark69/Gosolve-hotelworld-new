@@ -62,6 +62,7 @@ public class Model_Post : BaseModel<Model_Post>
     public bool ShowComment { get; set; }
 
     public string BodyContent { get; set; }
+    public string BodyContentBuilder { get; set; }
     public byte BannerTypeID { get; set; }
 
     public bool ShowMasterSlider { get; set; }
@@ -217,24 +218,26 @@ public class Model_Post : BaseModel<Model_Post>
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand(@"INSERT INTO POST (PostTypeID,Title,Short,Slug,DateSubmit,UserID,DatePublish,Status,
-                    ShowComment,BodyContent,BannerTypeID,ShowMasterSlider,ViewCount) 
+                    ShowComment,BodyContent,BannerTypeID,ShowMasterSlider,ViewCount,BodyContentBuilder) 
                     VALUES (@PostTypeID,@Title,@Short,@Slug,@DateSubmit,@UserID,@DatePublish,@Status,
-                    @ShowComment,@BodyContent,@BannerTypeID,@ShowMasterSlider,@ViewCount) ;SET @PostID = SCOPE_IDENTITY();", cn);
+                    @ShowComment,@BodyContent,@BannerTypeID,@ShowMasterSlider,@ViewCount,@BodyContentBuilder) ;SET @PostID = SCOPE_IDENTITY();", cn);
 
 
-            cmd.Parameters.Add("PostTypeID", SqlDbType.TinyInt).Value = p.PostTypeID;
-            cmd.Parameters.Add("Title", SqlDbType.NVarChar).Value = p.Title;
-            cmd.Parameters.Add("Short", SqlDbType.NVarChar).Value = p.Short;
-            cmd.Parameters.Add("Slug", SqlDbType.NVarChar).Value = p.Slug;
-            cmd.Parameters.Add("DateSubmit", SqlDbType.SmallDateTime).Value = p.DateSubmit;
-            cmd.Parameters.Add("UserID", SqlDbType.Int).Value = p.UserID;
-            cmd.Parameters.Add("DatePublish", SqlDbType.SmallDateTime).Value = p.DatePublish;
-            cmd.Parameters.Add("Status", SqlDbType.Bit).Value = p.Status;
-            cmd.Parameters.Add("ShowComment", SqlDbType.Bit).Value = p.ShowComment;
-            cmd.Parameters.Add("BannerTypeID", SqlDbType.TinyInt).Value = p.BannerTypeID;
-            cmd.Parameters.Add("ShowMasterSlider", SqlDbType.Int).Value = p.ShowMasterSlider;
-            cmd.Parameters.Add("BodyContent", SqlDbType.NVarChar).Value = p.BodyContent;
-            cmd.Parameters.Add("ViewCount", SqlDbType.Int).Value = p.ViewCount;
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = p.PostTypeID;
+            cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = p.Title;
+            cmd.Parameters.Add("@Short", SqlDbType.NVarChar).Value = p.Short;
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = p.Slug;
+            cmd.Parameters.Add("@DateSubmit", SqlDbType.SmallDateTime).Value = p.DateSubmit;
+            cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = p.UserID;
+            cmd.Parameters.Add("@DatePublish", SqlDbType.SmallDateTime).Value = p.DatePublish;
+            cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = p.Status;
+            cmd.Parameters.Add("@ShowComment", SqlDbType.Bit).Value = p.ShowComment;
+            cmd.Parameters.Add("@BannerTypeID", SqlDbType.TinyInt).Value = p.BannerTypeID;
+            cmd.Parameters.Add("@ShowMasterSlider", SqlDbType.Int).Value = p.ShowMasterSlider;
+            cmd.Parameters.Add("@BodyContent", SqlDbType.NVarChar).Value = p.BodyContent;
+            cmd.Parameters.Add("@BodyContentBuilder", SqlDbType.NVarChar).Value = p.BodyContentBuilder;
+            
+            cmd.Parameters.Add("@ViewCount", SqlDbType.Int).Value = p.ViewCount;
 
             cmd.Parameters.Add("@PostID", SqlDbType.Int).Direction = ParameterDirection.Output;
 
@@ -257,23 +260,23 @@ public class Model_Post : BaseModel<Model_Post>
         {
             SqlCommand cmd = new SqlCommand(@"UPDATE Post SET  Title=@Title, Short=@Short ,Slug=@Slug 
 ,Status=@Status,ShowComment=@ShowComment,BannerTypeID=@BannerTypeID,ShowMasterSlider=@ShowMasterSlider
-,BodyContent=@BodyContent,ViewCount=@ViewCount
+,BodyContent=@BodyContent,ViewCount=@ViewCount,BodyContentBuilder=@BodyContentBuilder 
 WHERE PostID=@PostID", cn);
 
            
-            cmd.Parameters.Add("Title", SqlDbType.NVarChar).Value = p.Title;
-            cmd.Parameters.Add("Short", SqlDbType.NVarChar).Value = p.Short;
-            cmd.Parameters.Add("Slug", SqlDbType.NVarChar).Value = p.Slug;
+            cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = p.Title;
+            cmd.Parameters.Add("@Short", SqlDbType.NVarChar).Value = p.Short;
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = p.Slug;
             //cmd.Parameters.Add("DateSubmit", SqlDbType.SmallDateTime).Value = p.DateSubmit;
             //cmd.Parameters.Add("UserID", SqlDbType.Int).Value = p.UserID;
             //cmd.Parameters.Add("DatePublish", SqlDbType.SmallDateTime).Value = p.DatePublish;
-            cmd.Parameters.Add("Status", SqlDbType.Bit).Value = p.Status;
-            cmd.Parameters.Add("ShowComment", SqlDbType.Bit).Value = p.ShowComment;
-            cmd.Parameters.Add("BannerTypeID", SqlDbType.TinyInt).Value = p.BannerTypeID;
-            cmd.Parameters.Add("ShowMasterSlider", SqlDbType.Int).Value = p.ShowMasterSlider;
-            cmd.Parameters.Add("BodyContent", SqlDbType.NVarChar).Value = p.BodyContent;
-            cmd.Parameters.Add("ViewCount", SqlDbType.Int).Value = p.ViewCount;
-
+            cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = p.Status;
+            cmd.Parameters.Add("@ShowComment", SqlDbType.Bit).Value = p.ShowComment;
+            cmd.Parameters.Add("@BannerTypeID", SqlDbType.TinyInt).Value = p.BannerTypeID;
+            cmd.Parameters.Add("@ShowMasterSlider", SqlDbType.Int).Value = p.ShowMasterSlider;
+            cmd.Parameters.Add("@BodyContent", SqlDbType.NVarChar).Value = p.BodyContent;
+            cmd.Parameters.Add("@ViewCount", SqlDbType.Int).Value = p.ViewCount;
+            cmd.Parameters.Add("@BodyContentBuilder", SqlDbType.NVarChar).Value = p.BodyContentBuilder;
             cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = p.PostID;
 
 

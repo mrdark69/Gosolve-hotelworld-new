@@ -74,7 +74,7 @@ namespace gs_newsletter
                     DebugPath = "~/Scripts/respond.js",
                 });
 
-            //BundleTable.EnableOptimizations = true;
+          //  BundleTable.EnableOptimizations = true;
         }
     }
 }

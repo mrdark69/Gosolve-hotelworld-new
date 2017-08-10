@@ -115,6 +115,9 @@ public partial class _Default : Page
                     this.PageContentTitle = post.Title;
                     section_page_home.Visible = true;
 
+
+                    home_content.Text = this.ContentBody;
+
                 }
             }
 

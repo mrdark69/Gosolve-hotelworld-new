@@ -119,6 +119,64 @@ $(document).ready(function () {
 
     });
 
+    $('#preferences').on('shown.bs.modal', function () {
+       //binding to button
+                $('.addmedia-contentbuilder').on('click', function (e) {
+                    e.preventDefault;
+
+                    var dd = $(this).parent('.media_item_box');
+                    var id = dd.attr('id');
+
+                    store.set('box_media_focus', id);
+
+
+
+
+                    $('#t-title').val('');
+
+                    $('#btn-b-update-template').hide();
+                    $('#btn-b-add-template').show();
+
+                    $('#modal_media_select').modal({
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+
+                    var t = $(this).data('target');
+
+
+
+                    $('#btn-custom-add-medias-m').bind('click', function () {
+                        var data = store.get("key_onSel");
+                        var url = location.origin + data.Path + data.FileName;
+                        // i.insertContent('<img style="width:50%" src="' + url + '" />');
+                        var img = '<img src="' + url + '" title="' + data.Title + '" alt="' + data.Alt + '" width="100%">';
+                        //CKEDITOR.instances[t].insertHtml(img);
+
+                        //var link = $(elemento);
+                        var image = url;
+
+                        var w = data.Dimensions.split('-')[0];
+                        var h = data.Dimensions.split('-')[1];
+
+                        $('#img-url').val(image);
+                        $('#img-width').val(w);
+                        $('#img-height').val(h);
+                        $('#img-rel').val(data.Alt);
+                        $('#img-title').val(data.Title);
+                        $('#imgContent').children('img').attr('src', image);
+                        $('#imgContent').children('img').attr('title', data.Title);
+                        $('#imgContent').children('img').attr('alt', data.Alt);
+                        //$('#mediagallery').slideUp();
+                        //$('#thepref').slideDown();
+
+                        $('#modal_media_select').modal('hide');
+
+
+                    });
+                });
+    });
+
    
     
    
@@ -400,6 +458,8 @@ function CloseImageAddPanel_media() {
 
 
     $('#modal_media_select').modal('hide');
+
+    return false;
     //$('#modal_media').hide(function () {
     //    $('#mail-text-block').show();
 

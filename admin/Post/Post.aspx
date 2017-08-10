@@ -29,13 +29,27 @@
       .media_item_box label{
       font-weight:normal;
       }
+
+
+      .positionIgnored{
+          position:static !important;
+      }
+
+      .positionAbsolute{
+          position:absolute !important;
+          width:100% !important;
+          height:100%!important;
+          top:0;
+          left:0;
+          z-index:1002;
+      }
    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <%--fadeInRight--%>
    <div class="wrapper wrapper-content animated ">
       <div class="row">
-         <div class="col-md-9" style="margin-left:0px; margin-right:0px;padding-left:0px;padding-right:0px;">
+         <div class="col-md-9" id="ele_custom_gs" style="margin-left:0px; margin-right:0px;padding-left:0px;padding-right:0px;">
             <div class="tabs-container">
                <ul class="nav nav-tabs">
                   <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> Information</a></li>
@@ -45,7 +59,7 @@
                </ul>
                <div class="tab-content">
                   <div id="tab-1" class="tab-pane active">
-                     <div class="panel-body">
+                     <div class="panel-body" id="tab_custom_gs">
                         <div class="ibox float-e-margins">
                            <div class="ibox-content">
                               <div  class="form">
@@ -73,8 +87,15 @@
                                     <label class=" control-label">Content</label>
                                     <div>
                                        <%--<span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>--%>
-                                       <button id="btnaddmedia" type="button"  class="addmedia-wysiwyg btn btn-success" data-target="txtContent">Add Media</button>
-                                       <asp:TextBox ID="txtContent" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                       <%--<button id="btnaddmedia" type="button"  class="addmedia-wysiwyg btn btn-success" data-target="txtContent">Add Media</button>--%>
+                                        <%--<a href="#" id="btnfullcontent" class=" btn btn-success" >Full Screen</a>--%>
+                                       <%-- <asp:Literal ID="txtContent" runat="server"></asp:Literal>--%>
+                                        
+                                       <asp:TextBox ID="txtContent" style="display:none;" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+
+                                        <asp:TextBox ID="txtContentBuilder" style="display:none;" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+
+                                        <iframe id="iframcontent" style="width:100%;height:700px;" src="http://dev.hotelworld.com/admin/Post/Contentbuilder?ve=00"></iframe>
                                     </div>
                                  </div>
                               </div>
@@ -307,9 +328,19 @@
        $(document).ready(function () {
 
 
-           CKEDITOR.replace('txtContent');
+         //  CKEDITOR.replace('txtContent');
 
+           //position:absolute;
 
+           $('#btnfullcontent').on('click', function () {
+               $("#iframcontent").contents().find("#full_exit").toggleClass('class-hidden-full');
+               //$('#full_exit', children.document).toggleClass('class-hidden-full');
+
+               $('#iframcontent').toggleClass('positionAbsolute');
+               $('#tab_custom_gs').toggleClass('positionIgnored');
+               $('#ele_custom_gs').toggleClass('positionIgnored');
+               
+           });
 
        });
 
