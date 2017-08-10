@@ -31,8 +31,9 @@
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
             <script src="https://cdn.jsdelivr.net/ace/1.2.0/min/ace.js"></script>
-            <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
-            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=3fql10t0qad2rihzdprevq7b3l4w91fpjpqfps3iuvnexb14"></script>
+   <%-- //tinymce.cachefly.net/4.2/tinymce.min.js--%>
+            <!-- Include all compiled plugins (below), or include individual files as needed  -->
             <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
     
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>

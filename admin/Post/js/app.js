@@ -93,7 +93,7 @@ function _init() {
                         $('#btn-custom-add-medias-m').bind('click', function () {
                             var data = store.get("key_onSel");
                             var url = location.origin + data.Path + "/" + data.FileName;
-                            i.insertContent('<img style="width:50%" src="' + url + '" />');
+                            i.insertContent('<img class="img_responsive" src="' + url + '" />');
 
                            // n.val(i.getContent({ format: "raw" })), n.get(0).dispatchEvent(t)
 
@@ -152,7 +152,7 @@ function _init() {
                             $('#btn-custom-add-medias-m').bind('click', function () {
                                 var data = store.get("key_onSel");
                                 var url = location.origin + data.Path + "/" + data.FileName;
-                                i.insertContent('<img style="width:50%" src="' + url + '" />');
+                                i.insertContent('<img class="img_responsive" src="' + url + '" />');
                                
                                // n.val(i.getContent({ format: "raw" })), n.get(0).dispatchEvent(t)
 
@@ -661,7 +661,9 @@ function prepareEditor(part, row, column) {
 
             break;
     }
-    $('#preferences').modal('show').draggable();
+    $('#preferences').modal('show');
+
+    //.draggable();
 }
 
 $(document).on('focusin', function(e) {
