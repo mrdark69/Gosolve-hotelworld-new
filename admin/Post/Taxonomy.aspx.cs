@@ -264,6 +264,17 @@ public partial class _Taxonomy : BasePage
 
             pm.insertMediaPost(pm);
         }
+        else
+        {
+            Model_TaxMedia pm = new Model_TaxMedia
+            {
+
+                TaxMediaTypeID = TaxMediaType.CoverImage,
+                TaxID = TaxID
+               
+            };
+            pm.DeleteTaxMedia(pm);
+        }
 
         bool ret = tax.UpdateTaxonomy(tax);
         if (ret)

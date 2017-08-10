@@ -19,6 +19,8 @@
 	<link href="/Theme/maintheme/css/fancySelect.css" rel="stylesheet" media="screen, projection" />
 	<link href="/Theme/maintheme/css/animate.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="/Theme/maintheme/css/style.css?ver=1s" rel="stylesheet" type="text/css" />
+    <link href="/Theme/maintheme/css/custom.css?ver=1s" rel="stylesheet" type="text/css" />
+    
     
 	<!-- FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Kanit:300,400,500,600,700&amp;subset=thai" rel="stylesheet" type='text/css'>

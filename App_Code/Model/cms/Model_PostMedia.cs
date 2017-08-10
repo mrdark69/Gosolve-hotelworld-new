@@ -72,6 +72,27 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
           
         }
     }
+    public bool DeletePostMedia(Model_PostMedia mp)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+
+            SqlCommand cmddel = new SqlCommand(@"DELETE FROM PostMedia WHERE PostMediaTypeID=@PostMediaTypeID AND 
+        PostID=@PostID ", cn);
+            cn.Open();
+
+            cmddel.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = mp.PostMediaTypeID;
+            cmddel.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = mp.PostID;
+
+
+
+            
+
+
+            return ExecuteNonQuery(cmddel) == 1;
+
+        }
+    }
 
     public List<Model_PostMedia> getPostMedia(int PostID, byte PostMediaTypeID)
     {

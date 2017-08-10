@@ -163,6 +163,7 @@ public partial class _Post : BasePage
                     
             }
             
+            //Cover 
             if (!string.IsNullOrEmpty(hd_MID.Value))
             {
                 Model_PostMedia pm = new Model_PostMedia
@@ -174,6 +175,18 @@ public partial class _Post : BasePage
                 };
 
                 pm.insertMediaPost(pm);
+            }
+            else
+            {
+                Model_PostMedia pm = new Model_PostMedia
+                {
+
+                    PostMediaTypeID = PostMediaType.CoverImage,
+                    PostID = intPostID
+                   
+                };
+
+                pm.DeletePostMedia(pm);
             }
            
             

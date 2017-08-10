@@ -72,6 +72,26 @@ public class Model_TaxMedia : BaseModel<Model_TaxMedia>
           
         }
     }
+    public bool DeleteTaxMedia(Model_TaxMedia mp)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+
+            SqlCommand cmddel = new SqlCommand(@"DELETE FROM TaxonomyMedia WHERE TaxMediaTypeID=@TaxMediaTypeID AND 
+        TaxID=@TaxID ", cn);
+            cn.Open();
+
+            cmddel.Parameters.Add("@TaxMediaTypeID", SqlDbType.TinyInt).Value = mp.TaxMediaTypeID;
+            cmddel.Parameters.Add("@TaxID", SqlDbType.TinyInt).Value = mp.TaxID;
+        
+       
+
+
+
+            return ExecuteNonQuery(cmddel) == 1;
+
+        }
+    }
 
     public List<Model_TaxMedia> getPostMedia(int TaxID, byte TaxMediaTypeID)
     {
