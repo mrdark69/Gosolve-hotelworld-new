@@ -53,10 +53,11 @@
 
                                         <%--<th></th>--%>
                                         <th>Title </th>
+                                        <th>Slug</th>
                                         <th>Author </th>
                                         <th>Date Published</th>
                                         <th>View</th>
-                                        <th>Action</th>
+                                        
                                     </tr>
                                     </thead>
                                     <tbody id="body_list">
@@ -150,11 +151,12 @@
               
                 ret += '<tr>';
                 //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
-                ret += '   <td><strong><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID +'"><i class="fa fa-star"></i>' + data[i].Title+'</a></strong></td>';
+                ret += '   <td><strong><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID + '"><i class="fa fa-star"></i>' + data[i].Title + '</a></strong></td>';
+                ret += '   <td>' + data[i].Slug + '</td>';
                 ret += '   <td>' + data[i].UserFirstName +'</td>';
                 ret += '   <td>' + data[i].DatePublishFormat +'</td>';
                 ret += '   <td><span class="label label-primary">' + data[i].ViewCount +'</span></td>';
-                ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID+'&TaxTypeID=' + TaxTypeID+'&TaxID=' + data[i].TaxID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
+                //ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID+'&TaxTypeID=' + TaxTypeID+'&TaxID=' + data[i].TaxID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
                 ret += '   </tr >';
 
                 var lv1 = $.grep(raw_data, function (e) { return e.RefID == data[i].TaxID; }); 
@@ -179,11 +181,12 @@
 
                     ret += '<tr>';
                     //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
-                    ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID +'">' + level(v) + data[i].Title + '</a></td>';
+                    ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID + '">' + level(v) + data[i].Title + '</a></td>';
+                    ret += '   <td>' + data[i].Slug + '</td>';
                     ret += '   <td>' + data[i].UserFirstName + '</td>';
                     ret += '   <td>' + data[i].DatePublishFormat + '</td>';
                     ret += '   <td><span class="label label-primary">' + data[i].ViewCount + '</span></td>';
-                    ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=3&TaxTypeID=1&TaxID=' + data[i].TaxID + '"><i class="fa fa-pencil"></i> Edit </a></td>';
+                    //ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=3&TaxTypeID=1&TaxID=' + data[i].TaxID + '"><i class="fa fa-pencil"></i> Edit </a></td>';
                     ret += '   </tr >';
                     var lv1 = $.grep(RawData, function (e) { return e.RefID == data[i].TaxID; }); 
                     ret += child(v,RawData,lv1, data[i].TaxID);

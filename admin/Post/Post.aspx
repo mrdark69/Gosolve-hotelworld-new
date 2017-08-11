@@ -43,6 +43,20 @@
           left:0;
           z-index:1002;
       }
+      .tax_parent{
+          position:relative;
+          display:block;
+      }
+      .tax_parent .tax_child{
+
+          padding:5px;
+          margin-left:15px;
+          border:1px solid #e1e1e1;
+          
+      }
+       .tax_parent .parent_main_item{
+           margin-top:10px;
+      }
    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -142,10 +156,80 @@
                                        </asp:Panel>
                                        <%-- Home Group Custom Panel--%>
 
+
+                                 <%-- Product Group Custom Panel--%>
+                                  <asp:Panel ID="pn_product_custom" runat="server" Visible="false">
+                                      <div class="hr-line-dashed"></div>
+                                      <div class="form-group">
+                                          <div class="col-md-6">
+                                              <label><i class="fa fa-bookmark" aria-hidden="true"></i>Product Category</label>
+                                                <div style="max-height:400px;overflow-y:scroll;display:block;
+background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
+
+                                                    <asp:Literal ID="CategoryTax" runat="server"></asp:Literal>
+                                                    <%--<asp:CheckBoxList ID="CategoryTax" runat="server" RepeatLayout="Table" RepeatDirection="Vertical" />--%>
+                                                </div>
+                                          </div>
+                                           <div class="col-md-6">
+                                               <label><i class="fa fa-tags" aria-hidden="true"></i>Product Tags</label>
+                                               <div style="max-height:400px;overflow-y:scroll;display:block;background-color:#f3f3f4;
+                                border:1px solid #e1e1e1;padding:20px;">
+                                                   <asp:Literal ID="TagsTax" runat="server"></asp:Literal>
+                                                   
+                                               </div>
+                                         
+
+                                           </div>
+                                      </div>
+                                        <div style="clear:both"></div>
+
+
+                                       <div class="hr-line-dashed"></div>
+                                       <div class="form-group">
+                                            <label class=" control-label">Product Detail</label>
+                                           <asp:TextBox ID="ProductDetail"  ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                       </div>
+                                       <div class="hr-line-dashed"></div>
+                                       <div class="form-group">
+                                            <label class=" control-label">Product Information</label>
+                                           <asp:TextBox ID="ProductInformation"  ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                       </div>
+
+                                      <div class="form-group">
+                                       <div class="col-md-6">
+                                            <label class=" control-label">Banner Announcement</label>
+                                           <asp:TextBox ID="p_banner_ann_caption"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"  runat="server"></asp:TextBox>
+                                                <div class="media_item_box" id="media_item_box_8" style="margin-top:5px;">
+                                                <label>No Media selected</label>
+                                                <button id="addimg8" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                                <asp:HiddenField ID="p_banner_ann_8"   runat="server" ClientIDMode="Static" />
+                                              <asp:HiddenField ID="p_banner_ann_mid_8"   runat="server" ClientIDMode="Static" />
+                                                
+                                            </div>
+                                       </div>
+                                         <div class="col-md-6">
+                                            <label class=" control-label">Banner Rigth</label>
+                                             <asp:TextBox ID="p_banner_rigth"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"   runat="server"></asp:TextBox>
+                                            <div class="media_item_box" id="media_item_box_9"  style="margin-top:5px;">
+                                                <label>No Media selected</label>
+                                                <button id="addimg9" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                                <asp:HiddenField ID="p_banner_9"   runat="server" ClientIDMode="Static" />
+                                              <asp:HiddenField ID="p_banner_mid_9"   runat="server" ClientIDMode="Static" />
+                                                
+                                            </div>
+                                       </div>
+                                    </div>
+                                  <div style="clear:both"></div>
+
+                                  
+
+                                  </asp:Panel>
+                                    <%-- Product Group Custom Panel--%>
+
                                  <div class="hr-line-dashed"></div>
 
 
-                                 <div class="form-group">
+                                 <div class="form-group" id="main_post_content" runat="server">
                                     <label class=" control-label">Content</label>
                                     <div>
                                        <%--<span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>--%>
@@ -389,9 +473,9 @@
    <script type="text/javascript">
        $(document).ready(function () {
 
-
-         //  CKEDITOR.replace('txtContent');
-
+         
+           CKEDITOR.replace('ProductDetail');
+           CKEDITOR.replace('ProductInformation');
            //position:absolute;
 
            $('#btnfullcontent').on('click', function () {

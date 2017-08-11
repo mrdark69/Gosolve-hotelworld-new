@@ -25,8 +25,20 @@ public partial class _Taxonomy : BasePage
                 PostTypeID = intPostTypeID,
                 TaxTypeID = intTaxTypeID
             };
+            List<Model_PostTaxonomy> Taxlistdrop = new List<Model_PostTaxonomy>();
 
-            List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyByIDMain(pt);
+            List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyActiveOnly(pt);
+
+            foreach(Model_PostTaxonomy i in Taxlist.Where(g=>g.RefID == 0))
+            {
+                Taxlistdrop.Add(i);
+
+                if(Taxlist.Where(f => f.RefID == i.TaxID).Count() > 0)
+                {
+                    Taxlistdrop.AddRange(getchild(Taxlist.Where(f => f.RefID == i.TaxID).ToList(),Taxlist, i.TaxID));
+                }
+                
+            }
 
             Model_PostType cp = new Model_PostType();
             
@@ -65,7 +77,7 @@ public partial class _Taxonomy : BasePage
                         viewcount.Text = "0";
 
 
-                        dropParent.DataSource = Taxlist;
+                        dropParent.DataSource = Taxlistdrop;
                         dropParent.DataValueField = "TaxID";
                         dropParent.DataTextField = "TitleLevel";
                         dropParent.DataBind();
@@ -134,7 +146,7 @@ public partial class _Taxonomy : BasePage
                         CoverType.Value = tax.BannerTypeID.ToString();
                         radioshowmMS.SelectedValue = tax.ShowMasterSlider.ToString();
                         
-                        dropParent.DataSource = Taxlist.Where(r => r.TaxID != TaxID);
+                        dropParent.DataSource = Taxlistdrop.Where(r => r.TaxID != TaxID);
                         dropParent.DataValueField = "TaxID";
                         dropParent.DataTextField = "TitleLevel";
                         dropParent.DataBind();
@@ -156,7 +168,20 @@ public partial class _Taxonomy : BasePage
         }
     }
 
-   
+   public List<Model_PostTaxonomy> getchild(List<Model_PostTaxonomy> data, List<Model_PostTaxonomy> raw, int id)
+   {
+        List<Model_PostTaxonomy> ret = new List<Model_PostTaxonomy>();
+        foreach (Model_PostTaxonomy c in data)
+        {
+            ret.Add(c);
+
+            if (raw.Where(f => f.RefID == c.TaxID).Count() > 0)
+            {
+                ret.AddRange(getchild(raw.Where(f => f.RefID == c.TaxID).ToList() ,raw, c.TaxID));
+            }
+        }
+        return ret;
+    }
 
     protected void btnPubish_Click(object sender, EventArgs e)
     {

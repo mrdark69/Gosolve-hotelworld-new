@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Text;
 
 public partial class _Post : BasePage
 {
@@ -85,46 +86,122 @@ public partial class _Post : BasePage
                         }
                     }
 
-                }
 
 
 
+                    //Check Cutom Post Field
+                    Model_PostCustomGroup pct = new Model_PostCustomGroup();
+                    List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(PostID);
 
-
-                //Check Cutom Post Field
-                Model_PostCustomGroup pct = new Model_PostCustomGroup();
-                List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(PostID);
-
-                foreach(Model_PostCustomGroup pci in pctList)
-                {
-                    switch (pci.PcGroupName)
+                    foreach (Model_PostCustomGroup pci in pctList)
                     {
-                        case "HomeGroup":
-                            pn_home_custom.Visible = true;
-                            List<Model_PostCustomItem> itemList = pci.CustomItem;
-                            Model_PostCustomItem bannerAnn = itemList.SingleOrDefault(r => r.PcName == "banner-announce");
-                            b1_url.Value = bannerAnn.URL;
-                            b1_id.Value = bannerAnn.MID.ToString();
-                            banner_home_1.Text = bannerAnn.Caption1;
+                        switch (pci.PcGroupName)
+                        {
+                            case "HomeGroup":
+                                pn_home_custom.Visible = true;
+                                List<Model_PostCustomItem> itemList = pci.CustomItem;
+                                Model_PostCustomItem bannerAnn = itemList.SingleOrDefault(r => r.PcName == "banner-announce");
+                                if (bannerAnn != null)
+                                {
+                                    b1_url.Value = bannerAnn.URL;
+                                    b1_id.Value = bannerAnn.MID.ToString();
+                                    banner_home_1.Text = bannerAnn.Caption1;
+                                }
 
 
-                            Model_PostCustomItem bannerright = itemList.SingleOrDefault(r => r.PcName == "banner-announce-right");
-                            b2_url.Value = bannerright.URL;
-                            b2_id.Value = bannerright.MID.ToString();
-                            banner_home_2.Text = bannerright.Caption1;
-                            //"banner-announce"
-                            //banner-announce-right
-                            //banner-client
-                            drop_b_client_ret.DataSource = itemList.Where(r => r.PcName == "banner-client");
-                            //drop_b_client_ret.DataTextFormatString = "{0} - {1}";
-                            drop_b_client_ret.DataTextField = "MID";
-                            //drop_b_client_ret.DataTextField = "Caption1";
-                          
-                            drop_b_client_ret.DataValueField = "DropTextFile";
-                            drop_b_client_ret.DataBind();
-                            break;
+
+                                Model_PostCustomItem bannerright = itemList.SingleOrDefault(r => r.PcName == "banner-announce-right");
+                                if (bannerright != null)
+                                {
+                                    b2_url.Value = bannerright.URL;
+                                    b2_id.Value = bannerright.MID.ToString();
+                                    banner_home_2.Text = bannerright.Caption1;
+                                }
+
+                                //"banner-announce"
+                                //banner-announce-right
+                                //banner-client
+                                drop_b_client_ret.DataSource = itemList.Where(r => r.PcName == "banner-client");
+                                //drop_b_client_ret.DataTextFormatString = "{0} - {1}";
+                                drop_b_client_ret.DataTextField = "MID";
+                                //drop_b_client_ret.DataTextField = "Caption1";
+
+                                drop_b_client_ret.DataValueField = "DropTextFile";
+                                drop_b_client_ret.DataBind();
+                                break;
+
+
+                            case "ProductGroup":
+                                pn_product_custom.Visible = true;
+                                main_post_content.Visible = false;
+                                Model_PostTaxonomy pt = new Model_PostTaxonomy
+                                {
+                                    PostTypeID = p.PostTypeID,
+                                    TaxTypeID = (byte)PostTaxonomyType.Categories
+                                };
+                                List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyActiveOnly(pt);
+                                CategoryTax.Text = getCatProduct(Taxlist);
+                                Model_PostTaxonomy pttags = new Model_PostTaxonomy
+                                {
+                                    PostTypeID = p.PostTypeID,
+                                    TaxTypeID = (byte)PostTaxonomyType.Tags
+                                };
+                                List<Model_PostTaxonomy> TaxlistTags = pt.GetTaxonomyActiveOnly(pttags);
+                                TagsTax.Text = getTagsProductList(TaxlistTags);
+                                //TagsTax
+
+
+
+                                //bing
+                                //product_detail = 1,
+                                //product_information = 2,
+                                //product_b_announce = 3,
+                                //product_b_rigth = 4
+
+                                List<Model_PostCustomItem> ProductitemList = pci.CustomItem;
+                                Model_PostCustomItem PbannerAnn = ProductitemList.SingleOrDefault(r => r.PcName == "product-b-announce");
+
+                                if (PbannerAnn != null)
+                                {
+                                    p_banner_ann_8.Value = PbannerAnn.URL;
+                                    p_banner_ann_mid_8.Value = PbannerAnn.MID.ToString();
+                                    p_banner_ann_caption.Text = PbannerAnn.Caption1;
+                                }
+
+
+
+                                Model_PostCustomItem Pbannerright = ProductitemList.SingleOrDefault(r => r.PcName == "product-b-rigth");
+                                if (Pbannerright != null)
+                                {
+                                    p_banner_9.Value = Pbannerright.URL;
+                                    p_banner_mid_9.Value = Pbannerright.MID.ToString();
+                                    p_banner_rigth.Text = Pbannerright.Caption1;
+                                }
+
+
+                                Model_PostCustomItem P_pro_de = ProductitemList.SingleOrDefault(r => r.PcName == "product-detail");
+                                if (P_pro_de != null)
+                                {
+                                    ProductDetail.Text = P_pro_de.ContentHTML;
+                                }
+
+                                Model_PostCustomItem P_pro_info = ProductitemList.SingleOrDefault(r => r.PcName == "product-information");
+                                if (P_pro_info != null)
+                                {
+                                    ProductInformation.Text = P_pro_info.ContentHTML;
+                                }
+
+
+                                break;
+                        }
                     }
+
                 }
+
+
+
+
+
 
             }
 
@@ -132,7 +209,79 @@ public partial class _Post : BasePage
         }
     }
 
+    public string getTagsProductList(List<Model_PostTaxonomy> Taxlist)
+    {
+        StringBuilder ret = new StringBuilder();
 
+
+        ret.Append("<div class='tax_parent'>");
+
+        List<Model_PostTaxonomy> Taxlistdrop = new List<Model_PostTaxonomy>();
+
+
+
+        foreach (Model_PostTaxonomy i in Taxlist.Where(g => g.RefID == 0).OrderBy(o => o.Priority))
+        {
+            ret.Append("<p class='parent_main_item'><input type='checkbox' value='" + i.TaxID+"' name='product_tax_tags' />");
+            ret.Append( i.Title + "</p>");
+
+           
+
+        }
+
+
+        ret.Append("</div>");
+        return ret.ToString();
+    }
+    public string getCatProduct(List<Model_PostTaxonomy> Taxlist)
+    {
+        StringBuilder ret = new StringBuilder();
+
+
+        ret.Append("<div class='tax_parent'>");
+
+        List<Model_PostTaxonomy> Taxlistdrop = new List<Model_PostTaxonomy>();
+
+        
+
+        foreach (Model_PostTaxonomy i in Taxlist.Where(g => g.RefID == 0).OrderBy(o=>o.Priority))
+        {
+            //ret.Append("<input type='checkbox' value='"+i.TaxID+"' name='product_tax_cat' />");
+            ret.Append("<p class='parent_main_item'><i class=\"fa fa-star\"></i> "+i.Title+"</p>");
+           
+            if (Taxlist.Where(f => f.RefID == i.TaxID).Count() > 0)
+            {
+                ret.Append("<div class='tax_child'>");
+                ret.Append(getchild(Taxlist.Where(f => f.RefID == i.TaxID).ToList(), Taxlist, i.TaxID));
+                ret.Append("</div>");
+            }
+
+        }
+        
+
+        ret.Append("</div>");
+        return ret.ToString();
+    }
+
+
+    public string getchild(List<Model_PostTaxonomy> data, List<Model_PostTaxonomy> raw, int id)
+    {
+        StringBuilder ret = new StringBuilder();
+        List<Model_PostTaxonomy> retdataret = new List<Model_PostTaxonomy>();
+        foreach (Model_PostTaxonomy c in data)
+        {
+           
+            ret.Append("<p class='child_item'><input type='checkbox' value='" + c.TaxID+"' name='product_tax_cat' />");
+            ret.Append( c.Title + "</p>");
+            if (raw.Where(f => f.RefID == c.TaxID).Count() > 0)
+            {
+                ret.Append("<div class='tax_child'>");
+                ret.Append(getchild(raw.Where(f => f.RefID == c.TaxID).ToList(), raw, c.TaxID));
+                ret.Append("</div>");
+            }
+        }
+        return ret.ToString();
+    }
 
     protected void btnPubish_Click(object sender, EventArgs e)
     {
@@ -240,7 +389,7 @@ public partial class _Post : BasePage
                 cpi.PostID = intPostID;
                 cpi.PCDID = (int)CustomGroup.HomeGroup;
                 cpi.PcGroupName = "HomeGroup";
-                cpi.MID = int.Parse(b1_id.Value);
+                cpi.MID = !string.IsNullOrEmpty(b1_id.Value) ? int.Parse(b1_id.Value) : 0; 
                 cpi.Caption1 = banner_home_1.Text.Trim();
                 cpi.URL = b1_url.Value;
                 cpi.PcName = "banner-announce";
@@ -254,7 +403,7 @@ public partial class _Post : BasePage
                 cpi_1.PCDID = (int)CustomGroup.HomeGroup;
                 cpi_1.PostID = intPostID;
                 cpi_1.PcGroupName = "HomeGroup";
-                cpi_1.MID = int.Parse(b2_id.Value);
+                cpi_1.MID = !string.IsNullOrEmpty(b2_id.Value) ? int.Parse(b2_id.Value) : 0;  
                 cpi_1.Caption1 = banner_home_2.Text.Trim();
                 cpi_1.URL = b2_url.Value;
                 cpi_1.PcName = "banner-announce-right";
@@ -274,7 +423,7 @@ public partial class _Post : BasePage
                         cpi_2.PCDID = (int)CustomGroup.HomeGroup;
                         cpi_2.PostID = intPostID;
                         cpi_2.PcGroupName = "HomeGroup";
-                        cpi_2.MID = int.Parse(Request.Form["b3_id_" + i]);
+                        cpi_2.MID = !string.IsNullOrEmpty(Request.Form["b3_id_" + i]) ? int.Parse(Request.Form["b3_id_" + i]) : 0;
                         cpi_2.Caption1 = Request.Form["caption_s_" + i];
                         cpi_2.URL = Request.Form["b3_url_" + i];
                         cpi_2.PcName = "banner-client";
@@ -286,24 +435,79 @@ public partial class _Post : BasePage
 
 
 
-            //Model_PostCustomGroup pct = new Model_PostCustomGroup();
-            //List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(intPostID);
+            if (pctList.SingleOrDefault(i => i.PcGroupName == "ProductGroup") != null)
+            {
+                //            product_detail = 1,
+                //product_information = 2,
+                //product_b_announce = 3,
+                //product_b_rigth = 4
 
-            //foreach (Model_PostCustomGroup pci in pctList)
-            //{
-            //    switch (pci.PcGroupName)
-            //    {
-            //        case "HomeGroup":
-            //            pn_home_custom.Visible = true;
+                //banner announce
+                Model_PostCustomItem cpi = new Model_PostCustomItem();
+                cpi.PostID = intPostID;
+                cpi.PCDID = (int)CustomGroup.ProductGroup;
+                cpi.PcGroupName = "ProductGroup";
+                cpi.MID = !string.IsNullOrEmpty(p_banner_ann_mid_8.Value) ? int.Parse(p_banner_ann_mid_8.Value) : 0;
+                cpi.Caption1 = p_banner_ann_caption.Text.Trim();
+                cpi.URL = p_banner_ann_8.Value;
+                cpi.PcName = "product-b-announce";
+
+                cpi.ClearCustomByPostIDandName(intPostID, "product-b-announce");
+                cpi.Insert(cpi);
+
+
+                //banner left
+                Model_PostCustomItem cpi_1 = new Model_PostCustomItem();
+                cpi_1.PCDID = (int)CustomGroup.ProductGroup;
+                cpi_1.PostID = intPostID;
+                cpi_1.PcGroupName = "ProductGroup";
+                cpi_1.MID = !string.IsNullOrEmpty(p_banner_mid_9.Value) ? int.Parse(p_banner_mid_9.Value) :0;
+                cpi_1.Caption1 = p_banner_rigth.Text.Trim();
+                cpi_1.URL = p_banner_9.Value;
+                cpi_1.PcName = "product-b-rigth";
+                cpi_1.ClearCustomByPostIDandName(intPostID, "product-b-rigth");
+                cpi_1.Insert(cpi_1);
+
+                //product detail
+                Model_PostCustomItem p_detail = new Model_PostCustomItem();
+                p_detail.PCDID = (int)CustomGroup.ProductGroup;
+                p_detail.PostID = intPostID;
+                p_detail.PcGroupName = "ProductGroup";
+                p_detail.ContentHTML = ProductDetail.Text;
+                p_detail.PcName = "product-detail";
+                p_detail.ClearCustomByPostIDandName(intPostID, "product-detail");
+                p_detail.Insert(p_detail);
+
+                //product information
+                Model_PostCustomItem p_information = new Model_PostCustomItem();
+                p_information.PCDID = (int)CustomGroup.ProductGroup;
+                p_information.PostID = intPostID;
+                p_information.PcGroupName = "ProductGroup";
+                p_information.ContentHTML = ProductInformation.Text;
+                p_information.PcName = "product-information";
+                p_information.ClearCustomByPostIDandName(intPostID, "product-information");
+                p_information.Insert(p_information);
+            }
+
+
+                //Model_PostCustomGroup pct = new Model_PostCustomGroup();
+                //List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(intPostID);
+
+                //foreach (Model_PostCustomGroup pci in pctList)
+                //{
+                //    switch (pci.PcGroupName)
+                //    {
+                //        case "HomeGroup":
+                //            pn_home_custom.Visible = true;
 
 
 
 
-            //            break;
-            //    }
-            //}
+                //            break;
+                //    }
+                //}
 
-            if (p.UpdatePost(p))
+                if (p.UpdatePost(p))
                 Response.Redirect(Request.Url.ToString());
         }
        

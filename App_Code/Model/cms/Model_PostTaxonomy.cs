@@ -103,7 +103,7 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
         get
         {
            
-          return  String.Concat(Enumerable.Repeat("--", this.Lv)) + this.Title; 
+          return  String.Concat(Enumerable.Repeat("->", this.Lv-1)) + this.Title; 
         }
     }
 
@@ -271,6 +271,19 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand("SELECT pt.*,u.FirstName AS UserFirstName FROM PostTaxonomy pt INNER JOIN Users u ON u.UserID=pt.UserID WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID ORDER BY TaxID ASC,RefID ASC", cn);
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = t.PostTypeID;
+            cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = t.TaxTypeID;
+            cn.Open();
+
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+    public List<Model_PostTaxonomy> GetTaxonomyActiveOnly(Model_PostTaxonomy t)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT pt.*,u.FirstName AS UserFirstName FROM PostTaxonomy pt INNER JOIN Users u ON u.UserID=pt.UserID WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID AND pt.Status = 1 ORDER BY RefID ASC , LV ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = t.PostTypeID;
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = t.TaxTypeID;
             cn.Open();

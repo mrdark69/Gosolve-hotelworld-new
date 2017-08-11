@@ -15,8 +15,9 @@ using System.Web.Providers.Entities;
 /// 
 public enum CustomGroup : int
 {
-    HomeGroup = 4
- 
+    HomeGroup = 4,
+    ProductGroup = 5
+
 
 }
 
@@ -27,6 +28,16 @@ public enum HOMECustom_PostID_1 : int
     banner_client = 3
   
 }
+public enum ProductCustom_PostTypID_1 : int
+{
+    product_detail = 1,
+    product_information =2,
+    product_b_announce =3,
+    product_b_rigth=4
+
+}
+
+
 public class Model_PostCustomGroup : BaseModel<Model_PostCustomGroup>
 {
     public int PostID { get; set; }
