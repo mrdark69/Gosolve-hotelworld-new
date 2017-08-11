@@ -11,7 +11,8 @@ public partial class _Post : BasePage
     {
         if (!this.Page.IsPostBack)
         {
-           
+          
+
 
             if (!string.IsNullOrEmpty(Request.QueryString["PostID"]))
             {
@@ -86,7 +87,44 @@ public partial class _Post : BasePage
 
                 }
 
-               
+
+
+
+
+                //Check Cutom Post Field
+                Model_PostCustomGroup pct = new Model_PostCustomGroup();
+                List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(PostID);
+
+                foreach(Model_PostCustomGroup pci in pctList)
+                {
+                    switch (pci.PcGroupName)
+                    {
+                        case "HomeGroup":
+                            pn_home_custom.Visible = true;
+                            List<Model_PostCustomItem> itemList = pci.CustomItem;
+                            Model_PostCustomItem bannerAnn = itemList.SingleOrDefault(r => r.PcName == "banner-announce");
+                            b1_url.Value = bannerAnn.URL;
+                            b1_id.Value = bannerAnn.MID.ToString();
+                            banner_home_1.Text = bannerAnn.Caption1;
+
+
+                            Model_PostCustomItem bannerright = itemList.SingleOrDefault(r => r.PcName == "banner-announce-right");
+                            b2_url.Value = bannerright.URL;
+                            b2_id.Value = bannerright.MID.ToString();
+                            banner_home_2.Text = bannerright.Caption1;
+                            //"banner-announce"
+                            //banner-announce-right
+                            //banner-client
+                            drop_b_client_ret.DataSource = itemList.Where(r => r.PcName == "banner-client");
+                            //drop_b_client_ret.DataTextFormatString = "{0} - {1}";
+                            drop_b_client_ret.DataTextField = "MID";
+                            //drop_b_client_ret.DataTextField = "Caption1";
+                          
+                            drop_b_client_ret.DataValueField = "DropTextFile";
+                            drop_b_client_ret.DataBind();
+                            break;
+                    }
+                }
 
             }
 
@@ -188,8 +226,82 @@ public partial class _Post : BasePage
 
                 pm.DeletePostMedia(pm);
             }
-           
-            
+
+
+            //Check Cutom Post Field
+            Model_PostCustomGroup pct = new Model_PostCustomGroup();
+            List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(intPostID);
+
+            if(pctList.SingleOrDefault(i=>i.PcGroupName == "HomeGroup") != null)
+            {
+                //"HomeGroup":
+                //banner announce
+                Model_PostCustomItem cpi = new Model_PostCustomItem();
+                cpi.PostID = intPostID;
+                cpi.PCDID = (int)CustomGroup.HomeGroup;
+                cpi.PcGroupName = "HomeGroup";
+                cpi.MID = int.Parse(b1_id.Value);
+                cpi.Caption1 = banner_home_1.Text.Trim();
+                cpi.URL = b1_url.Value;
+                cpi.PcName = "banner-announce";
+
+                cpi.ClearCustomByPostIDandName(intPostID, "banner-announce");
+                cpi.Insert(cpi);
+
+
+                //banner left
+                Model_PostCustomItem cpi_1 = new Model_PostCustomItem();
+                cpi_1.PCDID = (int)CustomGroup.HomeGroup;
+                cpi_1.PostID = intPostID;
+                cpi_1.PcGroupName = "HomeGroup";
+                cpi_1.MID = int.Parse(b2_id.Value);
+                cpi_1.Caption1 = banner_home_2.Text.Trim();
+                cpi_1.URL = b2_url.Value;
+                cpi_1.PcName = "banner-announce-right";
+                cpi_1.ClearCustomByPostIDandName(intPostID, "banner-announce-right");
+                cpi_1.Insert(cpi_1);
+
+                //banner
+                Model_PostCustomItem cpi_2_c = new Model_PostCustomItem();
+                cpi_2_c.ClearCustomByPostIDandName(intPostID, "banner-client");
+                string chk_banner_client = Request.Form["chk_banner_client"];
+                if (!string.IsNullOrEmpty(chk_banner_client))
+                {
+                    string[] arr = chk_banner_client.Split(',');
+                    foreach (string i in arr)
+                    {
+                        Model_PostCustomItem cpi_2 = new Model_PostCustomItem();
+                        cpi_2.PCDID = (int)CustomGroup.HomeGroup;
+                        cpi_2.PostID = intPostID;
+                        cpi_2.PcGroupName = "HomeGroup";
+                        cpi_2.MID = int.Parse(Request.Form["b3_id_" + i]);
+                        cpi_2.Caption1 = Request.Form["caption_s_" + i];
+                        cpi_2.URL = Request.Form["b3_url_" + i];
+                        cpi_2.PcName = "banner-client";
+                        cpi_2.Insert(cpi_2);
+                    }
+                }
+
+            }
+
+
+
+            //Model_PostCustomGroup pct = new Model_PostCustomGroup();
+            //List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(intPostID);
+
+            //foreach (Model_PostCustomGroup pci in pctList)
+            //{
+            //    switch (pci.PcGroupName)
+            //    {
+            //        case "HomeGroup":
+            //            pn_home_custom.Visible = true;
+
+
+
+
+            //            break;
+            //    }
+            //}
 
             if (p.UpdatePost(p))
                 Response.Redirect(Request.Url.ToString());

@@ -81,8 +81,70 @@
                                           CssClass="text-danger" ErrorMessage="The Title field is required." />
                                     </div>
                                  </div>
+
+                                 <%-- Home Group Custom Panel--%>
+                                  <asp:Panel ID="pn_home_custom" runat="server" Visible="false">
+
                                  
                                  <div class="hr-line-dashed"></div>
+                                   <div class="form-group">
+                                       <div class="col-md-6">
+                                            <label class=" control-label">Banner Announcement</label>
+                                           <asp:TextBox ID="banner_home_1"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"  runat="server"></asp:TextBox>
+                                                <div class="media_item_box" id="media_item_box_6" style="margin-top:5px;">
+                                                <label>No Media selected</label>
+                                                <button id="addimg6" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                                <asp:HiddenField ID="b1_url"   runat="server" ClientIDMode="Static" />
+                                              <asp:HiddenField ID="b1_id"   runat="server" ClientIDMode="Static" />
+                                                
+                                            </div>
+                                       </div>
+                                         <div class="col-md-6">
+                                            <label class=" control-label">Banner Rigth</label>
+                                             <asp:TextBox ID="banner_home_2"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"   runat="server"></asp:TextBox>
+                                            <div class="media_item_box" id="media_item_box_7"  style="margin-top:5px;">
+                                                <label>No Media selected</label>
+                                                <button id="addimg7" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                                <asp:HiddenField ID="b2_url"   runat="server" ClientIDMode="Static" />
+                                              <asp:HiddenField ID="b2_id"   runat="server" ClientIDMode="Static" />
+                                                
+                                            </div>
+                                       </div>
+                                    </div>
+                                  <div style="clear:both"></div>
+
+                                   <div class="hr-line-dashed"></div>
+
+                            
+                                <asp:DropDownList  ID="drop_b_client_ret" ClientIDMode="Static" style="display:none;" runat="server"></asp:DropDownList>
+                                        <div class="form-group" runat="server" id="Div3" >
+                                            <label class=" control-label">Banner Client</label>
+                                    <div> 
+                                      <table class="table" id="add-row-social" >
+                                          <thead>
+                                              <tr>
+                                                 <td>Caption</td>
+                                                  <td>Media</td>
+                                                 <td>Remove Row</td>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                               
+                                          </tbody>
+                                      </table>
+
+                                        <button id="addrow" type="button" class="btn btn-success btn-xs">Add Row</button>
+                                    </div>
+                                   
+                                </div>
+                                   <div style="clear:both"></div>
+
+                                       </asp:Panel>
+                                       <%-- Home Group Custom Panel--%>
+
+                                 <div class="hr-line-dashed"></div>
+
+
                                  <div class="form-group">
                                     <label class=" control-label">Content</label>
                                     <div>
@@ -95,7 +157,7 @@
 
                                         <asp:TextBox ID="txtContentBuilder" style="display:none;" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
 
-                                        <iframe id="iframcontent" style="width:100%;height:700px;border:1px solid #e7eaec;" src="/admin/Post/Contentbuilder?ve=00ssssss"></iframe>
+                                        <iframe id="iframcontent" style="width:100%;height:600px;border:1px solid #e7eaec;" src="/admin/Post/Contentbuilder?ve=00ssssss"></iframe>
                                     </div>
                                  </div>
                               </div>
@@ -319,7 +381,7 @@
    </div>
 </asp:Content>
 <asp:Content ID="FooterScript" ContentPlaceHolderID="ContentFooter" runat="server">
-   <script src="/admin/Application/app.media.js?ver=22ssssssuuiiss"></script>
+
    <%--<script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>--%>
    <script src="/Scripts/theme/plugins/ckeditor/ckeditor.js"></script>
   
@@ -342,11 +404,86 @@
                
            });
 
+
+                       
+                                      
+
+
+           var option = $('#drop_b_client_ret option');
+           if (option.length > 0) {
+               $.each(option, function () {
+                   var uuid = guid();
+                   var mid = $(this).html();
+                   var dropsocial = $('#dropSocial').html();
+                   var val = $(this).attr('value');
+
+                   var caption = val.split('#')[0];
+                   var url = val.split('#')[1];
+
+                   var chk = '<input type="checkbox" name="chk_banner_client" checked="checked" value="' + uuid + '" style="display:none;" />';
+
+                   var media = '<div class="media_item_box" id="media_item_box_' + uuid + '"   style="margin-top:5px;"><label> No Media selected</label>';
+                   media += '<button id="addimg_' + uuid + '" type="button" class="btn btn-success btn-xs" onclick="BindMediaBoxList(this);"> Add Banner</button>';
+                   media += '<input type="hidden" id="b3_url_' + uuid + '"  name="b3_url_' + uuid + '" value="' + url+'" />';
+                   media += '<input type="hidden" id="b3_id_' + uuid + '" name="b3_id_' + uuid + '" value="' + mid+'" />';
+                   media += '</div >';    
+
+                   var txtbox = '<input class="form-control" type="textbox"  id="caption_s_' + uuid + '" name="caption_s_' + uuid + '" value="' + caption + '" />';
+                   var html = '<tr id="row_s_' + uuid + '">';
+                   html += '<td>' + chk + txtbox + '</td>';
+                   html += '<td>' + media + '</td>';
+                   html += '<td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td>';
+                   html += '</tr>';
+
+
+                   $('#add-row-social tbody').append(html);
+
+
+                   $('#sel_' + uuid).val(val);
+               });
+           }
+
+
+           $("#addrow").on('click', function () {
+               var uuid = guid();
+
+               //var dropsocial = $('#dropSocial').html();
+
+
+               var media = '<div class="media_item_box" id="media_item_box_' + uuid+'"   style="margin-top:5px;"><label> No Media selected</label>';
+               media += '<button id="addimg_' + uuid +'" type="button" class="btn btn-success btn-xs" onclick="BindMediaBoxList(this);"> Add Banner</button>';
+               media += '<input type="hidden" id="b3_url_' + uuid + '"  name="b3_url_' + uuid +'" />';
+               media += '<input type="hidden" id="b3_id_' + uuid + '" name="b3_id_' + uuid +'" />';
+               media += '</div >';    
+
+               var chk = '<input type="checkbox" name="chk_banner_client" checked="checked" value="' + uuid + '" style="display:none;" />';
+          
+               var txtbox = '<input class="form-control" type="textbox"  id="caption_s_' + uuid + '" name="caption_s_' + uuid + '" />'
+
+               var html = '<tr id="row_s_' + uuid + '">';
+               html += '<td>' + chk + txtbox + '</td>';
+               html += '<td>' + media + '</td>';
+               html += '<td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td>';
+               html += '</tr>';
+
+               $('#add-row-social tbody').append(html);
+               return false;
+           });
+
        });
 
+
+
+       function removeRow(e) {
+           var id = $(e).data('idrow');
+
+           $("#row_s_" + id).remove(); return false;
+       }
        function addimg() {
 
        }
 
    </script>
+
+       <script src="/admin/Application/app.media.js?ver=22ssssssuuiiss"></script>
 </asp:Content>

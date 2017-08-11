@@ -402,7 +402,27 @@ function BindingMediaBoxItem() {
     return false;
 }
 
+function BindMediaBoxList(e) {
+    //e.preventDefault;
 
+    var dd = $(e).parent('.media_item_box');
+    var id = dd.attr('id');
+
+    store.set('box_media_focus', id);
+
+
+
+
+    $('#t-title').val('');
+
+    $('#btn-b-update-template').hide();
+    $('#btn-b-add-template').show();
+
+    $('#modal_media_select').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+}
 function BindMediaBox(e) {
     e.preventDefault;
 
@@ -466,7 +486,7 @@ function getmediall() {
 
         setTimeout(function () {
             $('#media-list').removeClass('sk-loading');
-        }, 1000);
+        }, 200);
     });
 
 }
