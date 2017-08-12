@@ -80,8 +80,59 @@ public partial class _Menu : Page
         Response.End();
     }
 
-    
-   
+
+
+    public string getCatProduct(List<Model_PostTaxonomy> Taxlist)
+    {
+        StringBuilder ret = new StringBuilder();
+
+
+        ret.Append("<div class='tax_parent' style='max-height:300px;overflow:scroll;'>");
+
+        List<Model_PostTaxonomy> Taxlistdrop = new List<Model_PostTaxonomy>();
+
+
+
+        foreach (Model_PostTaxonomy i in Taxlist.Where(g => g.RefID == 0).OrderBy(o => o.Priority))
+        {
+            //ret.Append("<input type='checkbox' value='"+i.TaxID+"' name='product_tax_cat' />");
+            ret.Append("<p class='parent_main_item'><i class=\"fa fa-star\"></i> " + i.Title + "</p>");
+
+            if (Taxlist.Where(f => f.RefID == i.TaxID).Count() > 0)
+            {
+                
+                ret.Append("<div class='tax_child' style='margin-left:15px;'>");
+                ret.Append(getchild(Taxlist.Where(f => f.RefID == i.TaxID).ToList(), Taxlist, i.TaxID));
+                ret.Append("</div>");
+            }
+
+        }
+
+
+        ret.Append("</div>");
+        return ret.ToString();
+    }
+
+
+    public string getchild(List<Model_PostTaxonomy> data, List<Model_PostTaxonomy> raw, int id)
+    {
+        StringBuilder ret = new StringBuilder();
+        List<Model_PostTaxonomy> retdataret = new List<Model_PostTaxonomy>();
+        foreach (Model_PostTaxonomy c in data)
+        {
+            ////name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>" 
+            ret.Append("<p class='child_item' style='position:relative;'><input type='checkbox'  value='" + c.TaxID + "' name='TaxID_"+c.PostTypeID+"_"+c.TaxTypeID+"' />");
+            ret.Append(c.Title + "</p>");
+            if (raw.Where(f => f.RefID == c.TaxID).Count() > 0)
+            {
+                ret.Append("<div class='tax_child'  style='position:relative;margin-left:15px;'>");
+                ret.Append(getchild(raw.Where(f => f.RefID == c.TaxID).ToList(), raw, c.TaxID));
+               ret.Append("</div>");
+            }
+        }
+        return ret.ToString();
+    }
+
     protected void btndropSel_Click(object sender, EventArgs e)
     {
 

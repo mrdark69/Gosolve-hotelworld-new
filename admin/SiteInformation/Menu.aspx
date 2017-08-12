@@ -275,27 +275,18 @@
                            </a>
                            </div>
                            </div>
-                           <div class="ibox-content" style="display: none;max-height:300px;overflow:scroll;">
+                           <div class="ibox-content" style="display: none;">
  
+                              
 
                             <%  cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(3, 1);
-                            foreach (Model_PostTaxonomy p in cTaxList)
-                            { %>
-                               <p <% Response.Write((p.RefID > 0 ? "style=\"margin-left:15px;\"" : "")); %>>
-                                   
-                                   <input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"   />
-                                   
-                                   <% Response.Write(p.Title); %>
-
-
-
-                               </p>
-                            <%  }%>
-
-                           <a>Select all</a>
+                                Response.Write(getCatProduct(cTaxList)); %>
+                      
+                                <div style="clear:both"></div>
+                       
 
                           <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_Tax" data-arg="3_1" />
-                           
+                           <div style="clear:both"></div>
 
                            </div>
                            </div>
@@ -309,19 +300,19 @@
                            </a>
                            </div>
                            </div>
-                           <div class="ibox-content" style="display: none;max-height:300px;overflow:scroll;">
+                           <div class="ibox-content" style="display: none;">
 
-      
+                                <div class='tax_parent' style='max-height:300px;overflow:scroll;'>
                            <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(3, 2);
                             foreach (Model_PostTaxonomy p in cTaxList)
                             {%>
                                <p <% Response.Write((p.RefID > 0 ? "style=\"margin-left:15px;\"" : "")); %>><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"   /><% Response.Write(p.Title); %></p>
                               <%}%>
-
-                           <a>Select all</a>
+                                    </div>
+                          <div style="clear:both"></div>
                        <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_Tax" data-arg="3_2" />
                            
-
+                                <div style="clear:both"></div>
                            </div>
                            </div>
 
@@ -334,17 +325,17 @@
                            </a>
                            </div>
                            </div>
-                           <div class="ibox-content" style="display: none;max-height:300px;overflow:scroll;">
+                           <div class="ibox-content" style="display: none;">
      
                             <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(2, 1);
-                            foreach (Model_PostTaxonomy p in cTaxList)
-                            {%>
-                               <p <% Response.Write((p.RefID > 0 ? "style=\"margin-left:15px;\"" : "")); %>><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"  /> <% Response.Write(p.Title); %></p>
-                           <%  }%>
 
-                           <a>Select all</a>
+                                 Response.Write(getCatProduct(cTaxList));
+                           %>
+                             
+
+                          <div style="clear:both"></div>
                          <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_Tax" data-arg="2_1" />
-                           
+                            <div style="clear:both"></div>
 
                            </div>
                            </div>
@@ -359,17 +350,19 @@
                            </a>
                            </div>
                            </div>
-                           <div class="ibox-content" style="display: none;max-height:300px;overflow:scroll;">
-       
+                           <div class="ibox-content" style="display: none;">
+                                <div class='tax_parent' style='max-height:300px;overflow:scroll;'>
+
                              <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(2, 2);
                             foreach (Model_PostTaxonomy p in cTaxList)
                             {%>
                                <p <% Response.Write((p.RefID > 0 ? "style=\"margin-left:15px;\"" : "")); %>><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"  /> <% Response.Write(p.Title); %></p>
                              <% }%>
 
-                           <a>Select all</a>
+                         <div style="clear:both"></div>
                            <input type="button" class="btn btn-sm btn-success btn_add_menu" value="Add to Menu"  style="float:right" data-cmd="menu_Tax" data-arg="2_2" />
-                           
+                            <div style="clear:both"></div>
+                                </div>
                            </div>
                            </div>
 
@@ -720,7 +713,13 @@
                 AjaxPost(url, param, null, function (data) {
                     if (data.success) {
 
-                        window.location.href = "Menu";
+                        var qm = getParameterByName('menu');
+                        if (qm) {
+                            window.location.href = "Menu?menu=" + qm;
+                        } else {
+                            window.location.href = "Menu";
+                        }
+                       
                     }
 
                 });
@@ -784,7 +783,12 @@
                 AjaxPost(url, param, null, function (data) {
                     if (data.success) {
 
-                        window.location.href = "Menu";
+                        var qm = getParameterByName('menu');
+                        if (qm) {
+                            window.location.href = "Menu?menu=" + qm;
+                        } else {
+                            window.location.href = "Menu";
+                        }
                     }
 
                 });

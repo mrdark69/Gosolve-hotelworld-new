@@ -135,7 +135,10 @@
                           <%  List<Model_Menu> Mc = this.PageEngine.NavMenu.Where(r => r.MenuRefID == m.MID).ToList();%>
 
                        <li class="<% Response.Write((Mc.Count > 0 ? "sub-menu": "")); %> <% Response.Write((count  == 1 ? "first ": "")); %> <%= checkActive(m.CurrentSlug,(PostHome == m.PostID)) %> ">
-                          <a href="<% Response.Write((Mc.Count > 0 ? "javascript:void(0);":  (PostHome == m.PostID? WebSiteUrl : WebSiteUrl+ m.CurrentSlug))); %>" title="<% Response.Write(m.TitleTag); %>" ><% Response.Write(m.Title); %></a>
+
+<%--                            <a href="<% Response.Write((Mc.Count > 0 ? "javascript:void(0);":  (PostHome == m.PostID? WebSiteUrl : WebSiteUrl+ m.CurrentSlug))); %>" title="<% Response.Write(m.TitleTag); %>" ><% Response.Write(m.Title); %></a>--%>
+
+                          <a href="<% Response.Write(PostHome == m.PostID? WebSiteUrl : WebSiteUrl+ m.CurrentSlug); %>" title="<% Response.Write(m.TitleTag); %>" ><% Response.Write(m.Title); %></a>
                           <!-- MEGA MENU -->
                           <!--<li><a href="sale.html" >Home Sale<span>sale</span></a></li--%>-->
                           <!-- <li class="active"><a href="index.html" >Home slider</a></li>-->
@@ -145,7 +148,7 @@
                                 <ol>
                                    <% foreach (Model_Menu mm in Mc)
                                       { %>
-                                   <li><a class="<%=checkActive(mm.CurrentSlug,(PostHome == m.PostID)) %>" href="<% Response.Write( WebSiteUrl + (PostHome == mm.PostID? "": m.CurrentSlug)); %>" title="<% Response.Write(mm.TitleTag); %>" ><% Response.Write(mm.Title); %></a></li>
+                                   <li><a class="<%=checkActive(mm.CurrentSlug,(PostHome == m.PostID)) %>" href="<% Response.Write( WebSiteUrl + (PostHome == mm.PostID? "": mm.CurrentSlug)); %>" title="<% Response.Write(mm.TitleTag); %>" ><% Response.Write(mm.Title); %></a></li>
                                    <%} %>
                                 </ol>
                              </li>
@@ -194,7 +197,7 @@
 						<ul class="foot_menu">
 
                              <%  List<Model_Menu> foot = this.PageEngine.FooterMenu.Where(r=>r.MenuRefID == 0).ToList();%>
-                             <%  foreach (Model_Menu m in main)
+                             <%  foreach (Model_Menu m in foot)
                                  { %>
                             <li><a href="<% Response.Write( WebSiteUrl + m.CurrentSlug); %>" title="<% Response.Write(m.TitleTag); %>" ><% Response.Write(m.Title); %></a></li>
                                 <%} %>

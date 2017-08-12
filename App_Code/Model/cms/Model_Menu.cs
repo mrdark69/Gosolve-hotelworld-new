@@ -133,7 +133,8 @@ public class Model_Menu : BaseModel<Model_Menu>
                         _currentSlug = this.PostTypeSlug;
                         break;
                     case 3:
-                        _currentSlug = this.PostTypeSlug + "/" +this.TaxSlug;
+                       // _currentSlug = this.PostTypeSlug + "/" +this.TaxSlug;
+                        _currentSlug = this.TaxSlug;
                         break;
                     case 4:
                         _currentSlug = this.CustomUrl;
