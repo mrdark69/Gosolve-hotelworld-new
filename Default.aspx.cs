@@ -11,6 +11,9 @@ public partial class _Default : Page
     public string ContentBody{ get; set; }
     public string PageContentTitle { get; set; }
 
+    public List<Model_PostCustomItem> CTF  { get; set; }
+  
+
     protected void Page_Load(object sender, EventArgs e)
     {
         //Response.Write(HttpUtility.UrlDecode(Request.Url.AbsolutePath)));Response.End();
@@ -50,7 +53,7 @@ public partial class _Default : Page
             Model_Post post = null;
            List< Model_Post> postArchive = null;
             string RouteSlug_1 = Page.RouteData.Values["Param1"] as string;
-
+            Model_PostCustomItem pct = new Model_PostCustomItem();
             if (!string.IsNullOrEmpty(RouteSlug_1))
             {
 
@@ -109,6 +112,11 @@ public partial class _Default : Page
 
 
                     HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
+
+
+                    this.CTF = pct.GetItemCustomByPostID(intPostID);
+
+                   
                     // content.Text = post.BodyContent;
 
                     this.ContentBody = post.BodyContent;

@@ -37,7 +37,7 @@ public partial class _Post : BasePage
                     //Model_MainSetting setting = new Model_MainSetting();
                     //setting = setting.GetMainSetting();
 
-                    url.Text = this.MainSetting.WebSiteURL;
+                    url.Text = this.MainSetting.WebSiteURL + (p.PostTypeID != 1 ? p.PostTypeClass.Slug + "/" : string.Empty);
                     slug.Text = p.Slug;
                     viewcount.Text = p.ViewCount.ToString();
 
@@ -82,6 +82,14 @@ public partial class _Post : BasePage
                         {
                             hd_MID.Value = cover.MID.ToString();
                             CoverImage1.Value = this.MainSetting.WebSiteURL + cover.MediaFullPath;
+                            //hd_postMeidaID.Value = cover.PostMediaID.ToString();
+                        }
+
+                        Model_PostMedia feature = p.PostMedia.FirstOrDefault(r => r.PostID == PostID && r.PostMediaTypeID == PostMediaType.FeatureImage);
+                        if (feature != null)
+                        {
+                            feature_image_mid.Value = feature.MID.ToString();
+                            feature_image_url.Value = this.MainSetting.WebSiteURL + feature.MediaFullPath;
                             //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                         }
                     }
@@ -416,7 +424,32 @@ public partial class _Post : BasePage
                 pm.DeletePostMedia(pm);
             }
 
-            
+            //Cover 
+            if (!string.IsNullOrEmpty(feature_image_mid.Value))
+            {
+                Model_PostMedia pm = new Model_PostMedia
+                {
+
+                    PostMediaTypeID = PostMediaType.FeatureImage,
+                    PostID = intPostID,
+                    MID = int.Parse(feature_image_mid.Value)
+                };
+
+                pm.insertMediaPost(pm);
+            }
+            else
+            {
+                Model_PostMedia pm = new Model_PostMedia
+                {
+
+                    PostMediaTypeID = PostMediaType.FeatureImage,
+                    PostID = intPostID
+
+                };
+
+                pm.DeletePostMedia(pm);
+            }
+
 
 
             //Check Cutom Post Field

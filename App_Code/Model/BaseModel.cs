@@ -17,8 +17,13 @@ using gosolvelicence;
 /// </summary>
 public class BaseModel<T>: DataConnect
 {
+    public Model_MainSetting MainSetting { get; set; }
+
+
     public BaseModel()
     {
+        Model_MainSetting s = new Model_MainSetting();
+        this.MainSetting = s.GetMainSetting();
         //
         // TODO: Add constructor logic here
         //

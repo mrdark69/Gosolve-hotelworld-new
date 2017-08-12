@@ -53,7 +53,7 @@
 			
 			        <!-- CONTAINER -->
 			        <div class="container">
-				        <h2>Featured products</h2>
+				        <h2>สินค้าแนะนำ</h2>
 				
 				        <!-- ROW -->
 				        <div class="row">
@@ -61,6 +61,12 @@
 					        <!-- TOVAR WRAPPER -->
 					        <div class="tovar_wrapper" data-appear-top-offset='-100' data-animated='fadeInUp'>
 						
+
+                                <%  Model_Post p = new Model_Post();
+                                    List<Model_Post> plist = p.GetPostByTax("สินค้าแนะนำ");
+                                    foreach (Model_Post item in plist)
+                                    {
+                                    %>
 						        <!-- TOVAR1 -->
 						        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
 							        <div class="tovar_item">
@@ -76,59 +82,19 @@
 									        </div>
 								        </div>
 								        <div class="tovar_description clearfix">
-									        <a class="tovar_title" href="product-page.html" >Popover Sweatshirt in Floral Jacquard</a>
+									        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
 									        <span class="tovar_price">$98.00</span>
 								        </div>
 							        </div>
 						        </div><!-- //TOVAR1 -->
 						
-						        <!-- TOVAR2 -->
-						        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
-							        <div class="tovar_item">
-								        <div class="tovar_img">
-									        <div class="tovar_img_wrapper">
-										        <img class="img" src="images/tovar/women/2.jpg" alt="" />
-										        <img class="img_h" src="images/tovar/women/2_2.jpg" alt="" />
-									        </div>
-									        <div class="tovar_item_btns">
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/2.html" >quick view</a></div>
-										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-										        <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-									        </div>
-								        </div>
-								        <div class="tovar_description clearfix">
-									        <a class="tovar_title" href="product-page.html" >Marled drop-shoulder sweater</a>
-									        <span class="tovar_price">$118.00</span>
-								        </div>
-							        </div>
-						        </div><!-- //TOVAR2 -->
-						
-						        <!-- TOVAR3 -->
-						        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
-							        <div class="tovar_item">
-								        <div class="tovar_img">
-									        <div class="tovar_img_wrapper">
-										        <img class="img" src="images/tovar/women/3.jpg" alt="" />
-										        <img class="img_h" src="images/tovar/women/3_2.jpg" alt="" />
-									        </div>
-									        <div class="tovar_item_btns">
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/3.html" >quick view</a></div>
-										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-										        <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-									        </div>
-								        </div>
-								        <div class="tovar_description clearfix">
-									        <a class="tovar_title" href="product-page.html" >Japanese indigo denim jacket</a>
-									        <span class="tovar_price">$158.00</span>
-								        </div>
-							        </div>
-						        </div><!-- //TOVAR3 -->
-						
+						       
+						<%} %>
 						        <div class="respond_clear_768"></div>
 						
 						        <!-- BANNER -->
 						        <div class="col-lg-3 col-md-3 col-xs-6 col-ss-12">
-							        <a class="banner type1 margbot30" href="javascript:void(0);" ><img src="images/tovar/banner1.jpg" alt="" /></a>
+							        <a class="banner type1 margbot30" href="javascript:void(0);"  ><img src="images/tovar/banner1.jpg" alt="" /></a>
 							        <a class="banner type2 margbot40" href="javascript:void(0);" ><img src="images/tovar/banner2.jpg" alt="" /></a>
 						        </div><!-- //BANNER -->
 					        </div><!-- //TOVAR WRAPPER -->
@@ -210,6 +176,8 @@
 								        </div>
 							        </div>
 						        </div><!-- //TOVAR6 -->
+
+
 					        </div><!-- //TOVAR WRAPPER -->
 				        </div><!-- //ROW -->
 				
@@ -221,12 +189,12 @@
 					        <div class="banner_wrapper" data-appear-top-offset='-100' data-animated='fadeInUp'>
 						        <!-- BANNER -->
 						        <div class="col-lg-9 col-md-9">
-							        <a class="banner type4 margbot40" href="javascript:void(0);" ><img src="images/tovar/banner4.jpg" alt="" /></a>
+							        <a class="banner type4 margbot40 gs-banner-custom" href="javascript:void(0);" style="background-image:url(<%:this.CTF.SingleOrDefault(b=>b.PcName == "banner-announce").URL %>);height:100px;" ></a>
 						        </div><!-- //BANNER -->
 						
 						        <!-- BANNER -->
 						        <div class="col-lg-3 col-md-3">
-							        <a class="banner nobord margbot40" href="javascript:void(0);" ><img src="images/tovar/banner5.jpg" alt="" /></a>
+							        <a class="banner nobord margbot40 gs-banner-custom" href="javascript:void(0);" style="background-image:url(<%:this.CTF.SingleOrDefault(b=>b.PcName == "banner-announce-right").URL %>);height:100px;" ></a>
 						        </div><!-- //BANNER -->
 					        </div><!-- //BANNER WRAPPER -->
 				        </div><!-- //ROW -->
@@ -239,7 +207,7 @@
 			
 			        <!-- CONTAINER -->
 			        <div class="container">
-				        <h2>new arrivals</h2>
+				        <h2>สินค้ามาใหม่</h2>
 				
 				        <!-- JCAROUSEL -->
 				        <div class="jcarousel-wrapper">
@@ -252,6 +220,13 @@
 					
 					        <div class="jcarousel" data-appear-top-offset='-100' data-animated='fadeInUp'>
 						        <ul>
+
+                                     <%  
+                                    List<Model_Post> pnew = p.GetPostByTax("สินค้ามาใหม่");
+                                    foreach (Model_Post item in pnew)
+                                    {
+                                    %>
+                                 
 							        <li>
 								        <!-- TOVAR -->
 								        <div class="tovar_item_new">
@@ -260,146 +235,13 @@
 										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a></div>
 									        </div>
 									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >Moonglow paisley silk tee</a>
+										        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
 										        <span class="tovar_price">$98.00</span>
 									        </div>
 								        </div><!-- //TOVAR -->
 							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/2.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >PEASANT TOP IN SUCKERED STRIPE</a>
-										        <span class="tovar_price">$78.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/3.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >EMBROIDERED BIB PEASANT TOP</a>
-										        <span class="tovar_price">$88.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/4.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SILK POCKET BLOUSE</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/5.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SWISS-DOT TUXEDO SHIRT</a>
-										        <span class="tovar_price">$65.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/6.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >STRETCH PERFECT SHIRT</a>
-										        <span class="tovar_price">$72.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/1.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >Moonglow paisley silk tee</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/2.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >PEASANT TOP IN SUCKERED STRIPE</a>
-										        <span class="tovar_price">$78.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/3.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >EMBROIDERED BIB PEASANT TOP</a>
-										        <span class="tovar_price">$88.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/4.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SILK POCKET BLOUSE</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
+							       
+							        <%} %>
 						        </ul>
 					        </div>
 				        </div><!-- //JCAROUSEL -->

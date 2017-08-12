@@ -44,7 +44,7 @@ public class Model_PostType : BaseModel<Model_PostType>
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
         }
     }
-
+   
     public Model_PostType GetPostTypeByID(byte PostTypeID)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))

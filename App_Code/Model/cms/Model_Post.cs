@@ -126,6 +126,28 @@ public class Model_Post : BaseModel<Model_Post>
         }
     }
 
+    private Model_PostType _postTypeClass = null;
+    public Model_PostType PostTypeClass
+    {
+        get
+        {
+            if (_postTypeClass == null)
+            {
+                Model_PostType ps = new Model_PostType();
+                _postTypeClass = ps.GetPostTypeByID(this.PostTypeID);
+            }
+
+            return _postTypeClass;
+        }
+    }
+
+    public string Permarlink {
+        get
+        {
+            return this.MainSetting.WebSiteURL + (this.PostTypeID != 1 ? this.PostTypeClass.Slug + "/" : string.Empty) + this.Slug;
+        }
+    }
+
 
     public Model_Post()
     {
@@ -133,6 +155,8 @@ public class Model_Post : BaseModel<Model_Post>
         // TODO: Add constructor logic here
         //
     }
+
+
 
 
     public List<Model_Post> GetPostArchiveByPostType(byte PostTypeID)
@@ -286,6 +310,26 @@ WHERE PostID=@PostID", cn);
             
     }
 
+
+
+    //Gs Query
+
+    public List<Model_Post> GetPostByTax(string slug)
+    {
+        using(SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"
+                                SELECT p.* FROM Post p
+                                INNER JOIN PostTaxMap ptx ON p.PostID = ptx.PostID
+                                INNER JOIN PostTaxonomy pt ON pt.TaxID=ptx.TaxID
+                                 WHERE pt.Slug =@Slug", cn);
+
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = slug;
+            cn.Open();
+
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
 
 
 

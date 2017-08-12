@@ -32,7 +32,7 @@ public partial class _Page_New : BasePage
 
     protected void btnPubish_Click(object sender, EventArgs e)
     {
-        
+
 
         Model_Post p = new Model_Post
         {
@@ -46,6 +46,7 @@ public partial class _Page_New : BasePage
             Status = bool.Parse(dropStatus.SelectedValue),
             ShowComment = false,
             BodyContent = txtContent.Text.Trim(),
+            BodyContentBuilder = "",
             BannerTypeID = byte.Parse(CoverType.Value),
             ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
             ViewCount= 1

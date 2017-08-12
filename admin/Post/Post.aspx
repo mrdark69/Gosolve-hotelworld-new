@@ -21,6 +21,10 @@
       background-repeat:no-repeat;
       background-size:cover;
       }
+      .box_media_fucus_block_full_width .box_media_fucus_block{
+           width:100% !important;
+          background-size: contain !important;
+      }
       .btn-media-focus{
       position:absolute;
       right:-10px;
@@ -62,6 +66,11 @@
            display:inline-block;
                padding: 5px;
        }
+       .lightBoxGallery{
+           height:auto !important;
+       }
+
+      
    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -110,7 +119,7 @@
                                        <div class="col-md-6">
                                             <label class=" control-label">Banner Announcement</label>
                                            <asp:TextBox ID="banner_home_1"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"  runat="server"></asp:TextBox>
-                                                <div class="media_item_box" id="media_item_box_6" style="margin-top:5px;">
+                                                <div class="media_item_box box_media_fucus_block_full_width" id="media_item_box_6" style="margin-top:5px;">
                                                 <label>No Media selected</label>
                                                 <button id="addimg6" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
                                                 <asp:HiddenField ID="b1_url"   runat="server" ClientIDMode="Static" />
@@ -445,6 +454,31 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                </div>
             </div>
 
+
+             <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                  <h5>Feature Image</h5>
+                  <div class="ibox-tools">
+                  </div>
+               </div>
+               <div class="ibox-content">
+
+                   <div class="form-group">
+                    <label class=" control-label">Cover Image</label>
+                    <div class="media_item_box" id="media_item_box_10">
+                        <label>No Media selected</label>
+                        <button id="addimg10" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                        <asp:HiddenField ID="feature_image_url"   runat="server" ClientIDMode="Static" />
+                      <asp:HiddenField ID="feature_image_mid"   runat="server" ClientIDMode="Static" />
+                        <%--<asp:HiddenField ID="hd_postMeidaID"   runat="server" ClientIDMode="Static" />--%>
+                    </div>
+                    </div>
+                  
+                  <div class="hr-line-dashed"></div>
+                  
+               </div>
+            </div>
+
             <div class="ibox float-e-margins">
                <div class="ibox-title">
                   <h5>Pages Cover</h5>
@@ -508,9 +542,10 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
            
 
           
-         
-           CKEDITOR.replace('ProductDetail');
-           CKEDITOR.replace('ProductInformation');
+        
+               
+          
+           
            //position:absolute;
 
            $('#btnfullcontent').on('click', function () {
@@ -632,6 +667,15 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                     });
                 }
             });
+
+
+
+            if ($("#ProductDetail").length > 0) {
+                CKEDITOR.replace('ProductDetail');
+            }
+            if ($("#ProductInformation").length > 0) {
+                CKEDITOR.replace('ProductInformation');
+            }
 
         });
     </script>

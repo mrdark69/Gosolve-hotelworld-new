@@ -125,7 +125,17 @@ public class Model_PostCustomItem : BaseModel<Model_PostCustomItem>
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
         }
     }
-
+    public List<Model_PostCustomItem> GetItemCustomByPostID(int PostID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT * FROM PostCustomItem WHERE  PostID=@PostID", cn);
+            //cmd.Parameters.Add("@PCDID", SqlDbType.Int).Value = PCDID;
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
 
     public int Insert(Model_PostCustomItem item)
     {
