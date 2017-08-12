@@ -275,13 +275,21 @@
                            </a>
                            </div>
                            </div>
-                           <div class="ibox-content" style="display: none;">
+                           <div class="ibox-content" style="display: none;max-height:300px;overflow:scroll;">
  
 
                             <%  cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(3, 1);
                             foreach (Model_PostTaxonomy p in cTaxList)
                             { %>
-                               <p><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"   /><% Response.Write(p.Title); %></p>
+                               <p <% Response.Write((p.RefID > 0 ? "style=\"margin-left:15px;\"" : "")); %>>
+                                   
+                                   <input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"   />
+                                   
+                                   <% Response.Write(p.Title); %>
+
+
+
+                               </p>
                             <%  }%>
 
                            <a>Select all</a>
@@ -301,13 +309,13 @@
                            </a>
                            </div>
                            </div>
-                           <div class="ibox-content" style="display: none;">
+                           <div class="ibox-content" style="display: none;max-height:300px;overflow:scroll;">
 
       
                            <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(3, 2);
                             foreach (Model_PostTaxonomy p in cTaxList)
                             {%>
-                               <p><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"   /><% Response.Write(p.Title); %></p>
+                               <p <% Response.Write((p.RefID > 0 ? "style=\"margin-left:15px;\"" : "")); %>><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"   /><% Response.Write(p.Title); %></p>
                               <%}%>
 
                            <a>Select all</a>
@@ -326,12 +334,12 @@
                            </a>
                            </div>
                            </div>
-                           <div class="ibox-content" style="display: none;">
+                           <div class="ibox-content" style="display: none;max-height:300px;overflow:scroll;">
      
                             <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(2, 1);
                             foreach (Model_PostTaxonomy p in cTaxList)
                             {%>
-                               <p><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"  /> <% Response.Write(p.Title); %></p>
+                               <p <% Response.Write((p.RefID > 0 ? "style=\"margin-left:15px;\"" : "")); %>><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"  /> <% Response.Write(p.Title); %></p>
                            <%  }%>
 
                            <a>Select all</a>
@@ -351,12 +359,12 @@
                            </a>
                            </div>
                            </div>
-                           <div class="ibox-content" style="display: none;">
+                           <div class="ibox-content" style="display: none;max-height:300px;overflow:scroll;">
        
                              <% cTaxList = cTax.GetTaxonomyTaxTypeAndPostType(2, 2);
                             foreach (Model_PostTaxonomy p in cTaxList)
                             {%>
-                               <p><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"  /> <% Response.Write(p.Title); %></p>
+                               <p <% Response.Write((p.RefID > 0 ? "style=\"margin-left:15px;\"" : "")); %>><input type="checkbox" name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>"  value="<% Response.Write(p.TaxID); %>"  /> <% Response.Write(p.Title); %></p>
                              <% }%>
 
                            <a>Select all</a>
@@ -733,7 +741,7 @@
                 tabSize: 25,
                 tolerance: 'pointer',
                 toleranceElement: '> div',
-                maxLevels: 4,
+                maxLevels: 2,
                 isTree: true,
                 expandOnHover: 700,
                 startCollapsed: false,
@@ -776,7 +784,7 @@
                 AjaxPost(url, param, null, function (data) {
                     if (data.success) {
 
-                        //window.location.href = "Menu";
+                        window.location.href = "Menu";
                     }
 
                 });

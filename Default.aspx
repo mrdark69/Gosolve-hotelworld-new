@@ -11,22 +11,19 @@
 
 
  
-         <!-- PAGE HEADER -->
-		<section class="page_header" id="page_header" runat="server"  visible="false">
-			
-			<!-- CONTAINER -->
-			<div class="container">
-				<h3 class="pull-left"><b> <% Response.Write(this.PageContentTitle); %></b></h3>
-				
-				<div class="pull-right">
-					<a href="women.html" >Back to shop<i class="fa fa-angle-right"></i></a>
-				</div>
-			</div><!-- //CONTAINER -->
-		</section>
-        <!-- //PAGE HEADER -->
 
-
-
+        
+       <%-- Blog Page TEMPLATE--%>
+        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionBlogPage"  class="page_content" runat="server" visible="false">
+            Blog Page
+        </section>
+       <%-- Product Page TEMPLATE--%>
+        
+       <%-- Product Page TEMPLATE--%>
+        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionProduct"  class="page_content" runat="server" visible="false">
+              Product Page
+        </section>
+      <%-- Product Page TEMPLATE--%>
         
 
         <!-- PAGE TEMPLATE-->
@@ -44,13 +41,8 @@
 
         
 
-
-
-
-
         <!-- PAGE HOME TEMPLATE -->
-
-        <section id="section_page_home" runat="server" visible="false">
+         <section id="section_page_home" runat="server" visible="false">
             <!-- TOVAR SECTION -->
 		        <section class="tovar_section">
 			
@@ -334,7 +326,7 @@
                 <!-- PAGE HOME TEMPLATE -->
 
                 </section>
-  
+        <!-- PAGE HOME TEMPLATE -->
    
 </asp:Content>
 

@@ -133,7 +133,7 @@ public class Model_Menu : BaseModel<Model_Menu>
                         _currentSlug = this.PostTypeSlug;
                         break;
                     case 3:
-                        _currentSlug = this.TaxSlug;
+                        _currentSlug = this.PostTypeSlug + "/" +this.TaxSlug;
                         break;
                     case 4:
                         _currentSlug = this.CustomUrl;
@@ -203,11 +203,38 @@ public class Model_Menu : BaseModel<Model_Menu>
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"SELECT * FROM Menu 
+            SqlCommand cmd = new SqlCommand(@"SELECT * FROM Menu m 
             WHERE Status =1 AND MGID=@MGID
             ORDER BY m.Priority ASC ,  m.MenuRefID ASC, m.MID  ASC
             ", cn);
             cmd.Parameters.Add("@MGID", SqlDbType.Int).Value = MGID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+    public List<Model_Menu> GetMenuAll_byMCat(byte McatID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT * FROM Menu m 
+            WHERE Status =1 AND MCategory=@MCategory
+            ORDER BY m.Priority ASC ,  m.MenuRefID ASC, m.MID  ASC
+            ", cn);
+            cmd.Parameters.Add("@MCategory", SqlDbType.TinyInt).Value = McatID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+    public List<Model_Menu> GetMenuAll_byRefID(int MenuRefID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT * FROM Menu m 
+            WHERE Status =1 AND MenuRefID=@MenuRefID
+            ORDER BY m.Priority ASC ,  m.MenuRefID ASC, m.MID  ASC
+            ", cn);
+            cmd.Parameters.Add("@MenuRefID", SqlDbType.TinyInt).Value = MenuRefID;
             cn.Open();
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
         }
@@ -274,23 +301,36 @@ public class Model_Menu : BaseModel<Model_Menu>
             return ExecuteNonQuery(cmd) == 1;
         }
     }
+    public bool UpdateTOParent(int intMID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Menu SET MenuRefID=0  WHERE MID=@MID", cn);
+           
+            cmd.Parameters.Add("@MID", SqlDbType.Int).Value = intMID;
 
-//    MID int No
-//MGID int No
-//Title nvarchar(200)   Yes
-//TitleOrigin nvarchar(200)   Yes
-//Slug    nvarchar(200)   Yes
-//MenuTypeID  tinyint Yes
-//CustomUrl nvarchar(200)   Yes
-//Status  bit Yes((1))
-//MenuRefID int No((0))
-//Lv int No((0))
-//IsCustomUrl bit No((0))
-//Priority int No((1))
-//MCategory tinyint No
-//TaxID   int Yes
-//PostTypeID tinyint Yes
-//PostID  int Yes
+            cn.Open();
+
+            return ExecuteNonQuery(cmd) == 1;
+        }
+    }
+
+    //    MID int No
+    //MGID int No
+    //Title nvarchar(200)   Yes
+    //TitleOrigin nvarchar(200)   Yes
+    //Slug    nvarchar(200)   Yes
+    //MenuTypeID  tinyint Yes
+    //CustomUrl nvarchar(200)   Yes
+    //Status  bit Yes((1))
+    //MenuRefID int No((0))
+    //Lv int No((0))
+    //IsCustomUrl bit No((0))
+    //Priority int No((1))
+    //MCategory tinyint No
+    //TaxID   int Yes
+    //PostTypeID tinyint Yes
+    //PostID  int Yes
 
     public int InsertMenuFirst(Model_Menu mu)
     {

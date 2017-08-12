@@ -53,7 +53,10 @@ public partial class _Default : Page
             Model_Post post = null;
            List< Model_Post> postArchive = null;
             string RouteSlug_1 = Page.RouteData.Values["Param1"] as string;
+            string RouteSlug_2 = Page.RouteData.Values["Param2"] as string;
             Model_PostCustomItem pct = new Model_PostCustomItem();
+
+            //Case Route Slug
             if (!string.IsNullOrEmpty(RouteSlug_1))
             {
 
@@ -61,8 +64,10 @@ public partial class _Default : Page
                 Model_Archive archive = new Model_Archive();
                 archive = archive.GetPostArchive(RouteSlug_1);
 
+
                 if(archive !=null)
                 {
+                    //Is Archive
                     bytPostTypeID = archive.PostTypeID;
                     StrPost_slug = (string.IsNullOrEmpty(archive.Slug) ? archive.PostTypeSlug : archive.Slug);
 
@@ -80,7 +85,7 @@ public partial class _Default : Page
                         bytPostTypeID = post.PostTypeID;
                         intPostID = post.PostID;
 
-                        page_header.Visible = true;
+                        //page_header.Visible = true;
                         page_content.Visible = true;
                     }
                     

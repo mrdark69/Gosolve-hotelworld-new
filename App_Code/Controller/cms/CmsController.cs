@@ -116,13 +116,31 @@ public class CmsController
         Model_Menu m = new Model_Menu();
         m = m.GetMenuByID(MID);
 
+
         //Check Archive MAp
-        if(m.MCategory == 2 && m.PostTypeID.HasValue)
+        if(m.MCategory == 2 && m.PostTypeID.HasValue || m.GetMenuAll_byMCat(m.MCategory).Count() == 0)
         {
             Model_Archive mc = new Model_Archive();
             mc.DeleteARchive((byte)m.PostTypeID);
         }
-        m.DeleteMenu(MID);
+
+
+
+
+       if(m.DeleteMenu(MID))
+        {
+            List<Model_Menu> reflist = m.GetMenuAll_byRefID(MID);
+            if(reflist.Count() > 0)
+            {
+                foreach(Model_Menu mr in reflist)
+                {
+                    m.UpdateTOParent(mr.MID);
+                }
+            }
+        }
+
+
+
         return true;
     }
 
@@ -225,6 +243,9 @@ public class CmsController
                             Model_PostTaxonomy mp = new Model_PostTaxonomy();
                             mp = mp.GetTaxonomyByID(TaxId);
 
+                            //if Tax Need to Check PostypeParent and Make Defaul Archive Page as well
+                            Model_PostType cPt = new Model_PostType();
+                            cpt = cpt.GetPostTypeByID(mp.PostTypeID);
 
                             Model_Menu cme = new Model_Menu();
                             cme.MGID = int.Parse(MenuGroupID);
@@ -238,7 +259,13 @@ public class CmsController
                             cme.Priority = 1;
                             cme.MCategory = (byte)MenuCategory.Taxonomy;
                             cme.TaxID = mp.TaxID;
+                            cme.PostTypeID = mp.PostTypeID;
                             cme.InsertMenuFirst(cme);
+
+
+
+                            Model_Archive ma = new Model_Archive();
+                            ma.inSertArchiveMap(cpt.PostTypeID, cpt.Slug);
                         }
                     }
                     // mCat = MenuCategory.Taxonomy;

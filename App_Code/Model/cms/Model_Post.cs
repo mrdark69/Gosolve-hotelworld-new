@@ -165,7 +165,7 @@ public class Model_Post : BaseModel<Model_Post>
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT p.*,u.FirstName AS UserFirstName FROM POST p INNER JOIN Users u ON u.UserID=p.UserID WHERE  PostTypeID=@PostTypeID AND Status = 1 ORDER BY DatePublish ASC", cn);
+            SqlCommand cmd = new SqlCommand("SELECT p.*,u.FirstName AS UserFirstName FROM POST p INNER JOIN Users u ON u.UserID=p.UserID WHERE  p.PostTypeID=@PostTypeID AND p.Status = 1 ORDER BY p.DatePublish ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostTypeID;
             cn.Open();
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
