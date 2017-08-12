@@ -9,21 +9,47 @@
 
      <asp:Literal ID="HeaderSection" runat="server"></asp:Literal>
 
-
+         <%-- Blog Page TEMPLATE--%>
+            <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionBlogPageSingle"  class="page_content" runat="server" visible="false">
+                Blog Page Single
+            </section>
+           <%--  End Blog Page TEMPLATE--%>
  
+          <%-- Blog Page Archive--%>
+        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionBlogPageArchive"  class="page_content" runat="server" visible="false">
+           <h1>Blog Page Archive</h1> 
+        </section>
+       <%-- End Blog Page Archive--%>
 
-        
-       <%-- Blog Page TEMPLATE--%>
-        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionBlogPage"  class="page_content" runat="server" visible="false">
-            Blog Page
+          <%-- Blog Taxonomy Page Archive TEMPLATE--%>
+        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionBlogPageTaxArchive"  class="page_content" runat="server" visible="false">
+              Blog Page Taxonomy Archive
         </section>
+      <%-- End Blog Taxonomy Page Archive TEMPLATE--%>
+
+
+
+
+      
        <%-- Product Page TEMPLATE--%>
-        
-       <%-- Product Page TEMPLATE--%>
-        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionProduct"  class="page_content" runat="server" visible="false">
-              Product Page
+        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionProductSingle"  class="page_content" runat="server" visible="false">
+              Product Page Single
         </section>
-      <%-- Product Page TEMPLATE--%>
+      <%-- End Product Page TEMPLATE--%>
+
+      <%-- Product Page Archive TEMPLATE--%>
+        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionProductArchive"  class="page_content" runat="server" visible="false">
+             <h1>Product Page Archive</h1> 
+        </section>
+      <%-- End Product Page Archive TEMPLATE--%>
+
+
+
+        <%-- Product Taxonomy Page Archive TEMPLATE--%>
+        <section  style="padding-top:9px;padding-bottom: 20px;" id="SectionProductTaxArchive"  class="page_content" runat="server" visible="false">
+              Product Page Taxonomy Archive
+        </section>
+      <%-- End Product Taxonomy Page Archive TEMPLATE--%>
         
 
         <!-- PAGE TEMPLATE-->
@@ -37,7 +63,7 @@
              
 			</div>
 		</section>
-        <!--  PAGE TEMPLATE -->
+        <!-- End  PAGE TEMPLATE -->
 
         
 
@@ -326,7 +352,7 @@
                 <!-- PAGE HOME TEMPLATE -->
 
                 </section>
-        <!-- PAGE HOME TEMPLATE -->
+        <!-- End PAGE HOME TEMPLATE -->
    
 </asp:Content>
 

@@ -15,6 +15,8 @@ public class Model_TaxMap : BaseModel<Model_TaxMap>
     public int PostID { get; set; }
     public byte TaxTypeID { get; set; }
 
+   
+
     public List<Model_TaxMap> GetTaxByPostIDandTaxType (int intPostID, byte bytTaxTypeID)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
@@ -365,4 +367,21 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
         }
     }
 
+    //binding
+    public Model_PostTaxonomy GetTaxBySlugAndPostType(string slug, byte bytPostType)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE PostTypeID=@PostTypeID AND Slug=@Slug", cn);
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = bytPostType;
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = slug;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+            
+        }
+    }
 }

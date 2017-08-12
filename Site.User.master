@@ -133,8 +133,8 @@
                        <!--  first active sub-menu-->
 
                           <%  List<Model_Menu> Mc = this.PageEngine.NavMenu.Where(r => r.MenuRefID == m.MID).ToList();%>
-
-                       <li class="<% Response.Write((Mc.Count > 0 ? "sub-menu": "")); %> <% Response.Write((count  == 1 ? "first ": "")); %> <%= checkActive(m.CurrentSlug,(PostHome == m.PostID)) %> ">
+                  <%--      <%= checkActive(m.CurrentSlug,(PostHome == m.PostID)) %>--%>
+                       <li class="<% Response.Write((Mc.Count > 0 ? "sub-menu": "")); %> <% Response.Write((count  == 1 ? "first ": "")); %>  ">
 
 <%--                            <a href="<% Response.Write((Mc.Count > 0 ? "javascript:void(0);":  (PostHome == m.PostID? WebSiteUrl : WebSiteUrl+ m.CurrentSlug))); %>" title="<% Response.Write(m.TitleTag); %>" ><% Response.Write(m.Title); %></a>--%>
 
@@ -148,7 +148,7 @@
                                 <ol>
                                    <% foreach (Model_Menu mm in Mc)
                                       { %>
-                                   <li><a class="<%=checkActive(mm.CurrentSlug,(PostHome == m.PostID)) %>" href="<% Response.Write( WebSiteUrl + (PostHome == mm.PostID? "": mm.CurrentSlug)); %>" title="<% Response.Write(mm.TitleTag); %>" ><% Response.Write(mm.Title); %></a></li>
+                                   <li><a href="<% Response.Write( WebSiteUrl + (PostHome == mm.PostID? "": mm.CurrentSlug)); %>" title="<% Response.Write(mm.TitleTag); %>" ><% Response.Write(mm.Title); %></a></li>
                                    <%} %>
                                 </ol>
                              </li>

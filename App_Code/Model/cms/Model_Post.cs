@@ -13,6 +13,15 @@ using System.Web.Providers.Entities;
 /// Summary description for Model_SiteInfo
 /// </summary>
 /// 
+
+public enum PostType : byte
+{
+    Pages = 1,
+    Blog =2,
+    Products =3,
+    Comment = 4    
+
+}
 public class Model_PostSEOMap : BaseModel<Model_PostSEOMap>
 {
     public int PostID { get; set; }
@@ -210,21 +219,7 @@ public class Model_Post : BaseModel<Model_Post>
         }
     }
    
-    public Model_Post GetPostBySlug(string Slug)
-    {
-        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
-        {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE Slug=@Slug AND Status = 1", cn);
-            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = Slug;
-            cn.Open();
-            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
-            if (reader.Read())
-                return MappingObjectFromDataReaderByName(reader);
-            else
-                return null;
-
-        }
-    }
+   
 
     public bool UPDATETrash(int inPostID,bool trash)
     {
@@ -314,7 +309,7 @@ WHERE PostID=@PostID", cn);
 
 
 
-    //Gs Query
+    //Gs Query Binding to Front
 
     public List<Model_Post> GetPostByTax(string slug)
     {
@@ -333,6 +328,22 @@ WHERE PostID=@PostID", cn);
         }
     }
 
+    public Model_Post GetPostBySlug(string Slug, byte bytPostTypeID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE Slug=@Slug AND PostTypeID=@PostTypeID AND Status = 1 AND Trash=1" , cn);
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = Slug;
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = bytPostTypeID;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+
+        }
+    }
 
 
 }

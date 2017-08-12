@@ -28,9 +28,12 @@ public partial class _Default : Page
             PageEngine.SiteInfo = st.GetSiteInfo();
             PageEngine.MainSetting = setting;
 
-
+            Model_Post post = new Model_Post();
             Model_Menu m = new Model_Menu();
-          
+            Model_PostTaxonomy tax = new Model_PostTaxonomy();
+            List<Model_Post> postArchive = new List<Model_Post>();
+            Model_Archive archive = new Model_Archive();
+
             PageEngine.NavMenu = m.GetMenuAll(1);
             PageEngine.FooterMenu = m.GetMenuAll(2);
 
@@ -50,10 +53,12 @@ public partial class _Default : Page
             byte bytPostTypeID = 0;
             string StrPost_slug = string.Empty;
             int intPostID = 0;
-            Model_Post post = null;
-           List< Model_Post> postArchive = null;
+           
+            
             string RouteSlug_1 = Page.RouteData.Values["Param1"] as string;
             string RouteSlug_2 = Page.RouteData.Values["Param2"] as string;
+            string RouteSlug_3 = Page.RouteData.Values["Param3"] as string;
+            string RouteSlug_4 = Page.RouteData.Values["Param4"] as string;
             Model_PostCustomItem pct = new Model_PostCustomItem();
 
             //Case Route Slug
@@ -61,7 +66,7 @@ public partial class _Default : Page
             {
 
                 //1. Check Is Archive
-                Model_Archive archive = new Model_Archive();
+               
                 archive = archive.GetPostArchive(RouteSlug_1);
 
 
@@ -71,14 +76,141 @@ public partial class _Default : Page
                     bytPostTypeID = archive.PostTypeID;
                     StrPost_slug = (string.IsNullOrEmpty(archive.Slug) ? archive.PostTypeSlug : archive.Slug);
 
-                    postArchive = CmsController.GetPostArchive(bytPostTypeID);
+                    //postArchive = CmsController.GetPostArchive(bytPostTypeID);
 
+                    //Check  PostType Archive 
+                    switch (StrPost_slug)
+                    {
+
+                        case "hotelworld-products":
+                            //check Route Param2
+                            if (string.IsNullOrEmpty(RouteSlug_2))
+                            {
+                                //Case Product Page Archive
+                                SectionProductArchive.Visible = true;
+                            }
+                            else
+                            {
+                                //check Is Paging of Product Page Archive
+                                if(RouteSlug_2 == "page")
+                                {
+                                    //Case Archive Paging
+                                    SectionProductArchive.Visible = true;
+                                    string pageno = RouteSlug_3;
+
+                                    
+                                }
+                                else
+                                {
+
+                                    //Check Product SinglePage
+                                    post = CmsController.GetPostSlug(RouteSlug_2, PostType.Products);
+                                    if(post != null)
+                                    {
+                                        SectionProductSingle.Visible = true;
+                                    }
+                                    else
+                                    {
+                                        //Tax Archive 
+
+                                        tax = tax.GetTaxBySlugAndPostType(RouteSlug_2, bytPostTypeID);
+                                        if (tax != null)
+                                        {
+                                            //case Tax approve
+                                            SectionProductTaxArchive.Visible = true;
+
+                                            //Case tax Archive Paging
+                                            if (RouteSlug_3 == "page")
+                                            {
+                                                string pageno = RouteSlug_4;
+
+                                                //Do something with paging
+                                                
+                                            }
+                                            
+                                        }
+                                    }
+
+
+
+                                   
+                                }
+                                
+
+                            }
+                            
+
+                            break; 
+                        case "ข่าวสาร":
+
+                            //check Route Param2
+                            if (string.IsNullOrEmpty(RouteSlug_2))
+                            {
+                                //Case Product Page Archive
+                                SectionBlogPageArchive.Visible = true;
+                            }
+                            else
+                            {
+                                //check Is Paging of Product Page Archive
+                                if (RouteSlug_2 == "page")
+                                {
+                                    //Case Archive Paging
+                                    SectionBlogPageArchive.Visible = true;
+                                    string pageno = RouteSlug_3;
+
+
+                                }
+                                else
+                                {
+
+
+                                    //Check Product SinglePage
+                                    post = CmsController.GetPostSlug(RouteSlug_2, PostType.Blog);
+                                    if (post != null)
+                                    {
+                                        SectionBlogPageSingle.Visible = true;
+                                    }
+                                    else
+                                    {
+                                        //Tax Archive 
+
+                                        tax = tax.GetTaxBySlugAndPostType(RouteSlug_2, bytPostTypeID);
+                                        if (tax != null)
+                                        {
+                                            //case Tax approve
+                                            SectionBlogPageTaxArchive.Visible = true;
+
+                                            //Case tax Archive Paging
+                                            if (RouteSlug_3 == "page")
+                                            {
+                                                string pageno = RouteSlug_4;
+
+                                                //Do something with paging
+
+
+                                            }
+
+
+                                        }
+                                    }
+
+
+                                    
+
+                                }
+
+
+                            }
+                            
+                            break; 
+                    }
+                    HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
                 }
                 else
                 {
                     //Case PostType Page
                     StrPost_slug = RouteSlug_1;
-                    post = CmsController.GetPostSlug(StrPost_slug);
+                    post = CmsController.GetPostSlug(StrPost_slug,PostType.Pages);
 
                     if (post != null)
                     {
@@ -87,6 +219,14 @@ public partial class _Default : Page
 
                         //page_header.Visible = true;
                         page_content.Visible = true;
+
+
+
+
+                        HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
+
+                        this.ContentBody = post.BodyContent;
+                        this.PageContentTitle = post.Title;
                     }
                     
 
@@ -95,10 +235,7 @@ public partial class _Default : Page
 
 
 
-                HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
-             
-                this.ContentBody = post.BodyContent;
-                this.PageContentTitle = post.Title;
+               
                 // content.Text = post.BodyContent;
 
 
@@ -169,14 +306,24 @@ public partial class _Default : Page
     {
         string ret = string.Empty;
 
-        if (post.ShowMasterSlider)
+        //case Post 
+        //The Post Can Manange Show Master Slide Or Type of Banner cover page.
+        if(post != null)
         {
-            ret = Slider();
+            if (post.ShowMasterSlider)
+                ret = Slider();
+            else
+                ret = breadcrumb(post.BannerTypeID);
         }
         else
         {
-            ret = breadcrumb(post.BannerTypeID);
+            //case Archive Page 
+            // Can display Title postype name only.
+
+            ret = breadcrumb(2);
+
         }
+        
 
         return ret;
 
