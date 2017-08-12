@@ -144,7 +144,9 @@ public class Model_Post : BaseModel<Model_Post>
     public string Permarlink {
         get
         {
-            return this.MainSetting.WebSiteURL + (this.PostTypeID != 1 ? this.PostTypeClass.Slug + "/" : string.Empty) + this.Slug;
+            Model_MainSetting s = new Model_MainSetting();
+            s= s.GetMainSetting();
+            return s.WebSiteURL + (this.PostTypeID != 1 ? this.PostTypeClass.Slug + "/" : string.Empty) + this.Slug;
         }
     }
 
