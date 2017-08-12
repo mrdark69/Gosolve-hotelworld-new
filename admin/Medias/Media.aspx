@@ -472,7 +472,7 @@
                     store.set("key_"+data[d].MID, data[d]);
                     //encodeURIComponent(JSON.stringify(data[d]))
                     ret += '<div class="media-block" id="block_' + data[d].MID + '" style="background-image:url(' + url+')">';
-                    ret += '<input type="checkbox" value="' + data[d].MID + '" name="media_checkbox" style = "display:none; id="media_checkbox" />';
+                    ret += '<input type="checkbox" value="' + data[d].MID + '" name="media_checkbox"  id="media_checkbox_"' + data[d].MID +'"" style="display:none;" />';
                     ret += '<a href= "javascript:void(0)" class="img_data" title="' + data[d].Title + '" >';
                     //style = "display:none;
                     var string = data[d].FileType,

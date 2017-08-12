@@ -57,6 +57,11 @@
        .tax_parent .parent_main_item{
            margin-top:10px;
       }
+
+       #lightBoxGallery_post_gal .media_item_box_gall{
+           display:inline-block;
+               padding: 5px;
+       }
    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -157,8 +162,27 @@
                                        <%-- Home Group Custom Panel--%>
 
 
-                                 <%-- Product Group Custom Panel--%>
-                                  <asp:Panel ID="pn_product_custom" runat="server" Visible="false">
+                               <%--   Product PostType panel--%>
+                                  <asp:Panel ID="pn_product_default" runat="server" Visible="false">
+                                      <div class="hr-line-dashed"></div>
+                                      <div class="form-group" style="max-height:400px;overflow-y:scroll;">
+                                           <label><i class="fa fa-bookmark" aria-hidden="true"></i>Product Gallery</label>
+                                           <button id="btnaddmedia" type="button" data-multiSel="true" class="addmedia-gallery btn btn-success" data-target="txtContent">Add Media</button>
+                                          <div class="lightBoxGallery" id="lightBoxGallery_post_gal">
+                                              
+
+                                              
+                                              <asp:Literal ID="gal_server" runat="server"></asp:Literal>
+                                              
+
+                                            </div>
+
+                                          <div style="clear:both"></div>
+                                      </div>
+
+
+
+
                                       <div class="hr-line-dashed"></div>
                                       <div class="form-group">
                                           <div class="col-md-6">
@@ -177,11 +201,18 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                                                    <asp:Literal ID="TagsTax" runat="server"></asp:Literal>
                                                    
                                                </div>
-                                         
+                                     
 
                                            </div>
                                       </div>
                                         <div style="clear:both"></div>
+                                      </asp:Panel>
+                                    <%--   Product PostType panel--%>
+
+
+                                 <%-- Product Group Custom Panel--%>
+                                  <asp:Panel ID="pn_product_custom" runat="server" Visible="false">
+                                      
 
 
                                        <div class="hr-line-dashed"></div>
@@ -233,7 +264,7 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                                     <label class=" control-label">Content</label>
                                     <div>
                                        <%--<span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>--%>
-                                       <%--<button id="btnaddmedia" type="button"  class="addmedia-wysiwyg btn btn-success" data-target="txtContent">Add Media</button>--%>
+                                      
                                         <%--<a href="#" id="btnfullcontent" class=" btn btn-success" >Full Screen</a>--%>
                                        <%-- <asp:Literal ID="txtContent" runat="server"></asp:Literal>--%>
                                         
@@ -468,11 +499,15 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
 
    <%--<script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>--%>
    <script src="/Scripts/theme/plugins/ckeditor/ckeditor.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"   integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="   crossorigin="anonymous"></script>
+
   
    <%--<script src="/admin/Application/bower_components/tinymce/tinymce.min.js"></script>--%>
    <script type="text/javascript">
        $(document).ready(function () {
+           
 
+          
          
            CKEDITOR.replace('ProductDetail');
            CKEDITOR.replace('ProductInformation');
@@ -570,4 +605,34 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
    </script>
 
        <script src="/admin/Application/app.media.js?ver=22ssssssuuiiss"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#lightBoxGallery_post_gal').sortable({
+                start: function (event, ui) {
+                    var start_pos = ui.item.index();
+                    ui.item.data('start_pos', start_pos);
+                },
+                change: function (event, ui) {
+                    var start_pos = ui.item.data('start_pos');
+                    var index = ui.placeholder.index();
+                    if (start_pos < index) {
+                        $('#lightBoxGallery_post_gal .media_item_box_gall:nth-child(' + index + ')').addClass('list-group-item-success');
+                    } else {
+                        $('#sortable .media_item_box_gall:eq(' + (index + 1) + ')').addClass('list-group-item-success');
+                    }
+                },
+                update: function (event, ui) {
+                    $('#lightBoxGallery_post_gal .media_item_box_gall').removeClass('list-group-item-success');
+                    //ui.item.find('input[name^="p_gall_pri"]').val(ui.item.index() + 1);
+                    var datai = $('.media_item_box_gall');
+                    $.each(datai, function (index,data) {
+                        $(data).find('input[name^="p_gall_pri"]').val(index+1);
+                    });
+                }
+            });
+
+        });
+    </script>
 </asp:Content>

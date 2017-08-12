@@ -72,7 +72,7 @@ $(document).ready(function () {
 
     //binding to button
     $('.addmedia').on('click', BindMediaBox);
-
+    $('.addmedia-gallery').on('click', BindMediaBox_Gallery);
     $('.addmedia-wysiwyg').on('click', function (e) {
 
 
@@ -334,35 +334,57 @@ $(document).ready(function () {
         var data = store.get("key_onSel");
         var url = location.origin + data.Path + data.FileName;
 
-        //i.insertContent('<img style="width:50%" src="' + url + '" />');
 
-
+        var ismulti = store.get("multi_sel");
         var focus = store.get('box_media_focus');
+        //i.insertContent('<img style="width:50%" src="' + url + '" />');
+        if (!ismulti) {
+            var ele = $('#' + focus);
+            var del = '<button data-idmediab="' + focus + '"  onclick="removeMedia(this);" class="btn btn-warning btn-circle btn-media-focus" type="button"><i class="fa fa-times"></i></button >';
+            var lbl = ele.find('label');
+            lbl.html('');
+            lbl.css('background-image', 'url(' + url + ')');
+            lbl.addClass('box_media_fucus_block');
+            lbl.prepend(del);
+           
 
-        var ele = $('#' + focus);
-        var del = '<button data-idmediab="' + focus + '"  onclick="removeMedia(this);" class="btn btn-warning btn-circle btn-media-focus" type="button"><i class="fa fa-times"></i></button >';
-        var lbl = ele.find('label');
-        lbl.html('');
-        lbl.css('background-image', 'url(' + url + ')');
-        lbl.addClass('box_media_fucus_block');
-        lbl.prepend(del);
+            ele.find('button.addmedia').html('Edit');
+
+            if (ele.find(':hidden')[0]) {
+                $(ele.find(':hidden')[0]).val(url);
+            }
+            if (ele.find(':hidden')[1]) {
+                $(ele.find(':hidden')[1]).val(data.MID);
+            }
+
+        } else {
+
+            var data_multi = store.get("key_onSelMulti");
+            var focustele = $('#' + focus);
+            var ele = '';
+            var count = 1;
+            for (var i=0; i < data_multi.length; i++) {
+                var url = location.origin + data_multi[i].Path + data_multi[i].FileName;
+                var mid = data_multi[i].MID;
+                //var pri = data_multi[i].Priority;
+                ele += '<div class="media_item_box_gall" id="media_item_box_gall_'+mid+'" style="margin-top:5px;">';
+                ele += '<label class="box_media_fucus_block" onclick="return false;" style="background-image: url(' + url+');"><button data-idmediab="media_item_box_8" onclick="removeMedia_gall(this);" class="btn btn-warning btn-circle btn-media-focus" type="button"><i class="fa fa-times"></i></button></label>';
+                ele += '<input type="checkbox" checked="checked" name="checkGall" style="display:none;"  value="' + mid + '">';
+                ele += '<input type="hidden" name="p_gall_' + mid + '" id="p_gall_' + mid +'" value="' + url+'">';
+                ele += '<input type="hidden" name="p_gall_mid' + mid + '" id="p_gall_mid' + mid +'" value="' + mid+'">';
+                ele += '<input type="hidden" name="p_gall_pri' + mid + '" id="p_gall_pri' + mid + '"value="' + count + '">';
+                ele += '</div>';
+                count = count + 1;
+            }
+
+            focustele.append(ele);
+           
+        }
+
         $('#modal_media_select').modal('hide');
-
-        ele.find('button.addmedia').html('Edit');
-
-        if (ele.find(':hidden')[0]) {
-            $(ele.find(':hidden')[0]).val(url);
-        }
-        if (ele.find(':hidden')[1]) {
-            $(ele.find(':hidden')[1]).val(data.MID);
-        }
-
-        //ele.find(':hidden')[0].val(url);
-        //ele.find(':hidden')[1].val(data.MID);
-        //$('#modal_media').hide(function () {
-        //    $('#mail-text-block').show();
-
-        //});
+        store.remove('key_onSelMulti');
+        
+       
 
 
     });
@@ -423,6 +445,30 @@ function BindMediaBoxList(e) {
         keyboard: false
     });
 }
+
+
+
+function BindMediaBox_Gallery(e) {
+    e.preventDefault;
+
+    var dd = $(this).next('.lightBoxGallery');
+    var id = dd.attr('id');
+
+    store.set('box_media_focus', id);
+    store.set('multi_sel', $(this).attr('data-multiSel'));
+
+
+
+    $('#t-title').val('');
+
+    $('#btn-b-update-template').hide();
+    $('#btn-b-add-template').show();
+
+    $('#modal_media_select').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+}
 function BindMediaBox(e) {
     e.preventDefault;
 
@@ -459,6 +505,30 @@ function removeMedia(e) {
     lbl.removeAttr('style');
 
     ele.find('button.addmedia').html('Add Media');
+}
+
+function removeMedia_gall(e) {
+
+    $(e).closest('.media_item_box_gall').remove();
+
+    $(e).closest('.media_item_box_gall').on('click', function () {
+        return false;
+    })
+    return false;
+    //var focus = $(e).data('idmediab');
+    //media_item_box
+    //var ele = $('#' + focus);
+    //var lbl = ele.find('label');
+    //lbl.html('No Media selected');
+    //var del = ele.find('button.btn-media-focus');
+    //del.remove();
+
+    //ele.find(':hidden').val('');
+
+    //lbl.removeClass('box_media_fucus_block');
+    //lbl.removeAttr('style');
+
+    //ele.find('button.addmedia').html('Add Media');
 }
 
 
@@ -564,7 +634,7 @@ function generateMediaData(data) {
         store.set("key_" + data[d].MID, data[d]);
         //encodeURIComponent(JSON.stringify(data[d]))
         ret += '<div class="media-block" id="block_' + data[d].MID + '" style="background-image:url(' + url + ')">';
-        ret += '<input type="checkbox" value="' + data[d].MID + '" name="media_checkbox" style = "display:none; id="media_checkbox" />';
+        ret += '<input type="checkbox" value="' + data[d].MID + '" name="media_checkbox"  id="media_checkbox_"' + data[d].MID +'"" style = "display:none;" />';
         ret += '<a href= "javascript:void(0)" class="img_data" title="' + data[d].Title + '" >';
         //style = "display:none;
         var string = data[d].FileType,
@@ -634,13 +704,27 @@ function Click_BindingToRightDetail() {
 
         $(this).addClass('media-block-selected');
     }
-
+    var multisel = [];
     if (chek.prop("checked")) {
         // var data = JSON.parse(decodeURIComponent(a.data('gallery')));
         var getData = store.get("key_" + chek.val());
 
         //set select
         store.set("key_onSel", getData);
+
+        var st = store.get('key_onSelMulti');
+        if (st) {
+            multisel = st;
+        } 
+        multisel.push(getData);
+        store.set("key_onSelMulti", multisel);
+    } else {
+        var getData = store.get("key_" + chek.val());
+      
+        var  newGall = $.grep(store.get("key_onSelMulti"), function (k) { return k.MID != getData.MID; });
+       
+
+        store.set("key_onSelMulti", newGall);
     }
 
 
@@ -660,6 +744,7 @@ function Click_BindingToRightDetail() {
         $(this).find('.icon-check').hide();
         $("#media_detail_block").hide();
         store.remove("key_onSel");
+        
     }
 
 
@@ -668,6 +753,7 @@ function Click_BindingToRightDetail() {
     if ($('.media-block').find(':checked').length == 0) {
         $('.media-block .icon-check').hide();
         store.remove("key_onSel");
+        store.remove("key_onSelMulti");
     }
 
 

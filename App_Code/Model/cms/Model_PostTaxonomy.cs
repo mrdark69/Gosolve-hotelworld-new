@@ -9,6 +9,62 @@ using MVCDatatableApp;
 using gs_newsletter;
 using System.Web.Providers.Entities;
 
+public class Model_TaxMap : BaseModel<Model_TaxMap>
+{
+    public int TaxID { get; set; }
+    public int PostID { get; set; }
+    public byte TaxTypeID { get; set; }
+
+    public List<Model_TaxMap> GetTaxByPostIDandTaxType (int intPostID, byte bytTaxTypeID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxMap WHERE PostID =@PostID AND TaxTypeID=@TaxTypeID", cn);
+            cn.Open();
+
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = intPostID;
+            cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = bytTaxTypeID;
+
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+
+    public int UpdateInsertPostTax(int intTaxID ,int intPostID, byte bytTaxTypeID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("INSERT INTO PostTaxMap (TaxID,PostID,TaxTypeID) VALUES(@TaxID,@PostID,@TaxTypeID)", cn);
+         
+
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = intPostID;
+            cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = bytTaxTypeID;
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = intTaxID;
+
+            cn.Open();
+
+            return ExecuteNonQuery(cmd);
+        }
+    }
+
+    public bool ClearRaxPostMap(int intPostID, byte bytTaxTypeID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM PostTaxMap WHERE PostID =@PostID AND TaxTypeID=@TaxTypeID", cn);
+           
+
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = intPostID;
+            cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = bytTaxTypeID;
+            cn.Open();
+
+            return ExecuteNonQuery(cmd) == 1;
+        }
+            
+    }
+
+
+}
 
 public class Model_TaxSEOMap : BaseModel<Model_TaxSEOMap>
 {
@@ -16,12 +72,12 @@ public class Model_TaxSEOMap : BaseModel<Model_TaxSEOMap>
     public int PSID { get; set; }
 
 
-    public Model_TaxSEOMap GetSEOID(int PostID)
+    public Model_TaxSEOMap GetSEOID(int intTaxID)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM TaxonomySEOMap WHERE TaxID=@TaxID", cn);
-            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = PostID;
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = intTaxID;
             cn.Open();
             IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
             if (reader.Read())

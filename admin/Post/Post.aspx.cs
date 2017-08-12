@@ -87,6 +87,59 @@ public partial class _Post : BasePage
                     }
 
 
+                    //Chcek Defaul Postype Field Charactor
+                    //if PostType = product 
+                    if(p.PostTypeID == 3)
+                    {
+                        Model_TaxMap ctm = new Model_TaxMap();
+                        List<Model_TaxMap> ctm_cat = ctm.GetTaxByPostIDandTaxType(PostID, (byte)PostTaxonomyType.Categories);
+                        List<Model_TaxMap> ctm_tag = ctm.GetTaxByPostIDandTaxType(PostID, (byte)PostTaxonomyType.Tags);
+
+                        pn_product_default.Visible = true;
+                        Model_PostTaxonomy pt = new Model_PostTaxonomy
+                        {
+                            PostTypeID = p.PostTypeID,
+                            TaxTypeID = (byte)PostTaxonomyType.Categories
+                        };
+                        List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyActiveOnly(pt);
+                        CategoryTax.Text = getCatProduct(Taxlist, ctm_cat);
+                        Model_PostTaxonomy pttags = new Model_PostTaxonomy
+                        {
+                            PostTypeID = p.PostTypeID,
+                            TaxTypeID = (byte)PostTaxonomyType.Tags
+                        };
+                        List<Model_PostTaxonomy> TaxlistTags = pt.GetTaxonomyActiveOnly(pttags);
+                        TagsTax.Text = getTagsProductList(TaxlistTags, ctm_tag);
+
+                        List<Model_PostMedia> gall = p.PostMedia.Where(r => r.PostID == PostID && r.PostMediaTypeID == PostMediaType.Gallery).ToList();
+                        if (gall.Count()>0 )
+                        {
+
+                            string ele = string.Empty;
+                            foreach(Model_PostMedia m in gall)
+                            {
+                                string mid = m.MID.ToString();
+                               
+
+                                ele += "<div class=\"media_item_box_gall\" id=\"media_item_box_gall_" + mid + "\" style=\"margin-top:5px;\">";
+                                ele += "<label class=\"box_media_fucus_block\" onclick=\"return false;\" style=\"background-image: url(" + m.MediaFullPath + ");\"><button data-idmediab=\"media_item_box_8\" onclick=\"removeMedia_gall(this);\" class=\"btn btn-warning btn-circle btn-media-focus\" type=\"button\"><i class=\"fa fa-times\"></i></button></label>";
+                                ele += "<input type=\"checkbox\" checked=\"checked\" name=\"checkGall\" style=\"display:none;\"  value=\"" + mid + "\">";
+                                ele += "<input type=\"hidden\" name=\"p_gall_" + mid + "\" id=\"p_gall_" + mid + "\" value=\"" + m.MediaFullPath + "\">";
+                                ele += "<input type=\"hidden\" name=\"p_gall_mid" + mid + "\" id=\"p_gall_mid" + mid + "\" value=\"" + mid + "\">";
+                                ele += "<input type=\"hidden\" name=\"p_gall_pri" + mid + "\" id=\"p_gall_pri" + mid + "\"value=\"" + m.Priority + "\">";
+                                ele += "</div>";
+                            }
+                          
+                            //hd_MID.Value = cover.MID.ToString();
+                            //CoverImage1.Value = this.MainSetting.WebSiteURL + cover.MediaFullPath;
+                            //hd_postMeidaID.Value = cover.PostMediaID.ToString();
+
+                            gal_server.Text = ele;
+                        }
+
+
+                    }
+                   
 
 
                     //Check Cutom Post Field
@@ -134,20 +187,7 @@ public partial class _Post : BasePage
                             case "ProductGroup":
                                 pn_product_custom.Visible = true;
                                 main_post_content.Visible = false;
-                                Model_PostTaxonomy pt = new Model_PostTaxonomy
-                                {
-                                    PostTypeID = p.PostTypeID,
-                                    TaxTypeID = (byte)PostTaxonomyType.Categories
-                                };
-                                List<Model_PostTaxonomy> Taxlist = pt.GetTaxonomyActiveOnly(pt);
-                                CategoryTax.Text = getCatProduct(Taxlist);
-                                Model_PostTaxonomy pttags = new Model_PostTaxonomy
-                                {
-                                    PostTypeID = p.PostTypeID,
-                                    TaxTypeID = (byte)PostTaxonomyType.Tags
-                                };
-                                List<Model_PostTaxonomy> TaxlistTags = pt.GetTaxonomyActiveOnly(pttags);
-                                TagsTax.Text = getTagsProductList(TaxlistTags);
+                            
                                 //TagsTax
 
 
@@ -209,7 +249,7 @@ public partial class _Post : BasePage
         }
     }
 
-    public string getTagsProductList(List<Model_PostTaxonomy> Taxlist)
+    public string getTagsProductList(List<Model_PostTaxonomy> Taxlist, List<Model_TaxMap> taxmap)
     {
         StringBuilder ret = new StringBuilder();
 
@@ -222,7 +262,7 @@ public partial class _Post : BasePage
 
         foreach (Model_PostTaxonomy i in Taxlist.Where(g => g.RefID == 0).OrderBy(o => o.Priority))
         {
-            ret.Append("<p class='parent_main_item'><input type='checkbox' value='" + i.TaxID+"' name='product_tax_tags' />");
+            ret.Append("<p class='parent_main_item'><input type='checkbox' "+ (taxmap.Where(x => x.TaxID == i.TaxID).Count() > 0 ? "checked='checked'" : "") + " value='" + i.TaxID+"' name='product_tax_tags' />");
             ret.Append( i.Title + "</p>");
 
            
@@ -233,7 +273,7 @@ public partial class _Post : BasePage
         ret.Append("</div>");
         return ret.ToString();
     }
-    public string getCatProduct(List<Model_PostTaxonomy> Taxlist)
+    public string getCatProduct(List<Model_PostTaxonomy> Taxlist, List<Model_TaxMap> taxmap)
     {
         StringBuilder ret = new StringBuilder();
 
@@ -252,7 +292,7 @@ public partial class _Post : BasePage
             if (Taxlist.Where(f => f.RefID == i.TaxID).Count() > 0)
             {
                 ret.Append("<div class='tax_child'>");
-                ret.Append(getchild(Taxlist.Where(f => f.RefID == i.TaxID).ToList(), Taxlist, i.TaxID));
+                ret.Append(getchild(Taxlist.Where(f => f.RefID == i.TaxID).ToList(), Taxlist, i.TaxID, taxmap));
                 ret.Append("</div>");
             }
 
@@ -264,19 +304,19 @@ public partial class _Post : BasePage
     }
 
 
-    public string getchild(List<Model_PostTaxonomy> data, List<Model_PostTaxonomy> raw, int id)
+    public string getchild(List<Model_PostTaxonomy> data, List<Model_PostTaxonomy> raw, int id, List<Model_TaxMap> taxmap)
     {
         StringBuilder ret = new StringBuilder();
         List<Model_PostTaxonomy> retdataret = new List<Model_PostTaxonomy>();
         foreach (Model_PostTaxonomy c in data)
         {
-           
-            ret.Append("<p class='child_item'><input type='checkbox' value='" + c.TaxID+"' name='product_tax_cat' />");
+            
+            ret.Append("<p class='child_item'><input type='checkbox' "+(taxmap.Where(x=>x.TaxID == c.TaxID).Count() > 0? "checked='checked'":"") +" value='" + c.TaxID+"' name='product_tax_cat' />");
             ret.Append( c.Title + "</p>");
             if (raw.Where(f => f.RefID == c.TaxID).Count() > 0)
             {
                 ret.Append("<div class='tax_child'>");
-                ret.Append(getchild(raw.Where(f => f.RefID == c.TaxID).ToList(), raw, c.TaxID));
+                ret.Append(getchild(raw.Where(f => f.RefID == c.TaxID).ToList(), raw, c.TaxID, taxmap));
                 ret.Append("</div>");
             }
         }
@@ -375,6 +415,8 @@ public partial class _Post : BasePage
 
                 pm.DeletePostMedia(pm);
             }
+
+            
 
 
             //Check Cutom Post Field
@@ -490,24 +532,87 @@ public partial class _Post : BasePage
             }
 
 
-                //Model_PostCustomGroup pct = new Model_PostCustomGroup();
-                //List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(intPostID);
+            //Model_PostCustomGroup pct = new Model_PostCustomGroup();
+            //List<Model_PostCustomGroup> pctList = pct.getCustomByPostID(intPostID);
 
-                //foreach (Model_PostCustomGroup pci in pctList)
-                //{
-                //    switch (pci.PcGroupName)
-                //    {
-                //        case "HomeGroup":
-                //            pn_home_custom.Visible = true;
-
-
+            //foreach (Model_PostCustomGroup pci in pctList)
+            //{
+            //    switch (pci.PcGroupName)
+            //    {
+            //        case "HomeGroup":
+            //            pn_home_custom.Visible = true;
 
 
-                //            break;
-                //    }
-                //}
 
-                if (p.UpdatePost(p))
+
+            //            break;
+            //    }
+            //}product_tax_cat product_tax_tags
+            Model_TaxMap ctm = new Model_TaxMap();
+            string product_tax_cat = Request.Form["product_tax_cat"];
+            string product_tax_tags = Request.Form["product_tax_tags"];
+
+            if (!string.IsNullOrEmpty(product_tax_cat))
+            {
+                ctm.ClearRaxPostMap(intPostID, (byte)PostTaxonomyType.Categories);
+
+                string[] arrcat = product_tax_cat.Split(',');
+                foreach(string i in arrcat)
+                {
+                    ctm.UpdateInsertPostTax(int.Parse(i), intPostID, (byte)PostTaxonomyType.Categories);
+                }
+            }
+            if (!string.IsNullOrEmpty(product_tax_tags))
+            {
+                ctm.ClearRaxPostMap(intPostID, (byte)PostTaxonomyType.Tags);
+                string[] arrtag = product_tax_tags.Split(',');
+                foreach (string i in arrtag)
+                {
+                    ctm.UpdateInsertPostTax(int.Parse(i), intPostID, (byte)PostTaxonomyType.Tags);
+                }
+            }
+
+
+            string gall = Request.Form["checkGall"];
+            if (!string.IsNullOrEmpty(gall))
+            {
+                Model_PostMedia pm = new Model_PostMedia
+                {
+
+                    PostMediaTypeID = PostMediaType.Gallery,
+                    PostID = intPostID
+
+                };
+                pm.DeletePostMedia(pm);
+                string[] arrGall = gall.Split(',');
+                foreach(string i in arrGall)
+                {
+                    Model_PostMedia cpm = new Model_PostMedia
+                    {
+                        PostMediaTypeID = PostMediaType.Gallery,
+                        PostID = intPostID,
+                        MID = int.Parse(i),
+                        Priority = int.Parse(Request.Form["p_gall_pri" + i])
+                    };
+                    cpm.insertMediaPostGall(cpm);
+                }
+            }
+            else
+            {
+                Model_PostMedia pm = new Model_PostMedia
+                {
+
+                    PostMediaTypeID = PostMediaType.Gallery,
+                    PostID = intPostID
+
+                };
+                pm.DeletePostMedia(pm);
+            }
+
+            //Media Gallery
+
+
+            if (p.UpdatePost(p))
                 Response.Redirect(Request.Url.ToString());
         }
        

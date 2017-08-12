@@ -18,7 +18,8 @@ public enum PostMediaType : byte
 {
     CoverImage = 1,
     FeatureImage = 2,
-   
+    Gallery = 3
+
 }
 public class Model_PostMedia : BaseModel<Model_PostMedia>
 {
@@ -27,6 +28,7 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
     public PostMediaType PostMediaTypeID { get; set; }
     public int PostID { get; set; }
     public int MID { get; set; }
+    public int Priority { get; set; } = 1;
 
 
     public string Title { get; set; }
@@ -46,7 +48,21 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
         // TODO: Add constructor logic here
         //
     }
+    public int insertMediaPostGall(Model_PostMedia mp)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostMedia (PostMediaTypeID,PostID,MID,Priority) VALUES(@PostMediaTypeID,@PostID,@MID,@Priority) ", cn);
+            cmd.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = mp.PostMediaTypeID;
+            cmd.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = mp.PostID;
+            cmd.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
+            cmd.Parameters.Add("@Priority", SqlDbType.TinyInt).Value = mp.Priority;
+            cn.Open();
+            return ExecuteNonQuery(cmd);
 
+        }
+    }
     public int insertMediaPost(Model_PostMedia mp)
     {
        using(SqlConnection cn = new SqlConnection(this.ConnectionString))

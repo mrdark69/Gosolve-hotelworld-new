@@ -26,7 +26,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.layoutmanager_allowedContent;
     config.layoutmanager_buttonboxWidth = 58;
 
-    CKEDITOR.config.height = 600;
+    CKEDITOR.config.height = 480;
     //config.extraPlugins = 'layoutmanager';
     //config.image2_alignClasses = ['image-left', 'image-center', 'image-right'];
     //config.image2_captionedClass = 'image-captioned';
