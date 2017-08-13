@@ -56,9 +56,9 @@ public class Model_TaxMedia : BaseModel<Model_TaxMedia>
         {
 
             SqlCommand cmddel = new SqlCommand(@"DELETE FROM TaxonomyMedia WHERE TaxMediaTypeID=@TaxMediaTypeID AND 
-        TaxID=@TaxID AND MID=@MID", cn);
+        TaxID=@TaxID ", cn);
             cn.Open();
-
+            //AND MID=@MID
             cmddel.Parameters.Add("@TaxMediaTypeID", SqlDbType.TinyInt).Value = mp.TaxMediaTypeID;
             cmddel.Parameters.Add("@TaxID", SqlDbType.TinyInt).Value = mp.TaxID;
             cmddel.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;

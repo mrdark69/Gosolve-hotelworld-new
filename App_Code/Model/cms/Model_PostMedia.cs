@@ -74,12 +74,12 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
         {
 
             SqlCommand cmddel = new SqlCommand(@"DELETE FROM PostMedia WHERE PostMediaTypeID=@PostMediaTypeID AND 
-        PostID=@PostID AND MID=@MID", cn);
+        PostID=@PostID ", cn);
             cn.Open();
-
+           // AND MID = @MID
             cmddel.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = mp.PostMediaTypeID;
             cmddel.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = mp.PostID;
-            cmddel.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
+           // cmddel.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
 
             ExecuteNonQuery(cmddel);
 

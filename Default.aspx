@@ -142,7 +142,7 @@
 						        <div id="comment_form" data-appear-top-offset='-100' data-animated='fadeInUp'>
 							        <h2>Leave a Comment</h2>
 							        <div class="comment_form_wrapper">
-								        <form action="javascript:void(0);" method="post">
+								        <div class="form-comment-gs">
 									        <input type="text" name="name" value="Name" onFocus="if (this.value == 'Name') this.value = '';" onBlur="if (this.value == '') this.value = 'Name';" />
 									        <input class="email" type="text" name="email" value="Email" onFocus="if (this.value == 'Email') this.value = '';" onBlur="if (this.value == '') this.value = 'Email';" /></br>
 									        <textarea name="message" onFocus="if (this.value == 'Your comment') this.value = '';" onBlur="if (this.value == '') this.value = 'Your comment';">Your comment</textarea>
@@ -150,7 +150,7 @@
 									        <span class="comment_note">Your email address will not be published. Required fields are marked *</span>
 									        <input type="submit" value="Send comment" />
 									        <div class="clear"></div>
-								        </form>
+								        </div>
 							        </div>
 						        </div><!-- //LEAVE A COMMENT -->
 						
@@ -1717,7 +1717,7 @@
 
 
                                     Model_Post p = new Model_Post();
-                                    List<Model_Post> plist = p.GetPostByTax("สินค้าแนะนำ");
+                                    List<Model_Post> plist = p.GetPostByTax(PostType.Products,"สินค้าแนะนำ");
                                     foreach (Model_Post item in plist.Take(3))
                                     {
                                         Model_PostCustomItem cu = new Model_PostCustomItem();
@@ -1809,10 +1809,7 @@
                                         {
                                             Price = ((decimal)cu.PriceData).ToString("#,##0.00");
                                         }
-                                        //if(cul.Count > 0)
-                                        //{
-                                        //    Price  = cul.SingleOrDefault(b => b.PcName == "product-price-per-unit").PriceData.HasValue ? ((decimal)this.CTF.SingleOrDefault(b => b.PcName == "product-price-per-unit").PriceData).ToString("#,##0.0") : string.Empty;
-                                        //}
+                                       
 
                                         if (cimg != null)
                                         {
@@ -1845,25 +1842,7 @@
 						        </div>
 
 
-						        <%--<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
-							        <div class="tovar_item tovar_sale">
-								        <div class="tovar_img">
-									        <div class="tovar_img_wrapper">
-										        <img class="img" src="images/tovar/women/4.jpg" alt="" />
-										        <img class="img_h" src="images/tovar/women/4_2.jpg" alt="" />
-									        </div>
-									        <div class="tovar_item_btns">
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/4.html" >quick view</a></div>
-										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-										        <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-									        </div>
-								        </div>
-								        <div class="tovar_description clearfix">
-									        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
-									        <span class="tovar_price">$298.00</span>
-								        </div>
-							        </div>
-						        </div>--%><!-- //TOVAR4 -->
+						       
 						        <%} %>
 						       
 
@@ -1912,21 +1891,45 @@
 						        <ul>
 
                                      <%  
-                                    List<Model_Post> pnew = p.GetPostByTax("สินค้ามาใหม่");
+                                    List<Model_Post> pnew = p.GetPostByTax(PostType.Products, "สินค้ามาใหม่");
                                     foreach (Model_Post item in pnew)
                                     {
+
+                                              Model_PostCustomItem cu = new Model_PostCustomItem();
+                                    string imgPath = string.Empty;
+                                    string alt = string.Empty;
+                                    string title = string.Empty;
+                                    string Price = string.Empty;
+                                        List<Model_PostMedia> cm = item.PostMedia;
+                                        Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
+                                       
+
+                                        List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+                                        cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                        if(cu != null)
+                                        {
+                                            Price = ((decimal)cu.PriceData).ToString("#,##0.00");
+                                        }
+                                       
+
+                                        if (cimg != null)
+                                        {
+                                            imgPath =cimg.MediaFullPath;
+                                            alt = cimg.Alt;
+                                            title = cimg.Title;
+                                        }
                                     %>
                                  
 							        <li>
 								        <!-- TOVAR -->
 								        <div class="tovar_item_new">
 									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/1.jpg" alt="" />
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a></div>
+										        <img src="<% Response.Write(imgPath);%>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
+										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
 									        </div>
 									        <div class="tovar_description clearfix">
 										        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
-										        <span class="tovar_price">$98.00</span>
+										        <span class="tovar_price"><% Response.Write(Price); %> Baht</span>
 									        </div>
 								        </div><!-- //TOVAR -->
 							        </li>
@@ -1988,33 +1991,62 @@
 			
 			        <!-- CONTAINER -->
 			        <div class="container">
-				        <h2>New blog posts</h2>
-				
+				        <h2>กิจกรรมและข่าวสาร ล่าสุด</h2>
+				        
 				        <!-- ROW -->
 				        <div class="row" data-appear-top-offset='-100' data-animated='fadeInUp'>
+
+                            <%  
+                                List<Model_Post> pblog = p.GetPostByPostType(PostType.Blog);
+                                foreach (Model_Post item in pblog.Take(2))
+                                {
+
+                                    Model_PostCustomItem cu = new Model_PostCustomItem();
+                                    string imgPath = string.Empty;
+                                    string alt = string.Empty;
+                                    string title = string.Empty;
+                                    string Price = string.Empty;
+                                    List<Model_PostMedia> cm = item.PostMedia;
+                                    Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
+
+
+                                    List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+                                    cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                    if (cu != null)
+                                    {
+                                        Price = ((decimal)cu.PriceData).ToString("#,##0.00");
+                                    }
+
+
+                                    if (cimg != null)
+                                    {
+                                        imgPath = cimg.MediaFullPath;
+                                        alt = cimg.Alt;
+                                        title = cimg.Title;
+                                    }
+                                    %>
 					        <div class="col-lg-6 col-md-6 padbot30">
 						        <div class="recent_post_item clearfix">
-							        <div class="recent_post_date">15<span>oct</span></div>
-							        <a class="recent_post_img" href="blog-post.html" ><img src="images/blog/recent1.jpg" alt="" /></a>
-							        <a class="recent_post_title" href="blog-post.html" >Be Unafraid, Self-Hosted WordPress Is WAY Easier Nowadays</a>
-							        <div class="recent_post_content">The beauty of self-hosted WordPress, is that you can build your site however you like, want to add forums to your website? Done. Want to add a ecommerce to your blog? Done.</div>
+                                    <div class="col-md-6 col-xs-12" style="padding-left:0px;padding-right:0px;">
+
+                                        <div class="recent_post_date"><%  Response.Write(item.DatePublish.Day);%><span><%  Response.Write(item.DatePublish.ToString("MMM"));%></span></div>
+							        <a class="recent_post_img_gcustom" href="<%Response.Write(item.Permarlink); %>" >
+                                        <img class="img-responsive" src="<% Response.Write(imgPath);%>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" /></a>
+                                    </div>
+                                    <div class="col-md-6 col-xs-12" style="padding-left:0px;padding-right:0px;">
+                                         <a class="recent_post_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
+							        <div class="recent_post_content"><%  Response.Write(item.BodyContent.getShortContent());%></div>
 							        <ul class="post_meta">
 								        <li><i class="fa fa-comments"></i>Commetcs <span class="sep">|</span> 15</li>
 							        </ul>
+
+                                    </div>
+							        
+							       
 						        </div>
 					        </div>
-					
-					        <div class="col-lg-6 col-md-6 padbot30">
-						        <div class="recent_post_item clearfix">
-							        <div class="recent_post_date">07<span>dec</span></div>
-							        <a class="recent_post_img" href="blog-post.html" ><img src="images/blog/recent2.jpg" alt="" /></a>
-							        <a class="recent_post_title" href="blog-post.html" >True Story: I Went Two Weeks Without Social Media</a>
-							        <div class="recent_post_content">Since I began blogging 5.5 years ago, social media (and my blog) have taken hold on my life. I’ve been an early adopter for most major networks and use them extensively.  This past year I’ve been overwhelmed.</div>
-							        <ul class="post_meta">
-								        <li><i class="fa fa-comments"></i>Commetcs <span class="sep">|</span> 15</li>
-							        </ul>
-						        </div>
-					        </div>
+					<%} %>
+					        
 				        </div><!-- //ROW -->
 			        </div><!-- //CONTAINER -->
 		        </section><!-- //RECENT POSTS -->

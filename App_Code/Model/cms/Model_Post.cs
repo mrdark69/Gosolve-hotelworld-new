@@ -16,6 +16,7 @@ using System.Web.Providers.Entities;
 
 public enum PostType : byte
 {
+
     Pages = 1,
     Blog =2,
     Products =3,
@@ -32,6 +33,7 @@ public class Model_PostSEOMap : BaseModel<Model_PostSEOMap>
     {
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
+           
             SqlCommand cmd = new SqlCommand("SELECT * FROM PostSEOMap WHERE PostID=@PostID", cn);
             cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
             cn.Open();
@@ -311,7 +313,21 @@ WHERE PostID=@PostID", cn);
 
     //Gs Query Binding to Front
 
-    public List<Model_Post> GetPostByTax(string slug)
+    public List<Model_Post> GetPostByPostType(PostType enumPostType)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT p.* FROM Post p
+                                 WHERE p.PostTypeID =@PostTypeID AND p.Status = 1 AND p.Trash = 1 ORDER BY p.DatePublish DESC", cn);
+
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = enumPostType;
+            cn.Open();
+
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+    public List<Model_Post> GetPostByTax(PostType enumPostType, string slug)
     {
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
@@ -319,22 +335,23 @@ WHERE PostID=@PostID", cn);
                                 SELECT p.* FROM Post p
                                 INNER JOIN PostTaxMap ptx ON p.PostID = ptx.PostID
                                 INNER JOIN PostTaxonomy pt ON pt.TaxID=ptx.TaxID
-                                 WHERE pt.Slug =@Slug", cn);
+                                 WHERE p.PostTypeID =@PostTypeID AND pt.Slug =@Slug AND p.Status = 1 AND p.Trash = 1 ORDER BY p.DatePublish DESC", cn);
 
             cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = slug;
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = enumPostType;
             cn.Open();
 
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
         }
     }
 
-    public Model_Post GetPostBySlug(string Slug, byte bytPostTypeID)
+    public Model_Post GetPostBySlug(string Slug, PostType enumPostType)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM  POST WHERE Slug=@Slug AND PostTypeID=@PostTypeID AND Status = 1 AND Trash=1" , cn);
             cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = Slug;
-            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = bytPostTypeID;
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = enumPostType;
             cn.Open();
             IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
             if (reader.Read())

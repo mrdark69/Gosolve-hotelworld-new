@@ -316,9 +316,12 @@ public partial class _Default : Page
             if (post.BannerTypeID == 1)
                 ret = ret.Replace("<!--##THE_TITLE##-->", post.Title);
 
-            List<Model_PostMedia> pm = post.PostMedia;
+            List<Model_PostMedia> pml = post.PostMedia;
 
-            ret = ret.Replace("<!--##THE_COVER##-->", pm.SingleOrDefault(m => m.PostMediaTypeID == PostMediaType.CoverImage).MediaFullPath);
+            Model_PostMedia pm = pml.SingleOrDefault(m => m.PostMediaTypeID == PostMediaType.CoverImage);
+            if(pm!=null)
+            ret = ret.Replace("<!--##THE_COVER##-->", pm.MediaFullPath);
+            
         }
         else
         {

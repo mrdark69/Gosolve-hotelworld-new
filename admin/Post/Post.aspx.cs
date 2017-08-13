@@ -81,7 +81,7 @@ public partial class _Post : BasePage
                         if (cover != null)
                         {
                             hd_MID.Value = cover.MID.ToString();
-                            CoverImage1.Value = this.MainSetting.WebSiteURL + cover.MediaFullPath;
+                            CoverImage1.Value = cover.MediaFullPath;
                             //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                         }
 
@@ -89,7 +89,7 @@ public partial class _Post : BasePage
                         if (feature != null)
                         {
                             feature_image_mid.Value = feature.MID.ToString();
-                            feature_image_url.Value = this.MainSetting.WebSiteURL + feature.MediaFullPath;
+                            feature_image_url.Value =  feature.MediaFullPath;
                             //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                         }
                     }

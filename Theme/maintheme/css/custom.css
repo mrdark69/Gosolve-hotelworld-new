@@ -16,3 +16,24 @@
     background-size: cover;
     background-position: center;
 }
+
+.recent_post_img_gcustom {
+    position: relative;
+    /*float: left;*/
+    display: block;
+    margin: 5px 30px 10px 0;
+}
+.recent_post_content {
+    font-size: 16px;
+    font-weight: 200;
+    line-height: 23px;
+}
+#comment_form .form-comment-gs {
+    position: relative;
+    margin: 0;
+    padding: 28px;
+    background-color: #fff;
+}
+#comment_form input[type="text"] {
+    width: 49.1%;
+}

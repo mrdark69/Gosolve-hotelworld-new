@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 
 /// <summary>
@@ -45,5 +46,26 @@ public static class StringUtility
         byte[] decodeString = Convert.FromBase64String(DecryptedData);
         string data = Encoding.ASCII.GetString(decodeString);
         return data;
+    }
+
+
+    public static string removehtmlTag(this string str)
+    {
+        //string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
+        return Regex.Replace(str, "<.*?>", String.Empty);
+    }
+
+    public static string getShortContent(this string content)
+    {
+        string ret = string.Empty;
+        int cL = content.Length;
+        if (cL > 0)
+        {
+             ret = content.removehtmlTag();
+            if(cL > 300)
+            ret = ret.Substring(0, 300 );
+
+        }
+        return ret;
     }
 }

@@ -69,7 +69,7 @@ public class CmsController
     public static Model_Post GetPostSlug(string Slug, PostType postType)
     {
         Model_Post post = new Model_Post();
-        return post.GetPostBySlug(Slug ,(byte)postType);
+        return post.GetPostBySlug(Slug , postType);
     }
 
     public static List<Model_Post> GetPostArchive(byte PostTypeID)
