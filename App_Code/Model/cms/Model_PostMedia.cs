@@ -41,7 +41,9 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
     {
         get
         {
-            return this.Path + this.FileName;
+            Model_MainSetting s = new Model_MainSetting();
+            s = s.GetMainSetting();
+            return s.WebSiteURL + this.Path + this.FileName;
         }
     }
     public Model_PostMedia()

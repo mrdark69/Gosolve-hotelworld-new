@@ -1713,34 +1713,61 @@
 					        <div class="tovar_wrapper" data-appear-top-offset='-100' data-animated='fadeInUp'>
 						
 
-                                <%  Model_Post p = new Model_Post();
+                                <% 
+
+
+                                    Model_Post p = new Model_Post();
                                     List<Model_Post> plist = p.GetPostByTax("สินค้าแนะนำ");
-                                    foreach (Model_Post item in plist)
+                                    foreach (Model_Post item in plist.Take(3))
                                     {
+                                        Model_PostCustomItem cu = new Model_PostCustomItem();
+                                        string imgPath = string.Empty;
+                                        string alt = string.Empty;
+                                        string title = string.Empty;
+                                        string Price = string.Empty;
+                                        List<Model_PostMedia> cm = item.PostMedia;
+                                        Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
+
+
+                                        List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+
+                                        cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                        if (cu != null)
+                                        {
+                                            Price = ((decimal)cu.PriceData).ToString("#,##0.00");
+                                        }
+                                        if (cimg != null)
+                                        {
+                                            imgPath =cimg.MediaFullPath;
+                                            alt = cimg.Alt;
+                                            title = cimg.Title;
+                                        }
+
                                     %>
 						        <!-- TOVAR1 -->
 						        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
 							        <div class="tovar_item">
 								        <div class="tovar_img">
 									        <div class="tovar_img_wrapper">
-										        <img class="img" src="images/tovar/women/1.jpg" alt="" />
-										        <img class="img_h" src="images/tovar/women/1_2.jpg" alt="" />
+										        <img class="img" src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
+										        <img class="img_h" src="<% Response.Write(imgPath);%>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
 									        </div>
 									        <div class="tovar_item_btns">
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a></div>
+										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" 
+                                                    data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
 										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-										        <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
+										       <%-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>--%>
 									        </div>
 								        </div>
 								        <div class="tovar_description clearfix">
 									        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
-									        <span class="tovar_price">$98.00</span>
+									        <span class="tovar_price"> <% Response.Write(Price); %> Baht</span>
 								        </div>
 							        </div>
 						        </div><!-- //TOVAR1 -->
 						
 						       
-						<%} %>
+						    <%} %>
 						        <div class="respond_clear_768"></div>
 						
 						        <!-- BANNER -->
@@ -1765,9 +1792,61 @@
 						
 						        <div class="respond_clear_768"></div>
 						
+                                <%   
+                                    foreach (Model_Post item in plist.Skip(3).Take(3)){
+                                         Model_PostCustomItem cu = new Model_PostCustomItem();
+                                    string imgPath = string.Empty;
+                                    string alt = string.Empty;
+                                    string title = string.Empty;
+                                    string Price = string.Empty;
+                                        List<Model_PostMedia> cm = item.PostMedia;
+                                        Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
+                                       
+
+                                        List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+                                        cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                        if(cu != null)
+                                        {
+                                            Price = ((decimal)cu.PriceData).ToString("#,##0.00");
+                                        }
+                                        //if(cul.Count > 0)
+                                        //{
+                                        //    Price  = cul.SingleOrDefault(b => b.PcName == "product-price-per-unit").PriceData.HasValue ? ((decimal)this.CTF.SingleOrDefault(b => b.PcName == "product-price-per-unit").PriceData).ToString("#,##0.0") : string.Empty;
+                                        //}
+
+                                        if (cimg != null)
+                                        {
+                                            imgPath =cimg.MediaFullPath;
+                                            alt = cimg.Alt;
+                                            title = cimg.Title;
+                                        }
+                                        %>
 						        <!-- TOVAR4 -->
-						        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
-							        <div class="tovar_item">
+
+                                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
+							        <div class="tovar_item tovar_sale">
+								        <div class="tovar_img">
+									        <div class="tovar_img_wrapper">
+										        <img class="img" src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
+										        <img class="img_h" src="<% Response.Write(imgPath);%>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
+									        </div>
+									        <div class="tovar_item_btns">
+										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" 
+                                                    data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
+										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
+										       <%-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>--%>
+									        </div>
+								        </div>
+								        <div class="tovar_description clearfix">
+									        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
+									        <span class="tovar_price"> <% Response.Write(Price); %> Baht</span>
+								        </div>
+							        </div>
+						        </div>
+
+
+						        <%--<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
+							        <div class="tovar_item tovar_sale">
 								        <div class="tovar_img">
 									        <div class="tovar_img_wrapper">
 										        <img class="img" src="images/tovar/women/4.jpg" alt="" />
@@ -1780,53 +1859,13 @@
 									        </div>
 								        </div>
 								        <div class="tovar_description clearfix">
-									        <a class="tovar_title" href="product-page.html" >Peacoat trench</a>
+									        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
 									        <span class="tovar_price">$298.00</span>
 								        </div>
 							        </div>
-						        </div><!-- //TOVAR4 -->
-						
-						        <!-- TOVAR5 -->
-						        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
-							        <div class="tovar_item tovar_sale">
-								        <div class="tovar_img">
-									        <div class="tovar_img_wrapper">
-										        <img class="img" src="images/tovar/women/5.jpg" alt="" />
-										        <img class="img_h" src="images/tovar/women/5_2.jpg" alt="" />
-									        </div>
-									        <div class="tovar_item_btns">
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/5.html" >quick view</a></div>
-										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-										        <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-									        </div>
-								        </div>
-								        <div class="tovar_description clearfix">
-									        <a class="tovar_title" href="product-page.html" >Schoolboy blazer in italian wool</a>
-									        <span class="tovar_price">$194.00</span>
-								        </div>
-							        </div>
-						        </div><!-- //TOVAR5 -->
-						
-						        <!-- TOVAR6 -->
-						        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
-							        <div class="tovar_item">
-								        <div class="tovar_img">
-									        <div class="tovar_img_wrapper">
-										        <img class="img" src="images/tovar/women/6.jpg" alt="" />
-										        <img class="img_h" src="images/tovar/women/6_2.jpg" alt="" />
-									        </div>
-									        <div class="tovar_item_btns">
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/6.html" >quick view</a></div>
-										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-										        <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-									        </div>
-								        </div>
-								        <div class="tovar_description clearfix">
-									        <a class="tovar_title" href="product-page.html" >Cashmere mockneck sweater</a>
-									        <span class="tovar_price">$257.00</span>
-								        </div>
-							        </div>
-						        </div><!-- //TOVAR6 -->
+						        </div>--%><!-- //TOVAR4 -->
+						        <%} %>
+						       
 
 
 					        </div><!-- //TOVAR WRAPPER -->
