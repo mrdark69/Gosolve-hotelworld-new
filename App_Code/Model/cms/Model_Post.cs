@@ -157,7 +157,7 @@ public class Model_Post : BaseModel<Model_Post>
         {
             Model_MainSetting s = new Model_MainSetting();
             s= s.GetMainSetting();
-            return s.WebSiteURL + (this.PostTypeID != 1 ? this.PostTypeClass.Slug + "/" : string.Empty) + this.Slug;
+            return s.WebSiteURL + (this.PostTypeID != (byte)PostType.Pages ? this.PostTypeClass.Slug + "/" : string.Empty) + this.Slug;
         }
     }
 

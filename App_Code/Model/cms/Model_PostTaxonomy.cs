@@ -209,6 +209,30 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
             return _taxmedia;
         }
     }
+    private Model_PostType _postTypeClass = null;
+    public Model_PostType PostTypeClass
+    {
+        get
+        {
+            if (_postTypeClass == null)
+            {
+                Model_PostType ps = new Model_PostType();
+                _postTypeClass = ps.GetPostTypeByID(this.PostTypeID);
+            }
+
+            return _postTypeClass;
+        }
+    }
+
+    public string Permarlink
+    {
+        get
+        {
+            Model_MainSetting s = new Model_MainSetting();
+            s = s.GetMainSetting();
+            return s.WebSiteURL + (this.PostTypeID != (byte)PostType.Pages ? this.PostTypeClass.Slug + "/" : string.Empty) + this.Slug;
+        }
+    }
 
 
     public Model_PostTaxonomy()
@@ -387,6 +411,39 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
             else
                 return null;
             
+        }
+    }
+
+    public Model_PostTaxonomy FrontGetTaxonomyByID(int TaxID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE TaxID=@TaxID AND Status =1 AND Trash = 1", cn);
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = TaxID;
+
+
+            cn.Open();
+
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+
+        }
+    }
+
+    public List<Model_PostTaxonomy> FrontGetTaxonomyByRefID(int RefID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE RefID=@RefID AND Status =1 AND Trash = 1", cn);
+            cmd.Parameters.Add("@RefID", SqlDbType.Int).Value = RefID;
+
+
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+
         }
     }
 }

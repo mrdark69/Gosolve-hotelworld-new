@@ -548,8 +548,6 @@
       <%-- End Blog Taxonomy Page Archive TEMPLATE--%>
 
 
-
-
       
        <%-- Product Page TEMPLATE--%>
         <section   id="SectionProductSingle"  runat="server" visible="false">
@@ -1141,14 +1139,16 @@
 			
 			    <!-- CONTAINER -->
 			    <div class="container">
-				    <h3 class="pull-left"><b>Product catalog list</b></h3>
+				    <h3 class="pull-left"><b><%:this.TaxForPostType.Title %></b></h3>
 				
-				    <div class="pull-right">
+				    <%--<div class="pull-right">
 					    <a href="women.html" >Back to shop<i class="fa fa-angle-right"></i></a>
-				    </div>
+				    </div>--%>
 			    </div><!-- //CONTAINER -->
 		    </section><!-- //PAGE HEADER -->
 		
+            <% if (this.TaxList.Count > 0)
+                { %>
 		
 		    <!-- PRODUCT CATALOG SECTION -->
 		    <section class="product_catalog_block">
@@ -1158,127 +1158,88 @@
 				
 				    <!-- ROW -->
 				    <div class="row">
+
+
+                        <%  
+                            int rowcount = 1;
+                            foreach (Model_PostTaxonomy mpt in this.TaxList)
+                            { 
+
+
+                                        string imgPath = string.Empty;
+                                        string alt = string.Empty;
+                                        string title = string.Empty;
+                                        string Price = string.Empty;
+                                        List<Model_TaxMedia> cm = mpt.TaxMedia;
+                                        Model_TaxMedia cimg = cm.SingleOrDefault(o => o.TaxMediaTypeID == TaxMediaType.FeatureImage);
+
+                                        if (cimg != null)
+                                        {
+                                            imgPath =cimg.MediaFullPath;
+                                            alt = cimg.Alt;
+                                            title = cimg.Title;
+                                        }
+%>
+
 					    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-ss-12 product_catalog_item clearfix">
-						    <img class="product_catalog_img product_women" src="images/tovar/product_women.jpg" alt="" />
-						    <p class="product_catalog_title">Women</p>
+						    <img style="width:45%" class="product_catalog_img product_women" src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
+						    <p class="product_catalog_title"><a href="<% Response.Write(mpt.Permarlink); %>" ><% Response.Write(mpt.Title); %></a></p>
 						    <ul class="product_catalog_list">
-							    <li><a href="women.html" >SWEATERS</a></li>
-							    <li><a href="women.html" >shirts & tops<span>hot</span></a></li>
-							    <li><a href="women.html" >KNITS & TEES</a></li>
-							    <li><a href="women.html" >PANTS</a></li>
-							    <li><a href="women.html" >DENIM</a></li>
-							    <li><a href="women.html" >DRESSES</a></li>
-							    <li><a href="women.html" >SKIRTS</a></li>
-							    <li><a href="women.html" >SHORTS</a></li>
-							    <li><a href="women.html" >BLAZERS</a></li>
-							    <li><a href="women.html" >OUTERWEAR</a></li>
-							    <li><a href="women.html" >SUITING</a></li>
+
+                                <%
+
+                                    List<Model_PostTaxonomy> child = this.TaxForPostType.FrontGetTaxonomyByRefID(mpt.TaxID);
+                                    foreach (Model_PostTaxonomy mc in child)
+                                    { %>
+							            <li><a href="<% Response.Write(mc.Permarlink); %>" ><% Response.Write(mc.Title); %></a></li>
+
+                                       <% List<Model_PostTaxonomy> childVv3 = this.TaxForPostType.FrontGetTaxonomyByRefID(mc.TaxID);
+                                           if (childVv3.Count > 0)
+                                           {
+                                               foreach (Model_PostTaxonomy mcv3 in childVv3)
+                                               { %>
+
+                                                    <li style="margin-left:15px;"><a href="<% Response.Write(mcv3.Permarlink); %>" ><% Response.Write(mcv3.Title); %></a></li>
+                                                <% }
+                                           }
+
+                                           %>
+                                            
+							        <%} %>
 						    </ul>
 					    </div>
-					
-					    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-ss-12 product_catalog_item clearfix">
-						    <img class="product_catalog_img product_men" src="images/tovar/product_men.jpg" alt="" />
-						    <p class="product_catalog_title">men</p>
-						    <ul class="product_catalog_list">
-							    <li><a href="women.html" >SHIRTS</a></li>
-							    <li><a href="women.html" >SWEATERS</a></li>
-							    <li><a href="women.html" >TEES & POLOS</a></li>
-							    <li><a href="women.html" >SWEATSHIRTS & SWEATPANTS</a></li>
-							    <li><a href="women.html" >PANTS BY FIT</a></li>
-							    <li><a href="women.html" >PANTS</a></li>
-							    <li><a href="women.html" >SHORTS</a></li>
-							    <li><a href="women.html" >SWIM</a></li>
-							    <li><a href="women.html" >OUTERWEAR</a></li>
-							    <li><a href="women.html" >SUITING</a></li>
-						    </ul>
-					    </div>
-				    </div><!-- //ROW -->
-			    </div><!-- //CONTAINER -->
-		    </section><!-- //PRODUCT CATALOG SECTION -->
-		
-		
-		    <!-- PRODUCT CATALOG SECTION -->
-		    <section class="product_catalog_block">
+                            
+
+
+                        <% if(rowcount%2 == 0){ %>
+
+                          </div><!-- //ROW -->
+			            </div><!-- //CONTAINER -->
+		            </section><!-- //PRODUCT CATALOG SECTION -->
+
+                     <!-- PRODUCT CATALOG SECTION -->
+		            <section class="product_catalog_block">
 			
-			    <!-- CONTAINER -->
-			    <div class="container">
+			            <!-- CONTAINER -->
+			            <div class="container">
 				
-				    <!-- ROW -->
-				    <div class="row">
-					    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-ss-12 product_catalog_item clearfix">
-						    <img class="product_catalog_img product_girls" src="images/tovar/product_girls.jpg" alt="" />
-						    <p class="product_catalog_title">Girls</p>
-						    <ul class="product_catalog_list">
-							    <li><a href="women.html" >DRESSES</a></li>
-							    <li><a href="women.html" >KNITS & TEES</a></li>
-							    <li><a href="women.html" >LEGGINGS</a></li>
-							    <li><a href="women.html" >SWEATERS</a></li>
-							    <li><a href="women.html" >PANTS</a></li>
-							    <li><a href="women.html" >SHORTS</a></li>
-							    <li><a href="women.html" >SHIRTS</a></li>
-							    <li><a href="women.html" >JEWELRY & ACCESSORIES</a></li>
-							    <li><a href="women.html" >BAGS</a></li>
-							    <li><a href="women.html" >SLEEPWEAR</a></li>
-						    </ul>
-					    </div>
+				            <!-- ROW -->
+				            <div class="row">
+
+
+                        <%} %>
+
+
+                        <% rowcount = rowcount +1; } %>
 					
-					    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-ss-12 product_catalog_item clearfix">
-						    <img class="product_catalog_img product_boys" src="images/tovar/product_boys.jpg" alt="" />
-						    <p class="product_catalog_title">Boys</p>
-						    <ul class="product_catalog_list">
-							    <li><a href="women.html" >TEES & POLOS</a></li>
-							    <li><a href="women.html" >GRAPHICS SHOP</a></li>
-							    <li><a href="women.html" >HOODIES & SWEATSHIRTS</a></li>
-							    <li><a href="women.html" >SWEATERS</a></li>
-							    <li><a href="women.html" >SWIM & RASH GUARDS</a></li>
-							    <li><a href="women.html" >SUITING</a></li>
-							    <li><a href="women.html" >SPORTCOATS & VESTS</a></li>
-							    <li><a href="women.html" >TIES, BOW TIES & POCKET SQUARES</a></li>
-						    </ul>
-					    </div>
+					    
 				    </div><!-- //ROW -->
 			    </div><!-- //CONTAINER -->
 		    </section><!-- //PRODUCT CATALOG SECTION -->
 		
+            <%} %>
 		
-		    <!-- PRODUCT CATALOG SECTION -->
-		    <section class="product_catalog_block last">
-			
-			    <!-- CONTAINER -->
-			    <div class="container">
-				
-				    <!-- ROW -->
-				    <div class="row">
-					    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-ss-12 product_catalog_item clearfix">
-						    <img class="product_catalog_img product_shoes" src="images/tovar/product_shoes.jpg" alt="" />
-						    <p class="product_catalog_title">Shoes</p>
-						    <ul class="product_catalog_list">
-							    <li><a href="women.html" >sandals</a></li>
-							    <li><a href="women.html" >ballet flats</a></li>
-							    <li><a href="women.html" >flats</a></li>
-							    <li><a href="women.html" >boat shoes</a></li>
-							    <li><a href="women.html" >loafers & oxfords</a></li>
-							    <li><a href="women.html" >pumps & heels</a></li>
-							    <li><a href="women.html" >boots</a></li>
-							    <li><a href="women.html" >sneakers</a></li>
-						    </ul>
-					    </div>
-					
-					    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-ss-12 product_catalog_item clearfix">
-						    <img class="product_catalog_img product_jewelry" src="images/tovar/product_jewelry.jpg" alt="" />
-						    <p class="product_catalog_title">Jewelry</p>
-						    <ul class="product_catalog_list">
-							    <li><a href="women.html" >Rings</a></li>
-							    <li><a href="women.html" >Necklaces & pendants</a></li>
-							    <li><a href="women.html" >earrings</a></li>
-							    <li><a href="women.html" >bracelets</a></li>
-							    <li><a href="women.html" >Watches</a></li>
-						    </ul>
-					    </div>
-				    </div><!-- //ROW -->
-			    </div><!-- //CONTAINER -->
-		    </section><!-- //PRODUCT CATALOG SECTION -->
-		
+		  
 		
 		    <section>
 			

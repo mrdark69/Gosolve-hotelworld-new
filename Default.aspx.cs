@@ -13,6 +13,8 @@ public partial class _Default : Page
 
     public List<Model_PostCustomItem> CTF  { get; set; }
     public Model_Post PostDataUI { get; set; }
+    public List<Model_PostTaxonomy> TaxList { get; set; }
+    public Model_PostTaxonomy TaxForPostType { get; set; }
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -27,7 +29,7 @@ public partial class _Default : Page
             Model_PageEngine PageEngine = new Model_PageEngine();
             PageEngine.SiteInfo = st.GetSiteInfo();
             PageEngine.MainSetting = setting;
-
+            Model_PostType cPostType = new Model_PostType();
             Model_Post post = new Model_Post();
             Model_Menu m = new Model_Menu();
             Model_PostTaxonomy tax = new Model_PostTaxonomy();
@@ -88,6 +90,20 @@ public partial class _Default : Page
                             {
                                 //Case Product Page Archive
                                 SectionProductArchive.Visible = true;
+
+                                cPostType = cPostType.GetPostTypeBySlug(StrPost_slug);
+                                if(cPostType != null)
+                                {
+                                    //product-type = 24
+                                    this.TaxForPostType = tax.FrontGetTaxonomyByID(24);
+                                    if (this.TaxForPostType != null)
+                                    {
+                                        this.TaxList = tax.FrontGetTaxonomyByRefID(24);
+                                    }
+                                    
+                                }
+
+
                             }
                             else
                             {

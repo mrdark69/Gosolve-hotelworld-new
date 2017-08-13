@@ -61,4 +61,22 @@ public class Model_PostType : BaseModel<Model_PostType>
         }
     }
 
+    //Binding to Front
+    public Model_PostType GetPostTypeBySlug(string slug)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PostType WHERE   Slug=@Slug ", cn);
+            cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = slug;
+            cn.Open();
+            IDataReader reader = ExecuteReader(cmd, CommandBehavior.SingleRow);
+            if (reader.Read())
+                return MappingObjectFromDataReaderByName(reader);
+            else
+                return null;
+
+        }
+    }
+
+
 }
