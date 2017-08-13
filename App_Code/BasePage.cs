@@ -15,6 +15,8 @@ public class BasePage : System.Web.UI.Page
     public Model_Users UserActive { get; set; }
     public Model_MainSetting MainSetting { get; set; }
 
+    
+
 
 
     public string PostTypeID

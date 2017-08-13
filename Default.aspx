@@ -1670,15 +1670,28 @@
         
 
         <!-- PAGE TEMPLATE-->
-		<section  style="padding-top:9px;padding-bottom: 20px;" id="page_content"  class="page_content" runat="server" visible="false">
+		<section  id="page_content" runat="server" visible="false">
 			
+			    <section class="page_header">
 			
-			<div class="container" >
-
-			  <% Response.Write(this.ContentBody); %>
-
-             
-			</div>
+			    <!-- CONTAINER -->
+			        <div class="container">
+				        <h3 class="pull-left"><b><%: this.PostDataUI.Title %></b></h3>
+				
+				       <%-- <div class="pull-right">
+					        <a href="women.html">Back to shop<i class="fa fa-angle-right"></i></a>
+				        </div>--%>
+			        </div><!-- //CONTAINER -->
+		        </section>
+                <section class="about_us_info">
+			
+			    <!-- CONTAINER -->
+			    <div class="container">
+				
+				     <% Response.Write(this.ContentBody); %>
+			    </div><!-- //CONTAINER -->
+		    </section>
+			
 		</section>
         <!-- End  PAGE TEMPLATE -->
 

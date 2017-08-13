@@ -12,7 +12,7 @@ public partial class _Default : Page
     public string PageContentTitle { get; set; }
 
     public List<Model_PostCustomItem> CTF  { get; set; }
-  
+    public Model_Post PostDataUI { get; set; }
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -226,7 +226,7 @@ public partial class _Default : Page
 
 
                         HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
-
+                        this.PostDataUI = post;
                         this.ContentBody = post.BodyContent;
                         this.PageContentTitle = post.Title;
                     }
@@ -313,6 +313,12 @@ public partial class _Default : Page
                 ret = Slider();
             else
                 ret = breadcrumb(post.BannerTypeID);
+            if (post.BannerTypeID == 1)
+                ret = ret.Replace("<!--##THE_TITLE##-->", post.Title);
+
+            List<Model_PostMedia> pm = post.PostMedia;
+
+            ret = ret.Replace("<!--##THE_COVER##-->", pm.SingleOrDefault(m => m.PostMediaTypeID == PostMediaType.CoverImage).MediaFullPath);
         }
         else
         {
