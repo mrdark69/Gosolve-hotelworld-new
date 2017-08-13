@@ -177,8 +177,10 @@ public partial class _Default : Page
                                         tax = tax.GetTaxBySlugAndPostType(RouteSlug_2, bytPostTypeID);
                                         if (tax != null)
                                         {
-                                            //case Tax approve
-                                            SectionBlogPageTaxArchive.Visible = true;
+                                            //case Tax approve 
+                                            //Same layout with blog archive
+                                           // SectionBlogPageTaxArchive.Visible = true;
+                                            SectionBlogPageArchive.Visible = true;
 
                                             //Case tax Archive Paging
                                             if (RouteSlug_3 == "page")
@@ -187,7 +189,7 @@ public partial class _Default : Page
 
                                                 //Do something with paging
 
-
+                                                
                                             }
 
 
