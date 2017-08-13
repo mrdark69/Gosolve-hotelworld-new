@@ -424,7 +424,7 @@ public partial class _Post : BasePage
                 pm.DeletePostMedia(pm);
             }
 
-            //Cover 
+            //Feature image 
             if (!string.IsNullOrEmpty(feature_image_mid.Value))
             {
                 Model_PostMedia pm = new Model_PostMedia

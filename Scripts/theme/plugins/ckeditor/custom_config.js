@@ -10,23 +10,24 @@ CKEDITOR.editorConfig = function( config ) {
     config.toolbar = [
      
         
-        { name: 'basicstyles', items: ['Styles', 'Format', 'Font', 'FontSize','Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat'] },
-        { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
-        { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
-        { name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+        { name: 'basicstyles', items: [ 'Format', 'FontSize' ,'Bold', 'Italic', 'Underline'] },
+        { name: 'paragraph', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+        
+        //{ name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+        //{ name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
         //{ name: 'document', groups: ['mode', 'document', 'doctools'] },
        
-        { name: 'tools', items: ['Maximize', 'ShowBlocks', 'Source', 'Preview','AddLayout'] },
+        //{ name: 'tools', items: ['Maximize', 'ShowBlocks', 'Source', 'Preview','AddLayout'] },
        
     ];
-    config.extraPlugins = 'basewidget,layoutmanager,image2,preview';
+    config.extraPlugins = 'basewidget,layoutmanager';
     //config.extraPlugins = "layoutmanager";
     //config.extraPlugins= 'image2';
     config.layoutmanager_loadbootstrap = true;
     config.layoutmanager_allowedContent;
     config.layoutmanager_buttonboxWidth = 58;
 
-    CKEDITOR.config.height = 250;
+    CKEDITOR.config.height = 100;
     //config.extraPlugins = 'layoutmanager';
     //config.image2_alignClasses = ['image-left', 'image-center', 'image-right'];
     //config.image2_captionedClass = 'image-captioned';

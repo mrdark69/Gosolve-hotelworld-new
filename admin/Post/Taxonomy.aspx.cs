@@ -103,6 +103,11 @@ public partial class _Taxonomy : BasePage
                         lbldatepublish.Text = tax.DatePublish.ToThaiDateTime().ToString("dd MMM yyyy HH:mm tt");
                         dropStatus.SelectedValue = tax.Status.ToString();
 
+
+
+                        txtContentBuilder.Text = tax.BodyContentBuilder;
+                        txtContent.Text = tax.BodyContent;
+
                         if (tax.Trash)
                         {
                             linktrash.Visible = true;
@@ -138,6 +143,22 @@ public partial class _Taxonomy : BasePage
                             {
                                 hd_MID.Value = cover.MID.ToString();
                                 CoverImage1.Value = this.MainSetting.WebSiteURL + cover.MediaFullPath;
+                                //hd_postMeidaID.Value = cover.PostMediaID.ToString();
+                            }
+
+                            Model_TaxMedia feature = tax.TaxMedia.FirstOrDefault(r => r.TaxID == TaxID && r.TaxMediaTypeID == TaxMediaType.FeatureImage);
+                            if (feature != null)
+                            {
+                                feature_image_mid.Value = feature.MID.ToString();
+                                feature_image_url.Value = this.MainSetting.WebSiteURL + feature.MediaFullPath;
+                                //hd_postMeidaID.Value = cover.PostMediaID.ToString();
+                            }
+
+                            Model_TaxMedia feature_full = tax.TaxMedia.FirstOrDefault(r => r.TaxID == TaxID && r.TaxMediaTypeID == TaxMediaType.Feature_Image_full_Width);
+                            if (feature_full != null)
+                            {
+                                image_full_width_mid.Value = feature_full.MID.ToString();
+                                image_full_width_url.Value = this.MainSetting.WebSiteURL + feature_full.MediaFullPath;
                                 //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                             }
                         }
@@ -229,7 +250,8 @@ public partial class _Taxonomy : BasePage
             Title = txtTitle.Text.Trim(),
             RefID = Taxref,
             Slug = slug.Text.GenerateSlug(),
-          
+            BodyContent = txtContent.Text.Trim(),
+            BodyContentBuilder = txtContentBuilder.Text.Trim(),
             Status = bool.Parse(dropStatus.SelectedValue),
             BannerTypeID = byte.Parse(CoverType.Value),
             ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
@@ -301,6 +323,60 @@ public partial class _Taxonomy : BasePage
             pm.DeleteTaxMedia(pm);
         }
 
+
+        //Feature image 
+        if (!string.IsNullOrEmpty(feature_image_mid.Value))
+        {
+            Model_TaxMedia pm = new Model_TaxMedia
+            {
+
+                TaxMediaTypeID = TaxMediaType.FeatureImage,
+                TaxID = TaxID,
+                MID = int.Parse(feature_image_mid.Value)
+            };
+
+            pm.insertMediaPost(pm);
+        }
+        else
+        {
+            Model_TaxMedia pm = new Model_TaxMedia
+            {
+
+                TaxMediaTypeID = TaxMediaType.FeatureImage,
+                TaxID = TaxID
+
+            };
+
+            pm.DeleteTaxMedia(pm);
+        }
+
+        //Feature image full 
+        if (!string.IsNullOrEmpty(feature_image_mid.Value))
+        {
+            Model_TaxMedia pm = new Model_TaxMedia
+            {
+
+                TaxMediaTypeID = TaxMediaType.Feature_Image_full_Width,
+                TaxID = TaxID,
+                MID = int.Parse(image_full_width_mid.Value)
+            };
+
+            pm.insertMediaPost(pm);
+        }
+        else
+        {
+            Model_TaxMedia pm = new Model_TaxMedia
+            {
+
+                TaxMediaTypeID = TaxMediaType.Feature_Image_full_Width,
+                TaxID = TaxID
+
+            };
+
+            pm.DeleteTaxMedia(pm);
+        }
+
+
         bool ret = tax.UpdateTaxonomy(tax);
         if (ret)
             Response.Redirect("Taxonomy.aspx?TaxTypeID=" + this.TaxTypeID + "&PostTypeID=" + this.PostTypeID + "&Mode=Edit&TaxID=" + TaxID);
@@ -329,10 +405,13 @@ public partial class _Taxonomy : BasePage
             DateSubmit = DatetimeHelper._UTCNow(),
             UserID = this.UserActive.UserID,
             DatePublish = DatetimeHelper._UTCNow(),
+            BodyContent = txtContent.Text.Trim(),
+            BodyContentBuilder = txtContentBuilder.Text.Trim(),
             Status = true,
             BannerTypeID = byte.Parse(CoverType.Value),
             ShowMasterSlider = bool.Parse(radioshowmMS.SelectedValue),
-            ViewCount = 0
+            ViewCount = 0,
+            
         };
 
         int TaxID = tax.InsertTaxonomy(tax);

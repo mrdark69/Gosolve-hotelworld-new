@@ -206,7 +206,7 @@ public partial class _Default : Page
                             
                             break; 
                     }
-                    HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
+                    HeaderSection.Text = GenerateHeaderBannerAndSlider(post, tax);
                 }
                 else
                 {
@@ -234,10 +234,7 @@ public partial class _Default : Page
 
                 }
 
-
-
-
-               
+                
                 // content.Text = post.BodyContent;
 
 
@@ -304,7 +301,7 @@ public partial class _Default : Page
         return string.Empty;
     }
 
-    private string GenerateHeaderBannerAndSlider(Model_Post post)
+    private string GenerateHeaderBannerAndSlider(Model_Post post, Model_PostTaxonomy tax = null)
     {
         string ret = string.Empty;
 
@@ -321,8 +318,17 @@ public partial class _Default : Page
         {
             //case Archive Page 
             // Can display Title postype name only.
-
-            ret = breadcrumb(2);
+            if(tax != null)
+            {
+                if (tax.ShowMasterSlider)
+                    ret = Slider();
+                else
+                    ret = breadcrumb(tax.BannerTypeID);
+            }else
+            {
+                ret = breadcrumb(2);
+            }
+           
 
         }
         

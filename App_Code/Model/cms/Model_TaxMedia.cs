@@ -18,6 +18,7 @@ public enum TaxMediaType : byte
 {
     CoverImage = 1,
     FeatureImage = 2,
+    Feature_Image_full_Width = 3
    
 }
 public class Model_TaxMedia : BaseModel<Model_TaxMedia>
@@ -27,7 +28,8 @@ public class Model_TaxMedia : BaseModel<Model_TaxMedia>
     public TaxMediaType TaxMediaTypeID { get; set; }
     public int TaxID { get; set; }
     public int MID { get; set; }
-
+    public int Priority { get; set; } = 1;
+    public string Caption { get; set; } = string.Empty;
 
     public string Title { get; set; }
     public string Alt { get; set; }
@@ -62,12 +64,14 @@ public class Model_TaxMedia : BaseModel<Model_TaxMedia>
 
             ExecuteNonQuery(cmddel);
 
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO TaxonomyMedia (TaxMediaTypeID,TaxID,MID) VALUES(@TaxMediaTypeID,@TaxID,@MID) ", cn);
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO TaxonomyMedia (TaxMediaTypeID,TaxID,MID,Priority,Caption) VALUES(@TaxMediaTypeID,@TaxID,@MID,@Priority,@Caption) ", cn);
             cmd.Parameters.Add("@TaxMediaTypeID", SqlDbType.TinyInt).Value = mp.TaxMediaTypeID;
             cmd.Parameters.Add("@TaxID", SqlDbType.TinyInt).Value = mp.TaxID;
             cmd.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
+            cmd.Parameters.Add("@Priority", SqlDbType.TinyInt).Value = mp.Priority;
+            cmd.Parameters.Add("@Caption", SqlDbType.NVarChar).Value = mp.Caption;
 
-           
+
             return ExecuteNonQuery(cmd);
           
         }

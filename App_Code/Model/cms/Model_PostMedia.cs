@@ -18,7 +18,8 @@ public enum PostMediaType : byte
 {
     CoverImage = 1,
     FeatureImage = 2,
-    Gallery = 3
+    Gallery = 3,
+    Feature_Image_full_Width = 4
 
 }
 public class Model_PostMedia : BaseModel<Model_PostMedia>
@@ -29,6 +30,7 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
     public int PostID { get; set; }
     public int MID { get; set; }
     public int Priority { get; set; } = 1;
+    public string Caption { get; set; } = string.Empty;
 
 
     public string Title { get; set; }
@@ -53,11 +55,12 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostMedia (PostMediaTypeID,PostID,MID,Priority) VALUES(@PostMediaTypeID,@PostID,@MID,@Priority) ", cn);
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostMedia (PostMediaTypeID,PostID,MID,Priority,Caption) VALUES(@PostMediaTypeID,@PostID,@MID,@Priority,@Caption) ", cn);
             cmd.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = mp.PostMediaTypeID;
             cmd.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = mp.PostID;
             cmd.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
             cmd.Parameters.Add("@Priority", SqlDbType.TinyInt).Value = mp.Priority;
+            cmd.Parameters.Add("@Caption", SqlDbType.NVarChar).Value = mp.Caption;
             cn.Open();
             return ExecuteNonQuery(cmd);
 
@@ -78,12 +81,14 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
 
             ExecuteNonQuery(cmddel);
 
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostMedia (PostMediaTypeID,PostID,MID) VALUES(@PostMediaTypeID,@PostID,@MID) ", cn);
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostMedia (PostMediaTypeID,PostID,MID,Priority,Caption) VALUES(@PostMediaTypeID,@PostID,@MID,@Priority,@Caption) ", cn);
             cmd.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = mp.PostMediaTypeID;
             cmd.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = mp.PostID;
             cmd.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
+            cmd.Parameters.Add("@Priority", SqlDbType.TinyInt).Value = mp.Priority;
+            cmd.Parameters.Add("@Caption", SqlDbType.NVarChar).Value = mp.Caption;
 
-           
+
             return ExecuteNonQuery(cmd);
           
         }

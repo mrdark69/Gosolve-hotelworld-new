@@ -139,7 +139,8 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
     public byte BannerTypeID { get; set; }
     public bool ShowMasterSlider { get; set; }
     public int ViewCount { get; set; }
-
+    public string BodyContent { get; set; }
+    public string BodyContentBuilder { get; set; }
 
     public int Lv { get; set; }
     public int Priority { get; set; }
@@ -221,7 +222,7 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"UPDATE PostTaxonomy SET  Slug=@Slug,Title=@Title,RefID=@RefID,Status=@Status,
+            SqlCommand cmd = new SqlCommand(@"UPDATE PostTaxonomy SET  Slug=@Slug,Title=@Title,RefID=@RefID,Status=@Status,BodyContent=@BodyContent,BodyContentBuilder=@BodyContentBuilder,
                         BannerTypeID=@BannerTypeID,ShowMasterSlider=@ShowMasterSlider,ViewCount=@ViewCount,Lv=@Lv,Priority=@Priority 
                 WHERE TaxID=@TaxID", cn);
 
@@ -242,7 +243,8 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
             cmd.Parameters.Add("@Lv", SqlDbType.Int).Value = tax.Lv;
             cmd.Parameters.Add("@Priority", SqlDbType.Int).Value = tax.Priority;
 
-
+            cmd.Parameters.Add("@BodyContent", SqlDbType.NVarChar).Value = tax.BodyContent;
+            cmd.Parameters.Add("@BodyContentBuilder", SqlDbType.NVarChar).Value = tax.BodyContentBuilder;
             cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = tax.TaxID;
 
 
@@ -256,8 +258,10 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
         int ret = 0;
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostTaxonomy (TaxTypeID,PostTypeID,Slug,Title,RefID,Status,DateSubmit,UserID,DatePublish,BannerTypeID,ShowMasterSlider,ViewCount,Lv,Priority) 
-VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@DatePublish,@BannerTypeID,@ShowMasterSlider,@ViewCount,@Lv,@Priority) SET @TaxID = SCOPE_IDENTITY()", cn);
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostTaxonomy (TaxTypeID,PostTypeID,Slug,Title,RefID,Status,DateSubmit,UserID,DatePublish,BannerTypeID,
+ShowMasterSlider,ViewCount,Lv,Priority,BodyContent,BodyContentBuilder) 
+VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@DatePublish,
+@BannerTypeID,@ShowMasterSlider,@ViewCount,@Lv,@Priority,@BodyContent,@BodyContentBuilder) SET @TaxID = SCOPE_IDENTITY()", cn);
 
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = tax.TaxTypeID;
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = tax.PostTypeID;
@@ -266,7 +270,8 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
             cmd.Parameters.Add("@RefID", SqlDbType.Int).Value = tax.RefID;
             cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = tax.Status;
 
-
+            cmd.Parameters.Add("@BodyContent", SqlDbType.NVarChar).Value = tax.BodyContent;
+            cmd.Parameters.Add("@BodyContentBuilder", SqlDbType.NVarChar).Value = tax.BodyContentBuilder;
 
             cmd.Parameters.Add("DateSubmit", SqlDbType.SmallDateTime).Value = tax.DateSubmit;
             cmd.Parameters.Add("UserID", SqlDbType.Int).Value = tax.UserID;

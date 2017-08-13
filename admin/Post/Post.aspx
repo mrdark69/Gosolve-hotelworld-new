@@ -69,7 +69,11 @@
        .lightBoxGallery{
            height:auto !important;
        }
-
+       .gs-panel-body{
+           background-color:#f3f3f4 !important;
+           outline: 14px solid #fff; 
+            outline-offset: -15px; 
+       }
       
    </style>
 </asp:Content>
@@ -87,190 +91,275 @@
                </ul>
                <div class="tab-content">
                   <div id="tab-1" class="tab-pane active">
-                     <div class="panel-body" id="tab_custom_gs">
+                     <div class="panel-body gs-panel-body" id="tab_custom_gs">
+                         <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+
+                             </div>
+                             <div class="ibox-content">
+                                 <div class="form">
+
+                                     <div class="form-group">
+                                        <label class=" control-label">permarlink</label>
+                                        <div >
+                                           <asp:Label ID="url" style="display: inline-block;" runat="server"></asp:Label>
+                                           <asp:TextBox ID="slug" style="display: inline-block;
+                                              width: 30%;" CssClass="form-control" runat="server"></asp:TextBox>
+                                           <asp:RequiredFieldValidator runat="server" ControlToValidate="slug"
+                                              CssClass="text-danger" ErrorMessage="The slug field is required." />
+                                        </div>
+                                     </div>
+                                     <div class="form-group">
+                                        <label class=" control-label">Title</label>
+                                        <div >
+                                           <asp:TextBox ID="txtTitle" CssClass="form-control" runat="server"></asp:TextBox>
+                                           <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle"
+                                              CssClass="text-danger" ErrorMessage="The Title field is required." />
+                                        </div>
+                                     </div>
+
+                                 </div>
+                             </div>
+                         </div>
+
+                        <%-- Home Group Custom Panel--%>
+                        <asp:Panel ID="pn_home_custom" runat="server" Visible="false">
+
                         <div class="ibox float-e-margins">
-                           <div class="ibox-content">
-                              <div  class="form">
-                                 <div class="form-group">
-                                    <label class=" control-label">permarlink</label>
-                                    <div >
-                                       <asp:Label ID="url" style="display: inline-block;" runat="server"></asp:Label>
-                                       <asp:TextBox ID="slug" style="display: inline-block;
-                                          width: 30%;" CssClass="form-control" runat="server"></asp:TextBox>
-                                       <asp:RequiredFieldValidator runat="server" ControlToValidate="slug"
-                                          CssClass="text-danger" ErrorMessage="The slug field is required." />
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label class=" control-label">Title</label>
-                                    <div >
-                                       <asp:TextBox ID="txtTitle" CssClass="form-control" runat="server"></asp:TextBox>
-                                       <asp:RequiredFieldValidator runat="server" ControlToValidate="txtTitle"
-                                          CssClass="text-danger" ErrorMessage="The Title field is required." />
-                                    </div>
-                                 </div>
+                            <div class="ibox-title">
 
-                                 <%-- Home Group Custom Panel--%>
-                                  <asp:Panel ID="pn_home_custom" runat="server" Visible="false">
-
-                                 
-                                 <div class="hr-line-dashed"></div>
-                                   <div class="form-group">
-                                       <div class="col-md-6">
-                                            <label class=" control-label">Banner Announcement</label>
-                                           <asp:TextBox ID="banner_home_1"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"  runat="server"></asp:TextBox>
-                                                <div class="media_item_box box_media_fucus_block_full_width" id="media_item_box_6" style="margin-top:5px;">
-                                                <label>No Media selected</label>
-                                                <button id="addimg6" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
-                                                <asp:HiddenField ID="b1_url"   runat="server" ClientIDMode="Static" />
-                                              <asp:HiddenField ID="b1_id"   runat="server" ClientIDMode="Static" />
+                            </div>
+                            <div class="ibox-content">
+                                <div class="form">
+                                    <div class="form-group">
+                                    <div class="col-md-6">
+                                        <label class=" control-label">Banner Announcement</label>
+                                        <asp:TextBox ID="banner_home_1"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"  runat="server"></asp:TextBox>
+                                            <div class="media_item_box box_media_fucus_block_full_width" id="media_item_box_6" style="margin-top:5px;">
+                                            <label>No Media selected</label>
+                                            <button id="addimg6" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                            <asp:HiddenField ID="b1_url"   runat="server" ClientIDMode="Static" />
+                                            <asp:HiddenField ID="b1_id"   runat="server" ClientIDMode="Static" />
                                                 
-                                            </div>
-                                       </div>
-                                         <div class="col-md-6">
-                                            <label class=" control-label">Banner Rigth</label>
-                                             <asp:TextBox ID="banner_home_2"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"   runat="server"></asp:TextBox>
-                                            <div class="media_item_box" id="media_item_box_7"  style="margin-top:5px;">
-                                                <label>No Media selected</label>
-                                                <button id="addimg7" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
-                                                <asp:HiddenField ID="b2_url"   runat="server" ClientIDMode="Static" />
-                                              <asp:HiddenField ID="b2_id"   runat="server" ClientIDMode="Static" />
-                                                
-                                            </div>
-                                       </div>
+                                        </div>
                                     </div>
-                                  <div style="clear:both"></div>
+                                        <div class="col-md-6">
+                                        <label class=" control-label">Banner Rigth</label>
+                                            <asp:TextBox ID="banner_home_2"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"   runat="server"></asp:TextBox>
+                                        <div class="media_item_box" id="media_item_box_7"  style="margin-top:5px;">
+                                            <label>No Media selected</label>
+                                            <button id="addimg7" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                            <asp:HiddenField ID="b2_url"   runat="server" ClientIDMode="Static" />
+                                            <asp:HiddenField ID="b2_id"   runat="server" ClientIDMode="Static" />
+                                                
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
 
-                                   <div class="hr-line-dashed"></div>
+                                        <div style="clear:both"></div>
+                            </div>
+                                                
+                        </div>
+                                              
+                            <div class="ibox float-e-margins">
+                            <div class="ibox-title">
 
-                            
-                                <asp:DropDownList  ID="drop_b_client_ret" ClientIDMode="Static" style="display:none;" runat="server"></asp:DropDownList>
-                                        <div class="form-group" runat="server" id="Div3" >
-                                            <label class=" control-label">Banner Client</label>
+                            </div>
+                                <div class="ibox-content">
+                                        <div class="form">
+                        <asp:DropDownList  ID="drop_b_client_ret" ClientIDMode="Static" style="display:none;" runat="server"></asp:DropDownList>
+                                    <div class="form-group" runat="server" id="Div3" >
+                                        <label class=" control-label">Banner Client</label>
                                     <div> 
-                                      <table class="table" id="add-row-social" >
-                                          <thead>
-                                              <tr>
-                                                 <td>Caption</td>
-                                                  <td>Media</td>
-                                                 <td>Remove Row</td>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
+                                    <table class="table" id="add-row-social" >
+                                        <thead>
+                                            <tr>
+                                                <td>Caption</td>
+                                                <td>Media</td>
+                                                <td>Remove Row</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                                
-                                          </tbody>
-                                      </table>
+                                        </tbody>
+                                    </table>
 
-                                        <button id="addrow" type="button" class="btn btn-success btn-xs">Add Row</button>
+                                    <button id="addrow" type="button" class="btn btn-success btn-xs">Add Row</button>
                                     </div>
                                    
                                 </div>
-                                   <div style="clear:both"></div>
+                                    </div>
 
-                                       </asp:Panel>
-                                       <%-- Home Group Custom Panel--%>
+                                    <div style="clear:both"></div>
+                            </div>
+
+                        <div style="clear:both"></div>
+                    </div>
+
+                            
+                    </asp:Panel>
+                        <%-- Home Group Custom Panel--%>
 
 
-                               <%--   Product PostType panel--%>
-                                  <asp:Panel ID="pn_product_default" runat="server" Visible="false">
-                                      <div class="hr-line-dashed"></div>
-                                      <div class="form-group" style="max-height:400px;overflow-y:scroll;">
-                                           <label><i class="fa fa-bookmark" aria-hidden="true"></i>Product Gallery</label>
-                                           <button id="btnaddmedia" type="button" data-multiSel="true" class="addmedia-gallery btn btn-success" data-target="txtContent">Add Media</button>
-                                          <div class="lightBoxGallery" id="lightBoxGallery_post_gal">
+                    <%--   Product PostType panel--%>
+                        <asp:Panel ID="pn_product_default" runat="server" Visible="false">
+
+
+                            <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+                               <h5><i class="fa fa-bookmark" aria-hidden="true"></i> Product Gallery</h5> 
+                             </div>
+                              <div class="ibox-content">
+                                   <div class="form">
+                                        <div class="form-group" style="max-height:400px;overflow-y:scroll;">
+                                <%--<label></label>--%>
+                                <button id="btnaddmedia" type="button" data-multiSel="true" class="addmedia-gallery btn btn-success" data-target="txtContent">Add Media</button>
+                                <div class="lightBoxGallery" id="lightBoxGallery_post_gal">
                                               
 
                                               
-                                              <asp:Literal ID="gal_server" runat="server"></asp:Literal>
+                                    <asp:Literal ID="gal_server" runat="server"></asp:Literal>
                                               
 
-                                            </div>
+                                </div>
 
-                                          <div style="clear:both"></div>
-                                      </div>
-
-
-
-
-                                      <div class="hr-line-dashed"></div>
-                                      <div class="form-group">
-                                          <div class="col-md-6">
-                                              <label><i class="fa fa-bookmark" aria-hidden="true"></i>Product Category</label>
-                                                <div style="max-height:400px;overflow-y:scroll;display:block;
+                                <div style="clear:both"></div>
+                            </div>
+                                   </div>
+                                  
+                            
+                            <div style="clear:both"></div>
+                              </div>
+                        </div>
+                           
+                            <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+                                 <h5><i class="fa fa-bookmark" aria-hidden="true"></i> Category And Tags</h5> 
+                             </div>
+                              <div class="ibox-content">
+                                   <div class="form">
+                                       <div class="form-group">
+                                <div class="col-md-6">
+                                    <label><i class="fa fa-bookmark" aria-hidden="true"></i>Product Category</label>
+                                    <div style="max-height:400px;overflow-y:scroll;display:block;
 background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
 
-                                                    <asp:Literal ID="CategoryTax" runat="server"></asp:Literal>
-                                                    <%--<asp:CheckBoxList ID="CategoryTax" runat="server" RepeatLayout="Table" RepeatDirection="Vertical" />--%>
-                                                </div>
-                                          </div>
-                                           <div class="col-md-6">
-                                               <label><i class="fa fa-tags" aria-hidden="true"></i>Product Tags</label>
-                                               <div style="max-height:400px;overflow-y:scroll;display:block;background-color:#f3f3f4;
-                                border:1px solid #e1e1e1;padding:20px;">
-                                                   <asp:Literal ID="TagsTax" runat="server"></asp:Literal>
+                                        <asp:Literal ID="CategoryTax" runat="server"></asp:Literal>
+                                        <%--<asp:CheckBoxList ID="CategoryTax" runat="server" RepeatLayout="Table" RepeatDirection="Vertical" />--%>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label><i class="fa fa-tags" aria-hidden="true"></i>Product Tags</label>
+                                    <div style="max-height:400px;overflow-y:scroll;display:block;background-color:#f3f3f4;
+                    border:1px solid #e1e1e1;padding:20px;">
+                                        <asp:Literal ID="TagsTax" runat="server"></asp:Literal>
                                                    
-                                               </div>
+                                    </div>
                                      
 
-                                           </div>
-                                      </div>
-                                        <div style="clear:both"></div>
-                                      </asp:Panel>
-                                    <%--   Product PostType panel--%>
+                                </div>
+                            </div>
+                                   </div>
+                                  
 
 
-                                 <%-- Product Group Custom Panel--%>
-                                  <asp:Panel ID="pn_product_custom" runat="server" Visible="false">
+
+                            
+                            
+                            <div style="clear:both"></div>
+                              </div>
+                        </div>
+
+                            </asp:Panel>
+                        <%--   Product PostType panel--%>
+
+
+                    <%-- Product Group Custom Panel--%>
+                    <asp:Panel ID="pn_product_custom" runat="server" Visible="false">
                                       
-
-
-                                       <div class="hr-line-dashed"></div>
+                        <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+                                  <h5><i class="fa fa-bookmark" aria-hidden="true"></i> Product Details</h5> 
+                             </div>
+                              <div class="ibox-content">
+                                   <div class="form">
                                        <div class="form-group">
-                                            <label class=" control-label">Product Detail</label>
-                                           <asp:TextBox ID="ProductDetail"  ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
-                                       </div>
-                                       <div class="hr-line-dashed"></div>
-                                       <div class="form-group">
-                                            <label class=" control-label">Product Information</label>
-                                           <asp:TextBox ID="ProductInformation"  ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
-                                       </div>
+                                    
+                                        <asp:TextBox ID="ProductDetail"  ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                    </div>
+                                   </div>
+                              </div>
+                        </div>
 
-                                      <div class="form-group">
-                                       <div class="col-md-6">
+                        <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+                                 <h5><i class="fa fa-bookmark" aria-hidden="true"></i> Product Information</h5> 
+                             </div>
+                              <div class="ibox-content">
+                                   <div class="form">
+                                        <div class="form-group">
+                                         
+                                            <asp:TextBox ID="ProductInformation"  ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+                                        </div>
+                                   </div>
+                              </div>
+                        </div>
+
+              
+                        
+                      <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+                                   <h5><i class="fa fa-bookmark" aria-hidden="true"></i> Banner </h5> 
+                             </div>
+                              <div class="ibox-content">
+                                   <div class="form">
+                                       <div class="form-group">
+                                        <div class="col-md-6">
                                             <label class=" control-label">Banner Announcement</label>
-                                           <asp:TextBox ID="p_banner_ann_caption"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"  runat="server"></asp:TextBox>
+                                            <asp:TextBox ID="p_banner_ann_caption"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"  runat="server"></asp:TextBox>
                                                 <div class="media_item_box" id="media_item_box_8" style="margin-top:5px;">
                                                 <label>No Media selected</label>
                                                 <button id="addimg8" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
                                                 <asp:HiddenField ID="p_banner_ann_8"   runat="server" ClientIDMode="Static" />
-                                              <asp:HiddenField ID="p_banner_ann_mid_8"   runat="server" ClientIDMode="Static" />
+                                                <asp:HiddenField ID="p_banner_ann_mid_8"   runat="server" ClientIDMode="Static" />
                                                 
                                             </div>
-                                       </div>
-                                         <div class="col-md-6">
+                                        </div>
+                                            <div class="col-md-6">
                                             <label class=" control-label">Banner Rigth</label>
-                                             <asp:TextBox ID="p_banner_rigth"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"   runat="server"></asp:TextBox>
+                                                <asp:TextBox ID="p_banner_rigth"  ClientIDMode="Static" placeholder="Caption" CssClass="form-control"   runat="server"></asp:TextBox>
                                             <div class="media_item_box" id="media_item_box_9"  style="margin-top:5px;">
                                                 <label>No Media selected</label>
                                                 <button id="addimg9" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
                                                 <asp:HiddenField ID="p_banner_9"   runat="server" ClientIDMode="Static" />
-                                              <asp:HiddenField ID="p_banner_mid_9"   runat="server" ClientIDMode="Static" />
+                                                <asp:HiddenField ID="p_banner_mid_9"   runat="server" ClientIDMode="Static" />
                                                 
                                             </div>
-                                       </div>
+                                        </div>
                                     </div>
-                                  <div style="clear:both"></div>
+                                   </div>
+                                     <div style="clear:both"></div>
+                              </div>
+                        </div>
+                       
+
+                        
+                 
 
                                   
 
-                                  </asp:Panel>
-                                    <%-- Product Group Custom Panel--%>
+                    </asp:Panel>
+                    <%-- Product Group Custom Panel--%>
 
-                                 <div class="hr-line-dashed"></div>
-
-
-                                 <div class="form-group" id="main_post_content" runat="server">
-                                    <label class=" control-label">Content</label>
+                         <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+                                  <h5><i class="fa fa-bookmark" aria-hidden="true"></i> Content </h5> 
+                             </div>
+                              <div class="ibox-content">
+                                   <div class="form">
+                                       <div class="form-group" id="main_post_content" runat="server">
+                                   
                                     <div>
                                        <%--<span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>--%>
                                       
@@ -284,9 +373,12 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                                         <iframe id="iframcontent" style="width:100%;height:600px;border:1px solid #e7eaec;" src="/admin/Post/Contentbuilder?ve=00ssssss"></iframe>
                                     </div>
                                  </div>
+                                   </div>
                               </div>
-                           </div>
                         </div>
+
+                                 
+                          
                      </div>
                   </div>
                   <div id="tab-2" class="tab-pane ">

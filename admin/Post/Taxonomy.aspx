@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Taxonomy.aspx.cs" Inherits="_Taxonomy" %>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" validateRequest="false" AutoEventWireup="true" CodeFile="Taxonomy.aspx.cs" Inherits="_Taxonomy" %>
 <asp:Content ID="HeaderScript" ContentPlaceHolderID="HeaderScript" runat="server">
    <style type="text/css">
       .modal-dialog {
@@ -29,6 +29,12 @@
       .media_item_box label{
       font-weight:normal;
       }
+        .gs-panel-body{
+           background-color:#f3f3f4 !important;
+           outline: 14px solid #fff; 
+            outline-offset: -15px; 
+       }
+      
    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -46,7 +52,7 @@
                </ul>
                <div class="tab-content">
                   <div id="tab-1" class="tab-pane active">
-                     <div class="panel-body">
+                     <div class="panel-body gs-panel-body">
                         <div class="ibox float-e-margins">
                            <div class="ibox-content">
                               <div  class="form">
@@ -72,6 +78,62 @@
                                  
                               </div>
                            </div>
+                        </div>
+
+                         <div class="ibox float-e-margins">
+                               <div class="ibox-title">
+                                  <h5>Banner Up Sale</h5>
+                                  <div class="ibox-tools">
+                                  </div>
+                               </div>
+                               <div class="ibox-content">
+
+                                   <div class="col-md-4">
+                                       <div class="form-group">
+                                  <%--  <label class=" control-label">Cover Image</label>--%>
+                                    <div class="media_item_box" id="media_item_box_13">
+                                        <label>No Media selected</label>
+                                        <button id="addimg13" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                                        <asp:HiddenField ID="banner_upsale_url"   runat="server" ClientIDMode="Static" />
+                                      <asp:HiddenField ID="banner_upsale_mid"   runat="server" ClientIDMode="Static" />
+                                        <%--<asp:HiddenField ID="hd_postMeidaID"   runat="server" ClientIDMode="Static" />--%>
+                                    </div>
+                                    </div>
+                                   </div>
+                                    <div class="col-md-8">
+                                        <label>Cation</label><br />
+                                        <asp:TextBox ID="textCationUpsale" ClientIDMode="Static" runat="server" TextMode="MultiLine" Rows="4"></asp:TextBox>
+                                   </div>
+                                   <div style="clear:both"></div>
+                  
+               
+                  
+                               </div>
+                            </div>
+
+                         <div class="ibox float-e-margins">
+                             <div class="ibox-title">
+                                  <h5><i class="fa fa-bookmark" aria-hidden="true"></i> Content </h5> 
+                             </div>
+                              <div class="ibox-content">
+                                   <div class="form">
+                                       <div class="form-group" id="main_post_content" runat="server">
+                                   
+                                    <div>
+                                       <%--<span class="help-block m-b-none">A block of help text that breaks onto a new line and may extend beyond one line.</span>--%>
+                                      
+                                        <%--<a href="#" id="btnfullcontent" class=" btn btn-success" >Full Screen</a>--%>
+                                       <%-- <asp:Literal ID="txtContent" runat="server"></asp:Literal>--%>
+                                        
+                                       <asp:TextBox ID="txtContent" style="display:none;" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+
+                                        <asp:TextBox ID="txtContentBuilder" style="display:none;" ClientIDMode="Static" CssClass="form-control" Rows="20" TextMode="MultiLine" runat="server"></asp:TextBox>
+
+                                        <iframe id="iframcontent" style="width:100%;height:600px;border:1px solid #e7eaec;" src="/admin/Post/Contentbuilder?ve=00ssssss"></iframe>
+                                    </div>
+                                 </div>
+                                   </div>
+                              </div>
                         </div>
                      </div>
                   </div>
@@ -240,6 +302,52 @@
                </div>
             </div>
 
+             <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                  <h5>Feature Image</h5>
+                  <div class="ibox-tools">
+                  </div>
+               </div>
+               <div class="ibox-content">
+
+                   <div class="form-group">
+                   <%-- <label class=" control-label">Cover Image</label>--%>
+                    <div class="media_item_box" id="media_item_box_10">
+                        <label>No Media selected</label>
+                        <button id="addimg10" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                        <asp:HiddenField ID="feature_image_url"   runat="server" ClientIDMode="Static" />
+                      <asp:HiddenField ID="feature_image_mid"   runat="server" ClientIDMode="Static" />
+                        <%--<asp:HiddenField ID="hd_postMeidaID"   runat="server" ClientIDMode="Static" />--%>
+                    </div>
+                    </div>
+               
+                  
+               </div>
+            </div>
+
+             <div class="ibox float-e-margins">
+               <div class="ibox-title">
+                  <h5>Main Image full-width</h5>
+                  <div class="ibox-tools">
+                  </div>
+               </div>
+               <div class="ibox-content">
+
+                   <div class="form-group">
+                  <%--  <label class=" control-label">Cover Image</label>--%>
+                    <div class="media_item_box" id="media_item_box_12">
+                        <label>No Media selected</label>
+                        <button id="addimg12" type="button" class="addmedia btn btn-success btn-xs">Add Media</button>
+                        <asp:HiddenField ID="image_full_width_url"   runat="server" ClientIDMode="Static" />
+                      <asp:HiddenField ID="image_full_width_mid"   runat="server" ClientIDMode="Static" />
+                        <%--<asp:HiddenField ID="hd_postMeidaID"   runat="server" ClientIDMode="Static" />--%>
+                    </div>
+                    </div>
+                  
+               
+                  
+               </div>
+            </div>
             <div class="ibox float-e-margins">
                <div class="ibox-title">
                   <h5>Pages Cover</h5>
@@ -302,7 +410,7 @@
    </div>
 </asp:Content>
 <asp:Content ID="FooterScript" ContentPlaceHolderID="ContentFooter" runat="server">
-   <script src="/admin/Application/app.media.js?ver=22ssssssuuiiss"></script>
+  
    <%--<script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>--%>
    <script src="/Scripts/theme/plugins/ckeditor/ckeditor.js"></script>
   
@@ -311,9 +419,19 @@
        $(document).ready(function () {
 
 
-          // CKEDITOR.replace('txtContent');
+           CKEDITOR.replace('textCationUpsale',{
+               customConfig: 'custom_config.js'
+           });
 
+           $('#btnfullcontent').on('click', function () {
+               $("#iframcontent").contents().find("#full_exit").toggleClass('class-hidden-full');
+               //$('#full_exit', children.document).toggleClass('class-hidden-full');
 
+               $('#iframcontent').toggleClass('positionAbsolute');
+               $('#tab_custom_gs').toggleClass('positionIgnored');
+               $('#ele_custom_gs').toggleClass('positionIgnored');
+
+           });
 
        });
 
@@ -322,4 +440,6 @@
        }
 
    </script>
+
+      <script src="/admin/Application/app.media.js?ver=22ssssssuuiiss"></script>
 </asp:Content>
