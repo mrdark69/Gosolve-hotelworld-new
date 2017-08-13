@@ -205,6 +205,39 @@
                     <%--   Product PostType panel--%>
                         <asp:Panel ID="pn_product_default" runat="server" Visible="false">
 
+                               <div class="ibox float-e-margins">
+                                     <div class="ibox-title">
+                                          <h5><i class="fa fa-bookmark" aria-hidden="true"></i> Product Information</h5> 
+                                           </div>
+                                   <div class="ibox-content">
+                                       <div class="form">
+                                           <div class="col-md-4">
+                                                <label><i class="fa fa-bookmark" aria-hidden="true"></i> Product Code</label>
+                                               <div class="form-group">
+                                    
+                                        <asp:TextBox ID="txtProductCode"  ClientIDMode="Static" CssClass="form-control"  runat="server"></asp:TextBox>
+                                    </div>
+                                           </div>
+                                            <div class="col-md-4">
+                                                 <label><i class="fa fa-bookmark" aria-hidden="true"></i> Product Quantity</label>
+                                                <div class="form-group">
+                                    
+                                        <asp:TextBox ID="txtProductQuantity"  ClientIDMode="Static" CssClass="form-control"  runat="server"></asp:TextBox>
+                                    </div>
+                                           </div>
+                                            <div class="col-md-4">
+                                                 <label><i class="fa fa-bookmark" aria-hidden="true"></i> Product Price</label>
+                                                <div class="form-group">
+                                    
+                                        <asp:TextBox ID="txtProductPrice"  ClientIDMode="Static" CssClass="form-control"  runat="server"></asp:TextBox>
+                                    </div>
+                                           </div>
+
+                                           <div style="clear:both"></div>
+                                           </div>
+                                       </div>
+                                   </div>
+
 
                             <div class="ibox float-e-margins">
                              <div class="ibox-title">

@@ -33,7 +33,12 @@ public enum ProductCustom_PostTypID_1 : int
     product_detail = 1,
     product_information =2,
     product_b_announce =3,
-    product_b_rigth=4
+    product_b_rigth=4,
+    product_code =5,
+    product_quantity = 6,
+    product_price_per_unit = 7
+
+        
 
 }
 
@@ -107,6 +112,10 @@ public class Model_PostCustomItem : BaseModel<Model_PostCustomItem>
     public string Embbed { get; set; }
     public string MapTag { get; set; }
 
+    public string TextData { get; set; }
+    public decimal? PriceData { get; set; }
+    public int? NumData { get; set; }
+
     public string DropTextFile { 
             get{
             return this.Caption1 + "#" + this.URL;
@@ -142,8 +151,8 @@ public class Model_PostCustomItem : BaseModel<Model_PostCustomItem>
         int ret = 0;
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostCustomItem (PCDID,PostID,PcName,PcGroupName,MID,Slug,Caption1,Caption2,URL,ContentHTML,ExtraLink,Embbed,MapTag) 
-VALUES(@PCDID,@PostID,@PcName,@PcGroupName,@MID,@Slug,@Caption1,@Caption2,@URL,@ContentHTML,@ExtraLink,@Embbed,@MapTag) SET @PCIID = SCOPE_IDENTITY()", cn);
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostCustomItem (PCDID,PostID,PcName,PcGroupName,MID,Slug,Caption1,Caption2,URL,ContentHTML,ExtraLink,Embbed,MapTag,TextData,PriceData,NumData) 
+VALUES(@PCDID,@PostID,@PcName,@PcGroupName,@MID,@Slug,@Caption1,@Caption2,@URL,@ContentHTML,@ExtraLink,@Embbed,@MapTag,@TextData,@PriceData,@NumData) SET @PCIID = SCOPE_IDENTITY()", cn);
 
             cmd.Parameters.Add("@PCDID", SqlDbType.Int).Value = item.PCDID;
             cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = item.PostID;
@@ -206,7 +215,24 @@ VALUES(@PCDID,@PostID,@PcName,@PcGroupName,@MID,@Slug,@Caption1,@Caption2,@URL,@
                 cmd.Parameters.Add("@MapTag", SqlDbType.NVarChar).Value = item.MapTag;
             else
                 cmd.Parameters.AddWithValue("@MapTag", DBNull.Value);
-          
+
+            if (!string.IsNullOrEmpty(item.TextData))
+                cmd.Parameters.Add("@TextData", SqlDbType.NVarChar).Value = item.TextData;
+            else
+                cmd.Parameters.AddWithValue("@TextData", DBNull.Value);
+
+            if (item.PriceData.HasValue)
+                cmd.Parameters.Add("@PriceData", SqlDbType.SmallMoney).Value = item.PriceData;
+            else
+                cmd.Parameters.AddWithValue("@PriceData", DBNull.Value);
+
+            if (item.NumData.HasValue)
+                cmd.Parameters.Add("@NumData", SqlDbType.Int).Value = item.NumData;
+            else
+                cmd.Parameters.AddWithValue("@NumData", DBNull.Value);
+
+
+        
 
             cmd.Parameters.Add("@PCIID", SqlDbType.Int).Direction = ParameterDirection.Output;
             cn.Open();
@@ -240,7 +266,8 @@ VALUES(@PCDID,@PostID,@PcName,@PcGroupName,@MID,@Slug,@Caption1,@Caption2,@URL,@
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand(@"UPDATE  PostCustomItem SET PCDID=@PCDID,PostID=@PostID,PcName=@PcName,MID=@MID,PcGroupName=@PcGroupName, 
-    Slug=@Slug,Caption1=@Caption1,Caption2=@Caption2,URL=@URL,ContentHTML=@ContentHTML,ExtraLink=@ExtraLink,Embbe=@Embbedd,MapTag=@MapTag 
+    Slug=@Slug,Caption1=@Caption1,Caption2=@Caption2,URL=@URL,ContentHTML=@ContentHTML,ExtraLink=@ExtraLink,Embbe=@Embbedd,MapTag=@MapTag,
+TextData=@TextData,PriceData=@PriceData,NumData=@NumData 
     WHERE PCIID=@PCIID", cn);
 
             cmd.Parameters.Add("@PCDID", SqlDbType.Int).Value = item.PCDID;
@@ -302,6 +329,23 @@ VALUES(@PCDID,@PostID,@PcName,@PcGroupName,@MID,@Slug,@Caption1,@Caption2,@URL,@
                 cmd.Parameters.Add("@MapTag", SqlDbType.NVarChar).Value = item.MapTag;
             else
                 cmd.Parameters.AddWithValue("@MapTag", DBNull.Value);
+
+
+            if (!string.IsNullOrEmpty(item.TextData))
+                cmd.Parameters.Add("@TextData", SqlDbType.NVarChar).Value = item.TextData;
+            else
+                cmd.Parameters.AddWithValue("@TextData", DBNull.Value);
+
+            if (item.PriceData.HasValue)
+                cmd.Parameters.Add("@PriceData", SqlDbType.SmallMoney).Value = item.PriceData;
+            else
+                cmd.Parameters.AddWithValue("@PriceData", DBNull.Value);
+
+            if (item.NumData.HasValue)
+                cmd.Parameters.Add("@NumData", SqlDbType.Int).Value = item.NumData;
+            else
+                cmd.Parameters.AddWithValue("@NumData", DBNull.Value);
+
 
             cmd.Parameters.Add("@PCIID", SqlDbType.Int).Value = item.PCIID;
             cn.Open();

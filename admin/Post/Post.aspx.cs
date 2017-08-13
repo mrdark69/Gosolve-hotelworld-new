@@ -195,7 +195,7 @@ public partial class _Post : BasePage
                             case "ProductGroup":
                                 pn_product_custom.Visible = true;
                                 main_post_content.Visible = false;
-                            
+
                                 //TagsTax
 
 
@@ -205,6 +205,9 @@ public partial class _Post : BasePage
                                 //product_information = 2,
                                 //product_b_announce = 3,
                                 //product_b_rigth = 4
+                                //product_code = 5,
+                                //product_quantity = 6,
+                                //product_price_per_unit = 7
 
                                 List<Model_PostCustomItem> ProductitemList = pci.CustomItem;
                                 Model_PostCustomItem PbannerAnn = ProductitemList.SingleOrDefault(r => r.PcName == "product-b-announce");
@@ -237,6 +240,24 @@ public partial class _Post : BasePage
                                 if (P_pro_info != null)
                                 {
                                     ProductInformation.Text = P_pro_info.ContentHTML;
+                                }
+
+                               
+                               //xtData = @TextData,PriceData = @PriceData,NumData = @NumData
+                                Model_PostCustomItem P_pro_code = ProductitemList.SingleOrDefault(r => r.PcName == "product-code");
+                                if (P_pro_code != null)
+                                {
+                                    txtProductCode.Text = P_pro_code.TextData;
+                                }
+                                Model_PostCustomItem P_pro_quan = ProductitemList.SingleOrDefault(r => r.PcName == "product-quantity");
+                                if (P_pro_quan != null)
+                                {
+                                    txtProductQuantity.Text = P_pro_quan.NumData.HasValue ? P_pro_quan.NumData.ToString() : string.Empty;
+                                }
+                                Model_PostCustomItem P_pro_price = ProductitemList.SingleOrDefault(r => r.PcName == "product-price-per-unit");
+                                if (P_pro_price != null)
+                                {
+                                    txtProductPrice.Text = P_pro_price.PriceData.HasValue ? ((decimal)P_pro_price.PriceData).ToString("#,###.00") : string.Empty;
                                 }
 
 
@@ -485,6 +506,11 @@ public partial class _Post : BasePage
                 cpi_1.ClearCustomByPostIDandName(intPostID, "banner-announce-right");
                 cpi_1.Insert(cpi_1);
 
+
+               
+
+
+
                 //banner
                 Model_PostCustomItem cpi_2_c = new Model_PostCustomItem();
                 cpi_2_c.ClearCustomByPostIDandName(intPostID, "banner-client");
@@ -562,6 +588,45 @@ public partial class _Post : BasePage
                 p_information.PcName = "product-information";
                 p_information.ClearCustomByPostIDandName(intPostID, "product-information");
                 p_information.Insert(p_information);
+
+
+
+
+                //Product Code
+                Model_PostCustomItem cpi_code = new Model_PostCustomItem();
+                cpi_code.PCDID = (int)CustomGroup.ProductGroup;
+                cpi_code.PostID = intPostID;
+                cpi_code.PcGroupName = "ProductGroup";
+                cpi_code.TextData = txtProductCode.Text;
+                cpi_code.PcName = "product-code";
+                cpi_code.ClearCustomByPostIDandName(intPostID, "product-code");
+                cpi_code.Insert(cpi_code);
+
+                //Product Quantity
+                Model_PostCustomItem cpi_quan = new Model_PostCustomItem();
+                cpi_quan.PCDID = (int)CustomGroup.ProductGroup;
+                cpi_quan.PostID = intPostID;
+                cpi_quan.PcGroupName = "ProductGroup";
+                cpi_quan.NumData =  string.IsNullOrEmpty(txtProductQuantity.Text)? 0: int.Parse(txtProductQuantity.Text);
+                cpi_quan.PcName = "product-quantity";
+                cpi_quan.ClearCustomByPostIDandName(intPostID, "product-quantity");
+                cpi_quan.Insert(cpi_quan);
+
+                //Product Code
+                Model_PostCustomItem cpi_price = new Model_PostCustomItem();
+                cpi_price.PCDID = (int)CustomGroup.ProductGroup;
+                cpi_price.PostID = intPostID;
+                cpi_price.PcGroupName = "ProductGroup";
+                cpi_price.PriceData = string.IsNullOrEmpty(txtProductPrice.Text) ? 0 : decimal.Parse(txtProductPrice.Text); 
+                cpi_price.PcName = "product-price-per-unit";
+                cpi_price.ClearCustomByPostIDandName(intPostID, "product-price-per-unit");
+                cpi_price.Insert(cpi_price);
+
+
+                //            product_code = 5,
+                //product_quantity = 6,
+                //product_price_per_unit = 7
+
             }
 
 
