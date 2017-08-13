@@ -18,8 +18,9 @@ public enum TaxMediaType : byte
 {
     CoverImage = 1,
     FeatureImage = 2,
-    Feature_Image_full_Width = 3
-   
+    Feature_Image_full_Width = 3,
+    Banner_Upsell = 4
+
 }
 public class Model_TaxMedia : BaseModel<Model_TaxMedia>
 {

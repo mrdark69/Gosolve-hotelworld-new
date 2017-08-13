@@ -82,7 +82,7 @@
 
                          <div class="ibox float-e-margins">
                                <div class="ibox-title">
-                                  <h5>Banner Up Sale</h5>
+                                  <h5>Banner Upsell</h5>
                                   <div class="ibox-tools">
                                   </div>
                                </div>

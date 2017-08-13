@@ -161,6 +161,15 @@ public partial class _Taxonomy : BasePage
                                 image_full_width_url.Value = this.MainSetting.WebSiteURL + feature_full.MediaFullPath;
                                 //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                             }
+
+                            Model_TaxMedia upsell = tax.TaxMedia.FirstOrDefault(r => r.TaxID == TaxID && r.TaxMediaTypeID == TaxMediaType.Banner_Upsell);
+                            if (upsell != null)
+                            {
+                                banner_upsale_mid.Value = upsell.MID.ToString();
+                                banner_upsale_url.Value = this.MainSetting.WebSiteURL + upsell.MediaFullPath;
+                                textCationUpsale.Text = upsell.Caption;
+                                //hd_postMeidaID.Value = cover.PostMediaID.ToString();
+                            }
                         }
 
 
@@ -351,7 +360,7 @@ public partial class _Taxonomy : BasePage
         }
 
         //Feature image full 
-        if (!string.IsNullOrEmpty(feature_image_mid.Value))
+        if (!string.IsNullOrEmpty(image_full_width_mid.Value))
         {
             Model_TaxMedia pm = new Model_TaxMedia
             {
@@ -369,6 +378,33 @@ public partial class _Taxonomy : BasePage
             {
 
                 TaxMediaTypeID = TaxMediaType.Feature_Image_full_Width,
+                TaxID = TaxID
+
+            };
+
+            pm.DeleteTaxMedia(pm);
+        }
+
+        //Banner Upsell
+        if (!string.IsNullOrEmpty(banner_upsale_mid.Value))
+        {
+            Model_TaxMedia pm = new Model_TaxMedia
+            {
+
+                TaxMediaTypeID = TaxMediaType.Banner_Upsell,
+                TaxID = TaxID,
+                MID = int.Parse(banner_upsale_mid.Value),
+                Caption = textCationUpsale.Text
+            };
+
+            pm.insertMediaPost(pm);
+        }
+        else
+        {
+            Model_TaxMedia pm = new Model_TaxMedia
+            {
+
+                TaxMediaTypeID = TaxMediaType.Banner_Upsell,
                 TaxID = TaxID
 
             };
