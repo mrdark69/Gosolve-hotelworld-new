@@ -1,29 +1,6 @@
 window.jQuery = window.$ = jQuery;
 
-(function () {
 
-    $('.quantity').on('click', 'button', function () {
-
-
-
-        var data = $(this).data('direction'),
-            i = $(this).parent().children('input[type="text"]'),
-            val = i.val();
-        if (data == "up") {
-            val++;
-            i.val(val);
-        } else if (data == "down") {
-            if (val == 1) return false;
-            val--;
-            i.val(val);
-        }
-
-        return false;
-
-         
-    });
-
-})();
 /*-----------------------------------------------------------------------------------*/
 /*	PRELOADER
 /*-----------------------------------------------------------------------------------*/

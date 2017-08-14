@@ -244,19 +244,30 @@
                                            <div class="col-md-12">
                                                <div class="form-group" runat="server" id="Div1" ><label class="control-label">Price Option</label>
                                                     <asp:DropDownList  ID="droppriceOPtion" ClientIDMode="Static" style="display:none;" runat="server"></asp:DropDownList>
-                                                            
+                                                      <asp:DropDownList  ID="dropOptionQty" ClientIDMode="Static" style="display:none;" runat="server"></asp:DropDownList>
+                                                                  
                                                         <div class="col-sm-12"> 
                                                           <table class="table table-strip" id="add-row-po" >
                                                               <thead>
                                                                   <tr>
                                                                      <td style="width:40%">Option Title</td>
-                                                                      <td style="width:10%">Unit From</td>
-                                                                       <td style="width:10%">Unit To</td>
-                                                                     <td style="width:10%">Price</td>
+                                                                      <td style="width:50%">
+                                                                          <table style="width:100%" >
+                                                                              <thead>
+                                                                                  <tr><td style="width:33%">Unit From</td>
+                                                                                       <td style="width:33%">Unit To</td>
+                                                                                     <td style="width:33%">Price</td></tr>
+                                                                                     
+                                                                              </thead>
+                                                                          </table>
+                                                                         
+
+                                                                      </td>
+                                                                   
                                                                       <td style="width:10%"></td>
                                                                   </tr>
                                                               </thead>
-                                                              <tbody>
+                                                              <tbody class="tb-main">
                                                
                                                               </tbody>
                                                           </table>
@@ -703,11 +714,6 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
    <script type="text/javascript">
        $(document).ready(function () {
            
-
-          
-        
-               
-          
            
            //position:absolute;
 
@@ -721,10 +727,7 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                
            });
 
-
-                       
-                                      
-
+           
 
            var option = $('#drop_b_client_ret option');
            if (option.length > 0) {
@@ -792,24 +795,60 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
            if (optionprice.length > 0) {
                $.each(optionprice, function () {
                    var uuid = guid();
-                   var link = $(this).html();
+                   var mainPPO = $(this).html();
                    //var dropsocial = $('#dropSocial').html();
                    var val = $(this).attr('value');
 
                    var arr = val.split('#');
-                   var v_from = arr[0];
-                   var v_to = arr[1];
-                   var v_title = arr[2];
-                   var v_price = arr[3];
+                  
+                   var v_title = arr[0];
+                 
 
                    var chk = '<input type="checkbox" name="chk_price_option" checked="checked" value="' + uuid + '" style="display:none;" />';
 
                    var txtTitle = '<input class="form-control" type="textbox"  id="po_title_s_' + uuid + '" name="po_title_s_' + uuid + '" value="' + v_title +'"  />'
-                   var txtFrom = '<input class="form-control" type="textbox"  id="po_from_s_' + uuid + '" name="po_from_s_' + uuid + '" value="' + v_from+'" />'
-                   var txtTo = '<input class="form-control" type="textbox"  id="po_to_s_' + uuid + '" name="po_to_s_' + uuid + '"  value="' + v_to +'" />'
-                   var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_' + uuid + '" name="po_p_s_' + uuid + '"  value="' + v_price +'" />'
-                   var html = '<tr id="row_s_' + uuid + '"><td>' + chk + txtTitle + '</td><td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
-                   $('#add-row-po tbody').append(html);
+                   //var txtFrom = '<input class="form-control" type="textbox"  id="po_from_s_' + uuid + '" name="po_from_s_' + uuid + '" value="' + v_from+'" />'
+                   //var txtTo = '<input class="form-control" type="textbox"  id="po_to_s_' + uuid + '" name="po_to_s_' + uuid + '"  value="' + v_to +'" />'
+                   //var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_' + uuid + '" name="po_p_s_' + uuid + '"  value="' + v_price + '" />'
+
+                   var child = "";
+                   var opqty = $('#dropOptionQty option');
+                   if (opqty.length > 0) {
+                       $.each(opqty, function (dd) {
+                           var valq = $(this).attr('value');
+                           var arrq = valq.split('#');
+                           var v_from = arrq[0];
+                           var v_to = arrq[1];
+                           var ppo = arrq[2];
+                           var v_price = arrq[3];
+
+                           if (mainPPO == ppo) {
+                               var uQID = guid();
+                               var chk = '<input type="checkbox" name="chk_price_option_qty_' + uuid + '" checked="checked" value="' + uQID + '" style="display:none;" />';
+
+                               //var txtTitle = '<input class="form-control" type="textbox"  id="po_title_s_' + uuid + '" name="po_title_s_' + uuid + '" />'
+                               var txtFrom = '<input class="form-control" type="textbox"  id="po_from_s_q' + uuid + '_' + uQID + '" name="po_from_s_q' + uuid + '_' + uQID +'" value="' + v_from +'" />'
+                               var txtTo = '<input class="form-control" type="textbox"  id="po_to_s_q' + uuid + '_' + uQID + '" name="po_to_s_q' + uuid + '_' + uQID +'" value="' + v_to +'" />'
+                               var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_q' + uuid + '_' + uQID + '" name="po_p_s_q' + uuid + '_' + uQID +'" value="' + v_price +'" />'
+
+                               //<td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td>' + tbl + '</td>
+                               child = child +  '<tr id="row_s_q' + uuid + '"><td>' + chk + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+
+                            
+                           }
+                           //var link = $(this).html();
+
+                           // this.UnitFrom + "#" + this.UnitTo + "#" + this.PriceOptionID + "#" + this.PriceOption
+                       });
+                   }
+
+
+                   var tbl = '<table class="table table-strip" id="add-row-po_qty_' + uuid + '"><tbody>' + child + '</tbody></table><button  onclick="addqty(this)" data-row="' + uuid + '" type="button" class="btn btn-success btn-xs">Add Qty</button>';
+
+
+                   //<td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td>
+                   var html = '<tr id="row_s_' + uuid + '"><td>' + chk + txtTitle + '</td><td>' + tbl+'</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+                   $('#add-row-po tbody.tb-main').append(html);
 
 
                    $('#sel_' + uuid).val(val);
@@ -825,17 +864,43 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                var chk = '<input type="checkbox" name="chk_price_option" checked="checked" value="' + uuid + '" style="display:none;" />';
                
                var txtTitle = '<input class="form-control" type="textbox"  id="po_title_s_' + uuid + '" name="po_title_s_' + uuid + '" />'
-               var txtFrom = '<input class="form-control" type="textbox"  id="po_from_s_' + uuid + '" name="po_from_s_' + uuid + '" />'
-               var txtTo = '<input class="form-control" type="textbox"  id="po_to_s_' + uuid + '" name="po_to_s_' + uuid + '" />'
-               var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_' + uuid + '" name="po_p_s_' + uuid + '" />'
-               var html = '<tr id="row_s_' + uuid + '"><td>' + chk + txtTitle + '</td><td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
-               $('#add-row-po tbody').append(html);
+               //var txtFrom = '<input class="form-control" type="textbox"  id="po_from_s_' + uuid + '" name="po_from_s_' + uuid + '" />'
+               //var txtTo = '<input class="form-control" type="textbox"  id="po_to_s_' + uuid + '" name="po_to_s_' + uuid + '" />'
+               //var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_' + uuid + '" name="po_p_s_' + uuid + '" />'
+               var tbl = '<table class="table table-strip" id="add-row-po_qty_' + uuid+'"><tbody></tbody></table><button  onclick="addqty(this)" data-row="' + uuid+'" type="button" class="btn btn-success btn-xs">Add Qty</button>';
+               //<td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td>
+               var html = '<tr id="row_s_' + uuid + '"><td>' + chk + txtTitle + '</td><td>' + tbl+'</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+               $('#add-row-po tbody.tb-main').append(html);
                return false;
            });
 
        });
 
+       function addqty(d) {
+           var dd = $(d).data('row');
+           var tbl = $('#add-row-po_qty_' + dd);
 
+           var uQID = guid();
+
+           var uuid = dd;
+
+
+
+           var chk = '<input type="checkbox" name="chk_price_option_qty_' + uuid + '" checked="checked" value="' + uQID + '" style="display:none;" />';
+
+           //var txtTitle = '<input class="form-control" type="textbox"  id="po_title_s_' + uuid + '" name="po_title_s_' + uuid + '" />'
+           var txtFrom = '<input class="form-control" type="textbox"  id="po_from_s_q' + uuid + '_' + uQID + '" name="po_from_s_q' + uuid + '_' + uQID +'" />'
+           var txtTo = '<input class="form-control" type="textbox"  id="po_to_s_q' + uuid + '_' + uQID + '" name="po_to_s_q' + uuid + '_' + uQID +'" />'
+           var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_q' + uuid + '_' + uQID + '" name="po_p_s_q' + uuid + '_' + uQID +'" />'
+         
+           //<td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td>' + tbl + '</td>
+           var html = '<tr id="row_s_q' + uuid + '"><td>' + chk + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+
+
+
+           tbl.find('tbody').append(html);
+
+       }
 
        function removeRow(e) {
            var id = $(e).data('idrow');

@@ -13,6 +13,103 @@ using System.Web.Providers.Entities;
 /// Summary description for Model_SiteInfo
 /// </summary>
 /// 
+
+public class Model_PostPricingOptionQty : BaseModel<Model_PostPricingOptionQty>
+{
+
+
+
+    public int QtyID { get; set; }
+    public int PriceOptionID { get; set; }
+    public int PriceID { get; set; }
+    public int UnitFrom { get; set; }
+    public int UnitTo { get; set; } = 0;
+
+ 
+    public decimal PriceOption { get; set; }
+    public bool Status { get; set; }
+
+    public string QtyOPtionDrop
+    {
+        get { return this.UnitFrom + "#" + this.UnitTo + "#" + this.PriceOptionID + "#" + this.PriceOption.ToString("#,##0.00"); }
+
+    }
+    //public string QtyOPtionDropTitle
+    //{
+    //    get { return this.Title + " Qty " + this.UnitFrom + (this.UnitTo == 0 ? "+" : "-" + this.UnitTo) + " [" + this.PriceOption.ToString("#,##0.00") + "Bath]"; }
+
+    //}
+    //public string QtyOPtionDropFront
+    //{
+    //    get { return this.UnitFrom + "|" + this.UnitTo + "|" + this.PriceOption.ToString("#,##0.00") + "|" + this.OPtionDropTitle; }
+
+    //}
+
+    public Model_PostPricingOptionQty()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
+    }
+
+    public int InsertPriceOPtionQty(Model_PostPricingOptionQty option)
+    {
+        int ret = 0;
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO PricingItemOptionQty (PriceOptionID,PriceID,UnitFrom,UnitTo,PriceOption) 
+                VALUES(@PriceOptionID,@PriceID,@UnitFrom,@UnitTo,@PriceOption) SET @QtyID = SCOPE_IDENTITY()", cn);
+            cmd.Parameters.Add("@PriceOptionID", SqlDbType.Int).Value = option.PriceOptionID;
+            cmd.Parameters.Add("@PriceID", SqlDbType.Int).Value = option.PriceID;
+            cmd.Parameters.Add("@UnitFrom", SqlDbType.Int).Value = option.UnitFrom;
+            cmd.Parameters.Add("@UnitTo", SqlDbType.Int).Value = option.UnitTo;
+            cmd.Parameters.Add("@PriceOption", SqlDbType.SmallMoney).Value = option.PriceOption;
+            cmd.Parameters.Add("@QtyID", SqlDbType.Int).Direction = ParameterDirection.Output;
+            cn.Open();
+            if (ExecuteNonQuery(cmd) > 0)
+            {
+                ret = (int)cmd.Parameters["@QtyID"].Value;
+
+            }
+        }
+        return ret;
+
+    }
+
+    public bool DeleteOPtionPriceQty(int intPriceID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("DELETE FROM PricingItemOptionQty WHERE PriceID = @PriceID ", cn);
+            cmd.Parameters.Add("@PriceID", SqlDbType.Int).Value = intPriceID;
+            cn.Open();
+            return ExecuteNonQuery(cmd) == 1;
+        }
+    }
+    public List<Model_PostPricingOptionQty> GetPostPriceOPtionQtyByPriceOPtionID(int intPriceOptionID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PricingItemOptionQty WHERE PriceOptionID = @PriceOptionID AND Status = 1 ", cn);
+            cmd.Parameters.Add("@PriceOptionID", SqlDbType.Int).Value = intPriceOptionID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+    public List<Model_PostPricingOptionQty> GetPostPriceOPtionQtyByPriceID(int intPriceID)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM PricingItemOptionQty WHERE PriceID = @PriceID AND Status = 1 ", cn);
+            cmd.Parameters.Add("@PriceID", SqlDbType.Int).Value = intPriceID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+}
+
 public class Model_PostPricingOption : BaseModel<Model_PostPricingOption>
 {
    
@@ -21,27 +118,27 @@ public class Model_PostPricingOption : BaseModel<Model_PostPricingOption>
 
     public int PriceOptionID { get; set; }
     public int PriceID { get; set; }
-    public int UnitFrom { get; set; }
-    public int UnitTo { get; set; } = 0;
+
  
     public string Title { get; set; }
-    public decimal PriceOption { get; set; }
+   
     public bool Status { get; set; }
 
-    public string OPtionDrop {
-        get { return this.UnitFrom + "#" + this.UnitTo + "#" + this.Title + "#" + this.PriceOption.ToString("#,##0.00"); }
+    //public string OPtionDrop
+    //{
+    //    get { return this.UnitFrom + "#" + this.UnitTo + "#" + this.Title + "#" + this.PriceOption.ToString("#,##0.00"); }
 
-    }
-    public string OPtionDropTitle
-    {
-        get { return this.Title + " Qty " + this.UnitFrom + (this.UnitTo==0?"+": "-" + this.UnitTo )+ " [" + this.PriceOption.ToString("#,##0.00") + "Bath]"; }
+    //}
+    //public string OPtionDropTitle
+    //{
+    //    get { return this.Title + " Qty " + this.UnitFrom + (this.UnitTo==0?"+": "-" + this.UnitTo )+ " [" + this.PriceOption.ToString("#,##0.00") + "Bath]"; }
 
-    }
-    public string OPtionDropFront
-    {
-        get { return this.UnitFrom + "_" + this.UnitTo + "_" + this.PriceOption.ToString("#,##0.00") + "_" + this.OPtionDropTitle; }
+    //}
+    //public string OPtionDropFront
+    //{
+    //    get { return this.UnitFrom + "|" + this.UnitTo + "|" + this.PriceOption.ToString("#,##0.00") + "|" + this.OPtionDropTitle; }
 
-    }
+    //}
 
     public Model_PostPricingOption()
     {
@@ -55,17 +152,10 @@ public class Model_PostPricingOption : BaseModel<Model_PostPricingOption>
         int ret = 0;
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostPricingOption (PriceID,UnitFrom,UnitTo,Title,PriceOption) 
-                VALUES(@PriceID,@UnitFrom,@UnitTo,@Title,@PriceOption) SET @PriceOptionID = SCOPE_IDENTITY()", cn);
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO PostPricingOption (PriceID,Title) 
+                VALUES(@PriceID,@Title) SET @PriceOptionID = SCOPE_IDENTITY()", cn);
             cmd.Parameters.Add("@PriceID", SqlDbType.Int).Value = option.PriceID;
-            cmd.Parameters.Add("@UnitFrom", SqlDbType.Int).Value = option.UnitFrom;
-
-            cmd.Parameters.Add("@UnitTo", SqlDbType.Int).Value = option.UnitTo;
             cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = option.Title;
-            cmd.Parameters.Add("@PriceOption", SqlDbType.SmallMoney).Value = option.PriceOption;
-
-
-
             cmd.Parameters.Add("@PriceOptionID", SqlDbType.Int).Direction = ParameterDirection.Output;
             cn.Open();
             if (ExecuteNonQuery(cmd) > 0)
@@ -122,6 +212,20 @@ public class Model_PostPricing : BaseModel<Model_PostPricing>
                 this._priceoption = po.GetPostPriceOPtionByPriceID(this.PriceID);
             }
             return this._priceoption;
+        }
+    }
+
+    private List<Model_PostPricingOptionQty> _priceoptionQty = null;
+    public List<Model_PostPricingOptionQty> PriceOPtionQty
+    {
+        get
+        {
+            if (this._priceoptionQty == null)
+            {
+                Model_PostPricingOptionQty po = new Model_PostPricingOptionQty();
+                this._priceoptionQty = po.GetPostPriceOPtionQtyByPriceID(this.PriceID);
+            }
+            return this._priceoptionQty;
         }
     }
 

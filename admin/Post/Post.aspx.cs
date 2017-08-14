@@ -173,10 +173,15 @@ public partial class _Post : BasePage
                             if (pp.PriceOPtion.Count > 0)
                             {
                                 droppriceOPtion.DataSource = pp.PriceOPtion;
-                                droppriceOPtion.DataValueField = "OPtionDrop";
+                                droppriceOPtion.DataValueField = "Title";
                                 droppriceOPtion.DataTextField = "PriceOptionID";
                                 droppriceOPtion.DataBind();
-                                
+
+
+                                dropOptionQty.DataSource = pp.PriceOPtionQty;
+                                dropOptionQty.DataValueField = "QtyOPtionDrop";
+                                dropOptionQty.DataTextField = "QtyID";
+                                dropOptionQty.DataBind();
                             }
                         }
                            
@@ -449,21 +454,39 @@ public partial class _Post : BasePage
                 pu.UpdataPostPrice(pu);
 
                 Model_PostPricingOption cpo = new Model_PostPricingOption();
+                Model_PostPricingOptionQty cq0 = new Model_PostPricingOptionQty();
+                cq0.DeleteOPtionPriceQty(pp.PriceID);
                 cpo.DeleteOPtionPrice(pp.PriceID);
+               
                 string po = Request.Form["chk_price_option"];
                 if (!string.IsNullOrEmpty(po))
                 {
                     string[] arrpo = po.Split(',');
-                    foreach(string poi in arrpo)
+                    foreach (string poi in arrpo)
                     {
 
                         Model_PostPricingOption cpoi = new Model_PostPricingOption();
                         cpoi.PriceID = pp.PriceID;
                         cpoi.Title = Request.Form["po_title_s_" + poi];
-                        cpoi.UnitFrom = string.IsNullOrEmpty(Request.Form["po_from_s_" + poi]) ? 1 : int.Parse(Request.Form["po_from_s_" + poi]);
-                        cpoi.UnitTo = string.IsNullOrEmpty(Request.Form["po_to_s_" + poi]) ? 0 : int.Parse(Request.Form["po_to_s_" + poi]);
-                        cpoi.PriceOption = string.IsNullOrEmpty(Request.Form["po_p_s_" + poi]) ? 0 : decimal.Parse(Request.Form["po_p_s_" + poi]);
-                        cpoi.InsertPriceOPtion(cpoi);
+                       
+                       int cp= cpoi.InsertPriceOPtion(cpoi);
+
+                        string q = Request.Form["chk_price_option_qty_"+ poi];
+                        if (!string.IsNullOrEmpty(q))
+                        {
+                            string[] arrq = q.Split(',');
+                            foreach(string qq in arrq)
+                            {
+                                Model_PostPricingOptionQty cq = new Model_PostPricingOptionQty();
+                                cq.PriceID = pp.PriceID;
+                                cq.PriceOptionID = cp;
+                                cq.UnitFrom = string.IsNullOrEmpty(Request.Form["po_from_s_q" + poi + "_"+qq]) ? 1 : int.Parse(Request.Form["po_from_s_q" + poi + "_" + qq]);
+                                cq.UnitTo = string.IsNullOrEmpty(Request.Form["po_to_s_q" + poi + "_" + qq]) ? 0 : int.Parse(Request.Form["po_to_s_q" + poi + "_" + qq]);
+                                cq.PriceOption = string.IsNullOrEmpty(Request.Form["po_p_s_q" + poi + "_" + qq]) ? 0 : decimal.Parse(Request.Form["po_p_s_q" + poi + "_" + qq]);
+                                cq.InsertPriceOPtionQty(cq);
+                            }
+                        }
+                       
                     }
                 }
             }

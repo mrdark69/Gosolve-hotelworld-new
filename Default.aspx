@@ -722,41 +722,24 @@ string.Empty;
 								        <div class="tovar_article"><%Response.Write(PCode); %></div>
 								        <div class="clearfix tovar_brend_price">
 									        <div class="pull-left tovar_brend" style="margin-top: -6px;font-size: 17px;">ราคารวม <% Response.Write(vat? "(incl. VAT)" : ""); %></div>
-									        <div class="pull-right tovar_view_price"><% Response.Write(Price); %> Bath</div>
+									        <div class="pull-right tovar_view_price"><% Response.Write(Price); %> Baht</div>
 								        </div>
 								        <div class="tovar_color_select gs-custom-select">
 									        <p><% Response.Write(PriceTitle); %></p>
-                                            <select class="basic">
+                                            <select class="basic priceOption">
 										        <option value="0">Choose the option</option>
 
                                                 <% foreach (Model_PostPricingOption poi in cp)
                                                     { %>
-										        <option value="<% Response.Write(poi.OPtionDropFront); %>" ><% Response.Write(poi.OPtionDropTitle); %></option>
+										        <option value="<% //Response.Write(poi.OPtionDropFront); %>" ><% //Response.Write(poi.OPtionDropTitle); %></option>
 										        <%} %>
 									        </select>
 								
 								        </div>
-								        <%--<div class="tovar_size_select">
-									        <div class="clearfix">
-										        <p class="pull-left">Select SIZE</p>
-										        <span>Size & Fit</span>
-									        </div>
-
-                                            <select class="basic">
-
-										        <option value="">QTY</option>
-										        <option>Lo</option>
-										        <option>Ips</option>
-										        <option>Dol</option>
-										        <option>Sit</option>
-										        <option>Amet</option>
-									        </select>
-
-                                           
-								        </div>--%>
+								      
 								        <div class="tovar_view_btn">
 
-                                            <div class=" quantity " style="display:inline-block">
+                                            <div class="quantity " style="display:inline-block">
 								                <button class="bg_tr d_block f_left" data-direction="down">-</button>
 								                <input type="text" name="quantity" id="quantity" value="1" class="f_left">
 								                <button class="bg_tr d_block f_left" data-direction="up">+</button>
