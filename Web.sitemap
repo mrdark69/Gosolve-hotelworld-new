@@ -14,6 +14,7 @@
       <siteMapNode url="~/admin/SiteInformation/SiteInf" title="Global Info"  description="" />
        <siteMapNode url="~/admin/SiteInformation/Menu" title="Menu Setting"  description="" />
      <siteMapNode url="~/admin/SiteInformation/MasterSl" title="Master Slider"  description="" />
+      <siteMapNode url="~/admin/SiteInformation/PTS" title="PT Setting"  description="" />
 
     </siteMapNode>
     

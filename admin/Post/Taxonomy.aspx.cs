@@ -142,7 +142,7 @@ public partial class _Taxonomy : BasePage
                             if (cover != null)
                             {
                                 hd_MID.Value = cover.MID.ToString();
-                                CoverImage1.Value = this.MainSetting.WebSiteURL + cover.MediaFullPath;
+                                CoverImage1.Value =  cover.MediaFullPath;
                                 //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                             }
 
@@ -150,7 +150,7 @@ public partial class _Taxonomy : BasePage
                             if (feature != null)
                             {
                                 feature_image_mid.Value = feature.MID.ToString();
-                                feature_image_url.Value = this.MainSetting.WebSiteURL + feature.MediaFullPath;
+                                feature_image_url.Value = feature.MediaFullPath;
                                 //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                             }
 
@@ -158,7 +158,7 @@ public partial class _Taxonomy : BasePage
                             if (feature_full != null)
                             {
                                 image_full_width_mid.Value = feature_full.MID.ToString();
-                                image_full_width_url.Value = this.MainSetting.WebSiteURL + feature_full.MediaFullPath;
+                                image_full_width_url.Value = feature_full.MediaFullPath;
                                 //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                             }
 
@@ -166,7 +166,7 @@ public partial class _Taxonomy : BasePage
                             if (upsell != null)
                             {
                                 banner_upsale_mid.Value = upsell.MID.ToString();
-                                banner_upsale_url.Value = this.MainSetting.WebSiteURL + upsell.MediaFullPath;
+                                banner_upsale_url.Value =  upsell.MediaFullPath;
                                 textCationUpsale.Text = upsell.Caption;
                                 //hd_postMeidaID.Value = cover.PostMediaID.ToString();
                             }

@@ -40,6 +40,16 @@ public partial class admin_Staff_ajax_webmethod_post : System.Web.UI.Page
     }
 
     [WebMethod]
+    public static void GetPostype(Model_PostType parameters)
+    {
+        //Model_Post p = new Model_Post { PostTypeID = 1 };
+        List<Model_PostType> ret = parameters.GetPostTypeAll();
+
+
+        AppTools.SendResponse(HttpContext.Current.Response, ret.ObjectToJSON());
+    }
+
+    [WebMethod]
     public static void UpdateSortMenu(dynamic parameters)
     {
 
