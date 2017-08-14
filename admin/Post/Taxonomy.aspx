@@ -42,7 +42,7 @@
          
       <div class="row">
 
-         <div class="col-md-9" style="margin-left:0px; margin-right:0px;padding-left:0px;padding-right:0px;">
+         <div class="col-md-9" id="ele_custom_gs" style="margin-left:0px; margin-right:0px;padding-left:0px;padding-right:0px;">
             <div class="tabs-container">
                <ul class="nav nav-tabs">
                   <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> Information</a></li>
@@ -52,7 +52,7 @@
                </ul>
                <div class="tab-content">
                   <div id="tab-1" class="tab-pane active">
-                     <div class="panel-body gs-panel-body">
+                     <div class="panel-body gs-panel-body" id="tab_custom_gs">
                         <div class="ibox float-e-margins">
                            <div class="ibox-content">
                               <div  class="form">

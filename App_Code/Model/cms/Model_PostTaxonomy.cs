@@ -386,7 +386,7 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
         {
             SqlCommand cmd = new SqlCommand(@"SELECT pt.* FROM PostTaxonomy pt 
                 WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID 
-        AND pt.Status = 1 
+        AND pt.Status = 1 AND Trash = 1
         ORDER BY TaxID ASC,RefID ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostType;
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = TaxType;

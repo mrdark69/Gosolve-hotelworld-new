@@ -14,10 +14,10 @@ public partial class Staff_StaffEdit : BasePage
         {
 
             
-            dropRole.DataSource = UsersController.GetUserRole();
-            dropRole.DataTextField = "Title";
-            dropRole.DataValueField = "UsersRoleId";
-            dropRole.DataBind();
+            //dropRole.DataSource = UsersController.GetUserRole();
+            //dropRole.DataTextField = "Title";
+            //dropRole.DataValueField = "UsersRoleId";
+            //dropRole.DataBind();
 
             //ListItem lis = new ListItem("All", "0");
             //dropRole.Items.Insert(0, lis);
@@ -50,7 +50,8 @@ public partial class Staff_StaffEdit : BasePage
             UserName = UserName.Text,
             LastName = LastName.Text,
             Password = Password.Text,
-            UsersRoleId = byte.Parse(dropRole.SelectedValue),
+            //UsersRoleId = byte.Parse(dropRole.SelectedValue),
+            UsersRoleId = 1,
             UserID = int.Parse(Request.QueryString["s"])
             
         };

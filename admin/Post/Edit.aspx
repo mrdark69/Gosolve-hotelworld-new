@@ -51,7 +51,7 @@
 
                                         <%--<th></th>--%>
                                         <th>Title </th>
-                                        <th>Author </th>
+                                     <%--   <th>Author </th>--%>
                                         <th>Date Published</th>
                                         <th>View</th>
                                         <th>Action</th>
@@ -144,7 +144,7 @@
                 ret += '<tr>';
                 //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
                 ret += '   <td><a href="Post?PostTypeID=' + Pt + '&PostID=' + data[i].PostID +'">' + data[i].Title+'</a></td>';
-                ret += '   <td>' + data[i].UserFirstName +'</td>';
+                //ret += '   <td>' + data[i].UserFirstName +'</td>';
                 ret += '   <td>' + data[i].DatePublishFormat +'</td>';
                 ret += '   <td><span class="label label-primary">' + data[i].ViewCount +'</span></td>';
                 ret += '   <td><a href="Post?PostTypeID=' + Pt+'&PostID=' + data[i].PostID+'"><i class="fa fa-pencil"></i> Edit </a></td>';

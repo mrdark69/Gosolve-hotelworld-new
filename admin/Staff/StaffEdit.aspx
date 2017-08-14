@@ -104,7 +104,7 @@
 
        </asp:Panel>
 
-        <div class="form-group">
+        <%--<div class="form-group">
             <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-2 control-label">User Role</asp:Label>
             <div class="col-md-10">
                 <asp:DropDownList ID="dropRole" runat="server" CssClass="form-control">
@@ -112,7 +112,7 @@
                 </asp:DropDownList>
                
             </div>
-        </div>
+        </div>--%>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

@@ -9,7 +9,7 @@
 
      <asp:Literal ID="HeaderSection" runat="server"></asp:Literal>
 
-         <%-- Blog Page TEMPLATE--%>
+          <!-- Blog Page TEMPLATE-->
             <section   id="SectionBlogPageSingle"  runat="server" visible="false">
                	
 		        <!-- PAGE HEADER -->
@@ -290,9 +290,9 @@
 			        </div><!-- //CONTAINER -->
 		        </section><!-- //BLOG BLOCK -->
             </section>
-           <%--  End Blog Page TEMPLATE--%>
+            <!--  End Blog Page TEMPLATE-->
  
-          <%-- Blog Page Archive--%>
+           <!-- Blog Page Archive-->
         <section   id="SectionBlogPageArchive"  runat="server" visible="false">
           
 		    <!-- PAGE HEADER -->
@@ -539,17 +539,17 @@
 		        </section><!-- //BLOG BLOCK -->
 		
         </section>
-       <%-- End Blog Page Archive--%>
+        <!-- End Blog Page Archive-->
 
-          <%-- Blog Taxonomy Page Archive TEMPLATE--%>
+           <!-- Blog Taxonomy Page Archive TEMPLATE-->
         <section  id="SectionBlogPageTaxArchive"  runat="server" visible="false">
               Blog Page Taxonomy Archive
         </section>
-      <%-- End Blog Taxonomy Page Archive TEMPLATE--%>
+       <!-- End Blog Taxonomy Page Archive TEMPLATE-->
 
 
       
-       <%-- Product Page TEMPLATE--%>
+        <!-- Product Page TEMPLATE-->
         <section   id="SectionProductSingle"  runat="server" visible="false">
               <!-- TOVAR DETAILS -->
 		        <section class="tovar_details padbot70">
@@ -611,11 +611,11 @@
 						        <div class="tovar_details_header clearfix margbot35">
 							        <h3 class="pull-left"><b><%:this.PostDataUI.Title %></b></h3>
 							            
-							        <%--<div class="tovar_details_pagination pull-right">
+							         <!--<div class="tovar_details_pagination pull-right">
 								        <a class="fa fa-angle-left" href="javascript:void(0);" ></a>
 								        <span>2 of 34</span>
 								        <a class="fa fa-angle-right" href="javascript:void(0);" ></a>
-							        </div>--%>
+							        </div>-->
 						        </div>
 
                                 <% 
@@ -686,8 +686,8 @@
                                 //product_quantity
                                 //product_code
                                 Model_PostPricingOptionQty po = new Model_PostPricingOptionQty();
-                                List<Model_PostPricingOptionQty> qtl = null;
-                                List<Model_PostPricingOption> cp = null;
+                                List<Model_PostPricingOptionQty> qtl = new List<Model_PostPricingOptionQty>();
+                                List<Model_PostPricingOption> cp = new List<Model_PostPricingOption>();
 
                                 Model_PostPricing pp = this.PostDataUI.PostPricingclass;
 
@@ -735,10 +735,13 @@ string.Empty;
                                             <select class="basic priceOption">
 										        <option value="0">Choose the option</option>
 
-                                                <% foreach (Model_PostPricingOption poi in cp)
-                                                    { %>
+                                                <%  if (cp.Count > 0)
+                                                          {
+                                                              foreach (Model_PostPricingOption poi in cp)
+                                                              { %>
 										        <option value="<% Response.Write(poi.PriceOptionID); %>" ><% Response.Write(poi.Title); %></option>
-										        <%} %>
+										        <%}
+                                                          } %>
 									        </select>
 
 
@@ -761,8 +764,8 @@ string.Empty;
 								                <button class="bg_tr d_block f_left" data-direction="up">+</button>
 							                    </div>
 									        
-									        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i>Add to bag</a>
-									       <%-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>--%>
+									        <a class="add_bag" style="display:none"; href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i>Add to bag</a>
+									        <!-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>-->
 								        </div>
 								        <div class="tovar_shared clearfix">
 									        <p>Share item with friends</p>
@@ -782,7 +785,7 @@ string.Empty;
 							        <ul class="tabs clearfix">
 								        <li class="current">Details</li>
 								        <li>Information</li>
-								      <%--  <li>Reviews (2)</li>--%>
+								       <!--  <li>Reviews (2)</li>-->
 							        </ul>
 							        <div class="box visible">
 								     <% Response.Write(Detail); %>  
@@ -895,9 +898,9 @@ string.Empty;
 		        </section><!-- //NEW ARRIVALS -->
 		
         </section>
-      <%-- End Product Page TEMPLATE--%>
+       <!-- End Product Page TEMPLATE-->
 
-      <%-- Product Page Archive TEMPLATE--%>
+       <!-- Product Page Archive TEMPLATE-->
         <section   id="SectionProductArchive"   runat="server" visible="false">
             		
 		        <!-- PAGE HEADER -->
@@ -907,9 +910,9 @@ string.Empty;
 			    <div class="container">
 				    <h3 class="pull-left"><b><%:this.TaxForPostType.Title %></b></h3>
 				
-				    <%--<div class="pull-right">
+				     <!--<div class="pull-right">
 					    <a href="women.html" >Back to shop<i class="fa fa-angle-right"></i></a>
-				    </div>--%>
+				    </div>-->
 			    </div><!-- //CONTAINER -->
 		    </section><!-- //PAGE HEADER -->
 		
@@ -1022,11 +1025,11 @@ string.Empty;
 		    </section>
 		
         </section>
-      <%-- End Product Page Archive TEMPLATE--%>
+       <!-- End Product Page Archive TEMPLATE-->
 
 
 
-        <%-- Product Taxonomy Page Archive TEMPLATE--%>
+         <!-- Product Taxonomy Page Archive TEMPLATE-->
         <section   id="SectionProductTaxArchive"   runat="server" visible="false">
               <!-- SHOP BLOCK -->
 		    <section class="shop">
@@ -1040,76 +1043,40 @@ string.Empty;
 					    <!-- SIDEBAR -->
 					    <div id="sidebar" class="col-lg-3 col-md-3 col-sm-3 padbot50">
 						
-						    <!-- CATEGORIES -->
-						    <div class="sidepanel widget_categories">
-							    <h3>Product Categories</h3>
-							    <ul>
-								    <li><a href="javascript:void(0);" >Sweaters</a></li>
-								    <li><a href="javascript:void(0);" >SHIRTS &amp; TOPS</a></li>
-								    <li><a href="javascript:void(0);" >KNITS &amp; TEES</a></li>
-								    <li><a href="javascript:void(0);" >PANTS</a></li>
-								    <li><a href="javascript:void(0);" >DENIM</a></li>
-								    <li><a href="javascript:void(0);" >DRESSES</a></li>
-								    <li><a href="javascript:void(0);" >Maternity</a></li>
-							    </ul>
-						    </div><!-- //CATEGORIES -->
-						
-						    <!-- PRICE RANGE -->
-						    <div class="sidepanel widget_pricefilter">
-							    <h3>Filter by price</h3>
-							    <div id="price-range" class="clearfix">
-								    <label for="amount">Range:</label>
-								    <input type="text" id="amount"/>
-								    <div class="padding-range"><div id="slider-range"></div></div>
-							    </div>
-						    </div><!-- //PRICE RANGE -->
-
-						    <!-- SHOP BY SIZE -->
-						    <div class="sidepanel widget_sized">
-							    <h3>SHOP BY SIZE</h3>
-							    <ul>
-								    <li><a class="sizeXS" href="javascript:void(0);" >XS</a></li>
-								    <li class="active"><a class="sizeS" href="javascript:void(0);" >S</a></li>
-								    <li><a class="sizeM" href="javascript:void(0);" >M</a></li>
-								    <li><a class="sizeL" href="javascript:void(0);" >L</a></li>
-								    <li><a class="sizeXL" href="javascript:void(0);" >XL</a></li>
-							    </ul>
-						    </div><!-- //SHOP BY SIZE -->
-						
-						    <!-- SHOP BY COLOR -->
-						    <div class="sidepanel widget_color">
-							    <h3>SHOP BY COLOR</h3>
-							    <ul>
-								    <li><a class="color1" href="javascript:void(0);" ></a></li>
-								    <li class="active"><a class="color2" href="javascript:void(0);" ></a></li>
-								    <li><a class="color3" href="javascript:void(0);" ></a></li>
-								    <li><a class="color4" href="javascript:void(0);" ></a></li>
-								    <li><a class="color5" href="javascript:void(0);" ></a></li>
-								    <li><a class="color6" href="javascript:void(0);" ></a></li>
-								    <li><a class="color7" href="javascript:void(0);" ></a></li>
-								    <li><a class="color8" href="javascript:void(0);" ></a></li>
-							    </ul>
-						    </div><!-- //SHOP BY COLOR -->
-						
-						    <!-- SHOP BY BRANDS -->
+                            <% if (this.TaxList.Count > 0)
+                                {
+                                    foreach (Model_PostTaxonomy tt in this.TaxList.Where(o=>o.RefID==0))
+                                    {
+                                       
+                                    %>
+                             <!-- SHOP BY BRANDS -->
 						    <div class="sidepanel widget_brands">
-							    <h3>SHOP BY BRANDS</h3>
-							    <input type="checkbox" id="categorymanufacturer1" /><label for="categorymanufacturer1">VERSACE <span>(24)</span></label>
+							    <h3><%Response.Write(tt.Title); %></h3>
+                               <%-- <input type="checkbox" id="categorymanufacturer1" /><label for="categorymanufacturer1">VERSACE <span>(24)</span></label>--%>
+
+                                <%Response.Write(getchild(this.TaxList, tt.TaxID)); %>
+							 <%--   <input type="checkbox" id="categorymanufacturer1" /><label for="categorymanufacturer1">VERSACE <span>(24)</span></label>
 							    <input type="checkbox" id="categorymanufacturer2" /><label for="categorymanufacturer2">J CREW <span>(35)</span></label>
 							    <input type="checkbox" id="categorymanufacturer3" /><label for="categorymanufacturer3">Calvin KlEin <span>(48)</span></label>
 							    <input type="checkbox" id="categorymanufacturer4" /><label for="categorymanufacturer4">Tommy hilfiger <span>(129)</span></label>
-							    <input type="checkbox" id="categorymanufacturer5" /><label for="categorymanufacturer5">Ralph Lauren <span>(69)</span></label>
+							    <input type="checkbox" id="categorymanufacturer5" /><label for="categorymanufacturer5">Ralph Lauren <span>(69)</span></label>--%>
 						    </div><!-- //SHOP BY BRANDS -->
+
+                            <%}
+    } %>
 						
-						    <!-- BANNERS WIDGET -->
-						    <div class="widget_banners">
+						
+						 <!-- BANNERS WIDGET -->
+						   <!--  <div class="widget_banners">
 							    <a class="banner nobord margbot10" href="javascript:void(0);" ><img src="images/tovar/banner10.jpg" alt="" /></a>
 							    <a class="banner nobord margbot10" href="javascript:void(0);" ><img src="images/tovar/banner9.jpg" alt="" /></a>
 							    <a class="banner nobord margbot10" href="javascript:void(0);" ><img src="images/tovar/banner8.jpg" alt="" /></a>
-						    </div><!-- //BANNERS WIDGET -->
+						    </div>-->
+                            
+                            <!-- //BANNERS WIDGET -->
 						
 						    <!-- NEWSLETTER FORM WIDGET -->
-						    <div class="sidepanel widget_newsletter">
+						    <!---<div class="sidepanel widget_newsletter">
 							    <div class="newsletter_wrapper">
 								    <h3>NEWSLETTER</h3>
 								    <form class="newsletter_form clearfix" action="javascript:void(0);" method="get">
@@ -1117,7 +1084,7 @@ string.Empty;
 									    <input class="btn newsletter_btn" type="submit" value="Sign up & get 10% off">
 								    </form>
 							    </div>
-						    </div><!-- //NEWSLETTER FORM WIDGET -->
+						    </div>--!><!-- //NEWSLETTER FORM WIDGET -->
 					    </div><!-- //SIDEBAR -->
 					
 					
@@ -1126,7 +1093,21 @@ string.Empty;
 						
 						    <!-- SHOP BANNER -->
 						    <div class="banner_block margbot15">
-							    <a class="banner nobord" href="javascript:void(0);" ><img src="images/tovar/banner21.jpg" alt="" /></a>
+                                <%
+                                    List<Model_TaxMedia> cm = this.TaxForPostType.TaxMedia;
+                                    Model_TaxMedia cimg = cm.SingleOrDefault(o => o.TaxMediaTypeID == TaxMediaType.Feature_Image_full_Width); 
+                                     string imgPath = string.Empty;
+                                        string alt = string.Empty;
+                                        string title = string.Empty;
+                                    if (cimg != null)
+                                        {
+                                            imgPath =cimg.MediaFullPath;
+                                            alt = cimg.Alt;
+                                            title = cimg.Title;
+                                        }
+                                    
+                                    %>
+							    <a class="banner nobord" href="javascript:void(0);" ><img src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" /></a>
 						    </div><!-- //SHOP BANNER -->
 						
 						    <!-- SORTING TOVAR PANEL -->
@@ -1158,204 +1139,64 @@ string.Empty;
 						
 						    <!-- ROW -->
 						    <div class="row shop_block">
-								
+								 <% 
+
+                                      imgPath = string.Empty;
+                                          alt = string.Empty;
+                                          title = string.Empty;
+                                     Model_Post p = new Model_Post();
+                                     List<Model_Post> plist = p.GetPostByTax(PostType.Products,TaxForPostType.Slug);
+                                     foreach (Model_Post item in plist)
+                                     {
+                                         Model_PostCustomItem cu = new Model_PostCustomItem();
+                                         
+                                         string Price = string.Empty;
+                                         List<Model_PostMedia> cms = item.PostMedia;
+                                         Model_PostMedia cimgs = cms.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
+
+                                         Model_PostPricing pp = item.PostPricingclass;
+
+                                         if (pp != null)
+                                         {
+                                             Price = ((decimal)pp.Price).ToString("#,##0.00");
+                                         }
+                                         if (cimgs != null)
+                                         {
+                                             imgPath = cimgs.MediaFullPath;
+                                             alt = cimgs.Alt;
+                                             title = cimgs.Title;
+                                         }
+                                           List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+                                         string Detail = string.Empty;
+                                             Detail = cul.SingleOrDefault(o => o.PcName == "product-detail") != null ? cul.SingleOrDefault(o => o.PcName == "product-detail").ContentHTML.getShortContent() :string.Empty;
+                                    %>
+
+                                     
 							    <!-- TOVAR1 -->
 							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
 								    <div class="tovar_item clearfix">
 									    <div class="tovar_img">
 										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/1.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/1_2.jpg" alt="" />
+											    <img class="img" src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>"/>
+											    <img class="img_h" src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>"/>
 										    </div>
 										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
+											    <div class="open-project-link"><a class="open-project tovar_view" href="<%Response.Write(item.Permarlink); %>" data-url="<%Response.Write(item.Permarlink); %>" ><span>quick</span> view</a></div>
+											  <%--  <a class="add_bag" style="display:none"; href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
+											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>--%>
 										    </div>
 									    </div>
 									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Popover Sweatshirt in Floral Jacquard</a>
-										    <span class="tovar_price">$98.00</span>
+										    <a class="tovar_title" href="product-page.html" ><%  Response.Write(item.Title);%></a>
+										    <span class="tovar_price"><% Response.Write(Price); %> Baht</span>
 									    </div>
 									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
 								    </div>
 							    </div><!-- //TOVAR1 -->
+
+                                <%} %>
 							
-							    <!-- TOVAR2 -->
-							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
-								    <div class="tovar_item clearfix">
-									    <div class="tovar_img">
-										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/2.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/2_2.jpg" alt="" />
-										    </div>
-										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/2.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-										    </div>
-									    </div>
-									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Popover Sweatshirt in Floral Jacquard</a>
-										    <span class="tovar_price">$98.00</span>
-									    </div>
-									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
-								    </div>
-							    </div><!-- //TOVAR2 -->
-							
-							    <!-- TOVAR3 -->
-							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
-								    <div class="tovar_item clearfix">
-									    <div class="tovar_img">
-										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/3.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/3_2.jpg" alt="" />
-										    </div>
-										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/3.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-										    </div>
-									    </div>
-									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Japanese indigo denim jacket</a>
-										    <span class="tovar_price">$158.00</span>
-									    </div>
-									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
-								    </div>
-							    </div><!-- //TOVAR3 -->
-							
-							    <!-- TOVAR4 -->
-							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
-								    <div class="tovar_item clearfix">
-									    <div class="tovar_img">
-										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/4.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/4_2.jpg" alt="" />
-										    </div>
-										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/4.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-										    </div>
-									    </div>
-									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Peacoat trench</a>
-										    <span class="tovar_price">$298.00</span>
-									    </div>
-									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
-								    </div>
-							    </div><!-- //TOVAR4 -->
-							
-							    <!-- TOVAR5 -->
-							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
-								    <div class="tovar_item tovar_sale clearfix">
-									    <div class="tovar_img">
-										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/5.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/5_2.jpg" alt="" />
-										    </div>
-										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/5.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-										    </div>
-									    </div>
-									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Schoolboy blazer in italian wool</a>
-										    <span class="tovar_price">$194.00</span>
-									    </div>
-									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
-								    </div>
-							    </div><!-- //TOVAR5 -->
-							
-							    <!-- TOVAR6 -->
-							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
-								    <div class="tovar_item clearfix">
-									    <div class="tovar_img">
-										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/6.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/6_2.jpg" alt="" />
-										    </div>
-										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/6.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-										    </div>
-									    </div>
-									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Cashmere mockneck sweater</a>
-										    <span class="tovar_price">$257.00</span>
-									    </div>
-									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
-								    </div>
-							    </div><!-- //TOVAR6 -->
-							
-							    <!-- TOVAR7 -->
-							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
-								    <div class="tovar_item clearfix">
-									    <div class="tovar_img">
-										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/7.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/7_2.jpg" alt="" />
-										    </div>
-										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/7.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-										    </div>
-									    </div>
-									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Waxed canvas utility jacket</a>
-										    <span class="tovar_price">$168.00</span>
-									    </div>
-									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
-								    </div>
-							    </div><!-- //TOVAR7 -->
-							
-							    <!-- TOVAR8 -->
-							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
-								    <div class="tovar_item clearfix">
-									    <div class="tovar_img">
-										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/8.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/8_2.jpg" alt="" />
-										    </div>
-										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/8.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-										    </div>
-									    </div>
-									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Thompson blazer in stretch cotton</a>
-										    <span class="tovar_price">$173.00</span>
-									    </div>
-									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
-								    </div>
-							    </div><!-- //TOVAR8 -->
-							
-							    <!-- TOVAR9 -->
-							    <div class="tovar_wrapper col-lg-4 col-md-4 col-sm-6 col-xs-6 col-ss-12 padbot40">
-								    <div class="tovar_item clearfix">
-									    <div class="tovar_img">
-										    <div class="tovar_img_wrapper">
-											    <img class="img" src="images/tovar/women/9.jpg" alt="" />
-											    <img class="img_h" src="images/tovar/women/9_2.jpg" alt="" />
-										    </div>
-										    <div class="tovar_item_btns">
-											    <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/9.html" ><span>quick</span> view</a></div>
-											    <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-											    <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
-										    </div>
-									    </div>
-									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" >Vintage denim jacket in patina wash</a>
-										    <span class="tovar_price">$99.00</span>
-									    </div>
-									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>
-								    </div>
-							    </div><!-- //TOVAR9 -->
+							  
 						    </div><!-- //ROW -->
 						
 						    <hr>
@@ -1378,22 +1219,22 @@ string.Empty;
 						
 						    <hr>
 						
-						    <div class="padbot60 services_section_description">
-							    <p>We empower WordPress developers with design-driven themes and a classy experience their clients will just love</p>
-							    <span>Gluten-free quinoa selfies carles, kogi gentrify retro marfa viral. Odd future photo booth flannel ethnic pug, occupy keffiyeh synth blue bottle tofu tonx iphone. Blue bottle 90′s vice trust fund gastropub gentrify retro marfa viral. Gluten-free quinoa selfies carles, kogi gentrify retro marfa viral. Odd future photo booth flannel ethnic pug, occupy keffiyeh synth blue bottle tofu tonx iphone. Blue bottle 90′s vice trust fund gastropub gentrify retro marfa viral.</span>
+						    <div class="row padbot60 gs_container_custom" >
+							   <% Response.Write(this.ContentBody); %>
 						    </div>
 						
 						    <!-- SHOP BANNER -->
-						    <div class="row top_sale_banners center">
+						     <!--<div class="row top_sale_banners center">
 							    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-ss-12"><a class="banner nobord margbot30" href="javascript:void(0);" ><img src="images/tovar/banner22.jpg" alt="" /></a></div>
 							    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-ss-12"><a class="banner nobord margbot30" href="javascript:void(0);" ><img src="images/tovar/banner23.jpg" alt="" /></a></div>
-						    </div><!-- //SHOP BANNER -->
+						    </div>-->
+                            <!-- //SHOP BANNER -->
 					    </div><!-- //SHOP PRODUCTS -->
 				    </div><!-- //ROW -->
 			    </div><!-- //CONTAINER -->
 		    </section><!-- //SHOP -->
         </section>
-      <%-- End Product Taxonomy Page Archive TEMPLATE--%>
+       <!-- End Product Taxonomy Page Archive TEMPLATE-->
         
 
         <!-- PAGE TEMPLATE-->
@@ -1405,9 +1246,9 @@ string.Empty;
 			        <div class="container">
 				        <h3 class="pull-left"><b><%: this.PostDataUI.Title %></b></h3>
 				
-				       <%-- <div class="pull-right">
+				        <!-- <div class="pull-right">
 					        <a href="women.html">Back to shop<i class="fa fa-angle-right"></i></a>
-				        </div>--%>
+				        </div>-->
 			        </div><!-- //CONTAINER -->
 		        </section>
                 <section class="about_us_info">
@@ -1480,8 +1321,8 @@ string.Empty;
 									        <div class="tovar_item_btns">
 										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" 
                                                     data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
-										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-										       <%-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>--%>
+										        <a class="add_bag" style="display:none"; href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
+										        <!-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>-->
 									        </div>
 								        </div>
 								        <div class="tovar_description clearfix">
@@ -1497,8 +1338,8 @@ string.Empty;
 						
 						        <!-- BANNER -->
 						        <div class="col-lg-3 col-md-3 col-xs-6 col-ss-12">
-							        <a class="banner type1 margbot30" href="javascript:void(0);"  ><img src="images/tovar/banner1.jpg" alt="" /></a>
-							        <a class="banner type2 margbot40" href="javascript:void(0);" ><img src="images/tovar/banner2.jpg" alt="" /></a>
+							        <a class="banner type1 margbot30" href="javascript:void(0);"  ><img src="http://demo.evatheme.com/html/glammy/images/tovar/banner1.jpg" alt="" /></a>
+							        <a class="banner type2 margbot40" href="javascript:void(0);" ><img src="http://demo.evatheme.com/html/glammy/images/tovar/banner2.jpg" alt="" /></a>
 						        </div><!-- //BANNER -->
 					        </div><!-- //TOVAR WRAPPER -->
 				        </div><!-- //ROW -->
@@ -1512,7 +1353,7 @@ string.Empty;
 						
 						        <!-- BANNER -->
 						        <div class="col-lg-3 col-md-3 col-xs-6 col-ss-12">
-							        <a class="banner type3 margbot40" href="javascript:void(0);" ><img src="images/tovar/banner3.jpg" alt="" /></a>
+							        <a class="banner type3 margbot40" href="javascript:void(0);" ><img src="http://demo.evatheme.com/html/glammy/images/tovar/banner3.jpg" alt="" /></a>
 						        </div><!-- //BANNER -->
 						
 						        <div class="respond_clear_768"></div>
@@ -1555,8 +1396,8 @@ string.Empty;
 									        <div class="tovar_item_btns">
 										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" 
                                                     data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
-										        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
-										       <%-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>--%>
+										        <a class="add_bag" style="display:none"; href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
+										        <!-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>-->
 									        </div>
 								        </div>
 								        <div class="tovar_description clearfix">
@@ -1666,41 +1507,7 @@ string.Empty;
 		        </section><!-- //NEW ARRIVALS -->
 		
 		
-		        <!-- BRANDS -->
-		        <section class="brands_carousel">
-			
-			        <!-- CONTAINER -->
-			        <div class="container">
-				
-				        <!-- JCAROUSEL -->
-				        <div class="jcarousel-wrapper">
-					
-					        <!-- NAVIGATION -->
-					        <div class="jCarousel_pagination">
-						        <a href="javascript:void(0);" class="jcarousel-control-prev" ><i class="fa fa-angle-left"></i></a>
-						        <a href="javascript:void(0);" class="jcarousel-control-next" ><i class="fa fa-angle-right"></i></a>
-					        </div><!-- //NAVIGATION -->
-					
-					        <div class="jcarousel" data-appear-top-offset='-100' data-animated='fadeInUp'>
-						        <ul>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/1.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/2.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/3.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/4.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/5.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/6.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/7.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/8.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/9.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/10.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/11.jpg" alt="" /></a></li>
-							        <li><a href="javascript:void(0);" ><img src="images/brands/12.jpg" alt="" /></a></li>
-						        </ul>
-					        </div>
-				        </div><!-- //JCAROUSEL -->
-			        </div><!-- //CONTAINER -->
-		        </section><!-- //BRANDS -->
-		
+		     
 		
 		        <hr class="container">
 		
@@ -1842,7 +1649,7 @@ string.Empty;
                             </div>
                           
 
-							<%--<div class="checkout_confirm_orded_bordright clearfix">
+							 <!--<div class="checkout_confirm_orded_bordright clearfix">
 								<div class="billing_information">
 									<p class="checkout_title margbot10">Billing information</p>
 									
@@ -1895,7 +1702,7 @@ string.Empty;
 										<span class="cart_item_price">$73.00</span>
 									</li>
 								</ul>
-							</div>--%>
+							</div>-->
 						</div>
 					</div>
 					
@@ -1919,7 +1726,7 @@ string.Empty;
 								</tr>
 							</table>
 							<a class="btn active" href="javascript:void(0);" >Dowlond Now</a>
-							<%--<a class="btn inactive" href="checkout.html" >Go to previous step</a>--%>
+							 <!--<a class="btn inactive" href="checkout.html" >Go to previous step</a>-->
 						</div><!-- //REGISTRATION FORM -->
 					</div><!-- //SIDEBAR -->
 				</div><!-- //ROW -->

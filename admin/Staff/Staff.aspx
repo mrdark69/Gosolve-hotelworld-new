@@ -66,9 +66,9 @@
                         <div class="ibox-content">
                             <div class="row">
                                 <div class="col-sm-5 m-b-xs">
-                                   <strong>Role:</strong> <asp:DropDownList ID="dropRole" ClientIDMode="Static" runat="server" CssClass="input-sm form-control input-s-sm inline">
+                                 <%--  <strong>Role:</strong> <asp:DropDownList ID="dropRole" ClientIDMode="Static" runat="server" CssClass="input-sm form-control input-s-sm inline">
 
-                                    </asp:DropDownList>
+                                    </asp:DropDownList>--%>
                                    <%-- <select class="input-sm form-control input-s-sm inline">
                                     <option value="0">Option 1</option>
                                     <option value="1">Option 2</option>

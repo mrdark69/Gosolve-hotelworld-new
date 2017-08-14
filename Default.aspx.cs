@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,7 +15,7 @@ public partial class _Default : Page
     public List<Model_PostCustomItem> CTF { get; set; } = new List<Model_PostCustomItem>();
     public Model_Post PostDataUI { get; set; }
     public List<Model_PostTaxonomy> TaxList { get; set; }
-    public Model_PostTaxonomy TaxForPostType { get; set; }
+    public Model_PostTaxonomy TaxForPostType { get; set; } 
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -138,7 +139,9 @@ public partial class _Default : Page
                                         {
                                             //case Tax approve
                                             SectionProductTaxArchive.Visible = true;
-
+                                            this.TaxForPostType = tax;
+                                            this.TaxList = tax.GetTaxonomyTaxTypeAndPostType(bytPostTypeID, (byte)PostTaxonomyType.Categories);
+                                            this.ContentBody = tax.BodyContent;
                                             //Case tax Archive Paging
                                             if (RouteSlug_3 == "page")
                                             {
@@ -358,7 +361,17 @@ public partial class _Default : Page
                     ret = Slider();
                 else
                     ret = breadcrumb(tax.BannerTypeID);
-            }else
+
+                if (tax.BannerTypeID == 1)
+                    ret = ret.Replace("<!--##THE_TITLE##-->", tax.Title);
+
+                List<Model_TaxMedia> pml = tax.TaxMedia;
+
+                Model_TaxMedia pm = pml.SingleOrDefault(m => m.TaxMediaTypeID == TaxMediaType.CoverImage);
+                if (pm != null)
+                    ret = ret.Replace("<!--##THE_COVER##-->", pm.MediaFullPath);
+            }
+            else
             {
                 ret = breadcrumb(2);
             }
@@ -392,4 +405,57 @@ public partial class _Default : Page
         string ret = StringUtility.GetTemplate(FileName);
         return ret;
     }
+
+    public string getCatProduct(List<Model_PostTaxonomy> Taxlist)
+    {
+        StringBuilder ret = new StringBuilder();
+
+
+        ret.Append("<div class='tax_parent' style='max-height:300px;overflow:scroll;'>");
+
+        List<Model_PostTaxonomy> Taxlistdrop = new List<Model_PostTaxonomy>();
+
+
+
+        foreach (Model_PostTaxonomy i in Taxlist.Where(g => g.RefID == 0).OrderBy(o => o.Priority))
+        {
+            //ret.Append("<input type='checkbox' value='"+i.TaxID+"' name='product_tax_cat' />");
+            ret.Append("<p class='parent_main_item'><i class=\"fa fa-star\"></i> " + i.Title + "</p>");
+
+            if (Taxlist.Where(f => f.RefID == i.TaxID).Count() > 0)
+            {
+
+                ret.Append("<div class='tax_child' style='margin-left:15px;'>");
+               // ret.Append(getchild(Taxlist.Where(f => f.RefID == i.TaxID).ToList(), Taxlist, i.TaxID));
+                ret.Append("</div>");
+            }
+
+        }
+
+
+        ret.Append("</div>");
+        return ret.ToString();
+    }
+
+
+    public string getchild( List<Model_PostTaxonomy> data, int id)
+    {
+        StringBuilder ret = new StringBuilder();
+        List<Model_PostTaxonomy> retdataret = data.Where(r => r.RefID == id).ToList();
+        foreach (Model_PostTaxonomy c in retdataret)
+        {
+            ////name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>" 
+            ret.Append("<input type=\"checkbox\" id=\"tax_name_"+c.TaxID+"\" value=\""+c.Slug+ "\" /><label for=\"tax_name_" + c.TaxID + "\"><a href=\"" + c.Permarlink + "\" title=\""+c.Title+"\" >" + c.Title+ " <span>(24)</span></a></label>");
+            ////ret.Append("<p class='child_item' style='position:relative;'><input type='checkbox'  value='" + c.TaxID + "' name='TaxID_" + c.PostTypeID + "_" + c.TaxTypeID + "' />");
+            //ret.Append(c.Title + "</p>");
+            if (data.Where(f => f.RefID == c.TaxID).Count() > 0)
+            {
+                ret.Append("<div class='tax_child'  style='position:relative;margin-left:15px;'>");
+                ret.Append(getchild(data.Where(f => f.RefID == c.TaxID).ToList(), c.TaxID));
+                ret.Append("</div>");
+            }
+        }
+        return ret.ToString();
+    }
+
 }

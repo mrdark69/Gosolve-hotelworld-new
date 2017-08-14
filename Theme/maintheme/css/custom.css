@@ -109,3 +109,14 @@
 .fancy-select ul.options{
     width:100%;
 }
+
+.gs_container_custom .container{
+    width:100%;
+}
+
+.top_slider .slide1 .flex_caption2 .middle{
+    font-size:23px;
+}
+.top_slider .slide1 .flex_caption2 span {
+    font-size: 30px
+}
