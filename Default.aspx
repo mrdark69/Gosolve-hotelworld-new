@@ -591,13 +591,13 @@
 					        <!-- TOVAR DETAILS WRAPPER -->
 					        <div class="col-lg-9 col-md-9 tovar_details_wrapper clearfix">
 						        <div class="tovar_details_header clearfix margbot35">
-							        <h3 class="pull-left"><b>Sweaters</b></h3>
+							        <h3 class="pull-left"><b><%:this.PostDataUI.Title %></b></h3>
 							
-							        <div class="tovar_details_pagination pull-right">
+							        <%--<div class="tovar_details_pagination pull-right">
 								        <a class="fa fa-angle-left" href="javascript:void(0);" ></a>
 								        <span>2 of 34</span>
 								        <a class="fa fa-angle-right" href="javascript:void(0);" ></a>
-							        </div>
+							        </div>--%>
 						        </div>
 						
 						        <!-- CLEARFIX -->
@@ -620,36 +620,35 @@
 									        </ul>
 								        </div>
 							        </div>
-							
+							<%
+                                Model_PostCustomItem cu = new Model_PostCustomItem();
+                                List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(this.PostDataUI.PostID);
+                                //product_quantity
+                                //product_code
+                                string Price = string.Empty;
+                                string PCode = string.Empty;
+                                cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+
+                                if (cu != null)
+                                {
+                                    Price = ((decimal)cu.PriceData).ToString("#,##0.00");
+                                }
+
+                                PCode = cul.SingleOrDefault(o => o.PcName == "product-code") != null ? cul.SingleOrDefault(o => o.PcName == "product-code").TextData : string.Empty;
+
+
+                                %>
+                                    
 							        <div class="tovar_view_description">
-								        <div class="tovar_view_title">Popover Sweatshirt in Floral Jacquard</div>
-								        <div class="tovar_article">88-305-676</div>
+								        <div class="tovar_view_title"><%:this.PostDataUI.Title %></div>
+								        <div class="tovar_article"><%Response.Write(PCode); %></div>
 								        <div class="clearfix tovar_brend_price">
-									        <div class="pull-left tovar_brend">Calvin Klein</div>
-									        <div class="pull-right tovar_view_price">$98.00</div>
+									        <%--<div class="pull-left tovar_brend">Calvin Klein</div>--%>
+									        <div class="pull-right tovar_view_price"><% Response.Write(Price); %></div>
 								        </div>
 								        <div class="tovar_color_select">
 									        <p>Select color</p>
-									        <a class="color1" href="javascript:void(0);" ></a>
-									        <a class="color2 active" href="javascript:void(0);" ></a>
-									        <a class="color3" href="javascript:void(0);" ></a>
-									        <a class="color4" href="javascript:void(0);" ></a>
-								        </div>
-								        <div class="tovar_size_select">
-									        <div class="clearfix">
-										        <p class="pull-left">Select SIZE</p>
-										        <span>Size & Fit</span>
-									        </div>
-									        <a class="sizeXS" href="javascript:void(0);" >XS</a>
-									        <a class="sizeS active" href="javascript:void(0);" >S</a>
-									        <a class="sizeM" href="javascript:void(0);" >M</a>
-									        <a class="sizeL" href="javascript:void(0);" >L</a>
-									        <a class="sizeXL" href="javascript:void(0);" >XL</a>
-									        <a class="sizeXXL" href="javascript:void(0);" >XXL</a>
-									        <a class="sizeXXXL" href="javascript:void(0);" >XXXL</a>
-								        </div>
-								        <div class="tovar_view_btn">
-									        <select class="basic">
+                                            <select class="basic">
 										        <option value="">QTY</option>
 										        <option>Lo</option>
 										        <option>Ips</option>
@@ -657,8 +656,52 @@
 										        <option>Sit</option>
 										        <option>Amet</option>
 									        </select>
+									      <%--  <a class="color1" href="javascript:void(0);" ></a>
+									        <a class="color2 active" href="javascript:void(0);" ></a>
+									        <a class="color3" href="javascript:void(0);" ></a>
+									        <a class="color4" href="javascript:void(0);" ></a>--%>
+								        </div>
+								        <div class="tovar_size_select">
+									        <div class="clearfix">
+										        <p class="pull-left">Select SIZE</p>
+										        <span>Size & Fit</span>
+									        </div>
+
+                                            <select class="basic">
+										        <option value="">QTY</option>
+										        <option>Lo</option>
+										        <option>Ips</option>
+										        <option>Dol</option>
+										        <option>Sit</option>
+										        <option>Amet</option>
+									        </select>
+
+                                            <select class="basic">
+										        <option value="">QTY</option>
+										        <option>Lo</option>
+										        <option>Ips</option>
+										        <option>Dol</option>
+										        <option>Sit</option>
+										        <option>Amet</option>
+									        </select>
+									        <%--<a class="sizeXS" href="javascript:void(0);" >XS</a>
+									        <a class="sizeS active" href="javascript:void(0);" >S</a>
+									        <a class="sizeM" href="javascript:void(0);" >M</a>
+									        <a class="sizeL" href="javascript:void(0);" >L</a>
+									        <a class="sizeXL" href="javascript:void(0);" >XL</a>
+									        <a class="sizeXXL" href="javascript:void(0);" >XXL</a>
+									        <a class="sizeXXXL" href="javascript:void(0);" >XXXL</a>--%>
+								        </div>
+								        <div class="tovar_view_btn">
+
+                                            <div class=" quantity " style="display:inline-block">
+								                <button class="bg_tr d_block f_left" data-direction="down">-</button>
+								                <input type="text" name="quantity" id="quantity" value="1" class="f_left">
+								                <button class="bg_tr d_block f_left" data-direction="up">+</button>
+							                    </div>
+									        
 									        <a class="add_bag" href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i>Add to bag</a>
-									        <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>
+									       <%-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>--%>
 								        </div>
 								        <div class="tovar_shared clearfix">
 									        <p>Share item with friends</p>
@@ -678,7 +721,7 @@
 							        <ul class="tabs clearfix">
 								        <li class="current">Details</li>
 								        <li>Information</li>
-								        <li>Reviews (2)</li>
+								      <%--  <li>Reviews (2)</li>--%>
 							        </ul>
 							        <div class="box visible">
 								        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -697,60 +740,7 @@
 								        All sizes from 28-40 waist<br>
 								        Leg length 30", 32", 34", 36"
 							        </div>
-							        <div class="box">
-								        <ul class="comments">
-									        <li>
-										        <div class="clearfix">
-											        <p class="pull-left"><strong><a href="javascript:void(0);" >John Doe</a></strong></p>
-											        <span class="date">2013-10-09 09:23</span>
-											        <div class="pull-right rating-box clearfix">
-												        <i class="fa fa-star"></i>
-												        <i class="fa fa-star"></i>
-												        <i class="fa fa-star"></i>
-												        <i class="fa fa-star-o"></i>
-												        <i class="fa fa-star-o"></i>
-											        </div>
-										        </div>
-										        <p>Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis. Integer rutrum ante eu lacus.Vestibulum libero nisl, porta vel, scelerisque eget, malesuada at, neque.</p>
-									        </li>
-									        <li>
-										        <div class="clearfix">
-											        <p class="pull-left"><strong><a href="javascript:void(0);" >John Doe</a></strong></p>
-											        <span class="date">2013-10-09 09:23</span>
-											        <div class="pull-right rating-box clearfix">
-												        <i class="fa fa-star"></i>
-												        <i class="fa fa-star"></i>
-												        <i class="fa fa-star"></i>
-												        <i class="fa fa-star"></i>
-												        <i class="fa fa-star"></i>
-											        </div>
-										        </div>
-										        <p>Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis. Integer rutrum ante eu lacus.Vestibulum libero nisl, porta vel, scelerisque eget, malesuada at, neque.</p>
-										
-										        <ul>
-											        <li>
-												        <p><strong><a href="javascript:void(0);" >Jane Doe</a></strong></p>
-												        <p>Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis. Integer rutrum ante eu lacus.Vestibulum libero nisl, porta vel, scelerisque eget, malesuada at, neque.</p>
-											        </li>
-										        </ul>
-									        </li>
-								        </ul>
-								
-								        <h3>WRITE A REVIEW</h3>
-								        <p>Now please write a (short) review....(min. 200, max. 2000 characters)</p>
-								        <div class="clearfix">
-									        <textarea id="review-textarea"></textarea>
-									        <label class="pull-left rating-box-label">Your Rate:</label>
-									        <div class="pull-left rating-box clearfix">
-										        <i class="fa fa-star-o"></i>
-										        <i class="fa fa-star-o"></i>
-										        <i class="fa fa-star-o"></i>
-										        <i class="fa fa-star-o"></i>
-										        <i class="fa fa-star-o"></i>
-									        </div>
-									        <input type="submit" class="dark-blue big" value="Submit a review">
-								        </div>
-							        </div>
+							        
 						        </div><!-- //TOVAR INFORMATION -->
 					        </div><!-- //TOVAR DETAILS WRAPPER -->
 				        </div><!-- //ROW -->

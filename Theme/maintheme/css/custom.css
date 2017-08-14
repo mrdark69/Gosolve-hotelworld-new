@@ -46,3 +46,37 @@
 .product_catalog_title {
     font-size: 30px;
 }
+
+/*quantity*/
+.tovar_view_btn .quantity {
+    display: inline-block;
+    width: 150px;
+    padding-top: 3px;
+}
+    .tovar_view_btn .quantity input, .tovar_view_btn .quantity button {
+        float:left;
+    }
+    .tovar_view_btn .quantity button {
+        color: #fff;
+        background-color: #333;
+        border: 0;
+        padding: 13px 15px;
+        font-size: 14px;
+        
+    }
+
+    .tovar_view_btn .quantity input {
+        width: 60px;
+        margin: 0 5px 0 5px;
+        padding: 22px;
+        font-size:15px;
+    }
+.r_corners {
+
+} 
+.d_inline_middle{
+
+} 
+.f_size_medium {
+
+}

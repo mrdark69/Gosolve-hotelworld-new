@@ -124,6 +124,9 @@ public partial class _Default : Page
                                     if(post != null)
                                     {
                                         SectionProductSingle.Visible = true;
+                                        this.PostDataUI = post;
+                                        this.ContentBody = post.BodyContent;
+                                        this.PageContentTitle = post.Title;
                                     }
                                     else
                                     {
@@ -273,9 +276,9 @@ public partial class _Default : Page
 
                     this.CTF = pct.GetItemCustomByPostID(intPostID);
 
-                   
-                    // content.Text = post.BodyContent;
 
+                    // content.Text = post.BodyContent;
+                    this.PostDataUI = post;
                     this.ContentBody = post.BodyContent;
                     this.PageContentTitle = post.Title;
                     section_page_home.Visible = true;

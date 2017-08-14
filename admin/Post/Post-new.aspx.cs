@@ -53,6 +53,20 @@ public partial class _Page_New : BasePage
         };
 
         int postid = p.InsertPost(p);
+
+        if(postid > 0 && byte.Parse(Request.QueryString["PostTypeID"]) == (byte)PostType.Products)
+        {
+            Model_PostPricing pp = new Model_PostPricing
+            {
+                PostID = postid,
+                Isvat = true,
+                Price = 0.0m,
+                PostTypeID = (byte)PostType.Products,
+                Title = string.Empty
+            };
+            pp.InsertPrice(pp);
+        }
+        
         if (postid > 0)
             Response.Redirect("Post?PostID=" + postid);
 

@@ -211,29 +211,67 @@
                                            </div>
                                    <div class="ibox-content">
                                        <div class="form">
-                                           <div class="col-md-4">
+                                           <div class="col-md-2">
                                                 <label><i class="fa fa-bookmark" aria-hidden="true"></i> Product Code</label>
                                                <div class="form-group">
                                     
                                         <asp:TextBox ID="txtProductCode"  ClientIDMode="Static" CssClass="form-control"  runat="server"></asp:TextBox>
                                     </div>
                                            </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                  <label><i class="fa fa-bookmark" aria-hidden="true"></i> Product Quantity</label>
                                                 <div class="form-group">
                                     
                                         <asp:TextBox ID="txtProductQuantity"  ClientIDMode="Static" CssClass="form-control"  runat="server"></asp:TextBox>
                                     </div>
                                            </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-7">
                                                  <label><i class="fa fa-bookmark" aria-hidden="true"></i> Product Price</label>
                                                 <div class="form-group">
-                                    
-                                        <asp:TextBox ID="txtProductPrice"  ClientIDMode="Static" CssClass="form-control"  runat="server"></asp:TextBox>
+                                    <asp:TextBox ID="txtPriceTitle"  ClientIDMode="Static" CssClass="form-control"  style="width:200px;display:inline-block" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtProductPrice"  ClientIDMode="Static" CssClass="form-control"  style="width:70px;display:inline-block" runat="server"></asp:TextBox>
+                                                    <asp:HiddenField ID="hd_productPrice_id" runat="server" />
+                                                    <asp:DropDownList ID="priceVat" CssClass="form-control" style="width:100px;display:inline-block" runat="server">
+                                                        <asp:ListItem Text="Include Vat" Value="True"></asp:ListItem>
+                                                             <asp:ListItem Text="Exclude Vat" Value="False"></asp:ListItem>
+                                                    </asp:DropDownList>
                                     </div>
                                            </div>
 
                                            <div style="clear:both"></div>
+
+                                           <div class="row">
+                                           <div class="col-md-12">
+                                               <div class="form-group" runat="server" id="Div1" ><label class="control-label">Price Option</label>
+                                                    <asp:DropDownList  ID="droppriceOPtion" ClientIDMode="Static" style="display:none;" runat="server"></asp:DropDownList>
+                                                            
+                                                        <div class="col-sm-12"> 
+                                                          <table class="table table-strip" id="add-row-po" >
+                                                              <thead>
+                                                                  <tr>
+                                                                     <td style="width:40%">Option Title</td>
+                                                                      <td style="width:10%">Unit From</td>
+                                                                       <td style="width:10%">Unit To</td>
+                                                                     <td style="width:10%">Price</td>
+                                                                      <td style="width:10%"></td>
+                                                                  </tr>
+                                                              </thead>
+                                                              <tbody>
+                                               
+                                                              </tbody>
+                                                          </table>
+
+                                                            <button id="addrow_1" type="button" class="btn btn-success btn-xs">Add Row</button>
+                                                        </div>
+                                   
+                                                    </div>
+
+
+                                           </div>
+                                               </div>
+
+                                            <div style="clear:both"></div>
+
                                            </div>
                                        </div>
                                    </div>
@@ -746,6 +784,52 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                html += '</tr>';
 
                $('#add-row-social tbody').append(html);
+               return false;
+           });
+
+
+           var optionprice = $('#droppriceOPtion option');
+           if (optionprice.length > 0) {
+               $.each(optionprice, function () {
+                   var uuid = guid();
+                   var link = $(this).html();
+                   //var dropsocial = $('#dropSocial').html();
+                   var val = $(this).attr('value');
+
+                   var arr = val.split('#');
+                   var v_from = arr[0];
+                   var v_to = arr[1];
+                   var v_title = arr[2];
+                   var v_price = arr[3];
+
+                   var chk = '<input type="checkbox" name="chk_price_option" checked="checked" value="' + uuid + '" style="display:none;" />';
+
+                   var txtTitle = '<input class="form-control" type="textbox"  id="po_title_s_' + uuid + '" name="po_title_s_' + uuid + '" value="' + v_title +'"  />'
+                   var txtFrom = '<input class="form-control" type="textbox"  id="po_from_s_' + uuid + '" name="po_from_s_' + uuid + '" value="' + v_from+'" />'
+                   var txtTo = '<input class="form-control" type="textbox"  id="po_to_s_' + uuid + '" name="po_to_s_' + uuid + '"  value="' + v_to +'" />'
+                   var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_' + uuid + '" name="po_p_s_' + uuid + '"  value="' + v_price +'" />'
+                   var html = '<tr id="row_s_' + uuid + '"><td>' + chk + txtTitle + '</td><td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+                   $('#add-row-po tbody').append(html);
+
+
+                   $('#sel_' + uuid).val(val);
+               });
+           }
+
+
+           $("#addrow_1").on('click', function () {
+               var uuid = guid();
+
+               
+
+               var chk = '<input type="checkbox" name="chk_price_option" checked="checked" value="' + uuid + '" style="display:none;" />';
+               
+               var txtTitle = '<input class="form-control" type="textbox"  id="po_title_s_' + uuid + '" name="po_title_s_' + uuid + '" />'
+               var txtFrom = '<input class="form-control" type="textbox"  id="po_from_s_' + uuid + '" name="po_from_s_' + uuid + '" />'
+               var txtTo = '<input class="form-control" type="textbox"  id="po_to_s_' + uuid + '" name="po_to_s_' + uuid + '" />'
+               var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_' + uuid + '" name="po_p_s_' + uuid + '" />'
+               var html = '<tr id="row_s_' + uuid + '"><td>' + chk + txtTitle + '</td><td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+               $('#add-row-po tbody').append(html);
                return false;
            });
 

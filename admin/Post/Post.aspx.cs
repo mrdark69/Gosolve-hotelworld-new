@@ -97,7 +97,7 @@ public partial class _Post : BasePage
 
                     //Chcek Defaul Postype Field Charactor
                     //if PostType = product 
-                    if(p.PostTypeID == 3)
+                    if(p.PostTypeID == (byte)PostType.Products)
                     {
                         Model_TaxMap ctm = new Model_TaxMap();
                         List<Model_TaxMap> ctm_cat = ctm.GetTaxByPostIDandTaxType(PostID, (byte)PostTaxonomyType.Categories);
@@ -146,8 +146,43 @@ public partial class _Post : BasePage
                         }
 
 
+                        //check price for product
+                        Model_PostPricing pp = new Model_PostPricing();
+                        List<Model_PostPricing> ppl = pp.GetPostPriceAllByPostID(PostID);
+                        if (ppl.Count < 1)
+                        {
+                            pp.PostID = PostID;
+                            pp.Isvat = true;
+                            pp.Price = 0.0m;
+                            pp.PostTypeID = (byte)PostType.Products;
+                            pp.Title = string.Empty;
+                            int priceid = pp.InsertPrice(pp);
+                            hd_productPrice_id.Value = priceid.ToString();
+                            pp = pp.GetPostPriceAllByID(priceid);
+                            priceVat.SelectedValue = pp.Isvat.ToString();
+                            txtPriceTitle.Text = pp.Title;
+                            txtProductPrice.Text= pp.Price.ToString("#,##0.00");
+                        }
+                        else
+                        {
+                            pp = ppl[0];
+                            hd_productPrice_id.Value = pp.PriceID.ToString();
+                            priceVat.SelectedValue = pp.Isvat.ToString();
+                            txtProductPrice.Text = pp.Price.ToString("#,##0.00");
+                            txtPriceTitle.Text = pp.Title;
+                            if (pp.PriceOPtion.Count > 0)
+                            {
+                                droppriceOPtion.DataSource = pp.PriceOPtion;
+                                droppriceOPtion.DataValueField = "OPtionDrop";
+                                droppriceOPtion.DataTextField = "PriceOptionID";
+                                droppriceOPtion.DataBind();
+                                
+                            }
+                        }
+                           
+
                     }
-                   
+
 
 
                     //Check Cutom Post Field
@@ -254,11 +289,11 @@ public partial class _Post : BasePage
                                 {
                                     txtProductQuantity.Text = P_pro_quan.NumData.HasValue ? P_pro_quan.NumData.ToString() : string.Empty;
                                 }
-                                Model_PostCustomItem P_pro_price = ProductitemList.SingleOrDefault(r => r.PcName == "product-price-per-unit");
-                                if (P_pro_price != null)
-                                {
-                                    txtProductPrice.Text = P_pro_price.PriceData.HasValue ? ((decimal)P_pro_price.PriceData).ToString("#,###.00") : string.Empty;
-                                }
+                                //Model_PostCustomItem P_pro_price = ProductitemList.SingleOrDefault(r => r.PcName == "product-price-per-unit");
+                                //if (P_pro_price != null)
+                                //{
+                                //    txtProductPrice.Text = P_pro_price.PriceData.HasValue ? ((decimal)P_pro_price.PriceData).ToString("#,###.00") : string.Empty;
+                                //}
 
 
                                 break;
@@ -397,6 +432,41 @@ public partial class _Post : BasePage
                 TwitterImages = twimg.Value,
                 GoogleAnalytic = analytic.Text.Trim(),
             };
+
+
+            Model_PostPricing pp = new Model_PostPricing();
+            pp = pp.GetPostPriceAllByID(int.Parse(hd_productPrice_id.Value));
+            if (pp != null)
+            {
+                Model_PostPricing pu = new Model_PostPricing
+                {
+                    Price = string.IsNullOrEmpty(txtProductPrice.Text)? 0: decimal.Parse(txtProductPrice.Text),
+                    PriceID = pp.PriceID,
+                    Isvat = bool.Parse(priceVat.SelectedValue),
+                    
+                    Title = txtPriceTitle.Text
+                };
+                pu.UpdataPostPrice(pu);
+
+                Model_PostPricingOption cpo = new Model_PostPricingOption();
+                cpo.DeleteOPtionPrice(pp.PriceID);
+                string po = Request.Form["chk_price_option"];
+                if (!string.IsNullOrEmpty(po))
+                {
+                    string[] arrpo = po.Split(',');
+                    foreach(string poi in arrpo)
+                    {
+
+                        Model_PostPricingOption cpoi = new Model_PostPricingOption();
+                        cpoi.PriceID = pp.PriceID;
+                        cpoi.Title = Request.Form["po_title_s_" + poi];
+                        cpoi.UnitFrom = string.IsNullOrEmpty(Request.Form["po_from_s_" + poi]) ? 1 : int.Parse(Request.Form["po_from_s_" + poi]);
+                        cpoi.UnitTo = string.IsNullOrEmpty(Request.Form["po_to_s_" + poi]) ? 0 : int.Parse(Request.Form["po_to_s_" + poi]);
+                        cpoi.PriceOption = string.IsNullOrEmpty(Request.Form["po_p_s_" + poi]) ? 0 : decimal.Parse(Request.Form["po_p_s_" + poi]);
+                        cpoi.InsertPriceOPtion(cpoi);
+                    }
+                }
+            }
 
             if(seomap != null)
             {
@@ -613,14 +683,14 @@ public partial class _Post : BasePage
                 cpi_quan.Insert(cpi_quan);
 
                 //Product Code
-                Model_PostCustomItem cpi_price = new Model_PostCustomItem();
-                cpi_price.PCDID = (int)CustomGroup.ProductGroup;
-                cpi_price.PostID = intPostID;
-                cpi_price.PcGroupName = "ProductGroup";
-                cpi_price.PriceData = string.IsNullOrEmpty(txtProductPrice.Text) ? 0 : decimal.Parse(txtProductPrice.Text); 
-                cpi_price.PcName = "product-price-per-unit";
-                cpi_price.ClearCustomByPostIDandName(intPostID, "product-price-per-unit");
-                cpi_price.Insert(cpi_price);
+                //Model_PostCustomItem cpi_price = new Model_PostCustomItem();
+                //cpi_price.PCDID = (int)CustomGroup.ProductGroup;
+                //cpi_price.PostID = intPostID;
+                //cpi_price.PcGroupName = "ProductGroup";
+                //cpi_price.PriceData = string.IsNullOrEmpty(txtProductPrice.Text) ? 0 : decimal.Parse(txtProductPrice.Text); 
+                //cpi_price.PcName = "product-price-per-unit";
+                //cpi_price.ClearCustomByPostIDandName(intPostID, "product-price-per-unit");
+                //cpi_price.Insert(cpi_price);
 
 
                 //            product_code = 5,
