@@ -11,7 +11,7 @@ public partial class _Default : Page
     public string ContentBody{ get; set; }
     public string PageContentTitle { get; set; }
 
-    public List<Model_PostCustomItem> CTF  { get; set; }
+    public List<Model_PostCustomItem> CTF { get; set; } = new List<Model_PostCustomItem>();
     public Model_Post PostDataUI { get; set; }
     public List<Model_PostTaxonomy> TaxList { get; set; }
     public Model_PostTaxonomy TaxForPostType { get; set; }
@@ -127,6 +127,7 @@ public partial class _Default : Page
                                         this.PostDataUI = post;
                                         this.ContentBody = post.BodyContent;
                                         this.PageContentTitle = post.Title;
+                                        this.CTF = pct.GetItemCustomByPostID(post.PostID);
                                     }
                                     else
                                     {

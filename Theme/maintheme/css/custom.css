@@ -71,12 +71,37 @@
         padding: 22px;
         font-size:15px;
     }
-.r_corners {
+.gs-custom-select .fancy-select {
+    width:100%;
+}
+    .gs-custom-select .fancy-select .trigger {
+        width: 100%;
+    }
 
-} 
-.d_inline_middle{
+.flex-viewport{
+    overflow:scroll;
+}
 
-} 
-.f_size_medium {
+.slider-nav{
+    margin-top:5px;
+}
+    .slider-nav div img {
+        display: block;
+        padding:5px;
+        /* margin-left: 2px; */
+        /* margin: 10px; */
+      
+    }
 
+.slick-slide{
+  
+}
+.tovar_view_description p {
+    font-size: 14px;
+    font-weight: 200;
+}
+.tovar_information p, .tovar_information div {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 21px;
 }

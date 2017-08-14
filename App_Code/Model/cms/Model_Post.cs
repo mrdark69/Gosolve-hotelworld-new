@@ -151,6 +151,26 @@ public class Model_Post : BaseModel<Model_Post>
             return _postTypeClass;
         }
     }
+    private Model_PostPricing _postPricingclass = null;
+    public Model_PostPricing PostPricingclass
+    {
+        get
+        {
+            if (_postPricingclass == null)
+            {
+                Model_PostPricing ps = new Model_PostPricing();
+                List<Model_PostPricing> pl = ps.GetPostPriceAllByPostID(this.PostID);
+                if (pl.Count > 0)
+                    _postPricingclass = pl[0];
+
+            }
+
+            return _postPricingclass;
+        }
+    }
+
+
+    
 
     public string Permarlink {
         get
@@ -362,5 +382,29 @@ WHERE PostID=@PostID", cn);
         }
     }
 
+
+    public List<Model_Post> GetRealtePostByTaxType(int intPostID, PostTaxonomyType byteTaxType)
+    {
+        using(SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT ppt.* FROM Post ppt 
+                                            INNER JOIN (
+                                            SELECT p.PostID FROM PostTaxMap pt 
+                                            INNER JOIN Post p ON p.PostID = pt.PostID 
+                                            INNER JOIN (SELECT pt.TaxID AS txid, pt.PostID AS taxPostid FROM PostTaxMap pt 
+                                            INNER JOIN Post p ON p.PostID = pt.PostID 
+                                            WHERE pt.PostID = @PostID AND pt.TaxTypeID = @TaxTypeID
+                                            ) AS taxg ON taxg.txid = pt.TaxID
+                                            WHERE pt.PostID <> taxg.taxPostid
+
+                                            GROUP BY p.PostID) AS tmp ON tmp.PostID = ppt.PostID
+                                            ORDER BY ppt.DatePublish DESC", cn);
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = intPostID;
+            cmd.Parameters.Add("@TaxTypeID", SqlDbType.Int).Value = byteTaxType;
+
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
 
 }

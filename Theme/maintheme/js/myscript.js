@@ -138,7 +138,8 @@ jQuery(window).load(function(){
 		animationLoop: false,
 		slideshow: false,
 		direction: "vertical",
-		asNavFor: '#slider2'
+        asNavFor: '#slider2',
+
 	});
 	$('#slider2').flexslider({
 		animation: "fade",

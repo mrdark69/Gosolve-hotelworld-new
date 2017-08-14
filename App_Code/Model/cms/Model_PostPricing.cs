@@ -33,6 +33,12 @@ public class Model_PostPricingOption : BaseModel<Model_PostPricingOption>
 
     }
 
+    public string OPtionDropFront
+    {
+        get { return this.UnitFrom + "_" + this.UnitTo + "_" + this.PriceOption.ToString("#,##0.00"); }
+
+    }
+
     public Model_PostPricingOption()
     {
         //

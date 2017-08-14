@@ -562,29 +562,47 @@
 					
 					        <!-- SIDEBAR TOVAR DETAILS -->
 					        <div class="col-lg-3 col-md-3 sidebar_tovar_details">
-						        <h3><b>other sweatersss</b></h3>
+						        <h3><b>Product Relate</b></h3>
 						
 						        <ul class="tovar_items_small clearfix">
+
+                                     <%  
+                                         Model_Post p = new Model_Post();
+                                         List<Model_Post> prealte = p.GetRealtePostByTaxType(this.PostDataUI.PostID, PostTaxonomyType.Categories);
+                                         foreach (Model_Post item in prealte.Take(5))
+                                         {
+
+
+                                             string imgPath = string.Empty;
+                                             string alt = string.Empty;
+                                             string title = string.Empty;
+                                             string Priceitem = string.Empty;
+                                             List<Model_PostMedia> cm = item.PostMedia;
+                                             Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
+
+                                             Model_PostPricing ppi = item.PostPricingclass;
+                                             //List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+                                             //cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                             if (ppi != null)
+                                             {
+                                                 Priceitem = ((decimal)ppi.Price).ToString("#,##0.00");
+                                             }
+
+
+                                             if (cimg != null)
+                                             {
+                                                 imgPath = cimg.MediaFullPath;
+                                                 alt = cimg.Alt;
+                                                 title = cimg.Title;
+                                             }
+                                    %>
 							        <li class="clearfix">
-								        <img class="tovar_item_small_img" src="images/tovar/women/1.jpg" alt="" />
-								        <a href="product-page.html" class="tovar_item_small_title">Embroidered bib peasant top</a>
-								        <span class="tovar_item_small_price">$88.00</span>
+								        <img class="tovar_item_small_img" src="<% Response.Write(imgPath);%>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
+								        <a href="<% Response.Write(item.Permarlink);%>" class="tovar_item_small_title"><%  Response.Write(item.Title);%></a>
+								        <span class="tovar_item_small_price"><% Response.Write(Priceitem); %> Baht</span>
 							        </li>
-							        <li class="clearfix">
-								        <img class="tovar_item_small_img" src="images/tovar/women/2.jpg" alt="" />
-								        <a href="product-page.html" class="tovar_item_small_title">Merino tippi sweater in geometric</a>
-								        <span class="tovar_item_small_price">$67.00</span>
-							        </li>
-							        <li class="clearfix">
-								        <img class="tovar_item_small_img" src="images/tovar/women/3.jpg" alt="" />
-								        <a href="product-page.html" class="tovar_item_small_title">Merino triple-stripe elbow-patch sweater</a>
-								        <span class="tovar_item_small_price">$94.00</span>
-							        </li>
-							        <li class="clearfix">
-								        <img class="tovar_item_small_img" src="images/tovar/women/4.jpg" alt="" />
-								        <a href="product-page.html" class="tovar_item_small_title">Collection cashmere getaway hoodie</a>
-								        <span class="tovar_item_small_price">$228.00</span>
-							        </li>
+                                    <%} %>
+							       
 						        </ul>
 					        </div><!-- //SIDEBAR TOVAR DETAILS -->
 					
@@ -592,82 +610,138 @@
 					        <div class="col-lg-9 col-md-9 tovar_details_wrapper clearfix">
 						        <div class="tovar_details_header clearfix margbot35">
 							        <h3 class="pull-left"><b><%:this.PostDataUI.Title %></b></h3>
-							
+							            
 							        <%--<div class="tovar_details_pagination pull-right">
 								        <a class="fa fa-angle-left" href="javascript:void(0);" ></a>
 								        <span>2 of 34</span>
 								        <a class="fa fa-angle-right" href="javascript:void(0);" ></a>
 							        </div>--%>
 						        </div>
+
+                                <% 
+                                    List<Model_PostMedia> pml = this.PostDataUI.PostMedia.Where(o => o.PostMediaTypeID == PostMediaType.Gallery).ToList();
+
+
+
+                                    %>
 						
 						        <!-- CLEARFIX -->
 						        <div class="clearfix padbot40">
 							        <div class="tovar_view_fotos clearfix">
-								        <div id="slider2" class="flexslider">
-									        <ul class="slides">
-										        <li><a href="javascript:void(0);" ><img src="images/tovar/women/1.jpg" alt="" /></a></li>
-										        <li><a href="javascript:void(0);" ><img src="images/tovar/women/1_2.jpg" alt="" /></a></li>
-										        <li><a href="javascript:void(0);" ><img src="images/tovar/women/1_3.jpg" alt="" /></a></li>
-										        <li><a href="javascript:void(0);" ><img src="images/tovar/women/1_4.jpg" alt="" /></a></li>
-									        </ul>
-								        </div>
-								        <div id="carousel2" class="flexslider">
-									        <ul class="slides">
-										        <li><a href="javascript:void(0);" ><img src="images/tovar/women/1.jpg" alt="" /></a></li>
-										        <li><a href="javascript:void(0);" ><img src="images/tovar/women/1_2.jpg" alt="" /></a></li>
-										        <li><a href="javascript:void(0);" ><img src="images/tovar/women/1_3.jpg" alt="" /></a></li>
-										        <li><a href="javascript:void(0);" ><img src="images/tovar/women/1_4.jpg" alt="" /></a></li>
-									        </ul>
-								        </div>
+
+                                        <div class="slider slider-for">
+                                             <%if (pml.Count > 0)
+                                                    {%>  
+                                             <% 
+                                                    foreach (Model_PostMedia im in pml)
+                                                    { 
+                                                        
+                                                          string imgPath = string.Empty;
+                                                            string alt = string.Empty;
+                                                            string title = string.Empty;
+                                                        if (im != null)
+                                                        {
+                                                            imgPath =im.MediaFullPath;
+                                                            alt = im.Alt;
+                                                            title = im.Title;
+                                                        }
+                                                        
+                                                        %>
+					                        <div><a href="javascript:void(0);" ><img src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" /></a></div>
+                                                                               <%}
+    } %>
+						
+				                        </div>
+				                        <div class="slider slider-nav">
+                                             <%if (pml.Count > 0)
+                                                    {%>  
+
+                                                <% 
+                                                    foreach (Model_PostMedia im in pml)
+                                                    { 
+                                                        
+                                                          string imgPath = string.Empty;
+                                                            string alt = string.Empty;
+                                                            string title = string.Empty;
+                                                        if (im != null)
+                                                        {
+                                                            imgPath =im.MediaFullPath;
+                                                            alt = im.Alt;
+                                                            title = im.Title;
+                                                        }
+                                                        
+                                                        %>
+					                        <div><a href="javascript:void(0);" ><img src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" /></a></div>
+                                            <%}
+    } %>
+					                       
+					                        </div>
+
+								       
+								      
 							        </div>
 							<%
                                 Model_PostCustomItem cu = new Model_PostCustomItem();
                                 List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(this.PostDataUI.PostID);
                                 //product_quantity
                                 //product_code
+
+                                List<Model_PostPricingOption> cp = null;
+
+                                Model_PostPricing pp = this.PostDataUI.PostPricingclass;
+                                
+                                string PriceTitle = string.Empty;
                                 string Price = string.Empty;
                                 string PCode = string.Empty;
-                                cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
-
-                                if (cu != null)
+                                //cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                string information = string.Empty;
+                                string Detail = string.Empty;
+                                if (pp != null)
                                 {
-                                    Price = ((decimal)cu.PriceData).ToString("#,##0.00");
+                                    Price = pp.Price.ToString("#,##0.00");
+                                    PriceTitle = pp.Title;
+                                    cp = pp.PriceOPtion;
                                 }
 
-                                PCode = cul.SingleOrDefault(o => o.PcName == "product-code") != null ? cul.SingleOrDefault(o => o.PcName == "product-code").TextData : string.Empty;
+                                PCode = cul.SingleOrDefault(o => o.PcName == "product-code") != null ? cul.SingleOrDefault(o => o.PcName == "product-code").TextData : 
+string.Empty;
 
-
+                                information  = cul.SingleOrDefault(o => o.PcName == "product-information") != null ? cul.SingleOrDefault(o => o.PcName == "product-information").ContentHTML : 
+string.Empty;
+                                Detail = cul.SingleOrDefault(o => o.PcName == "product-detail") != null ? cul.SingleOrDefault(o => o.PcName == "product-detail").ContentHTML : 
+string.Empty;
+                                //product_detail
+                                //product_information
                                 %>
                                     
 							        <div class="tovar_view_description">
-								        <div class="tovar_view_title"><%:this.PostDataUI.Title %></div>
+								        <h1 class="tovar_view_title"><%:this.PostDataUI.Title %></h1>
+                                        <p><%  Response.Write(  Detail.getShortContent());%></p>
 								        <div class="tovar_article"><%Response.Write(PCode); %></div>
 								        <div class="clearfix tovar_brend_price">
 									        <%--<div class="pull-left tovar_brend">Calvin Klein</div>--%>
 									        <div class="pull-right tovar_view_price"><% Response.Write(Price); %></div>
 								        </div>
-								        <div class="tovar_color_select">
-									        <p>Select color</p>
+								        <div class="tovar_color_select gs-custom-select">
+									        <p><% Response.Write(PriceTitle); %></p>
                                             <select class="basic">
-										        <option value="">QTY</option>
-										        <option>Lo</option>
-										        <option>Ips</option>
-										        <option>Dol</option>
-										        <option>Sit</option>
-										        <option>Amet</option>
+										        <option value="0">Choose the option</option>
+
+                                                <% foreach (Model_PostPricingOption poi in cp)
+                                                    { %>
+										        <option value="<% Response.Write(poi.OPtionDropFront); %>" ><% Response.Write(poi.Title); %></option>
+										        <%} %>
 									        </select>
-									      <%--  <a class="color1" href="javascript:void(0);" ></a>
-									        <a class="color2 active" href="javascript:void(0);" ></a>
-									        <a class="color3" href="javascript:void(0);" ></a>
-									        <a class="color4" href="javascript:void(0);" ></a>--%>
+								
 								        </div>
-								        <div class="tovar_size_select">
+								        <%--<div class="tovar_size_select">
 									        <div class="clearfix">
 										        <p class="pull-left">Select SIZE</p>
 										        <span>Size & Fit</span>
 									        </div>
 
                                             <select class="basic">
+
 										        <option value="">QTY</option>
 										        <option>Lo</option>
 										        <option>Ips</option>
@@ -676,22 +750,8 @@
 										        <option>Amet</option>
 									        </select>
 
-                                            <select class="basic">
-										        <option value="">QTY</option>
-										        <option>Lo</option>
-										        <option>Ips</option>
-										        <option>Dol</option>
-										        <option>Sit</option>
-										        <option>Amet</option>
-									        </select>
-									        <%--<a class="sizeXS" href="javascript:void(0);" >XS</a>
-									        <a class="sizeS active" href="javascript:void(0);" >S</a>
-									        <a class="sizeM" href="javascript:void(0);" >M</a>
-									        <a class="sizeL" href="javascript:void(0);" >L</a>
-									        <a class="sizeXL" href="javascript:void(0);" >XL</a>
-									        <a class="sizeXXL" href="javascript:void(0);" >XXL</a>
-									        <a class="sizeXXXL" href="javascript:void(0);" >XXXL</a>--%>
-								        </div>
+                                           
+								        </div>--%>
 								        <div class="tovar_view_btn">
 
                                             <div class=" quantity " style="display:inline-block">
@@ -724,21 +784,10 @@
 								      <%--  <li>Reviews (2)</li>--%>
 							        </ul>
 							        <div class="box visible">
-								        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-								        <p>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst. </p>
+								     <% Response.Write(Detail); %>  
 							        </div>
 							        <div class="box">
-								        Original Levi 501 <br>
-								        Button fly<br>
-								        Regular fit<br>
-								        waist 28"-32 =16"hem<br>
-								        waist 33" = 17" hem<br>
-								        waist 34"-40"=18" hem<br>
-								        Levi's have started to introduce the red tab with just the (R) (registered trade mark) on the red tab<br><br>
-
-								        Size Details:<br>
-								        All sizes from 28-40 waist<br>
-								        Leg length 30", 32", 34", 36"
+								        <% Response.Write(information); %>  
 							        </div>
 							        
 						        </div><!-- //TOVAR INFORMATION -->
@@ -754,32 +803,31 @@
 			        <!-- CONTAINER -->
 			        <div class="container">
 				
-				        <!-- ROW -->
+				      <!-- ROW -->
 				        <div class="row">
-					
+				
 					        <!-- BANNER WRAPPER -->
-					        <div class="banner_wrapper">
+					        <div class="banner_wrapper" data-appear-top-offset='-100' data-animated='fadeInUp'>
 						        <!-- BANNER -->
 						        <div class="col-lg-9 col-md-9">
-							        <a class="banner type4 margbot40" href="javascript:void(0);" ><img src="images/tovar/banner4.jpg" alt="" /></a>
+							        <a class="banner type4 margbot40 gs-banner-custom" href="javascript:void(0);" style="background-image:url(	<% Response.Write(this.CTF.SingleOrDefault(b => b.PcName == "banner-announce") != null ? this.CTF.SingleOrDefault(b => b.PcName == "banner-announce").URL : string.Empty); %>);height:100px;" ></a>
 						        </div><!-- //BANNER -->
 						
 						        <!-- BANNER -->
 						        <div class="col-lg-3 col-md-3">
-							        <a class="banner nobord margbot40" href="javascript:void(0);" ><img src="images/tovar/banner5.jpg" alt="" /></a>
+							        <a class="banner nobord margbot40 gs-banner-custom" href="javascript:void(0);" style="background-image:url(	<% Response.Write(this.CTF.SingleOrDefault(b => b.PcName == "banner-announce-right") != null ? this.CTF.SingleOrDefault(b => b.PcName == "banner-announce-right").URL : string.Empty); %>);height:100px;" ></a>
 						        </div><!-- //BANNER -->
 					        </div><!-- //BANNER WRAPPER -->
 				        </div><!-- //ROW -->
 			        </div><!-- //CONTAINER -->
 		        </section><!-- //BANNER SECTION -->
 		
-		
-		        <!-- NEW ARRIVALS -->
+		   <!-- NEW ARRIVALS -->
 		        <section class="new_arrivals padbot50">
 			
 			        <!-- CONTAINER -->
 			        <div class="container">
-				        <h2>new arrivals</h2>
+				        <h2>สินค้ามาใหม่</h2>
 				
 				        <!-- JCAROUSEL -->
 				        <div class="jcarousel-wrapper">
@@ -790,328 +838,55 @@
 						        <a href="javascript:void(0);" class="jcarousel-control-next" ><i class="fa fa-angle-right"></i></a>
 					        </div><!-- //NAVIGATION -->
 					
-					        <div class="jcarousel">
+					        <div class="jcarousel" data-appear-top-offset='-100' data-animated='fadeInUp'>
 						        <ul>
+
+                                     <%  
+                                         
+                                         List<Model_Post> pnew = p.GetPostByTax(PostType.Products, "สินค้ามาใหม่");
+                                         foreach (Model_Post item in pnew)
+                                         {
+
+                                            
+                                             string imgPath = string.Empty;
+                                             string alt = string.Empty;
+                                             string title = string.Empty;
+                                             string Priceitem = string.Empty;
+                                             List<Model_PostMedia> cm = item.PostMedia;
+                                             Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
+
+                                             Model_PostPricing ppi = item.PostPricingclass;
+                                             //List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+                                             //cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                             if(ppi != null)
+                                             {
+                                                 Priceitem = ((decimal)ppi.Price).ToString("#,##0.00");
+                                             }
+
+
+                                             if (cimg != null)
+                                             {
+                                                 imgPath =cimg.MediaFullPath;
+                                                 alt = cimg.Alt;
+                                                 title = cimg.Title;
+                                             }
+                                    %>
+                                 
 							        <li>
 								        <!-- TOVAR -->
 								        <div class="tovar_item_new">
 									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/1.jpg" alt="" />
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a></div>
+										        <img src="<% Response.Write(imgPath);%>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
+										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
 									        </div>
 									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >Moonglow paisley silk tee</a>
-										        <span class="tovar_price">$98.00</span>
+										        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
+										        <span class="tovar_price"><% Response.Write(Price); %> Baht</span>
 									        </div>
 								        </div><!-- //TOVAR -->
 							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/2.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >PEASANT TOP IN SUCKERED STRIPE</a>
-										        <span class="tovar_price">$78.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/3.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >EMBROIDERED BIB PEASANT TOP</a>
-										        <span class="tovar_price">$88.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/4.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SILK POCKET BLOUSE</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/5.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SWISS-DOT TUXEDO SHIRT</a>
-										        <span class="tovar_price">$65.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/6.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >STRETCH PERFECT SHIRT</a>
-										        <span class="tovar_price">$72.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/1.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >Moonglow paisley silk tee</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/2.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >PEASANT TOP IN SUCKERED STRIPE</a>
-										        <span class="tovar_price">$78.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/3.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >EMBROIDERED BIB PEASANT TOP</a>
-										        <span class="tovar_price">$88.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/4.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SILK POCKET BLOUSE</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-						        </ul>
-					        </div>
-				        </div><!-- //JCAROUSEL -->
-			        </div><!-- //CONTAINER -->
-		        </section><!-- //NEW ARRIVALS -->
-		
-		        <!-- NEW ARRIVALS -->
-		        <section class="new_arrivals padbot50">
-			
-			        <!-- CONTAINER -->
-			        <div class="container">
-				        <h2>Recent Products</h2>
-		
-				        <!-- JCAROUSEL -->
-				        <div class="jcarousel-wrapper">
-					
-					        <!-- NAVIGATION -->
-					        <div class="jCarousel_pagination">
-						        <a href="javascript:void(0);" class="jcarousel-control-prev" ><i class="fa fa-angle-left"></i></a>
-						        <a href="javascript:void(0);" class="jcarousel-control-next" ><i class="fa fa-angle-right"></i></a>
-					        </div><!-- //NAVIGATION -->
-					
-					        <div id="jcarousel_id" class="jcarousel">
-						        <ul>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/1.jpg" alt="" />
-										        <div class="open-project-link"><a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a></div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >Moonglow paisley silk tee</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/2.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >PEASANT TOP IN SUCKERED STRIPE</a>
-										        <span class="tovar_price">$78.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/3.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >EMBROIDERED BIB PEASANT TOP</a>
-										        <span class="tovar_price">$88.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/4.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SILK POCKET BLOUSE</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/5.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SWISS-DOT TUXEDO SHIRT</a>
-										        <span class="tovar_price">$65.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/6.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >STRETCH PERFECT SHIRT</a>
-										        <span class="tovar_price">$72.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/1.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >Moonglow paisley silk tee</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/2.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >PEASANT TOP IN SUCKERED STRIPE</a>
-										        <span class="tovar_price">$78.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/3.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >EMBROIDERED BIB PEASANT TOP</a>
-										        <span class="tovar_price">$88.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
-							        <li>
-								        <!-- TOVAR -->
-								        <div class="tovar_item_new">
-									        <div class="tovar_img">
-										        <img src="images/tovar/women/new/4.jpg" alt="" />
-										        <div class="open-project-link">
-											        <a class="open-project tovar_view" href="javascript:void(0);" data-url="!projects/women/1.html" >quick view</a>
-										        </div>
-									        </div>
-									        <div class="tovar_description clearfix">
-										        <a class="tovar_title" href="product-page.html" >SILK POCKET BLOUSE</a>
-										        <span class="tovar_price">$98.00</span>
-									        </div>
-								        </div><!-- //TOVAR -->
-							        </li>
+							       
+							        <%} %>
 						        </ul>
 					        </div>
 				        </div><!-- //JCAROUSEL -->
@@ -1679,13 +1454,11 @@
                                         List<Model_PostMedia> cm = item.PostMedia;
                                         Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
 
-
-                                        List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
-
-                                        cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
-                                        if (cu != null)
+                                      Model_PostPricing pp = item.PostPricingclass;
+                                       
+                                        if (pp != null)
                                         {
-                                            Price = ((decimal)cu.PriceData).ToString("#,##0.00");
+                                            Price = ((decimal)pp.Price).ToString("#,##0.00");
                                         }
                                         if (cimg != null)
                                         {
@@ -1745,22 +1518,22 @@
 						
                                 <%   
                                     foreach (Model_Post item in plist.Skip(3).Take(3)){
-                                         Model_PostCustomItem cu = new Model_PostCustomItem();
-                                    string imgPath = string.Empty;
-                                    string alt = string.Empty;
-                                    string title = string.Empty;
-                                    string Price = string.Empty;
+                                        Model_PostCustomItem cu = new Model_PostCustomItem();
+                                        string imgPath = string.Empty;
+                                        string alt = string.Empty;
+                                        string title = string.Empty;
+                                        string Price = string.Empty;
                                         List<Model_PostMedia> cm = item.PostMedia;
                                         Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
-                                       
 
-                                        List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
-                                        cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
-                                        if(cu != null)
+                                        Model_PostPricing pp = item.PostPricingclass;
+                                        //List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+                                        //cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                        if(pp != null)
                                         {
-                                            Price = ((decimal)cu.PriceData).ToString("#,##0.00");
+                                            Price = ((decimal)pp.Price).ToString("#,##0.00");
                                         }
-                                       
+
 
                                         if (cimg != null)
                                         {
@@ -1801,20 +1574,19 @@
 					        </div><!-- //TOVAR WRAPPER -->
 				        </div><!-- //ROW -->
 				
-				
-				        <!-- ROW -->
+				 <!-- ROW -->
 				        <div class="row">
-					
+				
 					        <!-- BANNER WRAPPER -->
 					        <div class="banner_wrapper" data-appear-top-offset='-100' data-animated='fadeInUp'>
 						        <!-- BANNER -->
 						        <div class="col-lg-9 col-md-9">
-							        <a class="banner type4 margbot40 gs-banner-custom" href="javascript:void(0);" style="background-image:url(<%:this.CTF.SingleOrDefault(b=>b.PcName == "banner-announce").URL %>);height:100px;" ></a>
+							        <a class="banner type4 margbot40 gs-banner-custom" href="javascript:void(0);" style="background-image:url(<% Response.Write(this.CTF.SingleOrDefault(b => b.PcName == "banner-announce") != null ? this.CTF.SingleOrDefault(b => b.PcName == "banner-announce").URL : string.Empty); %>);height:100px;" ></a>
 						        </div><!-- //BANNER -->
 						
 						        <!-- BANNER -->
 						        <div class="col-lg-3 col-md-3">
-							        <a class="banner nobord margbot40 gs-banner-custom" href="javascript:void(0);" style="background-image:url(<%:this.CTF.SingleOrDefault(b=>b.PcName == "banner-announce-right").URL %>);height:100px;" ></a>
+							        <a class="banner nobord margbot40 gs-banner-custom" href="javascript:void(0);" style="background-image:url(<% Response.Write(this.CTF.SingleOrDefault(b => b.PcName == "banner-announce-right") != null ? this.CTF.SingleOrDefault(b => b.PcName == "banner-announce-right").URL : string.Empty); %>);height:100px;" ></a>
 						        </div><!-- //BANNER -->
 					        </div><!-- //BANNER WRAPPER -->
 				        </div><!-- //ROW -->
@@ -1842,33 +1614,33 @@
 						        <ul>
 
                                      <%  
-                                    List<Model_Post> pnew = p.GetPostByTax(PostType.Products, "สินค้ามาใหม่");
-                                    foreach (Model_Post item in pnew)
-                                    {
+                                         List<Model_Post> pnew = p.GetPostByTax(PostType.Products, "สินค้ามาใหม่");
+                                         foreach (Model_Post item in pnew)
+                                         {
 
-                                              Model_PostCustomItem cu = new Model_PostCustomItem();
-                                    string imgPath = string.Empty;
-                                    string alt = string.Empty;
-                                    string title = string.Empty;
-                                    string Price = string.Empty;
-                                        List<Model_PostMedia> cm = item.PostMedia;
-                                        Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
-                                       
+                                             Model_PostCustomItem cu = new Model_PostCustomItem();
+                                             string imgPath = string.Empty;
+                                             string alt = string.Empty;
+                                             string title = string.Empty;
+                                             string Price = string.Empty;
+                                             List<Model_PostMedia> cm = item.PostMedia;
+                                             Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
 
-                                        List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
-                                        cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
-                                        if(cu != null)
-                                        {
-                                            Price = ((decimal)cu.PriceData).ToString("#,##0.00");
-                                        }
-                                       
+                                             Model_PostPricing pp = item.PostPricingclass;
+                                             //List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(item.PostID);
+                                             //cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
+                                             if(pp != null)
+                                             {
+                                                 Price = ((decimal)pp.Price).ToString("#,##0.00");
+                                             }
 
-                                        if (cimg != null)
-                                        {
-                                            imgPath =cimg.MediaFullPath;
-                                            alt = cimg.Alt;
-                                            title = cimg.Title;
-                                        }
+
+                                             if (cimg != null)
+                                             {
+                                                 imgPath =cimg.MediaFullPath;
+                                                 alt = cimg.Alt;
+                                                 title = cimg.Title;
+                                             }
                                     %>
                                  
 							        <li>

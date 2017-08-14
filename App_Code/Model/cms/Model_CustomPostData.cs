@@ -103,16 +103,16 @@ public class Model_PostCustomItem : BaseModel<Model_PostCustomItem>
     public string PcGroupName { get; set; }
     public string PcName { get; set; }
     public int? MID { get; set; }
-    public string Slug { get; set; }
-    public string Caption1 { get; set; }
-    public string Caption2 { get; set; }
-    public string URL { get; set; }
-    public string ContentHTML { get; set; }
-    public string ExtraLink { get; set; }
-    public string Embbed { get; set; }
-    public string MapTag { get; set; }
+    public string Slug { get; set; } = string.Empty;
+    public string Caption1 { get; set; } = string.Empty;
+    public string Caption2 { get; set; } = string.Empty;
+    public string URL { get; set; } = string.Empty;
+    public string ContentHTML { get; set; } = string.Empty;
+    public string ExtraLink { get; set; } = string.Empty;
+    public string Embbed { get; set; } = string.Empty;
+    public string MapTag { get; set; } = string.Empty;
 
-    public string TextData { get; set; }
+    public string TextData { get; set; } = string.Empty;
     public decimal? PriceData { get; set; }
     public int? NumData { get; set; }
 
