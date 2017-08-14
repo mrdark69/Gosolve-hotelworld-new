@@ -693,6 +693,7 @@
                                 string PriceTitle = string.Empty;
                                 string Price = string.Empty;
                                 string PCode = string.Empty;
+                                bool vat = false;
                                 //cu = cul.SingleOrDefault(o => o.PcName == "product-price-per-unit");
                                 string information = string.Empty;
                                 string Detail = string.Empty;
@@ -701,6 +702,7 @@
                                     Price = pp.Price.ToString("#,##0.00");
                                     PriceTitle = pp.Title;
                                     cp = pp.PriceOPtion;
+                                    vat = pp.Isvat;
                                 }
 
                                 PCode = cul.SingleOrDefault(o => o.PcName == "product-code") != null ? cul.SingleOrDefault(o => o.PcName == "product-code").TextData : 
@@ -719,8 +721,8 @@ string.Empty;
                                         <p><%  Response.Write(  Detail.getShortContent());%></p>
 								        <div class="tovar_article"><%Response.Write(PCode); %></div>
 								        <div class="clearfix tovar_brend_price">
-									        <%--<div class="pull-left tovar_brend">Calvin Klein</div>--%>
-									        <div class="pull-right tovar_view_price"><% Response.Write(Price); %></div>
+									        <div class="pull-left tovar_brend" style="margin-top: -6px;font-size: 17px;">ราคารวม <% Response.Write(vat? "(incl. VAT)" : ""); %></div>
+									        <div class="pull-right tovar_view_price"><% Response.Write(Price); %> Bath</div>
 								        </div>
 								        <div class="tovar_color_select gs-custom-select">
 									        <p><% Response.Write(PriceTitle); %></p>
@@ -729,7 +731,7 @@ string.Empty;
 
                                                 <% foreach (Model_PostPricingOption poi in cp)
                                                     { %>
-										        <option value="<% Response.Write(poi.OPtionDropFront); %>" ><% Response.Write(poi.Title); %></option>
+										        <option value="<% Response.Write(poi.OPtionDropFront); %>" ><% Response.Write(poi.OPtionDropTitle); %></option>
 										        <%} %>
 									        </select>
 								
