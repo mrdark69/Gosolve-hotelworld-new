@@ -832,7 +832,7 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
                                var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_q' + uuid + '_' + uQID + '" name="po_p_s_q' + uuid + '_' + uQID +'" value="' + v_price +'" />'
 
                                //<td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td>' + tbl + '</td>
-                               child = child +  '<tr id="row_s_q' + uuid + '"><td>' + chk + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+                               child = child + '<tr id="row_s_q' + uQID + '"><td>' + chk + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uQID + '"  onclick="removeRow_c(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
 
                             
                            }
@@ -894,7 +894,7 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
            var txtPrice = '<input class="form-control" type="textbox"  id="po_p_s_q' + uuid + '_' + uQID + '" name="po_p_s_q' + uuid + '_' + uQID +'" />'
          
            //<td>' + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td>' + tbl + '</td>
-           var html = '<tr id="row_s_q' + uuid + '"><td>' + chk + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uuid + '"  onclick="removeRow(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
+           var html = '<tr id="row_s_q' + uQID + '"><td>' + chk + txtFrom + '</td><td>' + txtTo + '</td><td>' + txtPrice + '</td><td><button data-idrow="' + uQID + '"  onclick="removeRow_c(this);" class="btn btn-warning btn-circle" type="button"><i class="fa fa-times"></i></button ></td></tr>'
 
 
 
@@ -906,6 +906,11 @@ background-color:#f3f3f4;border:1px solid #e1e1e1;padding:20px;">
            var id = $(e).data('idrow');
 
            $("#row_s_" + id).remove(); return false;
+       }
+       function removeRow_c(e) {
+           var id = $(e).data('idrow');
+
+           $("#row_s_q" + id).remove(); return false;
        }
        function addimg() {
 

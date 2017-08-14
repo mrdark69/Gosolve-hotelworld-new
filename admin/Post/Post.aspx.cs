@@ -440,7 +440,12 @@ public partial class _Post : BasePage
 
 
             Model_PostPricing pp = new Model_PostPricing();
-            pp = pp.GetPostPriceAllByID(int.Parse(hd_productPrice_id.Value));
+            if (!string.IsNullOrEmpty(hd_productPrice_id.Value))
+            {
+                pp = pp.GetPostPriceAllByID(int.Parse(hd_productPrice_id.Value));
+            }
+          
+          
             if (pp != null)
             {
                 Model_PostPricing pu = new Model_PostPricing

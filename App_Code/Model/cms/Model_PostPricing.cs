@@ -34,6 +34,12 @@ public class Model_PostPricingOptionQty : BaseModel<Model_PostPricingOptionQty>
         get { return this.UnitFrom + "#" + this.UnitTo + "#" + this.PriceOptionID + "#" + this.PriceOption.ToString("#,##0.00"); }
 
     }
+
+    public string QtyOPtionDropFront
+    {
+        get { return this.UnitFrom + "|" + this.UnitTo + "|" + this.PriceOptionID + "|" + this.PriceOption.ToString("#,##0.00"); }
+
+    }
     //public string QtyOPtionDropTitle
     //{
     //    get { return this.Title + " Qty " + this.UnitFrom + (this.UnitTo == 0 ? "+" : "-" + this.UnitTo) + " [" + this.PriceOption.ToString("#,##0.00") + "Bath]"; }

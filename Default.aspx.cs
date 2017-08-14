@@ -240,7 +240,12 @@ public partial class _Default : Page
                         intPostID = post.PostID;
 
                         //page_header.Visible = true;
-                        page_content.Visible = true;
+
+                        if (StrPost_slug == "checkout")
+                            section_checkout_page.Visible = true;
+                        else
+                            page_content.Visible = true;
+
 
 
 

@@ -685,11 +685,12 @@
                                 List<Model_PostCustomItem> cul = cu.GetItemCustomByPostID(this.PostDataUI.PostID);
                                 //product_quantity
                                 //product_code
-
+                                Model_PostPricingOptionQty po = new Model_PostPricingOptionQty();
+                                List<Model_PostPricingOptionQty> qtl = null;
                                 List<Model_PostPricingOption> cp = null;
 
                                 Model_PostPricing pp = this.PostDataUI.PostPricingclass;
-                                
+
                                 string PriceTitle = string.Empty;
                                 string Price = string.Empty;
                                 string PCode = string.Empty;
@@ -703,17 +704,20 @@
                                     PriceTitle = pp.Title;
                                     cp = pp.PriceOPtion;
                                     vat = pp.Isvat;
+                                     qtl = pp.PriceOPtionQty;
                                 }
 
-                                PCode = cul.SingleOrDefault(o => o.PcName == "product-code") != null ? cul.SingleOrDefault(o => o.PcName == "product-code").TextData : 
+                                PCode = cul.SingleOrDefault(o => o.PcName == "product-code") != null ? cul.SingleOrDefault(o => o.PcName == "product-code").TextData :
 string.Empty;
 
-                                information  = cul.SingleOrDefault(o => o.PcName == "product-information") != null ? cul.SingleOrDefault(o => o.PcName == "product-information").ContentHTML : 
+                                information  = cul.SingleOrDefault(o => o.PcName == "product-information") != null ? cul.SingleOrDefault(o => o.PcName == "product-information").ContentHTML :
 string.Empty;
-                                Detail = cul.SingleOrDefault(o => o.PcName == "product-detail") != null ? cul.SingleOrDefault(o => o.PcName == "product-detail").ContentHTML : 
+                                Detail = cul.SingleOrDefault(o => o.PcName == "product-detail") != null ? cul.SingleOrDefault(o => o.PcName == "product-detail").ContentHTML :
 string.Empty;
                                 //product_detail
                                 //product_information
+
+                                
                                 %>
                                     
 							        <div class="tovar_view_description">
@@ -726,19 +730,31 @@ string.Empty;
 								        </div>
 								        <div class="tovar_color_select gs-custom-select">
 									        <p><% Response.Write(PriceTitle); %></p>
+
+
                                             <select class="basic priceOption">
 										        <option value="0">Choose the option</option>
 
                                                 <% foreach (Model_PostPricingOption poi in cp)
                                                     { %>
-										        <option value="<% //Response.Write(poi.OPtionDropFront); %>" ><% //Response.Write(poi.OPtionDropTitle); %></option>
+										        <option value="<% Response.Write(poi.PriceOptionID); %>" ><% Response.Write(poi.Title); %></option>
 										        <%} %>
 									        </select>
-								
+
+
+                                             <select id="priceOption_qty" style="display:none;">
+										        <option value="0">Choose the option</option>
+
+                                                <% foreach (Model_PostPricingOptionQty qt in qtl)
+                                                    { %>
+										        <option value="<% Response.Write(qt.QtyOPtionDropFront); %>" ><% Response.Write(qt.PriceOptionID); %></option>
+										        <%} %>
+									        </select>
+								                <div id="rate-tier"></div>
 								        </div>
 								      
 								        <div class="tovar_view_btn">
-
+                                            <input type="hidden" id="hd_postID" value="<% Response.Write(this.PostDataUI.PostID); %>" />
                                             <div class="quantity " style="display:inline-block">
 								                <button class="bg_tr d_block f_left" data-direction="down">-</button>
 								                <input type="text" name="quantity" id="quantity" value="1" class="f_left">
@@ -1763,6 +1779,156 @@ string.Empty;
                 </section>
         <!-- End PAGE HOME TEMPLATE -->
    
+
+
+      <!-- PAGE CHECK OUT TEMPLATE -->
+        <section id="section_checkout_page" runat="server" visible="false">
+            <!-- PAGE HEADER -->
+		<section class="page_header">
+			
+			<!-- CONTAINER -->
+			<div class="container border0 margbot0">
+				<h3 class="pull-left"><b><%: this.PageContentTitle %></b></h3>
+				
+				<div class="pull-right">
+					<a href="shopping-bag.html" >Back shopping bag<i class="fa fa-angle-right"></i></a>
+				</div>
+			</div><!-- //CONTAINER -->
+		</section><!-- //PAGE HEADER -->
+		
+		
+		<!-- CHECKOUT PAGE -->
+		<section class="checkout_page">
+			
+			<!-- CONTAINER -->
+			<div class="container">
+
+			
+					
+				<!-- ROW -->
+				<div class="row">
+					<div class="col-lg-9 col-md-9 padbot60">
+						<div class="checkout_confirm_orded clearfix">
+
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6"></div>
+                            </div>
+                              <div class="row">
+                                <div class="col-md-12">
+
+                                     <div class="checkout_confirm_orded_products">
+								<p class="checkout_title">Products</p>
+								<ul class="cart-items">
+									<li class="clearfix">
+										<img class="cart_item_product" src="images/tovar/women/1.jpg" alt="">
+										<a href="product-page.html" class="cart_item_title">EMBROIDERED BIB PEASANT TOP</a>
+										<span class="cart_item_price">$88.00</span>
+									</li>
+									<li class="clearfix">
+										<img class="cart_item_product" src="images/tovar/women/2.jpg" alt="">
+										<a href="product-page.html" class="cart_item_title">MERINO TIPPI SWEATER IN GEOMETRIC STRIPE</a>
+										<span class="cart_item_price">$105.00</span>
+									</li>
+									<li class="clearfix">
+										<img class="cart_item_product" src="images/tovar/women/3.jpg" alt="">
+										<a href="product-page.html" class="cart_item_title">COLLECTION CASHMERE GETAWAY HOODIE</a>
+										<span class="cart_item_price">$73.00</span>
+									</li>
+								</ul>
+							</div>
+                                </div>
+                             
+                            </div>
+                          
+
+							<%--<div class="checkout_confirm_orded_bordright clearfix">
+								<div class="billing_information">
+									<p class="checkout_title margbot10">Billing information</p>
+									
+									<div class="billing_information_content margbot40">
+										<span>Balashova Anna</span>
+										<span>New York Street name 55</span>
+										<span>841 11 Bratislava</span>
+										<span>USA</span>
+										<span>mymail@glammy.com</span>
+									</div>
+									
+									<p class="checkout_title margbot10">Shipping adress</p>
+									
+									<div class="billing_information_content margbot40">
+										<span>Balashova Anna</span>
+										<span>New York Street name 55</span>
+										<span>841 11 Bratislava</span>
+										<span>USA</span>
+										<span>mymail@glammy.com</span>
+									</div>
+								</div>
+								
+								<div class="payment_delivery">
+									<p class="checkout_title margbot10">Payment and delivery</p>
+									
+									<p><span>Payment:<span> PayPal</p>
+									<img src="images/paypal.jpg" alt="" />
+									
+									<p><span>Delivery:</span> FedEx Express</p>
+									<img src="images/premium_post.jpg" alt="" />
+								</div>
+							</div>
+							
+							<div class="checkout_confirm_orded_products">
+								<p class="checkout_title">Products</p>
+								<ul class="cart-items">
+									<li class="clearfix">
+										<img class="cart_item_product" src="images/tovar/women/1.jpg" alt="" />
+										<a href="product-page.html" class="cart_item_title">EMBROIDERED BIB PEASANT TOP</a>
+										<span class="cart_item_price">$88.00</span>
+									</li>
+									<li class="clearfix">
+										<img class="cart_item_product" src="images/tovar/women/2.jpg" alt="" />
+										<a href="product-page.html" class="cart_item_title">MERINO TIPPI SWEATER IN GEOMETRIC STRIPE</a>
+										<span class="cart_item_price">$105.00</span>
+									</li>
+									<li class="clearfix">
+										<img class="cart_item_product" src="images/tovar/women/3.jpg" alt="" />
+										<a href="product-page.html" class="cart_item_title">COLLECTION CASHMERE GETAWAY HOODIE</a>
+										<span class="cart_item_price">$73.00</span>
+									</li>
+								</ul>
+							</div>--%>
+						</div>
+					</div>
+					
+					<div class="col-lg-3 col-md-3 padbot60">
+						
+						<!-- BAG TOTALS -->
+						<div class="sidepanel widget_bag_totals your_order_block">
+							<h3>Your Order</h3>
+							<table class="bag_total">
+								<tr class="cart-subtotal clearfix">
+									<th>Sub total</th>
+									<td>$258.00</td>
+								</tr>
+								<tr class="shipping clearfix">
+									<th>SHIPPING</th>
+									<td>Free</td>
+								</tr>
+								<tr class="total clearfix">
+									<th>Total</th>
+									<td>$528.00</td>
+								</tr>
+							</table>
+							<a class="btn active" href="javascript:void(0);" >Dowlond Now</a>
+							<%--<a class="btn inactive" href="checkout.html" >Go to previous step</a>--%>
+						</div><!-- //REGISTRATION FORM -->
+					</div><!-- //SIDEBAR -->
+				</div><!-- //ROW -->
+			</div><!-- //CONTAINER -->
+		</section><!-- //CHECKOUT PAGE -->
+		
+
+        </section>
+      <!-- PAGE CHECK OUT  TEMPLATE -->
 </asp:Content>
 
 <asp:Content ID="FooterScript" ContentPlaceHolderID="ContentFooter" runat="server">
