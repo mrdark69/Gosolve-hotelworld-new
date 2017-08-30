@@ -13,7 +13,7 @@ using System.Web.Providers.Entities;
 /// Summary description for Model_SiteInfo
 /// </summary>
 /// 
-public class Model_PageEngine : BaseModel<Model_PostSEOMap>
+public class Model_PageEngine : BaseModel<Model_PageEngine>
 {
     public Model_SiteInfo SiteInfo { get; set; }
 
@@ -22,6 +22,8 @@ public class Model_PageEngine : BaseModel<Model_PostSEOMap>
     public List<Model_Menu> NavMenu { get; set; }
 
     public List<Model_Menu> FooterMenu { get; set; }
+
+    public Model_PostSeo SEO { get; set; }
 }
 
     

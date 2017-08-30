@@ -1051,7 +1051,11 @@ string.Empty;
                                     %>
                              <!-- SHOP BY BRANDS -->
 						    <div class="sidepanel widget_brands">
-							    <h3><%Response.Write(tt.Title); %></h3>
+                                <h3><%Response.Write(tt.Title); %></h3>
+                                <div class="side-gs-cat">
+
+                                
+							    
                                <%-- <input type="checkbox" id="categorymanufacturer1" /><label for="categorymanufacturer1">VERSACE <span>(24)</span></label>--%>
 
                                 <%Response.Write(getchild(this.TaxList, tt.TaxID)); %>
@@ -1060,7 +1064,7 @@ string.Empty;
 							    <input type="checkbox" id="categorymanufacturer3" /><label for="categorymanufacturer3">Calvin KlEin <span>(48)</span></label>
 							    <input type="checkbox" id="categorymanufacturer4" /><label for="categorymanufacturer4">Tommy hilfiger <span>(129)</span></label>
 							    <input type="checkbox" id="categorymanufacturer5" /><label for="categorymanufacturer5">Ralph Lauren <span>(69)</span></label>--%>
-						    </div><!-- //SHOP BY BRANDS -->
+						    </div></div><!-- //SHOP BY BRANDS -->
 
                             <%}
     } %>
@@ -1187,7 +1191,7 @@ string.Empty;
 										    </div>
 									    </div>
 									    <div class="tovar_description clearfix">
-										    <a class="tovar_title" href="product-page.html" ><%  Response.Write(item.Title);%></a>
+										    <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
 										    <span class="tovar_price"><% Response.Write(Price); %> Baht</span>
 									    </div>
 									    <div class="tovar_content">What makes our cashmere so special? We start with the finest yarns from an Italian mill known for producing some of the softest cashmere out there.</div>

@@ -23,6 +23,24 @@ public class Model_MainSetting : BaseModel<Model_MainSetting>
     public string TagLine { get; set; }
     public byte SiteLang { get; set; }
 
+    private string _html_tag_s_l = string.Empty;
+    public string htmlTagSiteLang {
+
+        get
+        {
+            switch (this.SiteLang)
+            {
+                case 1:
+                    _html_tag_s_l = "en-US";
+                    break;
+                case 2:
+                    _html_tag_s_l = "th";
+                    break;
+            }
+            return _html_tag_s_l;
+        }
+    }
+
     public int HomePagePostID { get; set; }
 
 

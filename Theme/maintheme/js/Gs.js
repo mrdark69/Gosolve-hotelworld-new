@@ -198,6 +198,11 @@
         toastr.info('Thank You!', "Your Bag is updated!!");
     })
 
+    //$('.sidepanel').hover(function () {
+
+    //    $('body').css('position', 'fixed');
+
+    //});
 
 
 });
@@ -211,17 +216,30 @@ function getBasketView() {
        $('#bag_num_item').html(numitem);
 
        var ret = '';
+       var subtotal = 0;
+
        if (numitem > 0) {
            for (var i in cart) {
+               var sel = cart[i].optionSel;
+               var tier = cart[i].RateTier;
+               var quan = cart[i].QuantitySel;
+               var tier_s = $.grep(tier, function (d) { return d.PriceOptionID == sel && quan >= d.UnitFrom && quan < (d.UnitTo == 0 ? 9999 : d.UnitTo) });
+
+               if (!tier_s) return;
+
+               if (tier_s.length > 1) return;
+               subtotal += tier_s[0].PriceOption * cart[i].QuantitySel;
+
 
                ret += '<li class="clearfix">';
                ret += '<img class="cart_item_product" src="' + cart[i].Productimage+'" alt="" />';
                ret += '<a href="product-page.html" class="cart_item_title">' + cart[i].ProductTitle + '</a>';
-               ret += '<span class="cart_item_price">' + cart[i].QuantitySel+' × $98.00</span>';
+               ret += '<span class="cart_item_price">' + cart[i].QuantitySel + ' × ' + numeral(tier_s[0].PriceOption).format('0,0.00');+' Baht</span>';
                ret += '</li>';
            }
        }
 
+       $('#bag_total').html(numeral(subtotal).format('0,0.00'))
        $('#bag_item_view').html(ret);
        
    }

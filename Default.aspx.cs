@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 
@@ -26,6 +27,10 @@ public partial class _Default : Page
             Model_SiteInfo st = new Model_SiteInfo();
             Model_MainSetting setting = new Model_MainSetting();
             setting = setting.GetMainSetting();
+
+            
+            var keywords = new HtmlMeta { Name = "keywords", Content = "one,two,three" };
+            Header.Controls.Add(keywords);
 
             Model_PageEngine PageEngine = new Model_PageEngine();
             PageEngine.SiteInfo = st.GetSiteInfo();

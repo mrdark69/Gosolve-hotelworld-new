@@ -1,16 +1,12 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.User.master.cs" Inherits="SiteUserMaster" %>
-
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="<%:this.PageEngine.MainSetting.htmlTagSiteLang %>">
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - <%: PageEngine.SiteInfo.Slogan %></title>
+    <%--<title><%: Page.Title %> - <%:  PageEngine.SiteInfo.Slogan %></title>--%>
 
-	<meta name="description" content="">
-	<meta name="author" content="">
-	
+
 	<link rel="shortcut icon" href="/Theme/maintheme/images/favicon.ico">
     
 	<!-- CSS -->
@@ -98,7 +94,7 @@
 								
 							</ul>
 							<div class="cart_total">
-								<div class="clearfix"><span class="cart_subtotal">bag subtotal: <b id="bag_total">$414</b></span></div>
+								<div class="clearfix"><span class="cart_subtotal">bag subtotal: <b id="bag_total">0.00 Baht</b></span></div>
 								<a class="btn active" href="/checkout">Checkout</a>
 							</div>
 						</div>
@@ -284,6 +280,7 @@
     <script src="/Theme/maintheme/js/Gs.js"></script>
     <script src="/Scripts/theme/plugins/store/store.legacy.min.js"></script>
     <script src="/Scripts/theme/plugins/toastr/toastr.min.js"></script>
+    <script src="/Scripts/theme/plugins/numeraljs/numeral.js"></script>
 	<script>
 		if (top != self) top.location.replace(self.location.href);
 	</script>

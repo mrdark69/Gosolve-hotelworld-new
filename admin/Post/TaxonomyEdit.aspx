@@ -17,8 +17,14 @@
 
                             
                         </div>
-                        <div class="ibox-content">
-
+                        <div class="ibox-content main-data">
+                            <div class="sk-spinner sk-spinner-wave">
+                                <div class="sk-rect1"></div>
+                                <div class="sk-rect2"></div>
+                                <div class="sk-rect3"></div>
+                                <div class="sk-rect4"></div>
+                                <div class="sk-rect5"></div>
+                            </div>
                             <div class="row">
                                 <div class="col-sm-5 m-b-xs">
                                   <%-- <strong>Role:</strong> <asp:DropDownList ID="dropRole" ClientIDMode="Static" runat="server" CssClass="input-sm form-control input-s-sm inline">
@@ -52,11 +58,13 @@
                                     <tr>
 
                                         <%--<th></th>--%>
+                                           <th><a href="#" class="btn_pri_update" >Update Priority</a></th>
                                         <th>Title </th>
                                         <th>Slug</th>
                                        <%-- <th>Author </th>--%>
                                         <th>Date Published</th>
                                         <th>View</th>
+                                     
                                         
                                     </tr>
                                     </thead>
@@ -101,6 +109,28 @@
                 return false;
             });
 
+
+            $('.btn_pri_update').on('click', function () {
+
+                var url = "<%= ResolveUrl("/admin/Post/ajax_webmethod_post.aspx/UpdateTaxPri") %>";
+
+                var form = $('form').find("input,textarea,select,hidden").not("#__VIEWSTATE,#__EVENTVALIDATION").serialize();
+
+                var data = { formreq: form};
+
+                var param = JSON.stringify({ parameters: data });
+                AjaxPost(url, param, function () {
+                    $('.main-data').toggleClass('sk-loading');
+                }, function (data) {
+
+             
+
+                    $('.main-data').toggleClass('sk-loading');
+                    getList();
+
+                });
+
+            });
             ////$('#dropRole').on('change', function () {
 
             ////    var v = $(this).val();
@@ -121,12 +151,12 @@
             var param = JSON.stringify({ parameters: data });
 
             AjaxPost(url, param, function () {
-               
+                $('.main-data').toggleClass('sk-loading');
             }, function (data) {
 
               //  console.log(data);
                 
-
+                $('.main-data').toggleClass('sk-loading');
                 var s = $('.list_status.active').data('status');
                 var total = $.grep(data, function (e) { return e.Trash == true; });
                 var trash = $.grep(data, function (e) { return e.Trash == false; });
@@ -150,12 +180,14 @@
             for (var i in data) {
               
                 ret += '<tr>';
+                ret += ' <td style="width:5%"><input type="textbox"  class="form-control" name="pri_' + data[i].TaxID + '"  value=\"' + data[i].Priority + '\"/><input type=\"checkbox\" checked="checked" name="check_pri" style="display:none;" value="' + data[i].TaxID + '" /></td>'
                 //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
                 ret += '   <td><strong><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID + '"><i class="fa fa-star"></i>' + data[i].Title + '</a></strong></td>';
                 ret += '   <td>' + data[i].Slug + '</td>';
                 //ret += '   <td>' + data[i].UserFirstName +'</td>';
                 ret += '   <td>' + data[i].DatePublishFormat +'</td>';
-                ret += '   <td><span class="label label-primary">' + data[i].ViewCount +'</span></td>';
+                ret += '   <td><span class="label label-primary">' + data[i].ViewCount + '</span></td>';
+               
                 //ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID+'&TaxTypeID=' + TaxTypeID+'&TaxID=' + data[i].TaxID+'"><i class="fa fa-pencil"></i> Edit </a></td>';
                 ret += '   </tr >';
 
@@ -180,12 +212,14 @@
                 for (var i in data) {
 
                     ret += '<tr>';
+                    ret += ' <td style="width:5%"><input type="textbox" x class="form-control" name="pri_' + data[i].TaxID + '"  value=\"' + data[i].Priority + '\"/><input type=\"checkbox\" checked="checked" name="check_pri" style="display:none;" value="' + data[i].TaxID + '" /></td>'
                     //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
                     ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID + '">' + level(v) + data[i].Title + '</a></td>';
                     ret += '   <td>' + data[i].Slug + '</td>';
                     //ret += '   <td>' + data[i].UserFirstName + '</td>';
                     ret += '   <td>' + data[i].DatePublishFormat + '</td>';
                     ret += '   <td><span class="label label-primary">' + data[i].ViewCount + '</span></td>';
+                  
                     //ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=3&TaxTypeID=1&TaxID=' + data[i].TaxID + '"><i class="fa fa-pencil"></i> Edit </a></td>';
                     ret += '   </tr >';
                     var lv1 = $.grep(RawData, function (e) { return e.RefID == data[i].TaxID; }); 

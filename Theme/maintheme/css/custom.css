@@ -120,3 +120,8 @@
 .top_slider .slide1 .flex_caption2 span {
     font-size: 30px
 }
+.sidepanel.widget_brands .side-gs-cat {
+    padding:10px 0 10px 0;
+    max-height: 300px;
+    overflow: scroll;
+}

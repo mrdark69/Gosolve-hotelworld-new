@@ -10,6 +10,8 @@ using System.Threading;
 using System.Web;
 using System.Web.Services;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.Script.Serialization;
 
 public partial class admin_Staff_ajax_webmethod_post : System.Web.UI.Page
 {
@@ -37,6 +39,56 @@ public partial class admin_Staff_ajax_webmethod_post : System.Web.UI.Page
 
 
         AppTools.SendResponse(HttpContext.Current.Response, ret.ObjectToJSON());
+    }
+
+    [WebMethod]
+    public static void UpdateTaxPri(dynamic parameters)
+    {
+        bool ret = false;
+
+        var dd = HttpUtility.ParseQueryString(parameters["formreq"]);
+
+       // string data = parameters["formreq"];
+
+        //dynamic dd =  JsonHelper.JsonTODynamic(data);
+
+        var dict = HttpUtility.ParseQueryString(parameters["formreq"]);
+
+        var check = dict["check_pri"];
+
+        if (!string.IsNullOrEmpty(check))
+        {
+            Model_PostTaxonomy cTax = new Model_PostTaxonomy();
+
+            string[] arrcheck = check.Split(',');
+            foreach(string i in arrcheck)
+            {
+                ret = cTax.UpdateTaxonomyPri(int.Parse(i), int.Parse(dict["pri_" + i]));
+            }
+        }
+
+  
+
+        
+
+        bool success = false;
+        string msg = "no";
+
+        if (ret)
+        {
+            success = true;
+            msg = "Insert Completed";
+        }
+
+
+        string res = (new BaseWebMethodAJax
+        {
+            success = success,
+            msg = msg
+
+        }).ObjectToJSON();
+
+        AppTools.SendResponse(HttpContext.Current.Response, res);
     }
 
     [WebMethod]

@@ -242,6 +242,24 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
         //
     }
 
+    public bool UpdateTaxonomyPri(int taxid, int Pri)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"UPDATE PostTaxonomy SET  Priority=@Priority 
+                WHERE TaxID=@TaxID", cn);
+
+
+            cmd.Parameters.Add("@Priority", SqlDbType.Int).Value = Pri;
+
+            cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = taxid;
+
+
+            cn.Open();
+            return ExecuteNonQuery(cmd) == 1;
+        }
+    }
+
     public bool UpdateTaxonomy(Model_PostTaxonomy tax)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
@@ -357,7 +375,7 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT pt.*,u.FirstName AS UserFirstName FROM PostTaxonomy pt INNER JOIN Users u ON u.UserID=pt.UserID WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID ORDER BY TaxID ASC,RefID ASC", cn);
+            SqlCommand cmd = new SqlCommand("SELECT pt.*,u.FirstName AS UserFirstName FROM PostTaxonomy pt INNER JOIN Users u ON u.UserID=pt.UserID WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID ORDER BY Priority ASC,TaxID ASC,RefID ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = t.PostTypeID;
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = t.TaxTypeID;
             cn.Open();
