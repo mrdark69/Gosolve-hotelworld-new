@@ -41,8 +41,8 @@ public partial class _Default : Page
             string tw_image = string.Empty;
 
 
-
-
+            string analytic = string.Empty;
+            bool Metarobotfollow = false;
 
             Model_SiteInfo st = new Model_SiteInfo();
             Model_MainSetting setting = new Model_MainSetting();
@@ -323,9 +323,9 @@ public partial class _Default : Page
             }
 
            //= null;
-            Model_PostSeo posttype_postseo = null;
-            Model_PostSeo tax_postseo = null;
-            Model_PostSeo post_postseo = null;
+            Model_PostSeo posttype_postseo = new Model_PostSeo(); 
+            Model_PostSeo tax_postseo = new Model_PostSeo();
+            Model_PostSeo post_postseo = new Model_PostSeo(); 
             if (bytPostTypeID != 0)
             {
                 cPostType = cPostType.GetPostTypeByID(bytPostTypeID);
@@ -344,11 +344,63 @@ public partial class _Default : Page
             }
 
 
-            Pagetitle = checklv(posttype_postseo, tax_postseo, post_postseo, "SEOTitle");
-            //setting.WebSiteTitle;
-            this.Page.Title = Pagetitle;
-            var keywords = new HtmlMeta { Name = "keywords", Content = "one,two,three" };
-            Header.Controls.Add(keywords);
+            Pagetitle =  checklv(posttype_postseo, tax_postseo, post_postseo, "SEOTitle");
+            Pagedescription = checklv(posttype_postseo, tax_postseo, post_postseo, "MetaDescription");
+            canonical = checklv(posttype_postseo, tax_postseo, post_postseo, "CanonicalUrl");
+            fb_localte = setting.htmlTagSiteLang;
+            fb_type = "website";
+            fb_title = checklv(posttype_postseo, tax_postseo, post_postseo, "FaceBookTitle");
+            fb_des = checklv(posttype_postseo, tax_postseo, post_postseo, "FacebookDescription");
+            fb_url = Request.Url.ToString();
+            fb_site_name = PageEngine.SiteInfo.Slogan;
+            fb_image = checklv(posttype_postseo, tax_postseo, post_postseo, "FacebookImage");
+            tw_card = "summary";
+            tw_title = checklv(posttype_postseo, tax_postseo, post_postseo, "TwitterTitle");
+            tw_des = checklv(posttype_postseo, tax_postseo, post_postseo, "TwitterDescription");
+            tw_image = checklv(posttype_postseo, tax_postseo, post_postseo, "TwitterImages");
+
+            analytic = checklv(posttype_postseo, tax_postseo, post_postseo, "GoogleAnalytic");
+
+            Metarobotfollow = checklv_bool(posttype_postseo, tax_postseo, post_postseo, "Metarobotsfollow");
+
+            this.Page.Title = string.IsNullOrEmpty(Pagetitle) ? setting.WebSiteTitle : Pagetitle;
+
+            var MetaDescription = new HtmlMeta { Name = "description", Content = Pagedescription };
+            Header.Controls.Add(MetaDescription);
+
+            var MetaFB_locate = new HtmlMeta { Name = "og:locale", Content = fb_localte };
+            Header.Controls.Add(MetaFB_locate);
+
+            var MetaFB_Type = new HtmlMeta { Name = "og:type", Content = fb_type };
+            Header.Controls.Add(MetaFB_Type);
+
+            var MetaFB_title = new HtmlMeta { Name = "og:title", Content = !string.IsNullOrEmpty(fb_title)? fb_title :   string.IsNullOrEmpty(Pagetitle) ? setting.WebSiteTitle : Pagetitle
+        };
+            Header.Controls.Add(MetaFB_title);
+
+
+            var MetaFB_Des = new HtmlMeta { Name = "og:description", Content = !string.IsNullOrEmpty(fb_des) ? fb_des: Pagedescription };
+            Header.Controls.Add(MetaFB_Des);
+
+            var MetaFB_Url = new HtmlMeta { Name = "og:url", Content = fb_url };
+            Header.Controls.Add(MetaFB_Url);
+
+            var MetaFB_SiteName = new HtmlMeta { Name = "og:site_name", Content = fb_site_name };
+            Header.Controls.Add(MetaFB_SiteName);
+
+            var MetaFB_image = new HtmlMeta { Name = "og:image", Content = fb_image };
+            Header.Controls.Add(MetaFB_image);
+
+            var MetaTW_Card = new HtmlMeta { Name = "twitter:card", Content = tw_card };
+            Header.Controls.Add(MetaTW_Card);
+
+            var MetaTW_Des = new HtmlMeta { Name = "twitter:description", Content = tw_des };
+            Header.Controls.Add(MetaTW_Des);
+            var MetaTW_Title = new HtmlMeta { Name = "twitter:title", Content = tw_title };
+            Header.Controls.Add(MetaTW_Title);
+            var Meta_Image = new HtmlMeta { Name = "twitter:image", Content = tw_image };
+            Header.Controls.Add(Meta_Image);
+           
 
         }
        
@@ -395,7 +447,45 @@ public partial class _Default : Page
 
         return ret;
     }
+    public bool checklv_bool(Model_PostSeo posttype_postseo, Model_PostSeo tax_postseo, Model_PostSeo post_postseo, string prop)
+    {
+        bool ret = false;
+        PropertyInfo ppost = (post_postseo != null ? post_postseo.GetType().GetProperty(prop) : null);
+        PropertyInfo ptax = (tax_postseo != null ? tax_postseo.GetType().GetProperty(prop) : null);
+        PropertyInfo ppt = (posttype_postseo != null ? posttype_postseo.GetType().GetProperty(prop) : null);
 
+        var strppost =(ppost != null ? ppost.GetValue(post_postseo, null) : null);
+        var strptax = (ptax != null ? ptax.GetValue(tax_postseo, null) : null);
+        var strppt = (ppt != null ? ppt.GetValue(posttype_postseo, null) : null);
+
+        if (post_postseo != null && ppost != null && strppost!=null)
+        {
+
+
+            ret = (bool)strppost;
+            //ret = string.IsNullOrEmpty(ret) ? "" : (string)ret;
+        }
+        else
+        {
+            if (tax_postseo != null && ptax != null && strptax !=null)
+            {
+                ret = (bool)strptax;
+                //ret = string.IsNullOrEmpty(ret) ? "" : (string)ret;
+            }
+            else
+            {
+
+
+                if (posttype_postseo != null && ppt != null && strppt !=null)
+                {
+                    ret = (bool)strppt;
+                    //ret = string.IsNullOrEmpty(ret) ? "" : (string)ret;
+                }
+            }
+        }
+
+        return ret;
+    }
     private string HomePage()
     {
         return string.Empty;
