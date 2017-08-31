@@ -21,7 +21,7 @@ public partial class _MasterSlide : BasePage
             foreach (Model_MasterSlider m in mslist)
             {
                 int uuid = m.MSID;
-               media = "<input type=\"checkbox\" name=\"chk_master_slider\" checked=\"checked\" value=\"" + uuid + "\" style=\"display:none;\" />";
+               media += "<input type=\"checkbox\" name=\"chk_master_slider\" checked=\"checked\" value=\"" + uuid + "\" style=\"display:none;\" />";
                 media += "<div class=\"media_item_box\"  style=\"border-top:2px solid #eee;margin-top:20px;padding-top:20px;\" id=\"media_item_box_" + uuid + "\"   style=\"margin-top:5px;\"><label> No Media selected</label>";
 
                 media += " <button id=\"addimg_" + uuid + "\" type=\"button\" class=\"addmedia btn btn-success btn-xs\" onclick=\"BindMediaBoxList(this);\"> Add main picture</button>";
