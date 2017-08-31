@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.UI;
@@ -23,14 +24,31 @@ public partial class _Default : Page
         //Response.Write(HttpUtility.UrlDecode(Request.Url.AbsolutePath)));Response.End();
         if (!this.Page.IsPostBack)
         {
-            this.Page.Title = "XXXXXX";
+            string Pagetitle = string.Empty;
+            string Pagedescription = string.Empty;
+            string canonical = string.Empty;
+            string fb_localte = string.Empty;
+            string fb_type = string.Empty;
+            string fb_title = string.Empty;
+            string fb_des = string.Empty;
+            string fb_url = string.Empty;
+            string fb_site_name = string.Empty;
+            string fb_image = string.Empty;
+
+            string tw_card = string.Empty;
+            string tw_title = string.Empty;
+            string tw_des = string.Empty;
+            string tw_image = string.Empty;
+
+
+
+
+
             Model_SiteInfo st = new Model_SiteInfo();
             Model_MainSetting setting = new Model_MainSetting();
             setting = setting.GetMainSetting();
-
             
-            var keywords = new HtmlMeta { Name = "keywords", Content = "one,two,three" };
-            Header.Controls.Add(keywords);
+
 
             Model_PageEngine PageEngine = new Model_PageEngine();
             PageEngine.SiteInfo = st.GetSiteInfo();
@@ -102,6 +120,7 @@ public partial class _Default : Page
                                 {
                                     //product-type = 24
                                     this.TaxForPostType = tax.FrontGetTaxonomyByID(24);
+                                    
                                     if (this.TaxForPostType != null)
                                     {
                                         this.TaxList = tax.FrontGetTaxonomyByRefID(24);
@@ -284,7 +303,7 @@ public partial class _Default : Page
                 {
                     StrPost_slug = post.Slug;
 
-
+                    bytPostTypeID = post.PostTypeID;
                     HeaderSection.Text = GenerateHeaderBannerAndSlider(post);
 
 
@@ -303,15 +322,79 @@ public partial class _Default : Page
                 }
             }
 
+           //= null;
+            Model_PostSeo posttype_postseo = null;
+            Model_PostSeo tax_postseo = null;
+            Model_PostSeo post_postseo = null;
+            if (bytPostTypeID != 0)
+            {
+                cPostType = cPostType.GetPostTypeByID(bytPostTypeID);
+                 posttype_postseo = cPostType.PosTypetSEO;
+            }
 
-            
+
+            if(tax != null)
+            {
+                 tax_postseo = tax.TaxSEO;
+            }
+
+            if (post != null)
+            {
+                 post_postseo = post.PostSEO;
+            }
+
+
+            Pagetitle = checklv(posttype_postseo, tax_postseo, post_postseo, "SEOTitle");
+            //setting.WebSiteTitle;
+            this.Page.Title = Pagetitle;
+            var keywords = new HtmlMeta { Name = "keywords", Content = "one,two,three" };
+            Header.Controls.Add(keywords);
+
         }
        
 
         
     }
 
-    
+    public string checklv(Model_PostSeo posttype_postseo, Model_PostSeo tax_postseo, Model_PostSeo post_postseo, string prop)
+    {
+        string ret = string.Empty;
+        PropertyInfo ppost = (post_postseo != null? post_postseo.GetType().GetProperty(prop) : null);
+        PropertyInfo ptax = (tax_postseo != null ? tax_postseo.GetType().GetProperty(prop) : null);
+        PropertyInfo ppt = (posttype_postseo != null? posttype_postseo.GetType().GetProperty(prop) : null);
+
+        string strppost = (string)(ppost != null ? ppost.GetValue(post_postseo, null) : null);
+        string strptax = (string)(ptax != null ? ptax.GetValue(tax_postseo, null) : null);
+        string strppt = (string)(ppt != null ? ppt.GetValue(posttype_postseo, null) : null);
+
+        if (post_postseo != null && ppost!=null &&  !string.IsNullOrEmpty(strppost))
+        {
+         
+
+            ret = (string)strppost;
+            //ret = string.IsNullOrEmpty(ret) ? "" : (string)ret;
+        }
+        else
+        {
+            if(tax_postseo != null && ptax != null && !string.IsNullOrEmpty(strptax))
+            {
+                ret = (string)strptax;
+                //ret = string.IsNullOrEmpty(ret) ? "" : (string)ret;
+            }
+            else
+            {
+                
+
+                if (posttype_postseo != null && ppt != null && !string.IsNullOrEmpty(strppt))
+                {
+                    ret = (string)strppt;
+                    //ret = string.IsNullOrEmpty(ret) ? "" : (string)ret;
+                }
+            }
+        }
+
+        return ret;
+    }
 
     private string HomePage()
     {

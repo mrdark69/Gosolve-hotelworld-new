@@ -1389,9 +1389,9 @@ string.Empty;
                                         }
                                         %>
 						        <!-- TOVAR4 -->
-
+                                <%--tovar_sale--%>
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 col-ss-12 padbot40">
-							        <div class="tovar_item tovar_sale">
+							        <div class="tovar_item ">
 								        <div class="tovar_img">
 									        <div class="tovar_img_wrapper">
 										        <img class="img" src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
