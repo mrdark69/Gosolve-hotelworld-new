@@ -342,6 +342,9 @@ $(document).ready(function () {
             var ele = $('#' + focus);
             var del = '<button data-idmediab="' + focus + '"  onclick="removeMedia(this);" class="btn btn-warning btn-circle btn-media-focus" type="button"><i class="fa fa-times"></i></button >';
             var lbl = ele.find('label');
+            lbl.on('click', function () {
+                return false;
+            })
             lbl.html('');
             lbl.css('background-image', 'url(' + url + ')');
             lbl.addClass('box_media_fucus_block');
