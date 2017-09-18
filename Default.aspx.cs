@@ -564,8 +564,21 @@ public partial class _Default : Page
 
     private string Slider()
     {
+        Model_MasterSlider ms = new Model_MasterSlider();
+        Model_MasterSliderItem mi = new Model_MasterSliderItem();
         string ret = StringUtility.GetTemplate("Slider");
-        return ret;
+
+        List<Model_MasterSlider> mslist = ms.GetMasterList();
+
+        string body = ret.GetKeywordReplace("<!-- ###MASTERITEM_START### -->", "<!-- ###MASTERITEM_END### -->");
+        string style = ret.GetKeywordReplace(" <!-- ###STYLE_START### -->", "<!-- ###STYLE_END### -->");
+        StringBuilder strStyle = new StringBuilder();
+        StringBuilder strBody = new StringBuilder();
+        foreach (Model_MasterSlider m in mslist)
+        {
+            strBody.Append(body);
+        }
+        return ret.Replace(body, strBody.ToString());
     }
 
     private string breadcrumb(byte type)
