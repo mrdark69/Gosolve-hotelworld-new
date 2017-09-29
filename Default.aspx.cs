@@ -570,6 +570,7 @@ public partial class _Default : Page
 
         List<Model_MasterSlider> mslist = ms.GetMasterList();
 
+        List<Model_MasterSliderItem> msitem = mi.GetMasterItemList();
         StringBuilder template = new StringBuilder();
         template.Append("<style>");
 
@@ -592,29 +593,57 @@ public partial class _Default : Page
         template.Append("<section id=\"home\" class=\"padbot30\">");
         template.Append("<div class=\"flexslider top_slider\">");
         template.Append("<ul class=\"slides\">");
-
+        count = 1;
         foreach (Model_MasterSlider m in mslist)
         {
 
-            template.Append("<li class=\"slide1\" >");
+            template.Append("<li class=\"slide"+ count + "\" >");
 
             template.Append("<div class=\"container\">");
 
             template.Append("<div class=\"flex_caption1\">");
-            template.Append("<p class=\"title1 captionDelay2 FromTop\"><!--###MASTERITEM_TEXT1###--></p>");
-            template.Append("<p class=\"title2 captionDelay3 FromTop\"><!--###MASTERITEM_TEXT2###--></p>");
+            template.Append("<p class=\"title1 captionDelay2 FromTop\">"+m.Text1+"</p>");
+            template.Append("<p class=\"title2 captionDelay3 FromTop\">"+m.Text2+"</p>");
             template.Append("</div>");
 
             template.Append("<a class=\"flex_caption2\" href=\"javascript:void(0);\"><div class=\"middle\">Download<span> Brochure</span>Click</div></a>");
+
             template.Append("<div class=\"flex_caption3 slide_banner_wrapper\">");
-            template.Append("<a class=\"slide_banner slide1_banner1 captionDelay4 FromBottom\" href=\"javascript:void(0);\"><img src = \"/Theme/maintheme/images/slider/slide1_baner1.jpg\" alt=\"\" /></a>");
-            template.Append("<a class=\"slide_banner slide1_banner2 captionDelay5 FromBottom\" href=\"javascript:void(0);\"><img src = \"/Theme/maintheme/images/slider/slide1_baner2.jpg\" alt=\"\" /></a>");
-            template.Append("<a class=\"slide_banner slide1_banner3 captionDelay6 FromBottom\" href=\"javascript:void(0);\"><img src = \"/Theme/maintheme/images/slider/slide1_baner3.jpg\" alt=\"\" /></a>");
+
+
+            //MSID
+            int count_i = 1;
+            foreach (Model_MasterSliderItem i in msitem.Where(r => r.MSID == m.MSID))
+            {
+               
+
+                if(count_i == 3)
+                {
+                    template.Append("<a style=\"width:550px;height:180px;background-size: cover;background-image: url(" + i.MediaFullPath + ");\" class=\"slide_banner slide1_banner" + count_i + " captionDelay" + (3 + count_i) + " FromBottom\" href=\"javascript:void(0);\"></a>");
+                }
+                else
+                {
+                    template.Append("<a style=\"width:278px;height:180px;background-size: cover;background-image: url(" + i.MediaFullPath + ");\" class=\"slide_banner slide1_banner" + count_i + " captionDelay" + (3 + count_i) + " FromBottom\" href=\"javascript:void(0);\"></a>");
+                }
+               
+
+                count_i = count_i + 1;
+            }
+
+
+
+            //template.Append("<a class=\"slide_banner slide1_banner2 captionDelay5 FromBottom\" href=\"javascript:void(0);\"><img src=\"/Theme/maintheme/images/slider/slide1_baner2.jpg\" alt=\"\" /></a>");
+            //template.Append("<a class=\"slide_banner slide1_banner3 captionDelay6 FromBottom\" href=\"javascript:void(0);\"><img src=\"/Theme/maintheme/images/slider/slide1_baner3.jpg\" alt=\"\" /></a>");
+
+
+
             template.Append(" </div>");
             template.Append("</div>");
             template.Append("</li>");
+
+            count = count + 1;
         }
-        
+
         template.Append("</ul>");
         template.Append("</div>");
         template.Append("</section>");

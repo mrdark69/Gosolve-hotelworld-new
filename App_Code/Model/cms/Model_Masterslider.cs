@@ -136,6 +136,19 @@ public class Model_MasterSliderItem : BaseModel<Model_MasterSliderItem>
         }
     }
 
+    public List<Model_MasterSliderItem> GetMasterItemList()
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT mi.*,m.Title,m.Alt,m.Path,m.FileName FROM MasterSliderItem mi 
+                    INNER JOIN Media m ON m.MID=mi.MID
+                    WHERE mi.Status = 1  ORDER BY mi.Priority ASC", cn);
+           // cmd.Parameters.Add("@MSID", SqlDbType.Int).Value = intMSID;
+            cn.Open();
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
     public int Insert(Model_MasterSliderItem ms)
     {
         int ret = 0;

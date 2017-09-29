@@ -4,6 +4,11 @@
 <%@ MasterType virtualpath="~/Site.User.master" %>
 
 <asp:Content ID="HeaderScript" ContentPlaceHolderID="HeaderScript" runat="server">
+    <style>
+        .top_slider .slide1 .flex_caption1 .title1{
+            width:1000px;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 

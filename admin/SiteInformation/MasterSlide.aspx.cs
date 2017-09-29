@@ -104,61 +104,71 @@ public partial class _MasterSlide : BasePage
                 string txt2 = Request.Form["b3_text_normal_"+ m];
                 string mid = Request.Form["b3_id_"+ m];
 
-                int msid = ms.Insert(new Model_MasterSlider
+                if (!string.IsNullOrEmpty(Request.Form["b3_id_" + m]))
                 {
-                    Text1 = txt1,
-                    Text2 = txt2,
-                    MID = int.Parse(mid),
-                    Priority = count
-                });
-
-
-                string mid_1 = Request.Form["b3_id_item_1" + m];
-                string link_1 = Request.Form["b3_link_item_1" + m];
-
-                string mid_2 = Request.Form["b3_id_item_2" + m];
-                string link_2 = Request.Form["b3_link_item_2" + m];
-
-                string mid_3 = Request.Form["b3_id_item_3" + m];
-                string link_3 = Request.Form["b3_link_item_3" + m];
-
-                if(!string.IsNullOrEmpty(mid_1) )
-                {
-                    mi.Insert(new Model_MasterSliderItem
+                    int msid = ms.Insert(new Model_MasterSlider
                     {
-                         MSID = msid,
-                         MID = int.Parse(mid_1),
-                         Link = link_1,
-                         Priority = 1
+                        Text1 = txt1,
+                        Text2 = txt2,
+                        MID = int.Parse(mid),
+                        Priority = count
                     });
-                }
 
-                if (!string.IsNullOrEmpty(mid_2) )
-                {
-                    mi.Insert(new Model_MasterSliderItem
+
+
+                    string mid_1 = Request.Form["b3_id_item_1" + m];
+                    string link_1 = Request.Form["b3_link_item_1" + m];
+
+                    string mid_2 = Request.Form["b3_id_item_2" + m];
+                    string link_2 = Request.Form["b3_link_item_2" + m];
+
+                    string mid_3 = Request.Form["b3_id_item_3" + m];
+                    string link_3 = Request.Form["b3_link_item_3" + m];
+
+                    if (!string.IsNullOrEmpty(mid_1))
                     {
-                        MSID = msid,
-                        MID = int.Parse(mid_2),
-                        Link = link_2,
-                        Priority = 2
-                    });
-                }
+                        mi.Insert(new Model_MasterSliderItem
+                        {
+                            MSID = msid,
+                            MID = int.Parse(mid_1),
+                            Link = link_1,
+                            Priority = 1
+                        });
+                    }
 
-
-                if (!string.IsNullOrEmpty(mid_3) )
-                {
-                    mi.Insert(new Model_MasterSliderItem
+                    if (!string.IsNullOrEmpty(mid_2))
                     {
-                        MSID = msid,
-                        MID = int.Parse(mid_3),
-                        Link = link_3,
-                        Priority = 3
-                    });
+                        mi.Insert(new Model_MasterSliderItem
+                        {
+                            MSID = msid,
+                            MID = int.Parse(mid_2),
+                            Link = link_2,
+                            Priority = 2
+                        });
+                    }
+
+
+                    if (!string.IsNullOrEmpty(mid_3))
+                    {
+                        mi.Insert(new Model_MasterSliderItem
+                        {
+                            MSID = msid,
+                            MID = int.Parse(mid_3),
+                            Link = link_3,
+                            Priority = 3
+                        });
+                    }
+
+                    count = count + 1;
                 }
+                
+
+
+               
 
 
 
-                count = count + 1;
+               
             }
 
         }
