@@ -566,19 +566,68 @@ public partial class _Default : Page
     {
         Model_MasterSlider ms = new Model_MasterSlider();
         Model_MasterSliderItem mi = new Model_MasterSliderItem();
-        string ret = StringUtility.GetTemplate("Slider");
+     // string ret = StringUtility.GetTemplate("Slider");
 
         List<Model_MasterSlider> mslist = ms.GetMasterList();
 
-        string body = ret.GetKeywordReplace("<!-- ###MASTERITEM_START### -->", "<!-- ###MASTERITEM_END### -->");
-        string style = ret.GetKeywordReplace(" <!-- ###STYLE_START### -->", "<!-- ###STYLE_END### -->");
-        StringBuilder strStyle = new StringBuilder();
-        StringBuilder strBody = new StringBuilder();
+        StringBuilder template = new StringBuilder();
+        template.Append("<style>");
+
+        int count = 1;
         foreach (Model_MasterSlider m in mslist)
         {
-            strBody.Append(body);
+            template.Append(".flexslider.top_slider .slide"+ count + " {");
+            template.Append("width: 100%;");
+            template.Append("background-image: url("+ m .MediaFullPath+ ");");
+            template.Append("background-size: cover;");
+            template.Append("}");
+
+            count = count + 1;
         }
-        return ret.Replace(body, strBody.ToString());
+        
+        template.Append("</style>");
+        
+
+
+        template.Append("<section id=\"home\" class=\"padbot30\">");
+        template.Append("<div class=\"flexslider top_slider\">");
+        template.Append("<ul class=\"slides\">");
+
+        foreach (Model_MasterSlider m in mslist)
+        {
+
+            template.Append("<li class=\"slide1\" >");
+
+            template.Append("<div class=\"container\">");
+
+            template.Append("<div class=\"flex_caption1\">");
+            template.Append("<p class=\"title1 captionDelay2 FromTop\"><!--###MASTERITEM_TEXT1###--></p>");
+            template.Append("<p class=\"title2 captionDelay3 FromTop\"><!--###MASTERITEM_TEXT2###--></p>");
+            template.Append("</div>");
+
+            template.Append("<a class=\"flex_caption2\" href=\"javascript:void(0);\"><div class=\"middle\">Download<span> Brochure</span>Click</div></a>");
+            template.Append("<div class=\"flex_caption3 slide_banner_wrapper\">");
+            template.Append("<a class=\"slide_banner slide1_banner1 captionDelay4 FromBottom\" href=\"javascript:void(0);\"><img src = \"/Theme/maintheme/images/slider/slide1_baner1.jpg\" alt=\"\" /></a>");
+            template.Append("<a class=\"slide_banner slide1_banner2 captionDelay5 FromBottom\" href=\"javascript:void(0);\"><img src = \"/Theme/maintheme/images/slider/slide1_baner2.jpg\" alt=\"\" /></a>");
+            template.Append("<a class=\"slide_banner slide1_banner3 captionDelay6 FromBottom\" href=\"javascript:void(0);\"><img src = \"/Theme/maintheme/images/slider/slide1_baner3.jpg\" alt=\"\" /></a>");
+            template.Append(" </div>");
+            template.Append("</div>");
+            template.Append("</li>");
+        }
+        
+        template.Append("</ul>");
+        template.Append("</div>");
+        template.Append("</section>");
+
+
+        //string body = ret.GetKeywordReplace("<!-- ###MASTERITEM_START### -->", "<!-- ###MASTERITEM_END### -->");
+        //string style = ret.GetKeywordReplace(" <!-- ###STYLE_START### -->", "<!-- ###STYLE_END### -->");
+        //StringBuilder strStyle = new StringBuilder();
+        //StringBuilder strBody = new StringBuilder();
+
+        //return ret.Replace(body, strBody.ToString());
+
+        return template.ToString();
     }
 
     private string breadcrumb(byte type)

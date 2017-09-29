@@ -93,6 +93,8 @@ public partial class Application_ajax_upload_media : System.Web.UI.Page
                         string tempFileName = string.Format("{0}-{1}", fileNameOnly, count++);
                         strfileName = tempFileName;
                         savedFileName = Path.Combine(path, tempFileName + extension);
+
+                        
                     }
                 }
                 else
@@ -105,6 +107,9 @@ public partial class Application_ajax_upload_media : System.Web.UI.Page
 
 
                 file.SaveAs(savedFileName);
+
+                file.InputStream.Close();
+                file.InputStream.Dispose();
 
                 if (strFileType.Contains("image"))
                 {

@@ -87,6 +87,8 @@ public class MediaController
         FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(  param.Path + param.FileName));
         if (file.Exists)
             file.Delete();
+
+       
     }
 
 
