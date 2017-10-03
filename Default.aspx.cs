@@ -422,7 +422,7 @@ public partial class _Default : Page
         if (post_postseo != null && ppost!=null &&  !string.IsNullOrEmpty(strppost))
         {
          
-
+           
             ret = (string)strppost;
             //ret = string.IsNullOrEmpty(ret) ? "" : (string)ret;
         }
@@ -439,7 +439,20 @@ public partial class _Default : Page
 
                 if (posttype_postseo != null && ppt != null && !string.IsNullOrEmpty(strppt))
                 {
-                    ret = (string)strppt;
+                    string temp = (string)strppt;
+
+                    if (this.TaxForPostType != null)
+                    {
+                        temp = this.TaxForPostType.Title + " โรงแรม - " + temp;
+                    }
+
+                    if (this.PostDataUI != null)
+                    {
+                        temp=   this.PostDataUI.Title + " โรงแรม - " + temp;
+                    }
+
+                    
+                    ret = temp;
                     //ret = string.IsNullOrEmpty(ret) ? "" : (string)ret;
                 }
             }
