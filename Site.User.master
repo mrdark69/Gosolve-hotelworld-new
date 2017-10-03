@@ -76,12 +76,13 @@
 					
 					
 					<!-- SEARCH FORM -->
-					<div class="top_search_form">
+					<%--<div class="top_search_form">
 						<a class="top_search_btn" href="javascript:void(0);" ><i class="fa fa-search"></i></a>
 						<div class="form-s" style="display:none;">
 							<input type="text" name="search" value="Search" onFocus="if (this.value == 'Search') this.value = '';" onBlur="if (this.value == '') this.value = 'Search';" />
 						</div>
-					</div><!-- SEARCH FORM -->
+					</div>--%>
+                    <!-- SEARCH FORM -->
 					
 					
 					<!-- SHOPPING BAG -->
