@@ -1333,7 +1333,7 @@ string.Empty;
 									        </div>
 									        <div class="tovar_item_btns">
 										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" 
-                                                    data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
+                                                    data-url="<% Response.Write(item.Permarlink);%>" >view</a></div>
 										        <a class="add_bag" style="display:none"; href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
 										        <!-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>-->
 									        </div>
@@ -1415,7 +1415,7 @@ string.Empty;
 									        </div>
 									        <div class="tovar_item_btns">
 										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" 
-                                                    data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
+                                                    data-url="<% Response.Write(item.Permarlink);%>" >view</a></div>
 										        <a class="add_bag" style="display:none"; href="javascript:void(0);" ><i class="fa fa-shopping-cart"></i></a>
 										        <!-- <a class="add_lovelist" href="javascript:void(0);" ><i class="fa fa-heart"></i></a>-->
 									        </div>
@@ -1503,6 +1503,11 @@ string.Empty;
                                                  alt = cimg.Alt;
                                                  title = cimg.Title;
                                              }
+                                             else
+                                             {
+                                                 Model_PostMedia cimg_default = new Model_PostMedia();
+                                                imgPath =cimg_default.MediaFullPath;
+                                             }
                                     %>
                                  
 							        <li>
@@ -1510,7 +1515,7 @@ string.Empty;
 								        <div class="tovar_item_new">
 									        <div class="tovar_img">
 										        <img src="<% Response.Write(imgPath);%>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" />
-										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" data-url="<% Response.Write(item.Permarlink);%>" >quick view</a></div>
+										        <div class="open-project-link"><a class="open-project tovar_view" href="<% Response.Write(item.Permarlink);%>" data-url="<% Response.Write(item.Permarlink);%>" >view</a></div>
 									        </div>
 									        <div class="tovar_description clearfix">
 										        <a class="tovar_title" href="<%Response.Write(item.Permarlink); %>" ><%  Response.Write(item.Title);%></a>
