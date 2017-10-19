@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="MediaTaxEdit.aspx.cs" Inherits="_TaxonomyEdit" %>
+﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="MediaTaxEdit.aspx.cs" Inherits="_MediaTaxEdit" %>
 <asp:Content ID="HeaderScript" ContentPlaceHolderID="HeaderScript" runat="server">
     <style>
         .list_status.active{
@@ -112,7 +112,7 @@
 
             $('.btn_pri_update').on('click', function () {
 
-                var url = "<%= ResolveUrl("/admin/Post/ajax_webmethod_post.aspx/UpdateTaxPri") %>";
+                var url = "<%= ResolveUrl("/admin/Application/ajax/media/ajax_webmethod_media.aspx/UpdateTaxPri") %>";
 
                 var form = $('form').find("input,textarea,select,hidden").not("#__VIEWSTATE,#__EVENTVALIDATION").serialize();
 
@@ -182,7 +182,7 @@
                 ret += '<tr>';
                 ret += ' <td style="width:5%"><input type="textbox"  class="form-control" name="pri_' + data[i].TaxID + '"  value=\"' + data[i].Priority + '\"/><input type=\"checkbox\" checked="checked" name="check_pri" style="display:none;" value="' + data[i].TaxID + '" /></td>'
                 //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
-                ret += '   <td><strong><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID + '"><i class="fa fa-star"></i>' + data[i].Title + '</a></strong></td>';
+                ret += '   <td><strong><a href="MediaTax?Mode=Edit&TaxID=' + data[i].TaxID + '"><i class="fa fa-star"></i>' + data[i].Title + '</a></strong></td>';
                 //ret += '   <td>' + data[i].Title + '</td>';
                 //ret += '   <td>' + data[i].UserFirstName +'</td>';
                 ret += '   <td>' + data[i].DatePublishFormat +'</td>';
@@ -203,31 +203,7 @@
             return ret;
         }
 
-        function child(v, RawData, data, key) {
-            var TaxTypeID = getParameterByName('TaxTypeID');
-            var PostTypeID = getParameterByName('PostTypeID');
-            var ret = "";
-            if (data.length > 0) {
-                v = v + 1;
-                for (var i in data) {
-
-                    ret += '<tr>';
-                    ret += ' <td style="width:5%"><input type="textbox" x class="form-control" name="pri_' + data[i].TaxID + '"  value=\"' + data[i].Priority + '\"/><input type=\"checkbox\" checked="checked" name="check_pri" style="display:none;" value="' + data[i].TaxID + '" /></td>'
-                    //ret += '   <td><input type="checkbox" checked class="i-checks" disabled name="input[]"></td>';
-                    ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=' + PostTypeID + '&TaxTypeID=' + TaxTypeID + '&TaxID=' + data[i].TaxID + '">' + level(v) + data[i].Title + '</a></td>';
-                    ret += '   <td>' + data[i].Slug + '</td>';
-                    //ret += '   <td>' + data[i].UserFirstName + '</td>';
-                    ret += '   <td>' + data[i].DatePublishFormat + '</td>';
-                    ret += '   <td><span class="label label-primary">' + data[i].ViewCount + '</span></td>';
-                  
-                    //ret += '   <td><a href="Taxonomy?Mode=Edit&PostTypeID=3&TaxTypeID=1&TaxID=' + data[i].TaxID + '"><i class="fa fa-pencil"></i> Edit </a></td>';
-                    ret += '   </tr >';
-                    var lv1 = $.grep(RawData, function (e) { return e.RefID == data[i].TaxID; }); 
-                    ret += child(v,RawData,lv1, data[i].TaxID);
-                }
-            }
-            return ret;
-        }
+     
 
 
         function level(v) {

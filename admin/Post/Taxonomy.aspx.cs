@@ -83,7 +83,8 @@ public partial class _Taxonomy : BasePage
                         dropParent.DataBind();
 
 
-                       
+                        linkrestore.Visible = false;
+                        linktrash.Visible = false;
                         dropParent.Items.Insert(0, listitem);
                         break;
                     case "Edit":

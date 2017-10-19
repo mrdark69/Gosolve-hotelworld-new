@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class _TaxonomyEdit : BasePage
+public partial class _MediaTaxEdit : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -27,9 +27,9 @@ public partial class _TaxonomyEdit : BasePage
             //addTax.Visible = false;
             //addTax.NavigateUrl = "/admin/Post/Taxonomy?TaxTypeID=" + this.TaxTypeID + "&PostTypeID=" + this.PostTypeID + "&Mode=Add";
 
-            //HyperLink addTax = this.Page.Master.FindControl("AdnewBtn") as HyperLink;
-            //addTax.Visible = true;
-            //addTax.NavigateUrl = "/admin/Post/Taxonomy?TaxTypeID=" + this.TaxTypeID + "&PostTypeID=" + this.PostTypeID + "&Mode=Add";
+            HyperLink addTax = this.Page.Master.FindControl("AdnewBtn") as HyperLink;
+            addTax.Visible = true;
+            addTax.NavigateUrl = "/admin/Medias/MediaTax?Mode=Add";
         }
     }
 
