@@ -43,7 +43,10 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
         {
             Model_MainSetting s = new Model_MainSetting();
             s = s.GetMainSetting();
-            return s.WebSiteURL + this.Path + this.FileName;
+            if (!string.IsNullOrEmpty(this.Path) && !string.IsNullOrEmpty(this.FileName))
+                return s.WebSiteURL + this.Path + this.FileName;
+            else
+                return s.WebSiteURL + "Content/img/1.jpg";
         }
     }
     public Model_PostMedia()

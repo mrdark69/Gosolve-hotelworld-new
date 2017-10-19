@@ -1291,7 +1291,7 @@ string.Empty;
 						
 
                                 <% 
-                                    
+
                                     Model_Post p = new Model_Post();
                                     List<Model_Post> plist = p.GetPostByTax(PostType.Products,"สินค้าแนะนำ");
                                     foreach (Model_Post item in plist.Take(4))
@@ -1304,8 +1304,8 @@ string.Empty;
                                         List<Model_PostMedia> cm = item.PostMedia;
                                         Model_PostMedia cimg = cm.SingleOrDefault(o => o.PostMediaTypeID == PostMediaType.FeatureImage);
 
-                                      Model_PostPricing pp = item.PostPricingclass;
-                                       
+                                        Model_PostPricing pp = item.PostPricingclass;
+
                                         if (pp != null)
                                         {
                                             Price = ((decimal)pp.Price).ToString("#,##0.00");
@@ -1315,6 +1315,11 @@ string.Empty;
                                             imgPath =cimg.MediaFullPath;
                                             alt = cimg.Alt;
                                             title = cimg.Title;
+                                        }
+                                        else
+                                        {
+                                            Model_PostMedia cimg_default = new Model_PostMedia();
+                                            imgPath =cimg_default.MediaFullPath;
                                         }
 
                                     %>
@@ -1389,9 +1394,14 @@ string.Empty;
 
                                         if (cimg != null)
                                         {
-                                            imgPath =cimg.MediaFullPath;
+                                            imgPath = cimg.MediaFullPath ;
                                             alt = cimg.Alt;
                                             title = cimg.Title;
+                                        }
+                                        else
+                                        {
+                                            Model_PostMedia cimg_default = new Model_PostMedia();
+                                            imgPath =cimg_default.MediaFullPath;
                                         }
                                         %>
 						        <!-- TOVAR4 -->
