@@ -1291,11 +1291,10 @@ string.Empty;
 						
 
                                 <% 
-
-
+                                    
                                     Model_Post p = new Model_Post();
                                     List<Model_Post> plist = p.GetPostByTax(PostType.Products,"สินค้าแนะนำ");
-                                    foreach (Model_Post item in plist.Take(3))
+                                    foreach (Model_Post item in plist.Take(4))
                                     {
                                         Model_PostCustomItem cu = new Model_PostCustomItem();
                                         string imgPath = string.Empty;
@@ -1346,10 +1345,11 @@ string.Empty;
 						        <div class="respond_clear_768"></div>
 						
 						        <!-- BANNER -->
-						        <div class="col-lg-3 col-md-3 col-xs-6 col-ss-12">
+						        <%--<div class="col-lg-3 col-md-3 col-xs-6 col-ss-12">
 							        <a class="banner type1 margbot30" href="javascript:void(0);"  ><img src="http://demo.evatheme.com/html/glammy/images/tovar/banner1.jpg" alt="" /></a>
 							        <a class="banner type2 margbot40" href="javascript:void(0);" ><img src="http://demo.evatheme.com/html/glammy/images/tovar/banner2.jpg" alt="" /></a>
-						        </div><!-- //BANNER -->
+						        </div>--%>
+                                <!-- //BANNER -->
 					        </div><!-- //TOVAR WRAPPER -->
 				        </div><!-- //ROW -->
 				
@@ -1361,14 +1361,15 @@ string.Empty;
 					        <div class="tovar_wrapper" data-appear-top-offset='-100' data-animated='fadeInUp'>
 						
 						        <!-- BANNER -->
-						        <div class="col-lg-3 col-md-3 col-xs-6 col-ss-12">
+						      <%--  <div class="col-lg-3 col-md-3 col-xs-6 col-ss-12">
 							        <a class="banner type3 margbot40" href="javascript:void(0);" ><img src="http://demo.evatheme.com/html/glammy/images/tovar/banner3.jpg" alt="" /></a>
-						        </div><!-- //BANNER -->
+						        </div>--%>
+                                <!-- //BANNER -->
 						
 						        <div class="respond_clear_768"></div>
 						
                                 <%   
-                                    foreach (Model_Post item in plist.Skip(3).Take(3)){
+                                    foreach (Model_Post item in plist.Skip(4).Take(4)){
                                         Model_PostCustomItem cu = new Model_PostCustomItem();
                                         string imgPath = string.Empty;
                                         string alt = string.Empty;
