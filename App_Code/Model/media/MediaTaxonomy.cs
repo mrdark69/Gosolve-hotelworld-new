@@ -98,7 +98,22 @@ public class MediaTaxonomy : BaseModel<MediaTaxonomy>
 
         }
     }
+    public IList<MediaTaxonomy> model_GetTaxonomyListActive(MediaTaxonomy param)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM MediaTaxonomy WHERE KeyRef=@KeyRef AND Status =1", cn);
 
+
+            cmd.Parameters.Add("@KeyRef", SqlDbType.Int).Value = param.KeyRef;
+
+            cn.Open();
+
+            return MappingObjectCollectionFromDataReader(ExecuteReader(cmd));
+
+
+        }
+    }
     public IList<MediaTaxonomy> model_GetTaxonomyList(MediaTaxonomy param)
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))

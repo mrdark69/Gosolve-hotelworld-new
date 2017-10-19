@@ -47,7 +47,7 @@ public partial class Application_ajax_webmethod_media : System.Web.UI.Page
     public static void GetMediaCat(object parameters)
     {
        
-        AppTools.SendResponse(HttpContext.Current.Response, MediaController.GetTaxonomyListByRef().ObjectToJSON());
+        AppTools.SendResponse(HttpContext.Current.Response, MediaController.GetTaxonomyListByRefActive().ObjectToJSON());
     }
 
 

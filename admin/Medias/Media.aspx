@@ -49,7 +49,7 @@
                                 
                                 
 <%--                                <button class="btn btn-primary" type="submit">Search</button>--%>
-                                <a href="javascript:void(0)" id="add_new_cat">Add New Category</a>
+                               <%-- <a href="javascript:void(0)" id="add_new_cat">Add New Category</a>--%>
                                 </div>
                                  <div class="col-md-4" style="text-align:right">
                                      <div class="btn-group">

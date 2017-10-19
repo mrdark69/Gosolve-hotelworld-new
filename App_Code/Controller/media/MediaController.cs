@@ -113,6 +113,14 @@ public class MediaController
         return mt.model_GetTaxonomyList(mt);
     }
 
+    public static IList<MediaTaxonomy> GetTaxonomyListByRefActive(int RefID = 1)
+    {
+        MediaTaxonomy mt = new MediaTaxonomy { KeyRef = RefID };
+
+
+        return mt.model_GetTaxonomyListActive(mt);
+    }
+
 
     public static int InsertMediaTax(List<MediaTax> param)
     {
