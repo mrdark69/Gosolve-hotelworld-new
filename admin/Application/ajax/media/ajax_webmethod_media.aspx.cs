@@ -138,7 +138,7 @@ public partial class Application_ajax_webmethod_media : System.Web.UI.Page
         IDictionary<string, object> data = (IDictionary<string, object>)parameters;
 
         string steCatTitle = data["CatVal"].ToString();
-        int ret = MediaController.InsertChildTaxonomy(steCatTitle);
+        int ret = MediaController.InsertChildTaxonomy(steCatTitle,1);
         bool success = false;
         string msg = "no";
 
@@ -207,6 +207,14 @@ public partial class Application_ajax_webmethod_media : System.Web.UI.Page
     }
 
 
+    [WebMethod]
+    public static void GetTaxMain(MediaTaxonomy parameters)
+    {
+        //Model_Post p = new Model_Post { PostTypeID = 1 };
+        IList<MediaTaxonomy> ret = MediaController.GetTaxonomyListByRef();
 
+
+        AppTools.SendResponse(HttpContext.Current.Response, ret.ObjectToJSON());
+    }
 
 }

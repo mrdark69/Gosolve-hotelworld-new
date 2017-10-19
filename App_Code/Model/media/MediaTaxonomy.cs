@@ -18,7 +18,15 @@ public class MediaTaxonomy : BaseModel<MediaTaxonomy>
     public int KeyID { get; set; } = 0;
     public int KeyRef { get; set; } = 1;
     public bool Status { get; set; }
-
+    public int Priority { get; set; }
+    public DateTime DatePublish { get; set; }
+    public string DatePublishFormat
+    {
+        get
+        {
+            return this.DatePublish.ToThaiDateTime().ToString("dd MMM yyy HH:mm tt");
+        }
+    }
 
     public MediaTaxonomy()
     {
@@ -34,13 +42,14 @@ public class MediaTaxonomy : BaseModel<MediaTaxonomy>
     {
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("INSERT INTO MediaTaxonomy (Title,TaxType,KeyID,KeyRef)VALUES(@Title,@TaxType,@KeyID,@KeyRef)", cn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO MediaTaxonomy (Title,TaxType,KeyID,KeyRef,Priority,DatePublish)VALUES(@Title,@TaxType,@KeyID,@KeyRef,@Priority,@DatePublish)", cn);
 
             cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = param.Title;
             cmd.Parameters.Add("@TaxType", SqlDbType.NVarChar).Value = param.TaxType;
             cmd.Parameters.Add("@KeyID", SqlDbType.Int).Value = param.KeyID;
             cmd.Parameters.Add("@KeyRef", SqlDbType.Int).Value = param.KeyRef;
-
+            cmd.Parameters.Add("@Priority", SqlDbType.Int).Value = param.Priority;
+            cmd.Parameters.Add("@DatePublish", SqlDbType.SmallDateTime).Value = param.DatePublish;
             cn.Open();
 
             return ExecuteNonQuery(cmd);

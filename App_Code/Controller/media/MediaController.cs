@@ -92,10 +92,12 @@ public class MediaController
     }
 
 
-    public static int InsertChildTaxonomy(string param)
+    public static int InsertChildTaxonomy(string param, int priority)
     {
         MediaTaxonomy mt = new MediaTaxonomy {
-            Title = param
+            Title = param,
+            DatePublish = DatetimeHelper._UTCNow(),
+            Priority= priority
         };
 
        
