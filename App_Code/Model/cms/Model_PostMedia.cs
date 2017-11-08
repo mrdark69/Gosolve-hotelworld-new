@@ -61,10 +61,10 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
         {
             
             SqlCommand cmd = new SqlCommand(@"INSERT INTO PostMedia (PostMediaTypeID,PostID,MID,Priority,Caption) VALUES(@PostMediaTypeID,@PostID,@MID,@Priority,@Caption) ", cn);
-            cmd.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = mp.PostMediaTypeID;
-            cmd.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = mp.PostID;
-            cmd.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
-            cmd.Parameters.Add("@Priority", SqlDbType.TinyInt).Value = mp.Priority;
+            cmd.Parameters.Add("@PostMediaTypeID", SqlDbType.Int).Value = mp.PostMediaTypeID;
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = mp.PostID;
+            cmd.Parameters.Add("@MID", SqlDbType.Int).Value = mp.MID;
+            cmd.Parameters.Add("@Priority", SqlDbType.Int).Value = mp.Priority;
             cmd.Parameters.Add("@Caption", SqlDbType.NVarChar).Value = mp.Caption;
             cn.Open();
             return ExecuteNonQuery(cmd);
@@ -81,16 +81,16 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
             cn.Open();
            // AND MID = @MID
             cmddel.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = mp.PostMediaTypeID;
-            cmddel.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = mp.PostID;
+            cmddel.Parameters.Add("@PostID", SqlDbType.Int).Value = mp.PostID;
            // cmddel.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
 
             ExecuteNonQuery(cmddel);
 
             SqlCommand cmd = new SqlCommand(@"INSERT INTO PostMedia (PostMediaTypeID,PostID,MID,Priority,Caption) VALUES(@PostMediaTypeID,@PostID,@MID,@Priority,@Caption) ", cn);
             cmd.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = mp.PostMediaTypeID;
-            cmd.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = mp.PostID;
-            cmd.Parameters.Add("@MID", SqlDbType.TinyInt).Value = mp.MID;
-            cmd.Parameters.Add("@Priority", SqlDbType.TinyInt).Value = mp.Priority;
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = mp.PostID;
+            cmd.Parameters.Add("@MID", SqlDbType.Int).Value = mp.MID;
+            cmd.Parameters.Add("@Priority", SqlDbType.Int).Value = mp.Priority;
             cmd.Parameters.Add("@Caption", SqlDbType.NVarChar).Value = mp.Caption;
 
 
@@ -125,7 +125,7 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
             SqlCommand cmd = new SqlCommand(@"SELECT pm.*,m.Title,m.Alt,m.Path,m.FileName FROM PostMedia pm INNER JOIN Media m ON m.MID=pm.MID WHERE PostID=@PostID AND PostMediaTypeID=@PostMediaTypeID", cn);
-            cmd.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = PostID;
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
             cmd.Parameters.Add("@PostMediaTypeID", SqlDbType.TinyInt).Value = PostMediaTypeID;
             cn.Open();
 
@@ -140,7 +140,7 @@ public class Model_PostMedia : BaseModel<Model_PostMedia>
         {
             SqlCommand cmd = new SqlCommand(@"SELECT pm.*,m.Title,m.Alt,m.Path,m.FileName FROM PostMedia pm 
         INNER JOIN Media m ON m.MID=pm.MID WHERE  PostID=@PostID", cn);
-            cmd.Parameters.Add("@PostID", SqlDbType.TinyInt).Value = PostID;
+            cmd.Parameters.Add("@PostID", SqlDbType.Int).Value = PostID;
           
             cn.Open();
 
