@@ -62,7 +62,7 @@ public static class StringUtility
         if (cL > 0)
         {
              ret = content.removehtmlTag();
-            if(cL > 300)
+            if(ret.Length > 300)
             ret = ret.Substring(0, 300 );
 
         }
