@@ -145,6 +145,8 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
     public int Lv { get; set; }
     public int Priority { get; set; }
 
+
+
     public bool Trash { get; set; }
     public string DatePublishFormat
     {
@@ -156,7 +158,7 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
 
     public string UserFirstName { get; set; }
 
-
+    public int PostCount { get; set; }
     public string TitleLevel
     {
         get
@@ -413,6 +415,31 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
             return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
         }
     }
+
+
+    public List<Model_PostTaxonomy> GetTaxonomyTaxTypeAndPostType_withcountpost(byte PostType, byte TaxType)
+    {
+        using (SqlConnection cn = new SqlConnection(this.ConnectionString))
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.*, temp.counttotal AS PostCount FROM PostTaxonomy pt
+                                            CROSS APPLY (
+                                            SELECT COUNT(p.PostID) AS counttotal FROM Post p
+                                            INNER JOIN PostTaxMap pm ON pm.PostID = p.PostID
+                                            WHERE pt.TaxID = pm.TaxID AND p.Status = 1 AND p.Trash = 1
+                                            ) AS temp
+                                            WHERE pt.PostTypeID=@PostTypeID AND pt.TaxTypeID= @TaxTypeID AND (temp.counttotal > 0 OR RefID = 0) 
+                                            AND pt.Status = 1 AND pt.Trash = 1
+                                            ORDER BY TaxID ASC, RefID ASC", cn);
+
+            cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostType;
+            cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = TaxType;
+            cn.Open();
+
+            return MappingObjectCollectionFromDataReaderByName(ExecuteReader(cmd));
+        }
+    }
+
+    
 
     //binding
     public Model_PostTaxonomy GetTaxBySlugAndPostType(string slug, byte bytPostType)

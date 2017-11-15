@@ -164,7 +164,7 @@ public partial class _Default : Page
                                             //case Tax approve
                                             SectionProductTaxArchive.Visible = true;
                                             this.TaxForPostType = tax;
-                                            this.TaxList = tax.GetTaxonomyTaxTypeAndPostType(bytPostTypeID, (byte)PostTaxonomyType.Categories);
+                                            this.TaxList = tax.GetTaxonomyTaxTypeAndPostType_withcountpost(bytPostTypeID, (byte)PostTaxonomyType.Categories);
                                             this.ContentBody = tax.BodyContent;
                                             //Case tax Archive Paging
                                             if (RouteSlug_3 == "page")
@@ -727,7 +727,7 @@ public partial class _Default : Page
         foreach (Model_PostTaxonomy c in retdataret)
         {
             ////name="TaxID_<% Response.Write(p.PostTypeID); %>_<% Response.Write(p.TaxTypeID); %>" 
-            ret.Append("<input type=\"checkbox\" id=\"tax_name_"+c.TaxID+"\" value=\""+c.Slug+ "\" /><label for=\"tax_name_" + c.TaxID + "\"><a href=\"" + c.Permarlink + "\" title=\""+c.Title+"\" >" + c.Title+ " <span>(24)</span></a></label>");
+            ret.Append("<input type=\"checkbox\" id=\"tax_name_"+c.TaxID+"\" value=\""+c.Slug+ "\" /><label for=\"tax_name_" + c.TaxID + "\"><a href=\"" + c.Permarlink + "\" title=\""+c.Title+"\" >" + c.Title+ " <span>("+c.PostCount+")</span></a></label>");
             ////ret.Append("<p class='child_item' style='position:relative;'><input type='checkbox'  value='" + c.TaxID + "' name='TaxID_" + c.PostTypeID + "_" + c.TaxTypeID + "' />");
             //ret.Append(c.Title + "</p>");
             if (data.Where(f => f.RefID == c.TaxID).Count() > 0)
