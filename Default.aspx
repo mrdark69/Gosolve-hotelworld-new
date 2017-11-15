@@ -1118,31 +1118,36 @@ string.Empty;
                                     %>
 							    <a class="banner nobord" href="javascript:void(0);" ><img src="<% Response.Write(imgPath); %>" alt="<% Response.Write(alt); %>" title="<% Response.Write(title); %>" /></a>
 						    </div><!-- //SHOP BANNER -->
-						
+						<%  Model_Post p = new Model_Post();
+                            List<Model_Post> plist = p.GetPostByTax(PostType.Products,TaxForPostType.Slug);
+                            %>
 						    <!-- SORTING TOVAR PANEL -->
 						    <div class="sorting_options clearfix">
 							
 							    <!-- COUNT TOVAR ITEMS -->
 							    <div class="count_tovar_items">
-								    <p>Sweaters</p>
-								    <span>194 Items</span>
+								    <p><%= this.TaxForPostType.Title %></p>
+								    <span><% Response.Write(plist.Count()); %> Items</span>
 							    </div><!-- //COUNT TOVAR ITEMS -->
 							
 							    <!-- TOVAR FILTER -->
-							    <div class="product_sort">
+							   <%-- <div class="product_sort">
 								    <p>SORT BY</p>
 								    <select class="basic">
 									    <option value="">Popularity</option>
 									    <option>Reting</option>
 									    <option>Date</option>
 								    </select>
-							    </div><!-- //TOVAR FILTER -->
+							    </div>--%>
+                                
+                                <!-- //TOVAR FILTER -->
 							
 							    <!-- PRODUC SIZE -->
 							    <div id="toggle-sizes">
 								    <a class="view_box active" href="javascript:void(0);"><i class="fa fa-th-large"></i></a>
-								    <a class="view_full" href="javascript:void(0);"><i class="fa fa-th-list"></i></a>
-							    </div><!-- //PRODUC SIZE -->
+								  <%--  <a class="view_full" href="javascript:void(0);"><i class="fa fa-th-list"></i></a>--%>
+							    </div>
+                                <!-- //PRODUC SIZE -->
 						    </div><!-- //SORTING TOVAR PANEL -->
 						
 						
@@ -1153,8 +1158,8 @@ string.Empty;
                                       imgPath = string.Empty;
                                           alt = string.Empty;
                                           title = string.Empty;
-                                     Model_Post p = new Model_Post();
-                                     List<Model_Post> plist = p.GetPostByTax(PostType.Products,TaxForPostType.Slug);
+                                    
+                                    
                                      foreach (Model_Post item in plist)
                                      {
                                          Model_PostCustomItem cu = new Model_PostCustomItem();
@@ -1212,7 +1217,7 @@ string.Empty;
 						
 						    <div class="clearfix">
 							    <!-- PAGINATION -->
-							    <ul class="pagination">
+							   <%-- <ul class="pagination">
 								    <li><a href="javascript:void(0);" >1</a></li>
 								    <li><a href="javascript:void(0);" >2</a></li>
 								    <li class="active"><a href="javascript:void(0);" >3</a></li>
@@ -1220,9 +1225,11 @@ string.Empty;
 								    <li><a href="javascript:void(0);" >5</a></li>
 								    <li><a href="javascript:void(0);" >6</a></li>
 								    <li><a href="javascript:void(0);" >...</a></li>
-							    </ul><!-- //PAGINATION -->
+							    </ul>--%>
+                                
+                                <!-- //PAGINATION -->
 							
-							    <a class="show_all_tovar" href="javascript:void(0);" >show all</a>
+					<%--		    <a class="show_all_tovar" href="javascript:void(0);" >show all</a>--%>
 							
 						    </div>
 						
