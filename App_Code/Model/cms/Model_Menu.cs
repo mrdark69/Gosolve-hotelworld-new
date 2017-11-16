@@ -250,7 +250,7 @@ public class Model_Menu : BaseModel<Model_Menu>
                 post.PostSlug,post.PostPostTypeTitle  
                 FROM Menu m
 
-                OUTER APPLY (SELECT ps.Slug + '/'+pt.Slug As TaxSlug, ptt.Title AS TagTypeTitle 
+                OUTER APPLY (SELECT ps.Slug + '/'+ LOWER(ptt.Title) +'/'+pt.Slug As TaxSlug, ptt.Title AS TagTypeTitle 
                 FROM PostTaxonomy pt INNER JOIN PostTaxonomyType ptt ON ptt.TaxTypeID = pt.TaxTypeID
                 INNER JOIN PostType ps ON ps.PostTypeID = pt.PostTypeID
                 WHERE pt.TaxID = m.TaxID) AS tax

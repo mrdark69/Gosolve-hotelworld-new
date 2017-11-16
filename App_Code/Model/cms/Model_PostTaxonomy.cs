@@ -146,8 +146,12 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
     public int Priority { get; set; }
 
 
+    
 
     public bool Trash { get; set; }
+
+    public string TaxTypeTitle { get; set; }
+
     public string DatePublishFormat
     {
         get
@@ -232,7 +236,7 @@ public class Model_PostTaxonomy : BaseModel<Model_PostTaxonomy>
         {
             Model_MainSetting s = new Model_MainSetting();
             s = s.GetMainSetting();
-            return s.WebSiteURL + (this.PostTypeID != (byte)PostType.Pages ? this.PostTypeClass.Slug + "/" : string.Empty) + this.Slug;
+            return s.WebSiteURL + (this.PostTypeID != (byte)PostType.Pages ? this.PostTypeClass.Slug + "/" : string.Empty) +  this.TaxTypeTitle.ToLower() + "/" + this.Slug;
         }
     }
 
@@ -358,7 +362,9 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE TaxID=@TaxID", cn);
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.*,ptt.title AS TaxTypeTitle FROM PostTaxonomy pt 
+            INNER JOIN PostTaxonomyType ptt ON pt.TaxTypeID= ptt.TaxTypeID 
+            WHERE  pt.TaxID=@TaxID", cn);
             cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = TaxID;
 
 
@@ -377,7 +383,12 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using(SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT pt.*,u.FirstName AS UserFirstName FROM PostTaxonomy pt INNER JOIN Users u ON u.UserID=pt.UserID WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID ORDER BY Priority ASC,TaxID ASC,RefID ASC", cn);
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.*,u.FirstName AS UserFirstName, ptt.title AS TaxTypeTitle
+            FROM PostTaxonomy pt 
+            INNER JOIN Users u ON u.UserID=pt.UserID 
+            INNER JOIN PostTaxonomyType ptt ON pt.TaxTypeID= ptt.TaxTypeID
+            WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID 
+            ORDER BY Priority ASC,TaxID ASC,RefID ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = t.PostTypeID;
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = t.TaxTypeID;
             cn.Open();
@@ -390,7 +401,12 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT pt.*,u.FirstName AS UserFirstName FROM PostTaxonomy pt INNER JOIN Users u ON u.UserID=pt.UserID WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID AND pt.Status = 1 ORDER BY RefID ASC , LV ASC", cn);
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.*,u.FirstName AS UserFirstName, ptt.title AS TaxTypeTitle
+                FROM PostTaxonomy pt 
+                INNER JOIN Users u ON u.UserID=pt.UserID 
+                INNER JOIN PostTaxonomyType ptt ON pt.TaxTypeID= ptt.TaxTypeID
+                WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID AND pt.Status = 1 
+                ORDER BY RefID ASC , LV ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = t.PostTypeID;
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = t.TaxTypeID;
             cn.Open();
@@ -404,10 +420,12 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"SELECT pt.* FROM PostTaxonomy pt 
-                WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID 
-        AND pt.Status = 1 AND Trash = 1
-        ORDER BY TaxID ASC,RefID ASC", cn);
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.* , ptt.title AS TaxTypeTitle
+                                              FROM PostTaxonomy pt 
+                                                INNER JOIN PostTaxonomyType ptt ON pt.TaxTypeID= ptt.TaxTypeID
+                                                WHERE  pt.PostTypeID=@PostTypeID AND pt.TaxTypeID=@TaxTypeID 
+                                                AND pt.Status = 1 AND Trash = 1
+                                                ORDER BY TaxID ASC,RefID ASC", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = PostType;
             cmd.Parameters.Add("@TaxTypeID", SqlDbType.TinyInt).Value = TaxType;
             cn.Open();
@@ -421,7 +439,8 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand(@"SELECT pt.*, temp.counttotal AS PostCount FROM PostTaxonomy pt
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.*, temp.counttotal AS PostCount , ptt.title AS TaxTypeTitle FROM PostTaxonomy pt 
+                                            INNER JOIN PostTaxonomyType ptt ON pt.TaxTypeID= ptt.TaxTypeID 
                                             CROSS APPLY (
                                             SELECT COUNT(p.PostID) AS counttotal FROM Post p
                                             INNER JOIN PostTaxMap pm ON pm.PostID = p.PostID
@@ -446,7 +465,9 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE PostTypeID=@PostTypeID AND Slug=@Slug", cn);
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.*, ptt.title AS TaxTypeTitle FROM PostTaxonomy pt 
+                    INNER JOIN PostTaxonomyType ptt ON pt.TaxTypeID= ptt.TaxTypeID  
+                    WHERE pt.PostTypeID=@PostTypeID AND pt.Slug=@Slug", cn);
             cmd.Parameters.Add("@PostTypeID", SqlDbType.TinyInt).Value = bytPostType;
             cmd.Parameters.Add("@Slug", SqlDbType.NVarChar).Value = slug;
             cn.Open();
@@ -463,7 +484,9 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE TaxID=@TaxID AND Status =1 AND Trash = 1", cn);
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.*, ptt.title AS TaxTypeTitle FROM PostTaxonomy pt 
+INNER JOIN PostTaxonomyType ptt ON pt.TaxTypeID= ptt.TaxTypeID  
+        WHERE pt.TaxID=@TaxID AND pt.Status =1 AND pt.Trash = 1", cn);
             cmd.Parameters.Add("@TaxID", SqlDbType.Int).Value = TaxID;
 
 
@@ -482,7 +505,9 @@ VALUES(@TaxTypeID,@PostTypeID,@Slug,@Title,@RefID,@Status,@DateSubmit,@UserID,@D
     {
         using (SqlConnection cn = new SqlConnection(this.ConnectionString))
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM PostTaxonomy WHERE RefID=@RefID AND Status =1 AND Trash = 1", cn);
+            SqlCommand cmd = new SqlCommand(@"SELECT pt.*, ptt.title AS TaxTypeTitle 
+        INNER JOIN PostTaxonomyType ptt ON pt.TaxTypeID= ptt.TaxTypeID  
+        FROM PostTaxonomy pt WHERE pt.RefID=@RefID AND pt.Status =1 AND pt.Trash = 1", cn);
             cmd.Parameters.Add("@RefID", SqlDbType.Int).Value = RefID;
 
 

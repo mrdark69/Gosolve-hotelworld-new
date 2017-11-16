@@ -19,6 +19,7 @@
         RouteTable.Routes.MapPageRoute("Pages2", "{Param1}/{Param2}/", "~/Default.aspx");
          RouteTable.Routes.MapPageRoute("Pages3", "{Param1}/{Param2}/{Param3}", "~/Default.aspx");
         RouteTable.Routes.MapPageRoute("Pages4", "{Param1}/{Param2}/{Param3}/{Param4}", "~/Default.aspx");
+        RouteTable.Routes.MapPageRoute("Pages5", "{Param1}/{Param2}/{Param3}/{Param4}/{Param5}", "~/Default.aspx");
     }
 
     protected void Session_Start() { }

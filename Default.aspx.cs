@@ -85,6 +85,7 @@ public partial class _Default : Page
             string RouteSlug_2 = Page.RouteData.Values["Param2"] as string;
             string RouteSlug_3 = Page.RouteData.Values["Param3"] as string;
             string RouteSlug_4 = Page.RouteData.Values["Param4"] as string;
+            string RouteSlug_5 = Page.RouteData.Values["Param5"] as string;
             Model_PostCustomItem pct = new Model_PostCustomItem();
 
             //Case Route Slug
@@ -116,16 +117,16 @@ public partial class _Default : Page
                                 SectionProductArchive.Visible = true;
 
                                 cPostType = cPostType.GetPostTypeBySlug(StrPost_slug);
-                                if(cPostType != null)
+                                if (cPostType != null)
                                 {
                                     //product-type = 24
                                     this.TaxForPostType = tax.FrontGetTaxonomyByID(24);
-                                    
+
                                     if (this.TaxForPostType != null)
                                     {
                                         this.TaxList = tax.FrontGetTaxonomyByRefID(24);
                                     }
-                                    
+
                                 }
 
 
@@ -133,13 +134,36 @@ public partial class _Default : Page
                             else
                             {
                                 //check Is Paging of Product Page Archive
-                                if(RouteSlug_2 == "page")
+                                if (RouteSlug_2 == "page")
                                 {
                                     //Case Archive Paging
                                     SectionProductArchive.Visible = true;
                                     string pageno = RouteSlug_3;
 
-                                    
+
+                                }
+                                else if (RouteSlug_2 == "category" || RouteSlug_2 == "tag")
+                                {
+                                    //Tax Archive 
+
+                                    tax = tax.GetTaxBySlugAndPostType(RouteSlug_3, bytPostTypeID);
+                                    if (tax != null)
+                                    {
+                                        //case Tax approve
+                                        SectionProductTaxArchive.Visible = true;
+                                        this.TaxForPostType = tax;
+                                        this.TaxList = tax.GetTaxonomyTaxTypeAndPostType_withcountpost(bytPostTypeID, (byte)PostTaxonomyType.Categories);
+                                        this.ContentBody = tax.BodyContent;
+                                        //Case tax Archive Paging
+                                        if (RouteSlug_4 == "page")
+                                        {
+                                            string pageno = RouteSlug_5;
+
+                                            //Do something with paging
+
+                                        }
+
+                                    }
                                 }
                                 else
                                 {
@@ -154,29 +178,7 @@ public partial class _Default : Page
                                         this.PageContentTitle = post.Title;
                                         this.CTF = pct.GetItemCustomByPostID(post.PostID);
                                     }
-                                    else
-                                    {
-                                        //Tax Archive 
-
-                                        tax = tax.GetTaxBySlugAndPostType(RouteSlug_2, bytPostTypeID);
-                                        if (tax != null)
-                                        {
-                                            //case Tax approve
-                                            SectionProductTaxArchive.Visible = true;
-                                            this.TaxForPostType = tax;
-                                            this.TaxList = tax.GetTaxonomyTaxTypeAndPostType_withcountpost(bytPostTypeID, (byte)PostTaxonomyType.Categories);
-                                            this.ContentBody = tax.BodyContent;
-                                            //Case tax Archive Paging
-                                            if (RouteSlug_3 == "page")
-                                            {
-                                                string pageno = RouteSlug_4;
-
-                                                //Do something with paging
-                                                
-                                            }
-                                            
-                                        }
-                                    }
+                                    
 
 
 
@@ -207,6 +209,31 @@ public partial class _Default : Page
 
 
                                 }
+                                else if (RouteSlug_2 == "category" || RouteSlug_2 == "tag")
+                                {
+                                    //Tax Archive 
+
+                                    tax = tax.GetTaxBySlugAndPostType(RouteSlug_3, bytPostTypeID);
+                                    if (tax != null)
+                                    {
+                                        //case Tax approve 
+                                        //Same layout with blog archive
+                                        // SectionBlogPageTaxArchive.Visible = true;
+                                        SectionBlogPageArchive.Visible = true;
+
+                                        //Case tax Archive Paging
+                                        if (RouteSlug_4 == "page")
+                                        {
+                                            string pageno = RouteSlug_5;
+
+                                            //Do something with paging
+
+
+                                        }
+
+
+                                    }
+                                }
                                 else
                                 {
 
@@ -217,31 +244,7 @@ public partial class _Default : Page
                                     {
                                         SectionBlogPageSingle.Visible = true;
                                     }
-                                    else
-                                    {
-                                        //Tax Archive 
-
-                                        tax = tax.GetTaxBySlugAndPostType(RouteSlug_2, bytPostTypeID);
-                                        if (tax != null)
-                                        {
-                                            //case Tax approve 
-                                            //Same layout with blog archive
-                                           // SectionBlogPageTaxArchive.Visible = true;
-                                            SectionBlogPageArchive.Visible = true;
-
-                                            //Case tax Archive Paging
-                                            if (RouteSlug_3 == "page")
-                                            {
-                                                string pageno = RouteSlug_4;
-
-                                                //Do something with paging
-
-                                                
-                                            }
-
-
-                                        }
-                                    }
+                                    
 
 
                                     
